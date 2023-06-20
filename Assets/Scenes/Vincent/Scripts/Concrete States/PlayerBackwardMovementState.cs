@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlayerIdleState : PlayerBaseState
+public class PlayerBackwardMovementState : PlayerBaseState
 {
-   public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
-      : base(currentContext, playerStateFactory) { }
+   public PlayerBackwardMovementState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
+      : base(currentContext, playerStateFactory) {}
 
    public override void EnterState() {
       throw new System.NotImplementedException();

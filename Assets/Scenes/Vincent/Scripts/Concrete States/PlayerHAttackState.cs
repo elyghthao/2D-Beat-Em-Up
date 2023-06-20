@@ -2,19 +2,30 @@ using UnityEngine;
 
 public class PlayerHAttackState : PlayerBaseState
 {
-   public override void EnterState(PlayerStateManager player) {
-      throw new System.NotImplementedException();
-   }
-    
-   public override void UpdateState(PlayerStateManager player) {
-      throw new System.NotImplementedException();
-   }
-    
-   public override void OnCollisionEnter(PlayerStateManager player, Collision collision) {
+   public PlayerHAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
+      : base(currentContext, playerStateFactory) { }
+   
+   public override void EnterState() {
       throw new System.NotImplementedException();
    }
 
-   public override void ExitState(PlayerStateManager player) {
+   public override void UpdateState() {
+      throw new System.NotImplementedException();
+   }
+
+   public override void OnCollisionEnter() {
+      throw new System.NotImplementedException();
+   }
+
+   public override void ExitState() {
+      throw new System.NotImplementedException();
+   }
+
+   public override void CheckSwitchStates() {
+      throw new System.NotImplementedException();
+   }
+
+   public override void InitializeSubState() {
       throw new System.NotImplementedException();
    }
 }

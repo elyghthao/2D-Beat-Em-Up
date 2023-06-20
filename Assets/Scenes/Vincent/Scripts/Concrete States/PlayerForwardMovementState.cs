@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerIdleState : PlayerBaseState
+public class PlayerForwardMovementState : PlayerBaseState
 {
-   public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
+   public PlayerForwardMovementState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
       : base(currentContext, playerStateFactory) { }
 
    public override void EnterState() {
