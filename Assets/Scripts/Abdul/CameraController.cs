@@ -17,9 +17,6 @@ public class CameraController : MonoBehaviour {
     private Transform plrTrans; 
     private Vector3 velocity = Vector3.zero;
     private Camera cam;
-    private List<Oscillation> sizeOsc = new List<Oscillation>(); // Size Oscillation
-    private List<Oscillation> xPosOsc = new List<Oscillation>(); // x Position Oscillation
-    private List<Oscillation> yPosOsc = new List<Oscillation>(); // y Position Oscillation
     private float baseSize; // The main/base size of the camera.
 
     // Start is called before the first frame update
@@ -44,51 +41,15 @@ public class CameraController : MonoBehaviour {
         float yCamPos = Mathf.Clamp(yPlayerPos, minLimits.y, maxLimits.y);
         xCamPos += Mathf.Clamp(xDist * mouseFactor, mouseLimit * -1, mouseLimit);
         yCamPos += Mathf.Clamp(yDist * mouseFactor, mouseLimit * -1, mouseLimit);;
-        
-        // Updating Size Oscillations
-        float newSize = baseSize;
-        for (int i = 0; i < sizeOsc.Count; i++) {
-            if (sizeOsc[i] == null) {
-                sizeOsc.RemoveAt(i);
-            } else {
-                newSize += sizeOsc[i].getValue();
-            }
-        }
-
-        // Updating Pos Oscillations
-        for (int i = 0; i < xPosOsc.Count; i++) {
-            if (xPosOsc[i] == null) {
-                xPosOsc.RemoveAt(i);
-            } else {
-                xCamPos += xPosOsc[i].getValue();
-            }
-        }
-        for (int i = 0; i < yPosOsc.Count; i++) {
-            if (yPosOsc[i] == null) {
-                yPosOsc.RemoveAt(i);
-            } else {
-                yCamPos += yPosOsc[i].getValue();
-            }
-        }
 
         // Offsets
         xCamPos += offsets.x;
         yCamPos += offsets.y;
-        newSize += sizeOffset;
 
         // Setting Camera Values
         Vector3 newCamPos = new Vector3(xCamPos, yCamPos, -10f);
-        cam.orthographicSize = newSize;
+        cam.orthographicSize = sizeOffset;
         transform.position = Vector3.SmoothDamp(gameObject.transform.position, newCamPos, ref velocity, dampTime);
-    }
-
-    // Add an oscillation effect to the size of the camera
-    public void addSizeOscillation(Oscillation newOscillation) { sizeOsc.Add(newOscillation); }
-
-    // Add an oscillation effect to the position of the camera
-    public void addPosOscillation(Oscillation xOscillation, Oscillation yOscillation) { 
-        xPosOsc.Add(xOscillation);
-        yPosOsc.Add(yOscillation);
     }
 
     // Sets the basesize
