@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
-
+TO-DO: Fix bugs with the mouse camera offset system - seems like using 2.5D (basically 3D) glitches the mouse, so will have to fix
 
 */
 
@@ -17,11 +17,13 @@ public class CameraController : MonoBehaviour {
     // Struct for the rooms
     [System.Serializable]
     public struct room {
-        public Vector2 boundsMin;   // The minimum x, y values defining the bounds of the room
-        public Vector2 boundsMax;   // The maximum x, y values defining the bounds of the room
-        public float zPos;          // Z at which the camera should stay at for the room
-        public float camSizeOffset;   // Camera size offset. Probably want to keep this all the same for all rooms and adjust other values.
-        public float dampTime; // Time it takes for the camera to reach a position (longer = slower)
+        public Vector2 boundsMin;       // The minimum x, y values defining the bounds of the room
+        public Vector2 boundsMax;       // The maximum x, y values defining the bounds of the room
+        public Vector3 eulerAngles;     // Rotation of the camera for this scene
+        public Vector2 positionOffset;  // Offsets for camera position for x and y. Use this in conjuction with the angles to get a that perspective perfected.
+        public float zPos;              // Z at which the camera should stay at for the room
+        public float camSizeOffset;     // Camera size offset. Probably want to keep this all the same for all rooms and adjust other values.
+        public float dampTime;          // Time it takes for the camera to reach a position (longer = slower) Probably want to keep this all the same for all rooms and adjust other values.
     }
 
 
@@ -58,6 +60,7 @@ public class CameraController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         // Player and Mouse Position Info
+        currentRoom = mainRoom;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         float xPlayerPos = plrTrans.position.x;
         float yPlayerPos = plrTrans.position.y;
@@ -67,15 +70,25 @@ public class CameraController : MonoBehaviour {
         // Setting up a new camera position
         float xCamPos = Mathf.Clamp(xPlayerPos, currentRoom.boundsMin.x, currentRoom.boundsMax.x);
         float yCamPos = Mathf.Clamp(yPlayerPos, currentRoom.boundsMin.y, currentRoom.boundsMax.y);
-        //xCamPos += Mathf.Clamp(xDist * mouseFactor, mouseLimit * -1, mouseLimit);
-        //yCamPos += Mathf.Clamp(yDist * mouseFactor, mouseLimit * -1, mouseLimit);
+        xCamPos += Mathf.Clamp(xDist * mouseFactor, mouseLimit * -1, mouseLimit);
+        yCamPos += Mathf.Clamp(yDist * mouseFactor, mouseLimit * -1, mouseLimit);
+        xCamPos += currentRoom.positionOffset.x;
+        yCamPos += currentRoom.positionOffset.y;
 
         // Setting Camera Values
         Vector3 newCamPos = new Vector3(xCamPos, yCamPos, currentRoom.zPos);
         cam.orthographicSize = baseSize + currentRoom.camSizeOffset;
         transform.position = Vector3.SmoothDamp(gameObject.transform.position, newCamPos, ref velocity, currentRoom.dampTime);
+
         Vector3 newPos = transform.position;
         newPos.z = currentRoom.zPos;
         transform.position = newPos;
+        transform.eulerAngles = currentRoom.eulerAngles;
+    }
+
+    room getCurrentRoom(float xPos, float yPos) {
+
+
+        return currentRoom;
     }
 }
