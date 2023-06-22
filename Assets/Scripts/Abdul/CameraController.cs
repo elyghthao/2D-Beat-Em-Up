@@ -60,7 +60,7 @@ public class CameraController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         // Player and Mouse Position Info
-        currentRoom = mainRoom;
+        currentRoom = getCurrentRoom();
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         float xPlayerPos = plrTrans.position.x;
         float yPlayerPos = plrTrans.position.y;
@@ -68,10 +68,8 @@ public class CameraController : MonoBehaviour {
         float yDist = mousePos.y - yPlayerPos;
 
         // Setting up a new camera position
-        float xCamPos = Mathf.Clamp(xPlayerPos, currentRoom.boundsMin.x, currentRoom.boundsMax.x);
-        float yCamPos = Mathf.Clamp(yPlayerPos, currentRoom.boundsMin.y, currentRoom.boundsMax.y);
-        xCamPos += Mathf.Clamp(xDist * mouseFactor, mouseLimit * -1, mouseLimit);
-        yCamPos += Mathf.Clamp(yDist * mouseFactor, mouseLimit * -1, mouseLimit);
+        float xCamPos = xPlayerPos + Mathf.Clamp(xDist * mouseFactor, mouseLimit * -1, mouseLimit);
+        float yCamPos = yPlayerPos + Mathf.Clamp(yDist * mouseFactor, mouseLimit * -1, mouseLimit);
         xCamPos += currentRoom.positionOffset.x;
         yCamPos += currentRoom.positionOffset.y;
 
@@ -86,9 +84,27 @@ public class CameraController : MonoBehaviour {
         transform.eulerAngles = currentRoom.eulerAngles;
     }
 
-    room getCurrentRoom(float xPos, float yPos) {
+    // Returns the closest room to the player
+    private room getCurrentRoom() {
+        room closestRoom = mainRoom;
+        for (int i = 0; i < rooms.Count; i++) {
+            if (getRoomDistance(mainRoom) < getRoomDistance(rooms[i])) {
+                closestRoom = rooms[i];
+            }
+        }
 
+        return closestRoom;
+    }
 
-        return currentRoom;
+    // Returns the distance of the given room to the player
+    private float getRoomDistance(room distRoom) {
+        Vector2 center = new Vector2();
+        center.x = (distRoom.boundsMax.x + distRoom.boundsMin.x) / 2;
+        center.y = (distRoom.boundsMax.y + distRoom.boundsMin.y) / 2;
+        Vector2 playerCenter = new Vector2(player.transform.position.x, player.transform.position.y);
+        float dist = Mathf.Sqrt(
+            Mathf.Pow(center.x - center.x, 2) + Mathf.Pow(center.y - center.y, 2)
+        );
+        return dist;
     }
 }
