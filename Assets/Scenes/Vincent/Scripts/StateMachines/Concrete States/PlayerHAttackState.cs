@@ -1,19 +1,15 @@
 using UnityEngine;
 
-public class PlayerIdleState : PlayerBaseState
+public class PlayerHAttackState : PlayerBaseState
 {
-   public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
+   public PlayerHAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
       : base(currentContext, playerStateFactory) { }
-
+   
    public override void EnterState() {
       throw new System.NotImplementedException();
    }
 
    public override void UpdateState() {
-      throw new System.NotImplementedException();
-   }
-
-   public override void OnCollisionEnter() {
       throw new System.NotImplementedException();
    }
 

@@ -13,10 +13,6 @@ public class PlayerForwardMovementState : PlayerBaseState
       throw new System.NotImplementedException();
    }
 
-   public override void OnCollisionEnter() {
-      throw new System.NotImplementedException();
-   }
-
    public override void ExitState() {
       throw new System.NotImplementedException();
    }

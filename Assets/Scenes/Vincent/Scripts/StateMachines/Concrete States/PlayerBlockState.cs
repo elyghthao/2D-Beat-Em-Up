@@ -1,19 +1,16 @@
 using UnityEngine;
 
-public class PlayerHAttackState : PlayerBaseState
+public class PlayerBlockState : PlayerBaseState
 {
-   public PlayerHAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
-      : base(currentContext, playerStateFactory) { }
+   public PlayerBlockState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) {
+      
+   }
    
    public override void EnterState() {
       throw new System.NotImplementedException();
    }
-
+    
    public override void UpdateState() {
-      throw new System.NotImplementedException();
-   }
-
-   public override void OnCollisionEnter() {
       throw new System.NotImplementedException();
    }
 

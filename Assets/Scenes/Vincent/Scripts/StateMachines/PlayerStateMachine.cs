@@ -9,7 +9,7 @@ public class PlayerStateMachine : MonoBehaviour {
     
     // Reference variables
     private PlayerInput _playerInput;
-    
+
     // State variables
     private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
@@ -17,15 +17,18 @@ public class PlayerStateMachine : MonoBehaviour {
     // Input values
     private Vector2 _currentMovementInput;
     private bool _isMovementPressed;
+    private bool _isActionPressed;
 
     // Constants
     private int _zero = 0;
 
     // Getters and Setters
-    
     public PlayerBaseState CurrentState { get => _currentState; set => _currentState = value; }
     public Vector2 CurrentMovementInput { get => _currentMovementInput; set => _currentMovementInput = value; }
     public bool IsMovementPressed { get => _isMovementPressed; set => _isMovementPressed = value; }
+    public bool IsActionPressed { get => _isActionPressed; set => _isActionPressed = value; }
+    
+    // Functions
     private void Awake() {
         _playerInput = new PlayerInput();
         _states = new PlayerStateFactory(this);
@@ -45,16 +48,10 @@ public class PlayerStateMachine : MonoBehaviour {
         _playerInput.Player.Movement.canceled -= OnMovementCancelled;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        
+        _currentState.UpdateState();
     }
 
     void OnMovementPerformed(InputAction.CallbackContext context) {
