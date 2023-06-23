@@ -17,9 +17,11 @@ public class PlayerBackwardMovementState : PlayerBaseState
       CheckSwitchStates();
       Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
       Ctx.Rigidbody.AddForce(new Vector3(moveDir.x, 0, moveDir.y), ForceMode.Force);
+      Ctx.SpeedControl();
    }
 
    public override void ExitState() {
+      Ctx.Rigidbody.velocity = new Vector3(0, 0, 0);
       Debug.Log("Exiting Backward state");
    }
 

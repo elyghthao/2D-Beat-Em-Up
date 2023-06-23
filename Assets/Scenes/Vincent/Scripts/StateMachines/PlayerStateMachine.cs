@@ -128,4 +128,14 @@ public class PlayerStateMachine : MonoBehaviour {
             _isBlockPressed = false;
         }
     }
+    
+    public void SpeedControl() {
+        Vector3 flatVelocity = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+      
+        // limit velocity if needed
+        if (flatVelocity.magnitude > movementSpeed) {
+            Vector3 limitedVelocity = flatVelocity.normalized * movementSpeed;
+            _rigidbody.velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z);
+        }
+    }
 }
