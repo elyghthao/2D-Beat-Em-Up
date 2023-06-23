@@ -2,27 +2,35 @@ using UnityEngine;
 
 public class PlayerBackwardMovementState : PlayerBaseState
 {
-   public PlayerBackwardMovementState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
-      : base(currentContext, playerStateFactory) {}
+   public PlayerBackwardMovementState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+      : base(currentContext, playerStateFactory) {
+      IsRootState = true;
+      //InitializeSubState();
+   }
 
    public override void EnterState() {
-      throw new System.NotImplementedException();
+      Ctx.BaseMaterial.color = Color.blue;
+      Debug.Log("Entering Backward state");
    }
 
    public override void UpdateState() {
-      throw new System.NotImplementedException();
-   }
-
-   public override void OnCollisionEnter() {
-      throw new System.NotImplementedException();
+      CheckSwitchStates();
+      Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
+      Ctx.Rigidbody.AddForce(new Vector3(moveDir.x, 0, moveDir.y), ForceMode.Force);
    }
 
    public override void ExitState() {
-      throw new System.NotImplementedException();
+      Debug.Log("Exiting Backward state");
    }
 
    public override void CheckSwitchStates() {
-      throw new System.NotImplementedException();
+      if (Ctx.IsActionPressed) {
+         // Implement doing action
+      } else if (!Ctx.IsMovementPressed) {
+         SwitchState(Factory.Idle());
+      } else if (Ctx.CurrentMovementInput.x > 0) {
+         SwitchState(Factory.Forward());
+      }
    }
 
    public override void InitializeSubState() {
