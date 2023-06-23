@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
-TO-DO: Fix bugs with the mouse camera offset system - seems like using 2.5D (basically 3D) glitches the mouse, so will have to fix
-
 */
 
 public class CameraController : MonoBehaviour {
@@ -68,8 +66,8 @@ public class CameraController : MonoBehaviour {
         float yDist = mousePos.y - yPlayerPos;
 
         // Setting up a new camera position
-        float xCamPos = xPlayerPos + Mathf.Clamp(xDist * mouseFactor, mouseLimit * -1, mouseLimit);
-        float yCamPos = yPlayerPos + Mathf.Clamp(yDist * mouseFactor, mouseLimit * -1, mouseLimit);
+        float xCamPos = Mathf.Clamp(xPlayerPos, currentRoom.boundsMin.x, currentRoom.boundsMax.x) + Mathf.Clamp(xDist * mouseFactor, mouseLimit * -1, mouseLimit);
+        float yCamPos = Mathf.Clamp(yPlayerPos, currentRoom.boundsMin.y, currentRoom.boundsMax.y) + Mathf.Clamp(yDist * mouseFactor, mouseLimit * -1, mouseLimit);
         xCamPos += currentRoom.positionOffset.x;
         yCamPos += currentRoom.positionOffset.y;
 
