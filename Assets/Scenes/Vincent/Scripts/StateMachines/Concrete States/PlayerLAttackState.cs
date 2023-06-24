@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class PlayerLAttackState : PlayerBaseState
 {
-   public PlayerLAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) 
-      : base(currentContext, playerStateFactory) { }
+   public PlayerLAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+      : base(currentContext, playerStateFactory) {
+      IsRootState = true;
+      InitializeSubState();
+   }
    
    public override void EnterState() {
       throw new System.NotImplementedException();
