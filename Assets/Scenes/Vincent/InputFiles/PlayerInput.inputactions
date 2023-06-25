@@ -1,5 +1,5 @@
 {
-    "name": "CustomInput",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "Player",
@@ -21,7 +21,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "MediumAttack",
@@ -30,7 +30,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "HeavyAttack",
@@ -39,7 +39,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Block",
@@ -48,7 +48,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -163,180 +163,92 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Keyboard",
-                    "id": "d7de3a53-bff3-4eff-9b15-75391ed386ce",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LightAttack",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Button",
-                    "id": "9488c73f-5c4d-4288-82b1-48a302b8951f",
+                    "name": "",
+                    "id": "93bbd559-59b8-4fbd-88d9-3a2c7ceb4014",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "LightAttack",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Controller",
-                    "id": "8463e78f-6a38-44ce-8513-7bb8172d934a",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LightAttack",
-                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Button",
-                    "id": "6c85cb3f-62f8-4450-af72-57c82cd96f25",
+                    "name": "",
+                    "id": "697e2fc8-ef05-43b2-97ed-fbfdfb7f28f7",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "LightAttack",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Keyboard",
-                    "id": "e35cec12-2862-44e7-b425-a510b7685845",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MediumAttack",
-                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Button",
-                    "id": "2cb2cfc7-cce7-4932-9bca-eaef5687eb04",
+                    "name": "",
+                    "id": "5eab0de1-b0f2-4570-bd83-ceefd5c9d228",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "MediumAttack",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "fd0c3b51-8ba8-47cd-ae52-6584d7712d96",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MediumAttack",
-                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Button",
-                    "id": "1fb7b74b-d72c-46e6-b5ff-7cd9c56e4098",
+                    "name": "",
+                    "id": "b38e32ff-af91-4e27-97c2-d5b8b2d05f9f",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "MediumAttack",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Keyboard",
-                    "id": "55cdf15b-1696-4de3-806c-a6cf050b9edf",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HeavyAttack",
-                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Button",
-                    "id": "994c9d05-51d9-4073-9458-5d76ccdd43e0",
+                    "name": "",
+                    "id": "068dbb7a-565c-41ca-bbc2-517c6615830c",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "HeavyAttack",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Controller",
-                    "id": "4c4c8b28-fe46-4153-bf19-4e181d921663",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HeavyAttack",
-                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "binding",
-                    "id": "0111876a-a367-4e59-86ee-9bafe75debef",
+                    "name": "",
+                    "id": "0bc8cbd0-38b6-48ad-ad55-9a526c3ffddd",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "HeavyAttack",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Keyboard",
-                    "id": "a3d3242f-8298-44df-8b51-20ae064084b0",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Block",
-                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Button",
-                    "id": "bf538433-84f1-4533-b785-388c3e74a6b3",
+                    "name": "",
+                    "id": "c93a1838-a103-4d4a-89db-764b47371d03",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Block",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Controller",
-                    "id": "29ed2774-dc98-4e1d-9845-b68f58cefc8c",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Block",
-                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "binding",
-                    "id": "a8663f40-79a0-417b-ba85-10782542be94",
+                    "name": "",
+                    "id": "337ea986-6444-4f27-98a7-2a61cd7e998b",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Block",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 }
             ]
         }

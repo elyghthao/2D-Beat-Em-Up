@@ -21,13 +21,22 @@ public class PlayerForwardMovementState : PlayerBaseState
    }
 
    public override void ExitState() {
+      Ctx.BaseMaterial.color = Color.white;
       Ctx.Rigidbody.velocity = new Vector3(0, 0, 0);
       Debug.Log("Exiting Forward state");
    }
 
    public override void CheckSwitchStates() {
       if (Ctx.IsActionPressed) {
-         // Implement doing action
+         if (Ctx.IsLightAttackPressed) {
+            SwitchState(Factory.LightAttack());
+         } else if (Ctx.IsMediumAttackPressed) {
+            SwitchState(Factory.MediumAttack());
+         } else if (Ctx.IsHeavyAttackPressed) {
+            SwitchState(Factory.HeavyAttack());
+         } else if (Ctx.IsBlockPressed) {
+            SwitchState(Factory.Block());
+         }
       } else if (!Ctx.IsMovementPressed) {
          SwitchState(Factory.Idle());
       } else if (Ctx.CurrentMovementInput.x < 0) {

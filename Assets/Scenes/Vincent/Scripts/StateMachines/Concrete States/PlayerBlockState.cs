@@ -1,26 +1,26 @@
 using UnityEngine;
 
-public class PlayerBlockState : PlayerBaseState
-{
+public class PlayerBlockState : PlayerBaseState {
+   private bool _finishedAnimation = false;
    public PlayerBlockState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) {
       IsRootState = true;
       //InitializeSubState();
    }
    
    public override void EnterState() {
-      throw new System.NotImplementedException();
+      Debug.Log("Entered Block State");
    }
     
    public override void UpdateState() {
-      throw new System.NotImplementedException();
+      CheckSwitchStates();
    }
 
    public override void ExitState() {
-      throw new System.NotImplementedException();
+      Debug.Log("Exiting Block State");
    }
 
    public override void CheckSwitchStates() {
-      throw new System.NotImplementedException();
+      SwitchState(Factory.Idle());
    }
 
    public override void InitializeSubState() {
