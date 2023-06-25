@@ -10,10 +10,12 @@ public class PlayerStateMachine : MonoBehaviour {
     // Inspector Arguments
     [Header("Body Pieces")]
     public GameObject body;
+    
     [Header("Attack Boundaries")]
     public GameObject heavyAttackBounds;
     public GameObject mediumAttackBounds;
     public GameObject lightAttackBounds;
+    
     [Header("FrameData")] 
     public int framesPerSecond;
     
@@ -91,6 +93,10 @@ public class PlayerStateMachine : MonoBehaviour {
     
     // Functions
     private void Awake() {
+        
+        // DELETE THIS ONCE PROPER SETTINGS ARE IN PLACE
+        Application.targetFrameRate = 60;
+        
         _playerInput = new PlayerInput();
         _states = new PlayerStateFactory(this);
         _baseMaterial = body.GetComponent<Renderer>().material;
@@ -145,6 +151,14 @@ public class PlayerStateMachine : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         _currentState.UpdateState();
+        CheckActionPressed();
+    }
+
+    void CheckActionPressed() {
+        PlayerInput.PlayerActions pAction = _playerInput.Player;
+        _isActionPressed = pAction.LightAttack.WasPerformedThisFrame() ||
+                           pAction.MediumAttack.WasPerformedThisFrame() ||
+                           pAction.HeavyAttack.WasPerformedThisFrame();
     }
 
     void OnMovementPerformed(InputAction.CallbackContext context) {
@@ -159,39 +173,30 @@ public class PlayerStateMachine : MonoBehaviour {
 
     void OnLightAttackPerformed(InputAction.CallbackContext context) {
         _isLightAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isLightAttackPressed;
-        print("Light attack: " + _isLightAttackPressed);
     }
     void OnLightAttackCanceled(InputAction.CallbackContext context) {
         _isLightAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isLightAttackPressed;
     }
     
     void OnMediumAttackPerformed(InputAction.CallbackContext context) {
         _isMediumAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isMediumAttackPressed;
     }
     void OnMediumAttackCanceled(InputAction.CallbackContext context) {
         _isMediumAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isMediumAttackPressed;
     }
     
     void OnHeavyAttackPerformed(InputAction.CallbackContext context) {
         _isHeavyAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isHeavyAttackPressed;
     }
     void OnHeavyAttackCanceled(InputAction.CallbackContext context) {
         _isHeavyAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isHeavyAttackPressed;
     }
     
     void OnBlockPerformed(InputAction.CallbackContext context) {
         _isBlockPressed = context.ReadValueAsButton();
-        _isActionPressed = _isBlockPressed;
     }
     void OnBlockCanceled(InputAction.CallbackContext context) {
         _isBlockPressed = context.ReadValueAsButton();
-        _isActionPressed = _isBlockPressed;
     }
 
     public void SpeedControl() {

@@ -38,7 +38,6 @@ public class PlayerHAttackState : PlayerBaseState {
       } else {
          _finishedAnimation = true;
       }
-      
    }
 
    public override void ExitState() {
