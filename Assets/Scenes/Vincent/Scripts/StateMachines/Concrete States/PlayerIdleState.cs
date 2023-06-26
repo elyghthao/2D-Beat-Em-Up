@@ -10,25 +10,29 @@ public class PlayerIdleState : PlayerBaseState
    }
 
    public override void EnterState() {
+
       Ctx.BaseMaterial.color = Color.green;
-      Debug.Log("Entering Idle state");
    }
 
    public override void UpdateState() {
       CheckSwitchStates();
-      if (Ctx.IsMovementPressed) {
-         if (Ctx.CurrentMovementInput.x < 0) {
-            SwitchState(Factory.Backward());
-         }
-      }
    }
 
    public override void ExitState() {
-      Debug.Log("Exiting Idle state");
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.IsMovementPressed && !Ctx.IsActionPressed) {
+      if (Ctx.IsActionPressed) {
+         if (Ctx.IsLightAttackPressed) {
+            SwitchState(Factory.LightAttack());
+         } else if (Ctx.IsMediumAttackPressed) {
+            SwitchState(Factory.MediumAttack());
+         } else if (Ctx.IsHeavyAttackPressed) {
+            SwitchState(Factory.HeavyAttack());
+         } else if (Ctx.IsBlockPressed) {
+            SwitchState(Factory.Block());
+         }
+      } else if (Ctx.IsMovementPressed) {
          if (Ctx.CurrentMovementInput.x < 0) {
             SwitchState(Factory.Backward());
          } else if (Ctx.CurrentMovementInput.x > 0 || Ctx.CurrentMovementInput.y != 0) {

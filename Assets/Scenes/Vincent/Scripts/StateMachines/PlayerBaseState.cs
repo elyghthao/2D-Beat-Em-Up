@@ -17,16 +17,34 @@ public abstract class PlayerBaseState {
         _factory = playerStateFactory;
     }
     
+    /// <summary>
+    /// On state entry
+    /// </summary>
     public abstract void EnterState();
 
+    /// <summary>
+    /// Update every CPU cycle
+    /// </summary>
     public abstract void UpdateState();
 
+    /// <summary>
+    /// On state exit
+    /// </summary>
     public abstract void ExitState();
 
+    /// <summary>
+    /// Checks conditionals for if it's time to switch states, and what state to switch to
+    /// </summary>
     public abstract void CheckSwitchStates();
 
+    /// <summary>
+    /// Initializes any substates of this root state. NOT IMPLEMENTED YET
+    /// </summary>
     public abstract void InitializeSubState();
 
+    /// <summary>
+    /// Updates substates
+    /// </summary>
     public void UpdateStates() {
         UpdateState();
         if (_currentSubState != null) {
