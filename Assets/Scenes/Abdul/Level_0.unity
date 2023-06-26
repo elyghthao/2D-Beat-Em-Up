@@ -2398,6 +2398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 750823787}
+  player: {fileID: 798190233}
 --- !u!1 &979375707
 GameObject:
   m_ObjectHideFlags: 0
@@ -2673,24 +2674,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1003135179}
   m_CullTransparentMesh: 1
---- !u!1 &1014782981 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1300138366189975620, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
-  m_PrefabInstance: {fileID: 3342940531185732608}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1014782982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1014782981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16060f3cfde213e4ebeadde0174225d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 0}
 --- !u!1 &1051064833
 GameObject:
   m_ObjectHideFlags: 0
@@ -5088,6 +5071,10 @@ PrefabInstance:
       value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 6833959132200347265, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
+      propertyPath: mainRoom.positionOffset.y
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6833959132200347265, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
       propertyPath: mainRoom.positionOffset.z
       value: -9
       objectReference: {fileID: 0}
@@ -5138,8 +5125,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1300138366189975620, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 1014782982}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
