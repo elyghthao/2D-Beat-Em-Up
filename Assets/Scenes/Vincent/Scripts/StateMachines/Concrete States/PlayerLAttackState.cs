@@ -13,9 +13,8 @@ public class PlayerLAttackState : PlayerBaseState {
    }
    
    public override void EnterState() {
-      _timePerFrame = Ctx.framesPerSecond / 60f;
+      _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.lightAttackBounds.SetActive(true);
-      Debug.Log("Entered Light Attack State");
    }
 
    public override void UpdateState() {
@@ -42,7 +41,6 @@ public class PlayerLAttackState : PlayerBaseState {
 
    public override void ExitState() {
       Ctx.lightAttackBounds.SetActive(false);
-      Debug.Log("Exiting Light Attack State");
    }
 
    public override void CheckSwitchStates() {

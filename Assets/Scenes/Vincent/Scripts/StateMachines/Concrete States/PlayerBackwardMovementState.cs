@@ -9,8 +9,12 @@ public class PlayerBackwardMovementState : PlayerBaseState
    }
 
    public override void EnterState() {
+      //TEMP FIX
+      Ctx.heavyAttackBounds.SetActive(false);
+      Ctx.mediumAttackBounds.SetActive(false);
+      Ctx.lightAttackBounds.SetActive(false);
+      
       Ctx.BaseMaterial.color = Color.blue;
-      Debug.Log("Entering Backward state");
    }
 
    public override void UpdateState() {
@@ -23,7 +27,6 @@ public class PlayerBackwardMovementState : PlayerBaseState
    public override void ExitState() {
       Ctx.BaseMaterial.color = Color.white;
       Ctx.Rigidbody.velocity = new Vector3(0, 0, 0);
-      Debug.Log("Exiting Backward state");
    }
 
    public override void CheckSwitchStates() {

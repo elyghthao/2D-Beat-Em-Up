@@ -10,21 +10,15 @@ public class PlayerIdleState : PlayerBaseState
    }
 
    public override void EnterState() {
+
       Ctx.BaseMaterial.color = Color.green;
-      Debug.Log("Entering Idle state");
    }
 
    public override void UpdateState() {
       CheckSwitchStates();
-      if (Ctx.IsMovementPressed) {
-         if (Ctx.CurrentMovementInput.x < 0) {
-            SwitchState(Factory.Backward());
-         }
-      }
    }
 
    public override void ExitState() {
-      Debug.Log("Exiting Idle state");
    }
 
    public override void CheckSwitchStates() {
