@@ -1,7 +1,6 @@
 using UnityEngine;
 
 public class PlayerBlockState : PlayerBaseState {
-   private bool _finishedAnimation = false;
    public PlayerBlockState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) {
       IsRootState = true;
       //InitializeSubState();
