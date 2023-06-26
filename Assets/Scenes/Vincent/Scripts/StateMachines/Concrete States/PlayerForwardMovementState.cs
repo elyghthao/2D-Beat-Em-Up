@@ -10,7 +10,6 @@ public class PlayerForwardMovementState : PlayerBaseState
 
    public override void EnterState() {
       Ctx.BaseMaterial.color = Color.cyan;
-      Debug.Log("Entering Forward state");
    }
 
    public override void UpdateState() {
@@ -23,7 +22,6 @@ public class PlayerForwardMovementState : PlayerBaseState
    public override void ExitState() {
       Ctx.BaseMaterial.color = Color.white;
       Ctx.Rigidbody.velocity = new Vector3(0, 0, 0);
-      Debug.Log("Exiting Forward state");
    }
 
    public override void CheckSwitchStates() {
