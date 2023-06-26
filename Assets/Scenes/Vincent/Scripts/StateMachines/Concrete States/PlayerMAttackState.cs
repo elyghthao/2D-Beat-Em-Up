@@ -13,7 +13,7 @@ public class PlayerMAttackState : PlayerBaseState {
    }
 
    public override void EnterState() {
-      _timePerFrame = Ctx.framesPerSecond / 60f;
+      _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.mediumAttackBounds.SetActive(true);
       Debug.Log("Entered Medium Attack State");
    }

@@ -13,9 +13,8 @@ public class PlayerHAttackState : PlayerBaseState {
    }
    
    public override void EnterState() {
-      _timePerFrame = Ctx.framesPerSecond / 60f;
+      _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.heavyAttackBounds.SetActive(true);
-      Debug.Log("Entered Heavy Attack State");
    }
 
    public override void UpdateState() {
@@ -42,7 +41,6 @@ public class PlayerHAttackState : PlayerBaseState {
 
    public override void ExitState() {
       Ctx.heavyAttackBounds.SetActive(false);
-      Debug.Log("Exiting Heavy Attack State");
    }
 
    public override void CheckSwitchStates() {

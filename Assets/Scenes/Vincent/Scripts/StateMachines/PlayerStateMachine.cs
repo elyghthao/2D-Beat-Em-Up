@@ -22,29 +22,30 @@ public class PlayerStateMachine : MonoBehaviour {
     [Header("HeavyAttack")]
     public int heavyFrameCount = 44;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 heavyStartupFrames;
+    public Vector2 heavyStartupFrames = new Vector2(1, 10);
+
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 heavyActiveFrames;
+    public Vector2 heavyActiveFrames = new Vector2(11, 15);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 heavyRecoveryFrames;
+    public Vector2 heavyRecoveryFrames = new Vector2(16, 44);
     
     [Header("MediumAttack")]
     public int mediumFrameCount = 32;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 mediumStartupFrames;
+    public Vector2 mediumStartupFrames = new Vector2(1, 9);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 mediumActiveFrames;
+    public Vector2 mediumActiveFrames = new Vector2(10, 14);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 mediumRecoveryFrames;
+    public Vector2 mediumRecoveryFrames = new Vector2(15, 32);
     
     [Header("LightAttack")]
     public int lightFrameCount = 23;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 lightStartupFrames;
+    public Vector2 lightStartupFrames = new Vector2(1, 7);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 lightActiveFrames;
+    public Vector2 lightActiveFrames = new Vector2(8, 9);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 lightRecoveryFrames;
+    public Vector2 lightRecoveryFrames = new Vector2(10, 23);
     
     [Header("Movement")]
     public float movementSpeed;
@@ -71,6 +72,7 @@ public class PlayerStateMachine : MonoBehaviour {
     private bool _isMediumAttackPressed;
     private bool _isHeavyAttackPressed;
     private bool _isBlockPressed;
+    private bool _isBlockHeld;
     
 
     // Constants
@@ -90,15 +92,14 @@ public class PlayerStateMachine : MonoBehaviour {
     public bool IsMediumAttackPressed { get => _isMediumAttackPressed; set => _isMediumAttackPressed = value; }
     public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; set => _isHeavyAttackPressed = value; }
     public bool IsBlockPressed { get => _isBlockPressed; set => _isBlockPressed = value; }
-    
+    public bool IsBlockHeld { get => _isBlockHeld; set => _isBlockHeld = value; }
+
     // Functions
     private void Awake() {
-        
-        // DELETE THIS ONCE PROPER SETTINGS ARE IN PLACE
-        Application.targetFrameRate = 60;
-        
+                
         _playerInput = new PlayerInput();
         _states = new PlayerStateFactory(this);
+        
         _baseMaterial = body.GetComponent<Renderer>().material;
         _heavyBoundsMat = heavyAttackBounds.GetComponent<Renderer>().material;
         _mediumBoundsMat = mediumAttackBounds.GetComponent<Renderer>().material;
@@ -158,7 +159,8 @@ public class PlayerStateMachine : MonoBehaviour {
         PlayerInput.PlayerActions pAction = _playerInput.Player;
         _isActionPressed = pAction.LightAttack.WasPerformedThisFrame() ||
                            pAction.MediumAttack.WasPerformedThisFrame() ||
-                           pAction.HeavyAttack.WasPerformedThisFrame();
+                           pAction.HeavyAttack.WasPerformedThisFrame() || pAction.Block.WasPerformedThisFrame();
+        _isBlockHeld = pAction.Block.IsPressed();
     }
 
     void OnMovementPerformed(InputAction.CallbackContext context) {
@@ -175,28 +177,28 @@ public class PlayerStateMachine : MonoBehaviour {
         _isLightAttackPressed = context.ReadValueAsButton();
     }
     void OnLightAttackCanceled(InputAction.CallbackContext context) {
-        _isLightAttackPressed = context.ReadValueAsButton();
+        _isLightAttackPressed = false;
     }
     
     void OnMediumAttackPerformed(InputAction.CallbackContext context) {
         _isMediumAttackPressed = context.ReadValueAsButton();
     }
     void OnMediumAttackCanceled(InputAction.CallbackContext context) {
-        _isMediumAttackPressed = context.ReadValueAsButton();
+        _isMediumAttackPressed = false;
     }
     
     void OnHeavyAttackPerformed(InputAction.CallbackContext context) {
         _isHeavyAttackPressed = context.ReadValueAsButton();
     }
     void OnHeavyAttackCanceled(InputAction.CallbackContext context) {
-        _isHeavyAttackPressed = context.ReadValueAsButton();
+        _isHeavyAttackPressed = false;
     }
     
     void OnBlockPerformed(InputAction.CallbackContext context) {
         _isBlockPressed = context.ReadValueAsButton();
     }
     void OnBlockCanceled(InputAction.CallbackContext context) {
-        _isBlockPressed = context.ReadValueAsButton();
+        _isBlockPressed = false;
     }
 
     public void SpeedControl() {
