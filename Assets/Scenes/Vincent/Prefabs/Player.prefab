@@ -404,7 +404,7 @@ Transform:
   - {fileID: 6775423698702908374}
   - {fileID: 3608801552066855897}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3443836982169822796
 MonoBehaviour:
@@ -422,19 +422,19 @@ MonoBehaviour:
   heavyAttackBounds: {fileID: 4006682455540838733}
   mediumAttackBounds: {fileID: 3944727719667792075}
   lightAttackBounds: {fileID: 5426378805633837113}
-  framesPerSecond: 0
+  framesPerSecond: 30
   heavyFrameCount: 44
-  heavyStartupFrames: {x: 0, y: 0}
-  heavyActiveFrames: {x: 0, y: 0}
-  heavyRecoveryFrames: {x: 0, y: 0}
+  heavyStartupFrames: {x: 1, y: 10}
+  heavyActiveFrames: {x: 11, y: 15}
+  heavyRecoveryFrames: {x: 16, y: 44}
   mediumFrameCount: 32
-  mediumStartupFrames: {x: 0, y: 0}
-  mediumActiveFrames: {x: 0, y: 0}
-  mediumRecoveryFrames: {x: 0, y: 0}
+  mediumStartupFrames: {x: 1, y: 9}
+  mediumActiveFrames: {x: 10, y: 14}
+  mediumRecoveryFrames: {x: 15, y: 32}
   lightFrameCount: 23
-  lightStartupFrames: {x: 0, y: 0}
-  lightActiveFrames: {x: 0, y: 0}
-  lightRecoveryFrames: {x: 0, y: 0}
+  lightStartupFrames: {x: 1, y: 9}
+  lightActiveFrames: {x: 10, y: 14}
+  lightRecoveryFrames: {x: 15, y: 32}
   movementSpeed: 5
 --- !u!54 &3587425202357328570
 Rigidbody:
