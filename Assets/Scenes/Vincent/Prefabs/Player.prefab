@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 4777544015876746786}
   m_Layer: 0
   m_Name: MediumAttackBounds
-  m_TagString: Untagged
+  m_TagString: Attack Hitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 392017329426130873}
   m_Layer: 0
   m_Name: HeavyAttackBounds
-  m_TagString: Untagged
+  m_TagString: Attack Hitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 4020184050658272127}
   m_Layer: 0
   m_Name: LightAttack
-  m_TagString: Untagged
+  m_TagString: Attack Hitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 3587425202357328570}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
