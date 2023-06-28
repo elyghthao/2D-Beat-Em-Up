@@ -1,42 +1,35 @@
 using UnityEngine;
 
 public class PlayerBlockState : PlayerBaseState {
-   public PlayerBlockState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) {
-      IsRootState = true;
-      //InitializeSubState();
+   public PlayerBlockState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+      : base(currentContext, playerStateFactory) {
+      CanSwitch = false;
    }
    
    public override void EnterState() {
+      Debug.Log("SUB: ENTERED BLOCK");
       Ctx.BaseMaterial.color = Color.black;
    }
     
    public override void UpdateState() {
-      if (!Ctx.IsBlockHeld || (Ctx.IsActionPressed && !Ctx.IsBlockPressed)) {
+      if (!Ctx.IsBlockHeld) {
+         CanSwitch = true;
          CheckSwitchStates();
       }
    }
 
    public override void ExitState() {
+      Debug.Log("SUB: EXITED BLOCK");
       Ctx.BaseMaterial.color = Color.white;
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.IsActionPressed) {
-         if (Ctx.IsLightAttackPressed) {
-            SwitchState(Factory.LightAttack());
-         } else if (Ctx.IsMediumAttackPressed) {
-            SwitchState(Factory.MediumAttack());
-         } else if (Ctx.IsHeavyAttackPressed) {
-            SwitchState(Factory.HeavyAttack());
-         }
-      } else if (Ctx.IsMovementPressed) {
-         if (Ctx.CurrentMovementInput.x < 0) {
-            SwitchState(Factory.Backward());
-         } else if (Ctx.CurrentMovementInput.x > 0) {
-            SwitchState(Factory.Forward());
-         }
-      }  else {
-         SwitchState(Factory.Idle());
+      if (Ctx.IsLightAttackPressed) {
+         SwitchState(Factory.LightAttack());
+      } else if (Ctx.IsMediumAttackPressed) {
+         SwitchState(Factory.MediumAttack());
+      } else if (Ctx.IsHeavyAttackPressed) {
+         SwitchState(Factory.HeavyAttack());
       }
    }
 

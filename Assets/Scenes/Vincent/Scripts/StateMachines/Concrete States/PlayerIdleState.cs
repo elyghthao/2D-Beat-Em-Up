@@ -23,21 +23,9 @@ public class PlayerIdleState : PlayerBaseState
 
    public override void CheckSwitchStates() {
       if (Ctx.IsActionPressed) {
-         if (Ctx.IsLightAttackPressed) {
-            SwitchState(Factory.LightAttack());
-         } else if (Ctx.IsMediumAttackPressed) {
-            SwitchState(Factory.MediumAttack());
-         } else if (Ctx.IsHeavyAttackPressed) {
-            SwitchState(Factory.HeavyAttack());
-         } else if (Ctx.IsBlockPressed) {
-            SwitchState(Factory.Block());
-         }
+         SwitchState(Factory.Attack());
       } else if (Ctx.IsMovementPressed) {
-         if (Ctx.CurrentMovementInput.x < 0) {
-            SwitchState(Factory.Backward());
-         } else if (Ctx.CurrentMovementInput.x > 0 || Ctx.CurrentMovementInput.y != 0) {
-            SwitchState(Factory.Forward());
-         }
+         SwitchState(Factory.Move());
       }
    }
 

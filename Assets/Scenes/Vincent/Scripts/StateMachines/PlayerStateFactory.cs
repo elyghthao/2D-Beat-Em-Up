@@ -9,6 +9,10 @@ public class PlayerStateFactory {
         return new PlayerIdleState(_context, this);
     }
 
+    public PlayerBaseState Move() {
+        return new PlayerMoveState(_context, this);
+    }
+
     public PlayerBaseState Forward() {
         return new PlayerForwardMovementState(_context, this);
     }
@@ -19,6 +23,10 @@ public class PlayerStateFactory {
 
     public PlayerBaseState Hurt() {
         return new PlayerHurtState(_context, this);
+    }
+
+    public PlayerBaseState Attack() {
+        return new PlayerAttackState(_context, this);
     }
 
     public PlayerBaseState Block() {

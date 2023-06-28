@@ -1,24 +1,23 @@
 using UnityEngine;
 
 public class PlayerMAttackState : PlayerBaseState {
-   private bool _finishedAnimation = false;
-   private float _animationTime = 0;
+   private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
-   
+
    public PlayerMAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
-      IsRootState = true;
-      //InitializeSubState();
+      CanSwitch = false;
    }
 
    public override void EnterState() {
+      Debug.Log("SUB: ENTERED MEDIUM");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.mediumAttackBounds.SetActive(true);
    }
 
    public override void UpdateState() {
-      if (_finishedAnimation) {
+      if (CanSwitch) {
          CheckSwitchStates();
       }
       _animationTime += Time.deltaTime;
@@ -35,33 +34,22 @@ public class PlayerMAttackState : PlayerBaseState {
       } else if (_currentFrame <= Ctx.mediumRecoveryFrames.y) {
          Ctx.MediumBoundsMat.color = Color.blue;
       } else {
-         _finishedAnimation = true;
+         CanSwitch = true;
       }
    }
 
    public override void ExitState() {
+      Debug.Log("SUB: EXITED MEDIUM");
       Ctx.mediumAttackBounds.SetActive(false);
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.IsActionPressed) {
-         if (Ctx.IsLightAttackPressed) {
-            SwitchState(Factory.LightAttack());
-         } else if (Ctx.IsMediumAttackPressed) {
-            SwitchState(Factory.Idle());
-         } else if (Ctx.IsHeavyAttackPressed) {
-            SwitchState(Factory.HeavyAttack());
-         } else if (Ctx.IsBlockPressed) {
-            SwitchState(Factory.Block());
-         }
-      } else if (Ctx.IsMovementPressed) {
-         if (Ctx.CurrentMovementInput.x < 0) {
-            SwitchState(Factory.Backward());
-         } else if (Ctx.CurrentMovementInput.x > 0 || Ctx.CurrentMovementInput.y != 0) {
-            SwitchState(Factory.Forward());
-         }
-      } else {
-         SwitchState(Factory.Idle());
+      if (Ctx.IsLightAttackPressed) {
+         SwitchState(Factory.LightAttack());
+      } else if (Ctx.IsHeavyAttackPressed) {
+         SwitchState(Factory.HeavyAttack());
+      } else if (Ctx.IsBlockPressed) {
+         SwitchState(Factory.Block());
       }
    }
 

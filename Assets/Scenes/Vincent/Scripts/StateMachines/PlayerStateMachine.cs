@@ -56,8 +56,6 @@ public class PlayerStateMachine : MonoBehaviour {
     private Material _heavyBoundsMat;
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
-
-    // Components
     private Material _baseMaterial;
 
     // State variables
@@ -74,9 +72,11 @@ public class PlayerStateMachine : MonoBehaviour {
     private bool _isBlockPressed;
     private bool _isBlockHeld;
     
+    // Other Variables
+    private bool _characterFlipped;
 
     // Constants
-    private int _zero = 0;
+    private readonly int _zero = 0;
 
     // Getters and Setters
     public PlayerBaseState CurrentState { get => _currentState; set => _currentState = value; }
@@ -93,6 +93,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; set => _isHeavyAttackPressed = value; }
     public bool IsBlockPressed { get => _isBlockPressed; set => _isBlockPressed = value; }
     public bool IsBlockHeld { get => _isBlockHeld; set => _isBlockHeld = value; }
+    public bool CharacterFlipped { get => _characterFlipped; set => _characterFlipped = value; }
 
     // Functions
     private void Awake() {
@@ -151,7 +152,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        _currentState.UpdateState();
+        _currentState.UpdateStates();
         CheckActionPressed();
     }
 
@@ -202,12 +203,19 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void SpeedControl() {
-        Vector3 flatVelocity = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+        Vector3 playerVelocity = Rigidbody.velocity;
+        Vector3 flatVelocity = new Vector3(playerVelocity.x, 0f, playerVelocity.z);
       
         // limit velocity if needed
         if (flatVelocity.magnitude > movementSpeed) {
             Vector3 limitedVelocity = flatVelocity.normalized * movementSpeed;
             _rigidbody.velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z);
         }
+    }
+
+    public void FlipCharacter() {
+        _characterFlipped = !_characterFlipped;
+        Debug.Log("Character flipped: " + _characterFlipped);
+        transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
     }
 }
