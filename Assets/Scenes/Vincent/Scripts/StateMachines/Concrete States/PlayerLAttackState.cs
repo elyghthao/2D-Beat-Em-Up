@@ -50,6 +50,8 @@ public class PlayerLAttackState : PlayerBaseState {
          SwitchState(Factory.HeavyAttack());
       } else if (Ctx.IsBlockPressed) {
          SwitchState(Factory.Block());
+      } else {
+         SwitchState(Factory.Idle()); // TEMP FIX for action not ending because the action is being held down
       }
    }
 

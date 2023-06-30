@@ -66,6 +66,7 @@ public class PlayerStateMachine : MonoBehaviour {
     private Vector2 _currentMovementInput;
     private bool _isMovementPressed;
     private bool _isActionPressed;
+    private bool _isActionHeld;
     private bool _isLightAttackPressed;
     private bool _isMediumAttackPressed;
     private bool _isHeavyAttackPressed;
@@ -87,12 +88,13 @@ public class PlayerStateMachine : MonoBehaviour {
     public Material MediumBoundsMat { get => _mediumBoundsMat; set => _mediumBoundsMat = value; }
     public Material LightBoundsMat { get => _lightBoundsMat; set => _lightBoundsMat = value; }
     public Rigidbody Rigidbody { get => _rigidbody; set => _rigidbody = value; }
-    public bool IsActionPressed { get => _isActionPressed; set => _isActionPressed = value; }
-    public bool IsLightAttackPressed { get => _isLightAttackPressed; set => _isLightAttackPressed = value; }
-    public bool IsMediumAttackPressed { get => _isMediumAttackPressed; set => _isMediumAttackPressed = value; }
-    public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; set => _isHeavyAttackPressed = value; }
-    public bool IsBlockPressed { get => _isBlockPressed; set => _isBlockPressed = value; }
-    public bool IsBlockHeld { get => _isBlockHeld; set => _isBlockHeld = value; }
+    public bool IsActionPressed { get => _isActionPressed; }
+    public bool IsActionHeld { get => _isActionHeld; }
+    public bool IsLightAttackPressed { get => _isLightAttackPressed; }
+    public bool IsMediumAttackPressed { get => _isMediumAttackPressed; }
+    public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; }
+    public bool IsBlockPressed { get => _isBlockPressed; }
+    public bool IsBlockHeld { get => _isBlockHeld; }
     public bool CharacterFlipped { get => _characterFlipped; set => _characterFlipped = value; }
 
     // Functions
@@ -161,6 +163,8 @@ public class PlayerStateMachine : MonoBehaviour {
         _isActionPressed = pAction.LightAttack.WasPerformedThisFrame() ||
                            pAction.MediumAttack.WasPerformedThisFrame() ||
                            pAction.HeavyAttack.WasPerformedThisFrame() || pAction.Block.WasPerformedThisFrame();
+        _isActionHeld = pAction.LightAttack.IsPressed() || pAction.MediumAttack.IsPressed() ||
+                        pAction.HeavyAttack.IsPressed() || pAction.Block.IsPressed();
         _isBlockHeld = pAction.Block.IsPressed();
     }
 
