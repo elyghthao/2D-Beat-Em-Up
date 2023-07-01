@@ -5,7 +5,7 @@ using UnityEngine;
 public class Health_Pack : MonoBehaviour
 {
     private AudioSource health_pack_collect_sound; // The sound clip for when the health pack is picked up.
-    private BoxCollider health_pack_collider; // The health pack's collider.
+    private BoxCollider health_pack_collider; // The health pack's box collider.
     private MeshRenderer health_pack_mesh; // The health pack's mesh renderer.
 
     // Start is called before the first frame update
