@@ -15,7 +15,7 @@ public class Crate_Destroy : MonoBehaviour
     {
         // On start, the crate's audio source, box collider, and mesh renderer
         // components are given to the associated variables for access.
-        crate_break_sound = transform.GetChild(0).GetComponent<AudioSource>();
+        crate_break_sound = GetComponent<AudioSource>();
         crate_collider = GetComponent<BoxCollider>();
         crate_mesh = GetComponent<MeshRenderer>();
     }
