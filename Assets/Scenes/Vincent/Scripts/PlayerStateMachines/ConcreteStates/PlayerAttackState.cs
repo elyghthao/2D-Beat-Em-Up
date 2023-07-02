@@ -7,7 +7,9 @@ public class PlayerAttackState : PlayerBaseState
       InitializeSubState();
    }
 
-   public override void EnterState() { Debug.Log("ROOT: ENTERED ATTACK"); }
+   public override void EnterState() {
+      //Debug.Log("ROOT: ENTERED ATTACK");
+   }
 
    public override void UpdateState() {
       if (CurrentSubState.CanSwitch) {
@@ -16,7 +18,7 @@ public class PlayerAttackState : PlayerBaseState
    }
 
    public override void ExitState() {
-      Debug.Log("ROOT: EXITED ATTACK");
+      //Debug.Log("ROOT: EXITED ATTACK");
       Ctx.heavyAttackBounds.SetActive(false);
       Ctx.mediumAttackBounds.SetActive(false);
       Ctx.lightAttackBounds.SetActive(false);

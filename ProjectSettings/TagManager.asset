@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - FirstLightAttack
+  - FirstMediumAttack
+  - SlamAttack
+  - SecondLightAttack
+  - ThirdLightAttack
+  - SecondMediumAttack
   layers:
   - Default
   - TransparentFX

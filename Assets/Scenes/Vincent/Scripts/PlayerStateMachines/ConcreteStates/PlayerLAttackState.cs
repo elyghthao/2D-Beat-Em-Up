@@ -11,7 +11,7 @@ public class PlayerLAttackState : PlayerBaseState {
    }
    
    public override void EnterState() {
-      Debug.Log("SUB: ENTERED LIGHT");
+      //Debug.Log("SUB: ENTERED LIGHT");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.lightAttackBounds.SetActive(true);
    }
@@ -39,7 +39,7 @@ public class PlayerLAttackState : PlayerBaseState {
    }
 
    public override void ExitState() {
-      Debug.Log("SUB: EXITED LIGHT");
+      //Debug.Log("SUB: EXITED LIGHT");
       Ctx.lightAttackBounds.SetActive(false);
    }
 

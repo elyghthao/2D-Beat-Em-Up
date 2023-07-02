@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerStateMachine : MonoBehaviour {
     
     // Inspector Arguments
-    [Header("Body Pieces")]
+    [Header("Body Elements")]
     public GameObject body;
     
     [Header("Attack Boundaries")]
