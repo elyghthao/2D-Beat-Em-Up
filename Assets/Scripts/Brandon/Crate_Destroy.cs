@@ -6,18 +6,17 @@ public class Crate_Destroy : MonoBehaviour
 {
     private AudioSource crate_break_sound; // The sound clip for when the crate is destroyed.
     private BoxCollider crate_collider; // The crate's box collider.
-    private MeshRenderer crate_mesh; // The crate's mesh renderer.
+    public MeshRenderer crate_mesh; // The crate's mesh renderer.
     public bool health_appear_guarantee; // Whether it is guaranteed that a health pack will spawn from the crate.
     public GameObject health_pack; // The health pack prefab.
 
     // Start is called before the first frame update
     void Start()
     {
-        // On start, the crate's audio source, box collider, and mesh renderer
+        // On start, the crate's audio source and box collider
         // components are given to the associated variables for access.
         crate_break_sound = GetComponent<AudioSource>();
         crate_collider = GetComponent<BoxCollider>();
-        crate_mesh = GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame

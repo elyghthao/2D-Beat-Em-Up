@@ -6,16 +6,15 @@ public class Health_Pack : MonoBehaviour
 {
     private AudioSource health_pack_collect_sound; // The sound clip for when the health pack is picked up.
     private BoxCollider health_pack_collider; // The health pack's box collider.
-    private MeshRenderer health_pack_mesh; // The health pack's mesh renderer.
+    public MeshRenderer health_pack_mesh; // The health pack's mesh renderer.
 
     // Start is called before the first frame update
     void Start()
     {
-        // On start, the health pack's audio source, box collider, and mesh renderer
+        // On start, the health pack's audio source and box collider
         // components are given to the associated variables for access.
         health_pack_collect_sound = GetComponent<AudioSource>();
-        health_pack_collider = GetComponent<BoxCollider>();
-        health_pack_mesh = GetComponent<MeshRenderer>(); 
+        health_pack_collider = GetComponent<BoxCollider>(); 
     }
 
     // Update is called once per frame

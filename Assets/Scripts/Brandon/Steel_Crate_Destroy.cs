@@ -6,7 +6,7 @@ public class Steel_Crate_Destroy : MonoBehaviour
 {
     private AudioSource crate_sfx; // The audio source used for the steel crate.
     private BoxCollider crate_collider; // The steel crate's box collider.
-    private MeshRenderer crate_mesh; // The steel crate's mesh renderer.
+    public MeshRenderer crate_mesh; // The steel crate's mesh renderer.
     public bool health_appear_guarantee; // Whether it is guaranteed that a health pack will spawn from the steel crate.
     public int crate_health; // How many hits it takes to break the crate, minimum of 2.
     public GameObject health_pack; // The health pack prefab.
@@ -15,11 +15,10 @@ public class Steel_Crate_Destroy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // On start, the steel crate's audio source, box collider, and mesh renderer
+        // On start, the steel crate's audio source and box collider
         // components are given to the associated variables for access.
         crate_sfx = GetComponent<AudioSource>();
         crate_collider = GetComponent<BoxCollider>();
-        crate_mesh = GetComponent<MeshRenderer>();
 
         // If the crate health has a value less than 2, then it is changed
         // to a default value of 2.
