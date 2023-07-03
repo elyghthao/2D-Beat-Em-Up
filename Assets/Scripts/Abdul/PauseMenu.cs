@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class PauseMenu : MonoBehaviour {
     public static bool gamePaused;  // Bool vaLue that determines if the game is paused or not
     public GameObject pauseMenu;    // Menu of the pause menu
     public GameObject player;       // Player
+    public Slider musicSlider;      // Music Slider
+    public AudioMixer musicMixer;   // Music Mixer
 
     // Start is called before the first frame update
     void Start() {
@@ -46,5 +50,10 @@ public class PauseMenu : MonoBehaviour {
     // When the quit button is pressed, quit the game
     public void quitPressed() {
         Application.Quit();
+    }
+
+    // Updates Music Values
+    public void MusicChangeSlider(float value) {
+        
     }
 }
