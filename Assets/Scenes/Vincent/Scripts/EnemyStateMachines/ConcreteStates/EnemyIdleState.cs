@@ -12,6 +12,11 @@ public class EnemyIdleState : EnemyBaseState {
 
    public override void UpdateState() {
       CheckSwitchStates();
+      if (Ctx.KnockdownMeter < Ctx.knockdownMax) {
+         Ctx.KnockdownMeter += (int) Time.deltaTime * 5;
+      } else if (Ctx.KnockdownMeter > Ctx.knockdownMax){
+         Ctx.KnockdownMeter = Ctx.knockdownMax;
+      }
       // HaHa enemy do nothing (͡•͜ʖ͡•)
    }
 
@@ -21,11 +26,7 @@ public class EnemyIdleState : EnemyBaseState {
 
    public override void CheckSwitchStates() {
       if (Ctx.IsAttacked) {
-         if (Ctx.KnockdownMeter <= 0) {
-            SwitchState(Factory.KnockedDown());
-         } else {
-            SwitchState(Factory.Hurt());
-         }
+         SwitchState(Factory.Hurt());
       }
    }
 

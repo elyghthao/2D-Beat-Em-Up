@@ -16,4 +16,12 @@ public class EnemyStateFactory {
    public EnemyBaseState KnockedDown() {
       return new EnemyKnockedDownState(_context, this);
    }
+
+   public EnemyBaseState Stunned() {
+      return new EnemyStunnedState(_context, this);
+   }
+
+   public EnemyBaseState Smacked() {
+      return new EnemySmackedState(_context, this);
+   }
 }

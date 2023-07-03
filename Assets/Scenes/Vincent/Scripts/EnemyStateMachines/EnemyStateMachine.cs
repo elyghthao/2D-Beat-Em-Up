@@ -1,6 +1,15 @@
+using System;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public enum Attack {Light1, Light2, Light3, Medium1, Medium2, Slam}
+
+public struct AttackType {
+    private string tag;
+    private bool used;
+    public string Tag { get => tag; set => tag = value; }
+    public bool Used { get => used; set => used = value; }
+}
 
 public class EnemyStateMachine : MonoBehaviour {
     
@@ -31,11 +40,11 @@ public class EnemyStateMachine : MonoBehaviour {
     private bool _receivedSecondMediumAttack;
     // Special Attacks
     private bool _receivedSlamAttack;
-    
-    private bool[] _recievedAttack = new bool[6];
+
+    private AttackType[] _recievedAttack = new AttackType[6];
 
     // Other
-    private bool _checkTrigger;
+    private bool _knockedDown;
     private int _knockdownMeter;
     private float _stunTimer;
 
@@ -45,17 +54,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public Rigidbody Rigidbody => _rigidbody;
     public EnemyBaseState CurrentState { get => _currentState; set => _currentState = value; }
     public bool IsAttacked => _isAttacked;
-    // Light Attacks
-    public bool ReceivedFirstLightAttack => _receivedFirstLightAttack;
-    public bool ReceivedSecondLightAttack => _receivedSecondLightAttack;
-    public bool ReceivedThirdLightAttack => _receivedThirdLightAttack;
-    // Medium Attacks
-    public bool ReceivedFirstMediumAttack => _receivedFirstMediumAttack;
-    public bool ReceivedSecondMediumAttack => _receivedSecondMediumAttack;
-    // Special Attacks
-    public bool ReceivedSlamAttack => _receivedSlamAttack;
-    public bool[] RecievedAttack => _recievedAttack;
+    public AttackType[] RecievedAttack => _recievedAttack;
     // Other
+    public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
     public int KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
 
@@ -68,45 +69,59 @@ public class EnemyStateMachine : MonoBehaviour {
         _knockdownMeter = knockdownMax;
         _currentState = _states.Idle();
         _currentState.EnterState();
+        // Init _recievedAttacks
+        _recievedAttack[0].Tag = "FirstLightAttack";
+        _recievedAttack[1].Tag = "SecondLightAttack";
+        _recievedAttack[2].Tag = "ThirdLightAttack";
+        _recievedAttack[3].Tag = "FirstMediumAttack";
+        _recievedAttack[4].Tag = "SecondMediumAttack";
+        _recievedAttack[5].Tag = "SlamAttack";
     }
     
     void Update() {
         _currentState.UpdateStates();
-        if (_checkTrigger) {
-            bool triggerChecker = false;
-            for (int i = 0; i < _recievedAttack.Length; i++) {
-                if (_recievedAttack[i]) {
-                    triggerChecker = true;
-                }
-                _recievedAttack[i] = false;
-            }
-            _isAttacked = triggerChecker;
-            if (!triggerChecker) {
-                _checkTrigger = false;
-                _isAttacked = false;
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+        for (int i = 0; i < _recievedAttack.Length; i++) {
+            if (other.CompareTag(_recievedAttack[i].Tag)) {
+                _recievedAttack[i].Used = true;
+                _isAttacked = true;
             }
         }
     }
 
-    private void OnTriggerStay(Collider other) {
-        _checkTrigger = true;
-        // Light Attacks
-        if (other.CompareTag("FirstLightAttack")) {
-            _recievedAttack[(int)Attack.Light1] = true;
-        } else if (other.CompareTag("SecondLightAttack")) {
-            _recievedAttack[(int)Attack.Light2] = true;
-        } else if (other.CompareTag("ThirdLightAttack")) {
-            _recievedAttack[(int)Attack.Light3] = true;
+    private void OnTriggerExit(Collider other) {
+        ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
+        bool checkIfStillAttacked = false;
+        for (int i = 0; i < _recievedAttack.Length; i++) {
+            if (other.CompareTag(_recievedAttack[i].Tag)) {
+                _recievedAttack[i].Used = false;
+            }
+            if (_recievedAttack[i].Used) {
+                checkIfStillAttacked = true;
+            }
         }
-        // Medium Attacks
-        else if (other.CompareTag("FirstMediumAttack")) {
-            _recievedAttack[(int)Attack.Medium1] = true;
-        } else if (other.CompareTag("SecondMediumAttack")) {
-            _recievedAttack[(int)Attack.Medium2] = true;
+
+        _isAttacked = checkIfStillAttacked;
+    }
+
+    public int DetermineKnockdownPressure() {
+        int pressure = 0;
+        if (_recievedAttack[0].Used) {
+            pressure = 40;
+        } else if (_recievedAttack[1].Used) {
+            pressure = 60;
+        } else if (_recievedAttack[2].Used) {
+            pressure = 100;
+        } else if (_recievedAttack[3].Used) {
+            pressure = 70;
+        } else if (_recievedAttack[4].Used) {
+            pressure = 80;
+        } else if (_recievedAttack[5].Used) {
+            pressure = 150;
         }
-        // Special
-        else if (other.CompareTag("SlamAttack")) {
-            _recievedAttack[(int)Attack.Slam] = true;
-        }
+        return pressure;
     }
 }

@@ -2,31 +2,32 @@ using System.Data.Common;
 using UnityEngine;
 
 public class EnemyKnockedDownState : EnemyBaseState {
-   private float _knockdownTimer = 1f;
-   private float _curTimer = 0;
    public EnemyKnockedDownState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) : base(currentContext, enemyStateFactory) {
    }
 
    public override void EnterState() {
-      Debug.Log("ENEMY ROOT: ENTERED KNOCKDOWN");
+      Debug.Log("ENEMY SUB: ENTERED KNOCKDOWN");
+      Ctx.Rigidbody.velocity = new Vector3(0, 0, 0);
       Ctx.Rigidbody.AddForce(5, 500, 0);
-      Ctx.BaseMaterial.color = new Color(50, 0, 0, 255);
-   }
-
-   public override void UpdateState() {
-      _curTimer += Time.deltaTime;
-      if (_curTimer >= _knockdownTimer) {
-         CheckSwitchStates();
+      Ctx.BaseMaterial.color = new Color(25, 0, 0, 255);
+      Ctx.KnockedDown = true;
+      Ctx.KnockdownMeter -= Ctx.DetermineKnockdownPressure();
+      if (Ctx.StunTimer < 1.0f) {
+         Ctx.StunTimer = 1.0f;
       }
    }
 
+   public override void UpdateState() {
+      CheckSwitchStates();
+   }
+
    public override void ExitState() {
-      Debug.Log("ENEMY ROOT: EXITED KNOCKDOWN");
+      Debug.Log("ENEMY SUB: EXITED KNOCKDOWN");
       Ctx.KnockdownMeter = Ctx.knockdownMax;
    }
 
    public override void CheckSwitchStates() {
-      SwitchState(Factory.Idle());
+      SwitchState(Factory.Stunned());
    }
 
    public override void InitializeSubState() {

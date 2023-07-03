@@ -7,19 +7,29 @@ public class EnemyStunnedState : EnemyBaseState
    }
 
    public override void EnterState() {
-      throw new System.NotImplementedException();
+      Debug.Log("ENEMY SUB: ENTERED STUNNED");
+      // Sets material color Orange
+      if (!Ctx.KnockedDown) {
+         Ctx.BaseMaterial.color = new Color(255, 165, 0);
+      }
    }
 
    public override void UpdateState() {
-      throw new System.NotImplementedException();
+      CheckSwitchStates();
    }
 
    public override void ExitState() {
-      throw new System.NotImplementedException();
+      Debug.Log("ENEMY SUB: EXITED STUNNED");
    }
 
    public override void CheckSwitchStates() {
-      throw new System.NotImplementedException();
+      if (Ctx.IsAttacked) {
+         if (Ctx.KnockdownMeter > 0) {
+            SwitchState(Factory.Smacked());
+         } else if (!Ctx.KnockedDown) {
+            SwitchState(Factory.KnockedDown());
+         }
+      }
    }
 
    public override void InitializeSubState() {
