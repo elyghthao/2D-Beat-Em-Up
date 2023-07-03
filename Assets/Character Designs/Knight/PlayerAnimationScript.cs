@@ -27,6 +27,11 @@ public class PlayerAnimationScript : MonoBehaviour
         Debug.Log(anim.GetCurrentAnimatorStateInfo(0).IsName("LightAttack"));
         if (Input.GetKeyDown(KeyCode.A)) {
             anim.Play("LightAttack");
+        }else if (anim.GetCurrentAnimatorStateInfo(0).IsName("LightAttack") && Input.GetKeyDown(KeyCode.A)){
+            anim.Play("LightAttack2");
+
+
+
         }else if(!anim.GetCurrentAnimatorStateInfo(0).IsName("LightAttack")){
             if (Input.GetKey(KeyCode.DownArrow) ||
             Input.GetKey(KeyCode.UpArrow)||
