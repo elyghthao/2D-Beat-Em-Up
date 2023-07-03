@@ -8,41 +8,44 @@ using UnityEngine.InputSystem;
 public class PlayerStateMachine : MonoBehaviour {
     
     // Inspector Arguments
-    [Header("Body Pieces")]
+    [Header("Body Elements")]
     public GameObject body;
+    
     [Header("Attack Boundaries")]
     public GameObject heavyAttackBounds;
     public GameObject mediumAttackBounds;
     public GameObject lightAttackBounds;
+    
     [Header("FrameData")] 
     public int framesPerSecond;
     
     [Header("HeavyAttack")]
     public int heavyFrameCount = 44;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 heavyStartupFrames;
+    public Vector2 heavyStartupFrames = new Vector2(1, 10);
+
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 heavyActiveFrames;
+    public Vector2 heavyActiveFrames = new Vector2(11, 15);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 heavyRecoveryFrames;
+    public Vector2 heavyRecoveryFrames = new Vector2(16, 44);
     
     [Header("MediumAttack")]
     public int mediumFrameCount = 32;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 mediumStartupFrames;
+    public Vector2 mediumStartupFrames = new Vector2(1, 9);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 mediumActiveFrames;
+    public Vector2 mediumActiveFrames = new Vector2(10, 14);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 mediumRecoveryFrames;
+    public Vector2 mediumRecoveryFrames = new Vector2(15, 32);
     
     [Header("LightAttack")]
     public int lightFrameCount = 23;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 lightStartupFrames;
+    public Vector2 lightStartupFrames = new Vector2(1, 7);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 lightActiveFrames;
+    public Vector2 lightActiveFrames = new Vector2(8, 9);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 lightRecoveryFrames;
+    public Vector2 lightRecoveryFrames = new Vector2(10, 23);
     
     [Header("Movement")]
     public float movementSpeed;
@@ -53,8 +56,6 @@ public class PlayerStateMachine : MonoBehaviour {
     private Material _heavyBoundsMat;
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
-
-    // Components
     private Material _baseMaterial;
 
     // State variables
@@ -65,14 +66,18 @@ public class PlayerStateMachine : MonoBehaviour {
     private Vector2 _currentMovementInput;
     private bool _isMovementPressed;
     private bool _isActionPressed;
+    private bool _isActionHeld;
     private bool _isLightAttackPressed;
     private bool _isMediumAttackPressed;
     private bool _isHeavyAttackPressed;
     private bool _isBlockPressed;
+    private bool _isBlockHeld;
     
+    // Other Variables
+    private bool _characterFlipped;
 
     // Constants
-    private int _zero = 0;
+    private readonly int _zero = 0;
 
     // Getters and Setters
     public PlayerBaseState CurrentState { get => _currentState; set => _currentState = value; }
@@ -83,16 +88,21 @@ public class PlayerStateMachine : MonoBehaviour {
     public Material MediumBoundsMat { get => _mediumBoundsMat; set => _mediumBoundsMat = value; }
     public Material LightBoundsMat { get => _lightBoundsMat; set => _lightBoundsMat = value; }
     public Rigidbody Rigidbody { get => _rigidbody; set => _rigidbody = value; }
-    public bool IsActionPressed { get => _isActionPressed; set => _isActionPressed = value; }
-    public bool IsLightAttackPressed { get => _isLightAttackPressed; set => _isLightAttackPressed = value; }
-    public bool IsMediumAttackPressed { get => _isMediumAttackPressed; set => _isMediumAttackPressed = value; }
-    public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; set => _isHeavyAttackPressed = value; }
-    public bool IsBlockPressed { get => _isBlockPressed; set => _isBlockPressed = value; }
-    
+    public bool IsActionPressed { get => _isActionPressed; }
+    public bool IsActionHeld { get => _isActionHeld; }
+    public bool IsLightAttackPressed { get => _isLightAttackPressed; }
+    public bool IsMediumAttackPressed { get => _isMediumAttackPressed; }
+    public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; }
+    public bool IsBlockPressed { get => _isBlockPressed; }
+    public bool IsBlockHeld { get => _isBlockHeld; }
+    public bool CharacterFlipped { get => _characterFlipped; set => _characterFlipped = value; }
+
     // Functions
     private void Awake() {
+                
         _playerInput = new PlayerInput();
         _states = new PlayerStateFactory(this);
+        
         _baseMaterial = body.GetComponent<Renderer>().material;
         _heavyBoundsMat = heavyAttackBounds.GetComponent<Renderer>().material;
         _mediumBoundsMat = mediumAttackBounds.GetComponent<Renderer>().material;
@@ -144,7 +154,18 @@ public class PlayerStateMachine : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        _currentState.UpdateState();
+        _currentState.UpdateStates();
+        CheckActionPressed();
+    }
+
+    void CheckActionPressed() {
+        PlayerInput.PlayerActions pAction = _playerInput.Player;
+        _isActionPressed = pAction.LightAttack.WasPerformedThisFrame() ||
+                           pAction.MediumAttack.WasPerformedThisFrame() ||
+                           pAction.HeavyAttack.WasPerformedThisFrame() || pAction.Block.WasPerformedThisFrame();
+        _isActionHeld = pAction.LightAttack.IsPressed() || pAction.MediumAttack.IsPressed() ||
+                        pAction.HeavyAttack.IsPressed() || pAction.Block.IsPressed();
+        _isBlockHeld = pAction.Block.IsPressed();
     }
 
     void OnMovementPerformed(InputAction.CallbackContext context) {
@@ -159,48 +180,46 @@ public class PlayerStateMachine : MonoBehaviour {
 
     void OnLightAttackPerformed(InputAction.CallbackContext context) {
         _isLightAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isLightAttackPressed;
-        print("Light attack: " + _isLightAttackPressed);
     }
     void OnLightAttackCanceled(InputAction.CallbackContext context) {
-        _isLightAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isLightAttackPressed;
+        _isLightAttackPressed = false;
     }
     
     void OnMediumAttackPerformed(InputAction.CallbackContext context) {
         _isMediumAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isMediumAttackPressed;
     }
     void OnMediumAttackCanceled(InputAction.CallbackContext context) {
-        _isMediumAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isMediumAttackPressed;
+        _isMediumAttackPressed = false;
     }
     
     void OnHeavyAttackPerformed(InputAction.CallbackContext context) {
         _isHeavyAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isHeavyAttackPressed;
     }
     void OnHeavyAttackCanceled(InputAction.CallbackContext context) {
-        _isHeavyAttackPressed = context.ReadValueAsButton();
-        _isActionPressed = _isHeavyAttackPressed;
+        _isHeavyAttackPressed = false;
     }
     
     void OnBlockPerformed(InputAction.CallbackContext context) {
         _isBlockPressed = context.ReadValueAsButton();
-        _isActionPressed = _isBlockPressed;
     }
     void OnBlockCanceled(InputAction.CallbackContext context) {
-        _isBlockPressed = context.ReadValueAsButton();
-        _isActionPressed = _isBlockPressed;
+        _isBlockPressed = false;
     }
 
     public void SpeedControl() {
-        Vector3 flatVelocity = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+        Vector3 playerVelocity = Rigidbody.velocity;
+        Vector3 flatVelocity = new Vector3(playerVelocity.x, 0f, playerVelocity.z);
       
         // limit velocity if needed
         if (flatVelocity.magnitude > movementSpeed) {
             Vector3 limitedVelocity = flatVelocity.normalized * movementSpeed;
             _rigidbody.velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z);
         }
+    }
+
+    public void FlipCharacter() {
+        _characterFlipped = !_characterFlipped;
+        Debug.Log("Character flipped: " + _characterFlipped);
+        transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
     }
 }
