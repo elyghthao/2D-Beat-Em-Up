@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerStateMachine : MonoBehaviour {
     
     // Inspector Arguments
-    [Header("Body Pieces")]
+    [Header("Body Elements")]
     public GameObject body;
     
     [Header("Attack Boundaries")]
@@ -56,8 +56,6 @@ public class PlayerStateMachine : MonoBehaviour {
     private Material _heavyBoundsMat;
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
-
-    // Components
     private Material _baseMaterial;
 
     // State variables
@@ -68,15 +66,18 @@ public class PlayerStateMachine : MonoBehaviour {
     private Vector2 _currentMovementInput;
     private bool _isMovementPressed;
     private bool _isActionPressed;
+    private bool _isActionHeld;
     private bool _isLightAttackPressed;
     private bool _isMediumAttackPressed;
     private bool _isHeavyAttackPressed;
     private bool _isBlockPressed;
     private bool _isBlockHeld;
     
+    // Other Variables
+    private bool _characterFlipped;
 
     // Constants
-    private int _zero = 0;
+    private readonly int _zero = 0;
 
     // Getters and Setters
     public PlayerBaseState CurrentState { get => _currentState; set => _currentState = value; }
@@ -87,12 +88,14 @@ public class PlayerStateMachine : MonoBehaviour {
     public Material MediumBoundsMat { get => _mediumBoundsMat; set => _mediumBoundsMat = value; }
     public Material LightBoundsMat { get => _lightBoundsMat; set => _lightBoundsMat = value; }
     public Rigidbody Rigidbody { get => _rigidbody; set => _rigidbody = value; }
-    public bool IsActionPressed { get => _isActionPressed; set => _isActionPressed = value; }
-    public bool IsLightAttackPressed { get => _isLightAttackPressed; set => _isLightAttackPressed = value; }
-    public bool IsMediumAttackPressed { get => _isMediumAttackPressed; set => _isMediumAttackPressed = value; }
-    public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; set => _isHeavyAttackPressed = value; }
-    public bool IsBlockPressed { get => _isBlockPressed; set => _isBlockPressed = value; }
-    public bool IsBlockHeld { get => _isBlockHeld; set => _isBlockHeld = value; }
+    public bool IsActionPressed { get => _isActionPressed; }
+    public bool IsActionHeld { get => _isActionHeld; }
+    public bool IsLightAttackPressed { get => _isLightAttackPressed; }
+    public bool IsMediumAttackPressed { get => _isMediumAttackPressed; }
+    public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; }
+    public bool IsBlockPressed { get => _isBlockPressed; }
+    public bool IsBlockHeld { get => _isBlockHeld; }
+    public bool CharacterFlipped { get => _characterFlipped; set => _characterFlipped = value; }
 
     // Functions
     private void Awake() {
@@ -151,7 +154,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        _currentState.UpdateState();
+        _currentState.UpdateStates();
         CheckActionPressed();
     }
 
@@ -160,6 +163,8 @@ public class PlayerStateMachine : MonoBehaviour {
         _isActionPressed = pAction.LightAttack.WasPerformedThisFrame() ||
                            pAction.MediumAttack.WasPerformedThisFrame() ||
                            pAction.HeavyAttack.WasPerformedThisFrame() || pAction.Block.WasPerformedThisFrame();
+        _isActionHeld = pAction.LightAttack.IsPressed() || pAction.MediumAttack.IsPressed() ||
+                        pAction.HeavyAttack.IsPressed() || pAction.Block.IsPressed();
         _isBlockHeld = pAction.Block.IsPressed();
     }
 
@@ -202,12 +207,19 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void SpeedControl() {
-        Vector3 flatVelocity = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+        Vector3 playerVelocity = Rigidbody.velocity;
+        Vector3 flatVelocity = new Vector3(playerVelocity.x, 0f, playerVelocity.z);
       
         // limit velocity if needed
         if (flatVelocity.magnitude > movementSpeed) {
             Vector3 limitedVelocity = flatVelocity.normalized * movementSpeed;
             _rigidbody.velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z);
         }
+    }
+
+    public void FlipCharacter() {
+        _characterFlipped = !_characterFlipped;
+        Debug.Log("Character flipped: " + _characterFlipped);
+        transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
     }
 }

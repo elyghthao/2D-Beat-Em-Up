@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Attack Hitbox
+  - FirstLightAttack
+  - FirstMediumAttack
+  - SlamAttack
+  - SecondLightAttack
+  - ThirdLightAttack
+  - SecondMediumAttack
   layers:
   - Default
   - TransparentFX
@@ -14,30 +20,30 @@ TagManager:
   - UI
   - Default-Without-Player
   - Enemy
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
   m_SortingLayers:
   - name: Default
     uniqueID: 0
