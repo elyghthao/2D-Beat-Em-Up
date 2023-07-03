@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class PauseMenu : MonoBehaviour {
+    // ============================================ PUBLIC VARIABLES ============================================
     public static bool gamePaused;  // Bool vaLue that determines if the game is paused or not
     public GameObject pauseMenu;    // Menu of the pause menu
     public GameObject player;       // Player
+    public AudioMixer musicMixer;   // Music Mixer
+    public AudioMixer effectsMixer;   // Effects Mixer
+
+    // ============================================ PRIVATE VARIABLES ============================================
+    // private PlayerPrefs playerSavedValues;  // For saving settings across scenes
 
     // Start is called before the first frame update
     void Start() {
@@ -46,5 +54,15 @@ public class PauseMenu : MonoBehaviour {
     // When the quit button is pressed, quit the game
     public void quitPressed() {
         Application.Quit();
+    }
+
+    // Updates Music Values
+    public void MusicChangeSlider(float value) {
+        musicMixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20f);
+    }
+
+    // Updates Music Values
+    public void EffectsChangeSlider(float value) {
+        effectsMixer.SetFloat("EffectsVolume", Mathf.Log10(value) * 20f);
     }
 }
