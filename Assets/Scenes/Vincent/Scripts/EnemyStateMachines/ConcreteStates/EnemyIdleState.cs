@@ -13,8 +13,10 @@ public class EnemyIdleState : EnemyBaseState {
    public override void UpdateState() {
       CheckSwitchStates();
       if (Ctx.KnockdownMeter < Ctx.knockdownMax) {
-         Ctx.KnockdownMeter += (int) Time.deltaTime * 5;
+         Debug.Log("Regenerating: " + Ctx.KnockdownMeter);
+         Ctx.KnockdownMeter += Time.deltaTime * 50;
       } else if (Ctx.KnockdownMeter > Ctx.knockdownMax){
+         Debug.Log("Degenerating: " + Ctx.KnockdownMeter);
          Ctx.KnockdownMeter = Ctx.knockdownMax;
       }
       // HaHa enemy do nothing (͡•͜ʖ͡•)

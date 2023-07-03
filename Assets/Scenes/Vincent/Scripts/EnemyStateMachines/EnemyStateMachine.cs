@@ -45,7 +45,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
     // Other
     private bool _knockedDown;
-    private int _knockdownMeter;
+    private float _knockdownMeter;
     private float _stunTimer;
 
 
@@ -57,7 +57,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public AttackType[] RecievedAttack => _recievedAttack;
     // Other
     public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
-    public int KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
+    public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
 
     // Functions
@@ -108,6 +108,10 @@ public class EnemyStateMachine : MonoBehaviour {
     }
 
     public int DetermineKnockdownPressure() {
+        if (_knockdownMeter <= 0) {
+            _knockdownMeter = 0;
+            return 0;
+        }
         int pressure = 0;
         if (_recievedAttack[0].Used) {
             pressure = 40;
