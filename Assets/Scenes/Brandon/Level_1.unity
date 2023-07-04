@@ -3016,6 +3016,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4006682455540838733, guid: 0309d0281fe07ac4a9d7a9c4a3297b34, type: 3}
+      propertyPath: m_TagString
+      value: Attack Hitbox
+      objectReference: {fileID: 0}
     - target: {fileID: 5201248402524269159, guid: 0309d0281fe07ac4a9d7a9c4a3297b34, type: 3}
       propertyPath: m_RootOrder
       value: 2
