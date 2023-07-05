@@ -4469,6 +4469,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 750823787}
   player: {fileID: 798190233}
+  musicMixer: {fileID: 0}
+  effectsMixer: {fileID: 0}
 --- !u!4 &911049916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4382358456776685034, guid: 5cc2d701d8b600b41a7d3ecf9ebc625c, type: 3}

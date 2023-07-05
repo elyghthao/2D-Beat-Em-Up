@@ -24,7 +24,7 @@ public class PlayerAnimationScript : MonoBehaviour
     void Update()
     {
 
-        Debug.Log(anim.GetCurrentAnimatorStateInfo(0).IsName("LightAttack"));
+        // Debug.Log(anim.GetCurrentAnimatorStateInfo(0).IsName("LightAttack"));
         if (Input.GetKeyDown(KeyCode.A)) {
             anim.Play("LightAttack");
         }else if (anim.GetCurrentAnimatorStateInfo(0).IsName("LightAttack") && Input.GetKeyDown(KeyCode.A)){
@@ -59,9 +59,9 @@ public class PlayerAnimationScript : MonoBehaviour
         scaleY = transform.localScale[1];
         scaleZ = transform.localScale[2];
         if(!isFacingRight) {//is facing left
-            flipBone.transform.localScale = new Vector3(1, -1, 1);
+            // flipBone.transform.localScale = new Vector3(1, -1, 1);
         }else {
-            flipBone.transform.localScale = new Vector3(1,1,1);
+            // flipBone.transform.localScale = new Vector3(1,1,1);
         }
     }
 }
