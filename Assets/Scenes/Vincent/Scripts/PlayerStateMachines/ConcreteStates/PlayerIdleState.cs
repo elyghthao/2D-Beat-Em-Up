@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Default state for the player, when nothing is happening to or from the player
+/// </summary>
 public class PlayerIdleState : PlayerBaseState
 {
    public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)

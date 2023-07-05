@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Root state, for when the player is hurt by an enemy attack
+/// </summary>
 public class PlayerHurtState : PlayerBaseState
 {
    public PlayerHurtState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) {

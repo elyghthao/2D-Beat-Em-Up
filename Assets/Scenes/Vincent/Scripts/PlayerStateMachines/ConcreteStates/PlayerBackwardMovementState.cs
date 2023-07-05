@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Substate of PlayerMoveState. When the player is moving towards the left side of the screen
+/// </summary>
 public class PlayerBackwardMovementState : PlayerBaseState
 {
    public PlayerBackwardMovementState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
@@ -7,6 +10,7 @@ public class PlayerBackwardMovementState : PlayerBaseState
 
    public override void EnterState() {
       Debug.Log("SUB: ENTERED BACKWARD");
+      // Flips the character to be facing left of the camera
       if (!Ctx.CharacterFlipped) {
          Ctx.FlipCharacter();
       }

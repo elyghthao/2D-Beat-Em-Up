@@ -1,6 +1,9 @@
 using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// Root state for when the enemy is hurt
+/// </summary>
 public class EnemyHurtState : EnemyBaseState {
    public EnemyHurtState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) : base(currentContext, enemyStateFactory) {
       IsRootState = true;
@@ -12,6 +15,8 @@ public class EnemyHurtState : EnemyBaseState {
    }
 
    public override void UpdateState() {
+      // If the stun timer has reached 0 or less, then we can transition out of being hurt. Substates will update the 
+      // stun timer accordingly
       Ctx.StunTimer -= Time.deltaTime;
       if (Ctx.StunTimer <= 0) {
          CheckSwitchStates();
@@ -24,10 +29,13 @@ public class EnemyHurtState : EnemyBaseState {
    }
 
    public override void CheckSwitchStates() {
+      // Only possible alternative currently is to be returned to the Idle State
       SwitchState(Factory.Idle());
+      // Could add more states here when there are more root states implemented
    }
 
    public override void InitializeSubState() {
+      // Only state that should be set to the substate initially is the Stunned state
       SetSubState(Factory.Stunned());
    }
 }
