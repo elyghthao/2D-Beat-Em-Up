@@ -2,15 +2,21 @@ using System;
 using System.Collections.ObjectModel;
 using UnityEngine;
 
-public enum Attack {Light1, Light2, Light3, Medium1, Medium2, Slam}
-
+/// <summary>
+/// Attack Type struct for identifying when we've been hit by a specific attack
+/// </summary>
 public struct AttackType {
     private string tag;
     private bool used;
+    // Tag that we'll compare to the triggers tag
     public string Tag { get => tag; set => tag = value; }
+    // Whether this attack has collided with us or not
     public bool Used { get => used; set => used = value; }
 }
 
+/// <summary>
+/// Context file that holds important information for all enemy states to reference
+/// </summary>
 public class EnemyStateMachine : MonoBehaviour {
     
     //// Variables
@@ -63,19 +69,23 @@ public class EnemyStateMachine : MonoBehaviour {
     // Functions
     
     void Awake() {
-        _states = new EnemyStateFactory(this);
-        _baseMaterial = body.GetComponent<Renderer>().material;
-        _rigidbody = GetComponent<Rigidbody>();
-        _knockdownMeter = knockdownMax;
-        _currentState = _states.Idle();
-        _currentState.EnterState();
-        // Init _recievedAttacks
+        // Initializing the various struct tags
         _recievedAttack[0].Tag = "FirstLightAttack";
         _recievedAttack[1].Tag = "SecondLightAttack";
         _recievedAttack[2].Tag = "ThirdLightAttack";
         _recievedAttack[3].Tag = "FirstMediumAttack";
         _recievedAttack[4].Tag = "SecondMediumAttack";
         _recievedAttack[5].Tag = "SlamAttack";
+        
+        _states = new EnemyStateFactory(this);
+        _baseMaterial = body.GetComponent<Renderer>().material;
+        _rigidbody = GetComponent<Rigidbody>();
+        _knockdownMeter = knockdownMax;
+        
+        // Begins the initial state. All Awake code should go before here unless you want it defined after the initial 
+        // states EnterState()
+        _currentState = _states.Idle();
+        _currentState.EnterState();
     }
     
     void Update() {
@@ -83,6 +93,8 @@ public class EnemyStateMachine : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
+        // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
+        // be first before anything else
         ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
@@ -93,6 +105,8 @@ public class EnemyStateMachine : MonoBehaviour {
     }
 
     private void OnTriggerExit(Collider other) {
+        // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
+        // be first before anything else
         ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
         bool checkIfStillAttacked = false;
         for (int i = 0; i < _recievedAttack.Length; i++) {
@@ -106,7 +120,10 @@ public class EnemyStateMachine : MonoBehaviour {
 
         _isAttacked = checkIfStillAttacked;
     }
-
+    /// <summary>
+    /// Determines the knockdown pressure depending on the type of attack used against us
+    /// </summary>
+    /// <returns>knockdown pressure</returns>
     public int DetermineKnockdownPressure() {
         if (_knockdownMeter <= 0) {
             _knockdownMeter = 0;

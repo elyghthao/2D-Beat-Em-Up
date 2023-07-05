@@ -5,6 +5,9 @@ using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Context file that holds important information for all player states to reference
+/// </summary>
 public class PlayerStateMachine : MonoBehaviour {
     
     // Inspector Arguments
@@ -116,6 +119,9 @@ public class PlayerStateMachine : MonoBehaviour {
         _currentState.EnterState();
     }
 
+    /// <summary>
+    /// Enables all input for the character when the PlayerStateMachine script is enabled
+    /// </summary>
     private void OnEnable() {
         _playerInput.Enable();
         _playerInput.Player.Movement.performed += OnMovementPerformed;
@@ -134,6 +140,9 @@ public class PlayerStateMachine : MonoBehaviour {
         _playerInput.Player.Block.canceled += OnBlockCanceled;
     }
 
+    /// <summary>
+    /// Disables all input for the character when the PlayerStateMachine script is disabled
+    /// </summary>
     private void OnDisable() {
         _playerInput.Disable();
         _playerInput.Player.Movement.performed -= OnMovementPerformed;
@@ -158,54 +167,101 @@ public class PlayerStateMachine : MonoBehaviour {
         CheckActionPressed();
     }
 
+    /// <summary>
+    /// Checks for when certain buttons are pressed, is updated constantly so we can be sure any held, or immediately
+    /// pressed buttons are accurate
+    /// </summary>
     void CheckActionPressed() {
         PlayerInput.PlayerActions pAction = _playerInput.Player;
+        // Defies if an action was pressed, not held
         _isActionPressed = pAction.LightAttack.WasPerformedThisFrame() ||
                            pAction.MediumAttack.WasPerformedThisFrame() ||
                            pAction.HeavyAttack.WasPerformedThisFrame() || pAction.Block.WasPerformedThisFrame();
+        // Defines if an action is being held down
         _isActionHeld = pAction.LightAttack.IsPressed() || pAction.MediumAttack.IsPressed() ||
                         pAction.HeavyAttack.IsPressed() || pAction.Block.IsPressed();
+        // Defines if the block button is currently being held down
         _isBlockHeld = pAction.Block.IsPressed();
     }
 
+    /// <summary>
+    /// When a movement action is performed
+    /// </summary>
+    /// <param name="context">Reference to our input system</param>
     void OnMovementPerformed(InputAction.CallbackContext context) {
         _currentMovementInput = context.ReadValue<Vector2>();
         _isMovementPressed = _currentMovementInput.x != _zero || _currentMovementInput.y != _zero;
     }
     
+    /// <summary>
+    /// When a movement action is canceled
+    /// </summary>
+    /// <param name="context">Reference to our input system</param>
     void OnMovementCanceled(InputAction.CallbackContext context) {
         _currentMovementInput = Vector2.zero;
         _isMovementPressed = false;
     }
 
+    /// <summary>
+    /// When a light attack is performed
+    /// </summary>
+    /// <param name="context">Reference to our movement system</param>
     void OnLightAttackPerformed(InputAction.CallbackContext context) {
         _isLightAttackPressed = context.ReadValueAsButton();
     }
+    /// <summary>
+    /// When a light attack is canceled
+    /// </summary>
+    /// <param name="context">Reference to our movement system</param>
     void OnLightAttackCanceled(InputAction.CallbackContext context) {
         _isLightAttackPressed = false;
     }
-    
+    /// <summary>
+    /// When a medium attack is performed
+    /// </summary>
+    /// <param name="context">Reference to our movement system</param>
     void OnMediumAttackPerformed(InputAction.CallbackContext context) {
         _isMediumAttackPressed = context.ReadValueAsButton();
     }
+    /// <summary>
+    /// When a medium attack is canceled
+    /// </summary>
+    /// <param name="context">Reference to our movement system</param>
     void OnMediumAttackCanceled(InputAction.CallbackContext context) {
         _isMediumAttackPressed = false;
     }
-    
+    /// <summary>
+    /// When a heavy attack is performed
+    /// </summary>
+    /// <param name="context">Reference to our movement system</param>
     void OnHeavyAttackPerformed(InputAction.CallbackContext context) {
         _isHeavyAttackPressed = context.ReadValueAsButton();
     }
+    /// <summary>
+    /// When a heavy attack is canceled
+    /// </summary>
+    /// <param name="context">Reference to our movement system</param>
     void OnHeavyAttackCanceled(InputAction.CallbackContext context) {
         _isHeavyAttackPressed = false;
     }
-    
+    /// <summary>
+    /// When block is performed
+    /// </summary>
+    /// <param name="context">Reference to our movement system</param>
     void OnBlockPerformed(InputAction.CallbackContext context) {
         _isBlockPressed = context.ReadValueAsButton();
     }
+    /// <summary>
+    /// When block is cancelee
+    /// </summary>
+    /// <param name="context">Reference to our movement system</param>
     void OnBlockCanceled(InputAction.CallbackContext context) {
         _isBlockPressed = false;
     }
 
+    /// <summary>
+    /// Calculates the speed of our character
+    /// </summary>
     public void SpeedControl() {
         Vector3 playerVelocity = Rigidbody.velocity;
         Vector3 flatVelocity = new Vector3(playerVelocity.x, 0f, playerVelocity.z);
@@ -217,6 +273,9 @@ public class PlayerStateMachine : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Flips our character object to face the other direction
+    /// </summary>
     public void FlipCharacter() {
         _characterFlipped = !_characterFlipped;
         Debug.Log("Character flipped: " + _characterFlipped);

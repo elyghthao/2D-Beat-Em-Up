@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Root state for the PlayerStateMachine
+/// </summary>
 public class PlayerMoveState : PlayerBaseState
 {
    public PlayerMoveState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) {
@@ -10,10 +13,11 @@ public class PlayerMoveState : PlayerBaseState
    public override void EnterState() { Debug.Log("ROOT: ENTERED MOVEMENT"); }
 
    public override void UpdateState() {
-      CheckSwitchStates();
       Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
+      // Applies movement to the player depending on the player input
       Ctx.Rigidbody.AddForce(new Vector3(moveDir.x, 0, moveDir.y), ForceMode.Force);
       Ctx.SpeedControl();
+      CheckSwitchStates();
    }
 
    public override void ExitState() { Debug.Log("ROOT: EXITED MOVEMENT"); }

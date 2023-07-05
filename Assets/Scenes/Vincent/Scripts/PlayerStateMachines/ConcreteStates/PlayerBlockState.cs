@@ -1,8 +1,12 @@
 using UnityEngine;
 
+/// <summary>
+/// Substate of the playerAttackState, when the player is blocking
+/// </summary>
 public class PlayerBlockState : PlayerBaseState {
    public PlayerBlockState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
+      // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
    }
    
@@ -12,6 +16,7 @@ public class PlayerBlockState : PlayerBaseState {
    }
     
    public override void UpdateState() {
+      // Only checks to switch state if block is currently being held
       if (!Ctx.IsBlockHeld) {
          CanSwitch = true;
          CheckSwitchStates();
