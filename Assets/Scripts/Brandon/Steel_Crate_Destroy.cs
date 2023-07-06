@@ -44,7 +44,7 @@ public class Steel_Crate_Destroy : MonoBehaviour
         {
             // If the steel crate comes into contact with the player's attack hitbox,
             // signified by the currently compared tag...
-            if (other.gameObject.CompareTag("Attack Hitbox"))
+            if (other.gameObject.CompareTag(tag))
             {
                 // ...and the steel crate currently has only 1 health point remaining...
                 if (crate_health == 1)

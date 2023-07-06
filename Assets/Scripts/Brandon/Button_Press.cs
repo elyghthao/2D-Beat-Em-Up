@@ -38,7 +38,7 @@ public class Button_Press : MonoBehaviour
         {
             // If the crate comes into contact with the player's attack hitbox,
             // signified by the currently compared tag, and the button is not already pressed...
-            if (other.gameObject.CompareTag("Attack Hitbox") && button_is_pressed == false)
+            if (other.gameObject.CompareTag(tag) && button_is_pressed == false)
             {
                 // ...then the button pressing sound effect plays, button_is_pressed is set
                 // to true (so that it can't be pressed again), and the button's sprite is
