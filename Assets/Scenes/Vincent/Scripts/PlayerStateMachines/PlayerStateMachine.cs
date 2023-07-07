@@ -278,7 +278,7 @@ public class PlayerStateMachine : MonoBehaviour {
     /// </summary>
     public void FlipCharacter() {
         _characterFlipped = !_characterFlipped;
-        Debug.Log("Character flipped: " + _characterFlipped);
+        // Debug.Log("Character flipped: " + _characterFlipped);
         transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
     }
 }

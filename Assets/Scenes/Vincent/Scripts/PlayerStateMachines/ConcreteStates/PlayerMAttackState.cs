@@ -16,7 +16,7 @@ public class PlayerMAttackState : PlayerBaseState {
    }
 
    public override void EnterState() {
-      Debug.Log("SUB: ENTERED MEDIUM");
+      // Debug.Log("SUB: ENTERED MEDIUM");
       // Sets the time per frame
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.mediumAttackBounds.SetActive(true);
@@ -45,7 +45,7 @@ public class PlayerMAttackState : PlayerBaseState {
    }
 
    public override void ExitState() {
-      Debug.Log("SUB: EXITED MEDIUM");
+      // Debug.Log("SUB: EXITED MEDIUM");
       Ctx.mediumAttackBounds.SetActive(false);
    }
 

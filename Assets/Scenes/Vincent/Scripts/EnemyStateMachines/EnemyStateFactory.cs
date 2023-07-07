@@ -51,4 +51,22 @@ public class EnemyStateFactory {
    public EnemyBaseState Smacked() {
       return new EnemySmackedState(_context, this);
    }
+
+   /// <summary>
+   /// Creates a new EnemyMovingState
+   /// By Abdul
+   /// </summary>
+   /// <returns>new EnemyMovingState</returns>
+   public EnemyBaseState Move() {
+      return new EnemyMovingState(_context, this);
+   }
+
+   /// <summary>
+   /// Creates a new EnemyChaseState
+   /// By Abdul
+   /// </summary>
+   /// <returns>new EnemyMovingState</returns>
+   public EnemyBaseState Chase() {
+      return new EnemyChaseState(_context, this);
+   }
 }
