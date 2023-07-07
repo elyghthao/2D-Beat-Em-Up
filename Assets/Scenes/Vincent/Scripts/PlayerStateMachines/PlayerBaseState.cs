@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Base abstract state for all player states to derive from. Contains the necessary abstract functions for that define
+/// and give functionality to player states
+/// </summary>
 public abstract class PlayerBaseState {
 
     private bool _isRootState = false;
@@ -9,13 +13,38 @@ public abstract class PlayerBaseState {
     private PlayerBaseState _currentSuperState;
     private PlayerBaseState _currentSubState;
     
+    /// <summary>
+    /// Whether the current state will be stored in the context files currentState variable. DO NOT switch from a root
+    /// state to a substate.
+    /// </summary>
     protected bool IsRootState { set => _isRootState = value; }
+    /// <summary>
+    /// Whether a state is ready to be switched with another state. Defaults to true, but set false in constructor if
+    /// you wish to use this
+    /// </summary>
     public bool CanSwitch { get => _canSwitch; set => _canSwitch = value; }
+    /// <summary>
+    /// Context file, contains important information relevant to all states
+    /// </summary>
     protected PlayerStateMachine Ctx { get => _ctx; }
+    /// <summary>
+    /// Factory class that allows for easy creation of new states
+    /// </summary>
     protected PlayerStateFactory Factory { get => _factory; }
+    /// <summary>
+    /// Superstate of the current state
+    /// </summary>
     public PlayerBaseState CurrentSuperState { get => _currentSuperState; set => _currentSuperState = value; }
+    /// <summary>
+    /// Substate of the current state
+    /// </summary>
     public PlayerBaseState CurrentSubState { get => _currentSubState; set => _currentSubState = value; }
 
+    /// <summary>
+    /// Default constructor for any player state
+    /// </summary>
+    /// <param name="currentContext">Context file for states to access relevant information from</param>
+    /// <param name="playerStateFactory">Factory class for creating new states</param>
     public PlayerBaseState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) {
         _ctx = currentContext;
         _factory = playerStateFactory;
@@ -46,6 +75,10 @@ public abstract class PlayerBaseState {
     /// </summary>
     public abstract void InitializeSubState();
 
+    /// <summary>
+    /// Enter state helper function. Calls the current states EnterState() and checks to see if any substates also need
+    /// their EnterState() called
+    /// </summary>
     public void EnterStates() {
         EnterState();
         if (_currentSubState != null) {
@@ -54,7 +87,8 @@ public abstract class PlayerBaseState {
     }
     
     /// <summary>
-    /// Updates substates
+    /// Update state helper function. Calls the current states UpdateState() and checks to see if any substates also need
+    /// their UpdateState() called
     /// </summary>
     public void UpdateStates() {
         UpdateState();
@@ -63,6 +97,10 @@ public abstract class PlayerBaseState {
         }
     }
 
+    /// <summary>
+    /// Exit state helper function. Calls the current states ExitState() and checks to see if any substates also need
+    /// their ExitState() called
+    /// </summary>
     public void ExitStates() {
         ExitState();
         if (_currentSubState != null) {
@@ -70,6 +108,11 @@ public abstract class PlayerBaseState {
         }
     }
     
+    /// <summary>
+    /// Switches the active state. Swaps out the context files currentState if switching from a root state. Otherwise
+    /// swaps out the superstates substate with the newState
+    /// </summary>
+    /// <param name="newState"></param>
     protected void SwitchState(PlayerBaseState newState) {
         ExitStates();
         newState.EnterStates();
@@ -82,10 +125,19 @@ public abstract class PlayerBaseState {
         }
     }
 
+    /// <summary>
+    /// Sets the superstate of the current substate. This is more so a helper function, and you typically wouldn't call
+    /// this manually
+    /// </summary>
+    /// <param name="newSuperState"></param>
     protected void SetSuperState(PlayerBaseState newSuperState) {
         _currentSuperState = newSuperState;
     }
 
+    /// <summary>
+    /// Sets the substate of the current state.
+    /// </summary>
+    /// <param name="newSubState"></param>
     protected void SetSubState(PlayerBaseState newSubState) {
         _currentSubState = newSubState;
         newSubState.SetSuperState(this);

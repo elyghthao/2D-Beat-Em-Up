@@ -1,25 +1,28 @@
 using UnityEngine;
 
+/// <summary>
+/// Substate of the PlayerAttackState. When the player does a medium attack
+/// </summary>
 public class PlayerMAttackState : PlayerBaseState {
+   // Handles timing of the attack for startup, active, and recovery frames
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
 
    public PlayerMAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
+      // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
    }
 
    public override void EnterState() {
-      Debug.Log("SUB: ENTERED MEDIUM");
+      // Debug.Log("SUB: ENTERED MEDIUM");
+      // Sets the time per frame
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.mediumAttackBounds.SetActive(true);
    }
 
    public override void UpdateState() {
-      if (CanSwitch) {
-         CheckSwitchStates();
-      }
       _animationTime += Time.deltaTime;
       _currentFrame = _animationTime / _timePerFrame;
 
@@ -36,10 +39,13 @@ public class PlayerMAttackState : PlayerBaseState {
       } else {
          CanSwitch = true;
       }
+      if (CanSwitch) {
+         CheckSwitchStates();
+      }
    }
 
    public override void ExitState() {
-      Debug.Log("SUB: EXITED MEDIUM");
+      // Debug.Log("SUB: EXITED MEDIUM");
       Ctx.mediumAttackBounds.SetActive(false);
    }
 

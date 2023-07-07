@@ -1,25 +1,27 @@
 using UnityEngine;
 
+/// <summary>
+/// Substate of the PlayerAttackState. When the player performs a heavy attack
+/// </summary>
 public class PlayerHAttackState : PlayerBaseState {
+   // Handles timing of the attack for startup, active, and recovery frames
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
 
    public PlayerHAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
+      // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
    }
    
    public override void EnterState() {
-      Debug.Log("SUB: ENTERED HEAVY");
+      // Debug.Log("SUB: ENTERED HEAVY");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.heavyAttackBounds.SetActive(true);
    }
 
    public override void UpdateState() {
-      if (CanSwitch) {
-         CheckSwitchStates();
-      }
       _animationTime += Time.deltaTime;
       _currentFrame = _animationTime / _timePerFrame;
 
@@ -36,10 +38,13 @@ public class PlayerHAttackState : PlayerBaseState {
       } else {
          CanSwitch = true;
       }
+      if (CanSwitch) {
+         CheckSwitchStates();
+      }
    }
 
    public override void ExitState() {
-      Debug.Log("SUB: EXITED HEAVY");
+      // Debug.Log("SUB: EXITED HEAVY");
       Ctx.heavyAttackBounds.SetActive(false);
    }
 

@@ -1,12 +1,17 @@
 using UnityEngine;
 
+/// <summary>
+/// Substate for the PlayerAttackState. When the player does a light attack
+/// </summary>
 public class PlayerLAttackState : PlayerBaseState {
+   // Handles timing of the attack for startup, active, and recovery frames
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
    
    public PlayerLAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
+      // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
    }
    
@@ -17,9 +22,6 @@ public class PlayerLAttackState : PlayerBaseState {
    }
 
    public override void UpdateState() {
-      if (CanSwitch) {
-         CheckSwitchStates();
-      }
       _animationTime += Time.deltaTime;
       _currentFrame = _animationTime / _timePerFrame;
 
@@ -35,6 +37,9 @@ public class PlayerLAttackState : PlayerBaseState {
          Ctx.LightBoundsMat.color = Color.blue;
       } else {
          CanSwitch = true;
+      }
+      if (CanSwitch) {
+         CheckSwitchStates();
       }
    }
 
