@@ -3904,6 +3904,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 750823787}
   player: {fileID: 798190233}
+  musicMixer: {fileID: 0}
+  effectsMixer: {fileID: 0}
 --- !u!1 &979375707
 GameObject:
   m_ObjectHideFlags: 0
@@ -6884,7 +6886,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a6da52765bbb0144ab351d1499e2bd33, type: 2}
+  - {fileID: 2100000, guid: 429f5eb0c7528044e8f493dcc3221663, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
