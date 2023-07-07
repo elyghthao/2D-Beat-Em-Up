@@ -17,10 +17,10 @@ public class EnemyIdleState : EnemyBaseState {
       // Checks to see if we should start regenerating our knockdown meter. Should probably exponentially grow instead 
       // of linearly
       if (Ctx.KnockdownMeter < Ctx.knockdownMax) {
-         Debug.Log("Regenerating: " + Ctx.KnockdownMeter);
+         // Debug.Log("Regenerating: " + Ctx.KnockdownMeter);
          Ctx.KnockdownMeter += Time.deltaTime * 50;
       } else if (Ctx.KnockdownMeter > Ctx.knockdownMax){
-         Debug.Log("Degenerating: " + Ctx.KnockdownMeter);
+         // Debug.Log("Degenerating: " + Ctx.KnockdownMeter);
          Ctx.KnockdownMeter = Ctx.knockdownMax;
       }
       CheckSwitchStates();
@@ -34,6 +34,14 @@ public class EnemyIdleState : EnemyBaseState {
       // Only other root state implemented right now is the hurt state
       if (Ctx.IsAttacked) {
          SwitchState(Factory.Hurt());
+      }
+      
+      // If player and if the player is within the activation distance, move towards the player
+      if (CurrentPlayerMachine != null) {
+         float dist = Vector3.Distance(Ctx.gameObject.transform.position, CurrentPlayerMachine.gameObject.transform.position);
+         if (dist <= Ctx.activationDistance) {
+            SwitchState(Factory.Move());
+         }
       }
    }
 

@@ -12,6 +12,7 @@ public abstract class EnemyBaseState
     private EnemyStateFactory _factory;
     private EnemyBaseState _currentSuperState;
     private EnemyBaseState _currentSubState;
+    private PlayerStateMachine _currentPlayerMachine;   // Added by Abdul
     
     /// <summary>
     /// Whether the current state will be stored in the context files currentState variable. DO NOT switch from a root
@@ -39,6 +40,10 @@ public abstract class EnemyBaseState
     /// Substate of the current state
     /// </summary>
     public EnemyBaseState CurrentSubState { get => _currentSubState; set => _currentSubState = value; }
+    /// <summary>
+    /// PlayerStateMachine, added by Abdul
+    /// </summary>
+    public PlayerStateMachine CurrentPlayerMachine { get => _currentPlayerMachine; set => _currentPlayerMachine = value; }
 
     /// <summary>
     /// Default constructor for any enemy state
@@ -48,6 +53,7 @@ public abstract class EnemyBaseState
     public EnemyBaseState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) {
         _ctx = currentContext;
         _factory = enemyStateFactory;
+        _currentPlayerMachine = currentContext.currentPlayerMachine;
     }
     
     /// <summary>

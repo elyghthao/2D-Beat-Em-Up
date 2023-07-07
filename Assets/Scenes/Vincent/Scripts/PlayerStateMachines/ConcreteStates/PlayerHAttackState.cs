@@ -16,7 +16,7 @@ public class PlayerHAttackState : PlayerBaseState {
    }
    
    public override void EnterState() {
-      Debug.Log("SUB: ENTERED HEAVY");
+      // Debug.Log("SUB: ENTERED HEAVY");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.heavyAttackBounds.SetActive(true);
    }
@@ -44,7 +44,7 @@ public class PlayerHAttackState : PlayerBaseState {
    }
 
    public override void ExitState() {
-      Debug.Log("SUB: EXITED HEAVY");
+      // Debug.Log("SUB: EXITED HEAVY");
       Ctx.heavyAttackBounds.SetActive(false);
    }
 

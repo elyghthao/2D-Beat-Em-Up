@@ -9,7 +9,7 @@ public class PlayerBackwardMovementState : PlayerBaseState
       : base(currentContext, playerStateFactory) { }
 
    public override void EnterState() {
-      Debug.Log("SUB: ENTERED BACKWARD");
+      // Debug.Log("SUB: ENTERED BACKWARD");
       // Flips the character to be facing left of the camera
       if (!Ctx.CharacterFlipped) {
          Ctx.FlipCharacter();
@@ -23,7 +23,7 @@ public class PlayerBackwardMovementState : PlayerBaseState
    }
 
    public override void ExitState() {
-      Debug.Log("SUB: EXITED BACKWARD");
+      // Debug.Log("SUB: EXITED BACKWARD");
       Ctx.BaseMaterial.color = Color.white;
       Ctx.Rigidbody.velocity = new Vector3(0, 0, 0);
    }
