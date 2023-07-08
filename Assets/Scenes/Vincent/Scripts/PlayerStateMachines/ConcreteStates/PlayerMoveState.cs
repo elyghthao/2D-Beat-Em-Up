@@ -19,6 +19,7 @@ public class PlayerMoveState : PlayerBaseState
       // Applies movement to the player depending on the player input
       Ctx.Rigidbody.AddForce(new Vector3(moveDir.x, 0, moveDir.y), ForceMode.Force);
       Ctx.SpeedControl();
+      // Debug.Log(Ctx);
       CheckSwitchStates();
    }
 

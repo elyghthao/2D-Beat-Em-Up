@@ -23,6 +23,21 @@ public class EnemyChaseState : EnemyBaseState
    }
 
    public override void CheckSwitchStates() {
+
+
+      //needs functionality to alter the speed of enemy, right now its proportional to distance
+      Vector3 directionToPlayer = CurrentPlayerMachine.gameObject.transform.position - Ctx.gameObject.transform.position;
+      Ctx.Rigidbody.AddForce(directionToPlayer, ForceMode.Force);
+      // Debug.Log(directionToPlayer.x);
+
+
+      //make it so the right of enemy will always face player when chasing
+      Vector3 enemyScale = Ctx.transform.localScale;
+      if(directionToPlayer.x > 0) {
+         Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x),enemyScale.y,enemyScale.z);
+      }else {
+         Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x),enemyScale.y,enemyScale.z);
+      }
       
    }
 

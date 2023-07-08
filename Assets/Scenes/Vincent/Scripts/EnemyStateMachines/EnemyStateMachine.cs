@@ -70,6 +70,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private bool _moving;
 
 
+
     //// Getters and Setters
     public Material BaseMaterial => _baseMaterial;
     public Rigidbody Rigidbody => _rigidbody;

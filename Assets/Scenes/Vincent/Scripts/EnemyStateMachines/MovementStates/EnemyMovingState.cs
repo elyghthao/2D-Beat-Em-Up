@@ -36,8 +36,10 @@ public class EnemyMovingState : EnemyBaseState {
          SwitchState(Factory.Idle());
       } else {
          float dist = Vector3.Distance(Ctx.gameObject.transform.position, CurrentPlayerMachine.gameObject.transform.position);
-         if (dist > Ctx.activationDistance) {
+         if (dist > Ctx.activationDistance) {//too far, go back to idle
             SwitchState(Factory.Idle());
+         }else {
+            
          }
       }
    }
