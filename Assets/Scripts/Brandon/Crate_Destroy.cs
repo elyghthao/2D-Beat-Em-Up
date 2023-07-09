@@ -49,16 +49,22 @@ public class Crate_Destroy : MonoBehaviour
                     // ...then a random number from 1 to 4 is chosen...
                     int health_appear_freq = Random.Range(1, 4);
                     
-                    // ...and if the number is 1, then a health pack item is spawned.
+                    // ...and if the number is 1, then a health pack item is spawned,
+                    // placed directly on the floor.
                     if (health_appear_freq == 1)
                     {
-                        Instantiate(health_pack, transform.position, Quaternion.identity);
+                        Vector3 new_position = transform.position;
+                        new_position = new Vector3(new_position.x, 0.5f, new_position.z);
+                        Instantiate(health_pack, new_position, Quaternion.identity);
                     }
                 }
                 else // if (health_appear_guarantee == true)
                 {
-                    // If health_appear_guarantee is true, then a health pack item is always spawned.
-                    Instantiate(health_pack, transform.position, Quaternion.identity);
+                    // If health_appear_guarantee is true, then a health pack item is always spawned,
+                    // placed directly on the floor.
+                    Vector3 new_position = transform.position;
+                    new_position = new Vector3(new_position.x, 0.5f, new_position.z);
+                    Instantiate(health_pack, new_position, Quaternion.identity);
                 }
 
                 // Finally, the crate object is destroyed.
