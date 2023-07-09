@@ -27,6 +27,7 @@ public class EnemyChaseState : EnemyBaseState
 
       //needs functionality to alter the speed of enemy, right now its proportional to distance
       Vector3 directionToPlayer = CurrentPlayerMachine.gameObject.transform.position - Ctx.gameObject.transform.position;
+      directionToPlayer = directionToPlayer.normalized * 10;//this value affects speed
       Ctx.Rigidbody.AddForce(directionToPlayer, ForceMode.Force);
       // Debug.Log(directionToPlayer.x);
 

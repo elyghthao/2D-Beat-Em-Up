@@ -2124,7 +2124,7 @@ GameObject:
   - component: {fileID: 3975670230516692885}
   - component: {fileID: 3303760092519198717}
   m_Layer: 0
-  m_Name: EnemyTemplate
+  m_Name: EnemyKnight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
