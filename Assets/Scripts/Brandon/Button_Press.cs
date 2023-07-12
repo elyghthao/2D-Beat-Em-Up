@@ -36,7 +36,7 @@ public class Button_Press : MonoBehaviour
         // and the player's attack hitboxes.
         foreach (string tag in tags_to_check)
         {
-            // If the crate comes into contact with the player's attack hitbox,
+            // If the button comes into contact with the player's attack hitbox,
             // signified by the currently compared tag, and the button is not already pressed...
             if (other.gameObject.CompareTag(tag) && button_is_pressed == false)
             {

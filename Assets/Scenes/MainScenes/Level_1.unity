@@ -2767,7 +2767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &320060856
 Transform:
   m_ObjectHideFlags: 0
@@ -3977,7 +3977,7 @@ Transform:
   - {fileID: 241018953}
   - {fileID: 1873516343}
   - {fileID: 1332139703}
-  m_Father: {fileID: 1328546690}
+  m_Father: {fileID: 789931698}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &541817408
@@ -5644,7 +5644,9 @@ Transform:
   - {fileID: 873636856}
   - {fileID: 1149989761}
   - {fileID: 1196775111}
-  - {fileID: 1328546690}
+  - {fileID: 1475134688}
+  - {fileID: 2038823976}
+  - {fileID: 532194314}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9083,40 +9085,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2188576e8fb603e418b52aad9f34db55, type: 3}
---- !u!1 &1328546689
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1328546690}
-  m_Layer: 0
-  m_Name: Interactables
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1328546690
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328546689}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1475134688}
-  - {fileID: 2038823976}
-  - {fileID: 532194314}
-  m_Father: {fileID: 789931698}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1331212080
 GameObject:
   m_ObjectHideFlags: 0
@@ -9553,7 +9521,7 @@ Transform:
   - {fileID: 1291203886}
   - {fileID: 756976614}
   - {fileID: 523905764}
-  m_Father: {fileID: 1328546690}
+  m_Father: {fileID: 789931698}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1483002451
@@ -13046,7 +13014,7 @@ Transform:
   - {fileID: 1937656026}
   - {fileID: 738411192}
   - {fileID: 1350744037}
-  m_Father: {fileID: 1328546690}
+  m_Father: {fileID: 789931698}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2053675831
