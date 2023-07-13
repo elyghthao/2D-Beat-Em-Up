@@ -11,7 +11,7 @@ public class PlayerBlockState : PlayerBaseState {
    }
    
    public override void EnterState() {
-      // Debug.Log("SUB: ENTERED BLOCK");
+      Debug.Log("SUB: ENTERED BLOCK");
       Ctx.BaseMaterial.color = Color.black;
    }
     
@@ -24,7 +24,7 @@ public class PlayerBlockState : PlayerBaseState {
    }
 
    public override void ExitState() {
-      // Debug.Log("SUB: EXITED BLOCK");
+      Debug.Log("SUB: EXITED BLOCK");
       Ctx.BaseMaterial.color = Color.white;
    }
 

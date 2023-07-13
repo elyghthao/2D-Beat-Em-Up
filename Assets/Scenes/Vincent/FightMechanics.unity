@@ -504,9 +504,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 18673388}
   knockdownMax: 150
-  currentPlayerMachine: {fileID: 0}
-  enemyType: 0
-  activationDistance: 0.03
 --- !u!1 &466214330
 GameObject:
   m_ObjectHideFlags: 0
