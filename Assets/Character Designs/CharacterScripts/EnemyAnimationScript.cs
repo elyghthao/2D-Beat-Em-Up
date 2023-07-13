@@ -15,7 +15,7 @@ public class EnemyAnimationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug.Log(stateScript.CurrentState.ToString());
+        Debug.Log(stateScript.CurrentState.ToString());
         if(stateScript.CurrentState.ToString() == "EnemyMovingState"){
             anim.Play("Walk");
         }else if(stateScript.CurrentState.ToString() == "EnemyIdleState"){
