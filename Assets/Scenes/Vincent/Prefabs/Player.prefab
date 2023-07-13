@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 4777544015876746786}
   m_Layer: 0
   m_Name: MediumAttackBounds
-  m_TagString: Attack Hitbox
+  m_TagString: FirstMediumAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 392017329426130873}
   m_Layer: 0
   m_Name: HeavyAttackBounds
-  m_TagString: Attack Hitbox
+  m_TagString: SlamAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 4020184050658272127}
   m_Layer: 0
   m_Name: LightAttack
-  m_TagString: Attack Hitbox
+  m_TagString: FirstLightAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -404,7 +404,7 @@ Transform:
   - {fileID: 6775423698702908374}
   - {fileID: 3608801552066855897}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3443836982169822796
 MonoBehaviour:
@@ -460,7 +460,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!1 &8288920109623470190

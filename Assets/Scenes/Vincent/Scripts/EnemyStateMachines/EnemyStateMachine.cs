@@ -18,6 +18,13 @@ public struct AttackType {
 /// Context file that holds important information for all enemy states to reference
 /// </summary>
 public class EnemyStateMachine : MonoBehaviour {
+    /// <summary>
+    /// For identifying the type of enemy this enemy is representing
+    /// Added by Abdul
+    /// </summary>
+    public enum EnemyType {
+        Heavy,
+    };
     
     //// Variables
     
@@ -26,6 +33,11 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject body;
     [Header("Stats")]
     public int knockdownMax = 150;
+    [Header("Player State Machine Reference")]
+    public PlayerStateMachine currentPlayerMachine;
+    [Header("Enemy Settings")]
+    public EnemyType enemyType;
+    public float activationDistance;    // Added by Abdul: The distance between the player and enemy in order for the enemy to start chasing
 
     // Reference Variables
     private Material _baseMaterial;
@@ -54,6 +66,10 @@ public class EnemyStateMachine : MonoBehaviour {
     private float _knockdownMeter;
     private float _stunTimer;
 
+    // Movement
+    private bool _moving;
+
+
 
     //// Getters and Setters
     public Material BaseMaterial => _baseMaterial;
@@ -65,6 +81,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
     public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
+    public bool Moving { get => _moving; set => _moving = value; }
 
     // Functions
     
