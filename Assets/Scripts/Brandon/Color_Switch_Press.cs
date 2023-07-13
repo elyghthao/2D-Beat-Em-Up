@@ -9,11 +9,11 @@ public class Color_Switch_Press : MonoBehaviour
                                     "FirstMediumAttack", "SecondMediumAttack", "SlamAttack", "Attack Hitbox"};
     private AudioSource switch_press_sound; // The sound clip for when the color switch is pressed.
     private BoxCollider switch_collider; // The color switch's box collider.
-    public MeshRenderer switch_frame_mesh; // The color switch's frame's mesh renderer.
-    public MeshRenderer switch_center_mesh; // The color switch's center mesh renderer.
-    private Material shared_switch_center_material; // The center material shared between all color switches in the scene.
-    private Color switch_blue_color = new Color(0.0f, 0.58f, 1.0f, 1.0f); // The color for the switch's blue state.
-    private Color switch_orange_color = new Color(1.0f, 0.42f, 0.0f, 1.0f); // The color for the switch's orange state.
+    public MeshRenderer switch_mesh; // The color switch's mesh renderer.
+    private bool switch_is_blue; // Whether the switch is currently blue or not.
+    public Material switch_blue_sprite; // The sprite for the switch's blue state.
+    public Material switch_orange_sprite; // The sprite for the switch's orange state.
+    private Material shared_switch_sprite;
 
     // Start is called before the first frame update
     void Start()
@@ -23,10 +23,10 @@ public class Color_Switch_Press : MonoBehaviour
         switch_press_sound = GetComponent<AudioSource>();
         switch_collider = GetComponent<BoxCollider>();
 
-        // The shared material of the center sprite of all the color switches in the scene starts out
-        // in the blue state.
-        shared_switch_center_material = switch_center_mesh.GetComponent<MeshRenderer>().sharedMaterial;
-        shared_switch_center_material.color = switch_blue_color;
+        switch_is_blue = true;
+
+        shared_switch_sprite = switch_mesh.GetComponent<MeshRenderer>().sharedMaterial;
+        shared_switch_sprite = switch_blue_sprite;
     }
 
     // Update is called once per frame
@@ -44,18 +44,23 @@ public class Color_Switch_Press : MonoBehaviour
             // signified by the currently compared tag...
             if (other.gameObject.CompareTag(tag))
             {
-                // ...and the color switch's center is currently blue...
-                if (shared_switch_center_material.color == switch_blue_color)
+                // ...and the color switch is currently blue...
+                if (switch_is_blue == true)
                 {
-                    // ...then the center sprites of all of the color switches in the scene
-                    // are changed to the "orange" state color.
-                    shared_switch_center_material.color = switch_orange_color;
+                    // ...then switch_is_blue is set to false (because it turns orange)
+                    // and the color switch's sprite is changed to the "orange" state sprite.
+                    switch_is_blue = false;
+                    shared_switch_sprite = switch_orange_sprite;
+                    Debug.Log("Turns Orange\n");
                 }
-                else if (shared_switch_center_material.color == switch_orange_color)
+                else // (switch_is_blue == false)
                 {
-                    // If the switch is currently orange, then the center sprites of all
-                    // of the color switches in the scene are changed to the "blue" state color.
-                    shared_switch_center_material.color = switch_blue_color;
+                    // If the switch is orange, or not blue, then switch_is_blue is set to
+                    // true (because it turns blue) and the color switch's sprite is set to
+                    // the "blue" state sprite.
+                    switch_is_blue = true;
+                    shared_switch_sprite = switch_blue_sprite;
+                    Debug.Log("Turns Blue\n");
                 }
 
                 // Regardless of the state of the color switch, the switch press sound plays.

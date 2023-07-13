@@ -93,9 +93,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d820de3ff511ef458114a6329d12a5e, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  switch_object: {fileID: 5370483788315555610, guid: 4dbaadd94e6a1614fa31693e58481f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color_switch: {fileID: 5370483788315555610, guid: 4dbaadd94e6a1614fa31693e58481f74, type: 3}
   blue_wall_mesh: {fileID: 2612660837224616103}
 --- !u!1 &6498283008126483355
 GameObject:
