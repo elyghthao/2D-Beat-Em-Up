@@ -57,9 +57,9 @@ public class PlayerStateMachine : MonoBehaviour {
     // Reference variables
     private PlayerInput _playerInput;
     private Rigidbody _rigidbody;
-    private Material _heavyBoundsMat;
-    private Material _mediumBoundsMat;
-    private Material _lightBoundsMat;
+    private AttackBoundsManager _heavyBounds;
+    private AttackBoundsManager _mediumBounds;
+    private AttackBoundsManager _lightBounds;
     private Material _baseMaterial;
 
     // State variables
@@ -89,9 +89,9 @@ public class PlayerStateMachine : MonoBehaviour {
     public Vector2 CurrentMovementInput { get => _currentMovementInput; set => _currentMovementInput = value; }
     public bool IsMovementPressed { get => _isMovementPressed; set => _isMovementPressed = value; }
     public Material BaseMaterial { get => _baseMaterial; set => _baseMaterial = value; }
-    public Material HeavyBoundsMat { get => _heavyBoundsMat; set => _heavyBoundsMat = value; }
-    public Material MediumBoundsMat { get => _mediumBoundsMat; set => _mediumBoundsMat = value; }
-    public Material LightBoundsMat { get => _lightBoundsMat; set => _lightBoundsMat = value; }
+    public AttackBoundsManager HeavyBounds { get => _heavyBounds; set => _heavyBounds = value; }
+    public AttackBoundsManager MediumBounds { get => _mediumBounds; set => _mediumBounds = value; }
+    public AttackBoundsManager LightBounds { get => _lightBounds; set => _lightBounds = value; }
     public Rigidbody Rigidbody { get => _rigidbody; set => _rigidbody = value; }
     public bool IsActionPressed { get => _isActionPressed; }
     public bool IsActionHeld { get => _isActionHeld; }
@@ -109,9 +109,9 @@ public class PlayerStateMachine : MonoBehaviour {
         _states = new PlayerStateFactory(this);
         
         _baseMaterial = body.GetComponent<Renderer>().material;
-        _heavyBoundsMat = heavyAttackBounds.GetComponent<Renderer>().material;
-        _mediumBoundsMat = mediumAttackBounds.GetComponent<Renderer>().material;
-        _lightBoundsMat = lightAttackBounds.GetComponent<Renderer>().material;
+        _heavyBounds = heavyAttackBounds.GetComponent<AttackBoundsManager>();
+        _mediumBounds = mediumAttackBounds.GetComponent<AttackBoundsManager>();
+        _lightBounds = lightAttackBounds.GetComponent<AttackBoundsManager>();
 
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.freezeRotation = true;
