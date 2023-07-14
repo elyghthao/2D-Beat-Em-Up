@@ -17,7 +17,7 @@ public class EnemyKnockedDownState : EnemyBaseState {
       Ctx.BaseMaterial.color = new Color(25, 0, 0, 255);
       // Sets the knockedDown bool in our context file to true, for other states to see
       Ctx.KnockedDown = true;
-      Ctx.KnockdownMeter -= Ctx.DetermineKnockdownPressure();
+      Ctx.KnockdownMeter -= Ctx.GetPressureAndDamage();
       // Default stunTimer of 1.0 for knockdowns
       if (Ctx.StunTimer < 1.0f) {
          Ctx.StunTimer = 1.0f;
@@ -29,7 +29,7 @@ public class EnemyKnockedDownState : EnemyBaseState {
    }
 
    public override void ExitState() {
-      Debug.Log("ENEMY SUB: EXITED KNOCKDOWN");
+      // Debug.Log("ENEMY SUB: EXITED KNOCKDOWN");
       Ctx.KnockdownMeter = Ctx.knockdownMax;
    }
 
