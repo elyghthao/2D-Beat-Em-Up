@@ -11,7 +11,7 @@ public class EnemyAttackingState : EnemyBaseState {
    }
 
    public override void EnterState() {
-      Debug.Log("ENEMY ROOT: ENTERED ATTACKING");
+      // Debug.Log("ENEMY ROOT: ENTERED ATTACKING");
       Ctx.Attacking = true;
       Ctx.BaseMaterial.color = Color.red;
       Ctx.Rigidbody.velocity = Vector3.zero;
@@ -23,7 +23,7 @@ public class EnemyAttackingState : EnemyBaseState {
    }
 
    public override void ExitState() {
-      Debug.Log("ENEMY ROOT: EXITED MOVING");
+      // Debug.Log("ENEMY ROOT: EXITED MOVING");
       Ctx.Attacking = false;
    }
 

@@ -11,18 +11,10 @@ public class EnemyChaseState : EnemyBaseState
    }
 
    public override void EnterState() {
-      Debug.Log("ENEMY SUB: ENTERED CHASE");
+      // Debug.Log("ENEMY SUB: ENTERED CHASE");
    }
 
    public override void UpdateState() {
-      CheckSwitchStates();
-   }
-
-   public override void ExitState() {
-      Debug.Log("ENEMY SUB: EXITED CHASE");
-   }
-
-   public override void CheckSwitchStates() {
       //needs functionality to alter the speed of enemy, right now its proportional to distance
       Vector3 directionToPlayer = CurrentPlayerMachine.gameObject.transform.position - Ctx.gameObject.transform.position;
       directionToPlayer = directionToPlayer.normalized * 10; //this value affects speed
@@ -37,7 +29,16 @@ public class EnemyChaseState : EnemyBaseState
       }else {
          Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x),enemyScale.y,enemyScale.z);
       }
-      
+
+      CheckSwitchStates();
+   }
+
+   public override void ExitState() {
+      // Debug.Log("ENEMY SUB: EXITED CHASE");
+   }
+
+   public override void CheckSwitchStates() {
+
    }
 
    public override void InitializeSubState() {

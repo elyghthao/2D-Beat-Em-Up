@@ -11,7 +11,7 @@ public class EnemyStunnedState : EnemyBaseState
    }
 
    public override void EnterState() {
-      Debug.Log("ENEMY SUB: ENTERED STUNNED");
+      // Debug.Log("ENEMY SUB: ENTERED STUNNED");
       // Sets material color Orange
       if (!Ctx.KnockedDown) {
          Ctx.BaseMaterial.color = new Color(255, 165, 0);
@@ -23,7 +23,7 @@ public class EnemyStunnedState : EnemyBaseState
    }
 
    public override void ExitState() {
-      Debug.Log("ENEMY SUB: EXITED STUNNED");
+      // Debug.Log("ENEMY SUB: EXITED STUNNED");
    }
 
    public override void CheckSwitchStates() {

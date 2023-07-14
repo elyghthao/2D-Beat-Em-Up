@@ -11,17 +11,25 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void EnterState() {
-      Debug.Log("ENEMY ROOT: ENTERED MOVING");
+      // Debug.Log("ENEMY ROOT: ENTERED MOVING");
       Ctx.Moving = true;
       Ctx.BaseMaterial.color = Color.magenta;
    }
 
    public override void UpdateState() {
+      if (Ctx.KnockdownMeter < Ctx.knockdownMax) {
+         // Debug.Log("Regenerating: " + Ctx.KnockdownMeter);
+         Ctx.KnockdownMeter += Time.deltaTime * 50;
+      } else if (Ctx.KnockdownMeter > Ctx.knockdownMax){
+         // Debug.Log("Degenerating: " + Ctx.KnockdownMeter);
+         Ctx.KnockdownMeter = Ctx.knockdownMax;
+      }
+      
       CheckSwitchStates();
    }
 
    public override void ExitState() {
-      Debug.Log("ENEMY ROOT: EXITED MOVING");
+      // Debug.Log("ENEMY ROOT: EXITED MOVING");
       Ctx.Moving = false;
    }
 

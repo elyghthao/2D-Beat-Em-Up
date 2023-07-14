@@ -33,7 +33,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject body;
     [Header("Stats")]
     public int knockdownMax = 150;
-    [Header("Player State Machine Reference")]
+    [Header("Player Information")]
     public PlayerStateMachine currentPlayerMachine;
     [Header("Enemy Settings")]
     public EnemyType enemyType;
@@ -99,6 +99,9 @@ public class EnemyStateMachine : MonoBehaviour {
     private bool _receivedSlamAttack;
     private AttackType[] _recievedAttack = new AttackType[6];
 
+    // Player Attack Damages
+    private int[] _playerAttackDamages = new int[6];
+
     // Other
     private bool _knockedDown;
     private float _knockdownMeter;
@@ -147,6 +150,14 @@ public class EnemyStateMachine : MonoBehaviour {
         _recievedAttack[3].Tag = "FirstMediumAttack";
         _recievedAttack[4].Tag = "SecondMediumAttack";
         _recievedAttack[5].Tag = "SlamAttack";
+
+        // Initializing the player attack damages
+        _playerAttackDamages[0] = 5;
+        _playerAttackDamages[1] = 15;
+        _playerAttackDamages[2] = 30;
+        _playerAttackDamages[3] = 40;
+        _playerAttackDamages[4] = 50;
+        _playerAttackDamages[5] = 50;
         
         _states = new EnemyStateFactory(this);
         _baseMaterial = body.GetComponent<Renderer>().material;
@@ -211,6 +222,7 @@ public class EnemyStateMachine : MonoBehaviour {
             _knockdownMeter = 0;
             return 0;
         }
+
         int pressure = 0;
         if (_recievedAttack[0].Used) {
             pressure = 40;
@@ -224,6 +236,46 @@ public class EnemyStateMachine : MonoBehaviour {
             pressure = 80;
         } else if (_recievedAttack[5].Used) {
             pressure = 150;
+        }
+
+        Debug.Log(pressure);
+
+        return pressure;
+    }
+
+    /// <summary>
+    /// Determines the knockdown pressure depending on the type of attack used against us
+    /// </summary>
+    /// <returns>knockdown pressure</returns>
+    public int GetPressureAndDamage() {
+        int pressure = 0;
+        int damage = 0;
+        
+        if (_recievedAttack[0].Used) {
+            pressure = 40;
+            damage = _playerAttackDamages[0];
+        } else if (_recievedAttack[1].Used) {
+            pressure = 60;
+            damage = _playerAttackDamages[1];
+        } else if (_recievedAttack[2].Used) {
+            pressure = 100;
+            damage = _playerAttackDamages[2];
+        } else if (_recievedAttack[3].Used) {
+            pressure = 70;
+            damage = _playerAttackDamages[3];
+        } else if (_recievedAttack[4].Used) {
+            pressure = 80;
+            damage = _playerAttackDamages[4];
+        } else if (_recievedAttack[5].Used) {
+            pressure = 150;
+            damage = _playerAttackDamages[5];
+        }
+
+        Debug.Log(damage);
+
+        if (_knockdownMeter <= 0) {
+            _knockdownMeter = 0;
+            return 0;
         }
         return pressure;
     }
