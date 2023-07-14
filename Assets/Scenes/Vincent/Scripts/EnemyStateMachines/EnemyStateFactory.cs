@@ -65,8 +65,44 @@ public class EnemyStateFactory {
    /// Creates a new EnemyChaseState
    /// By Abdul
    /// </summary>
-   /// <returns>new EnemyMovingState</returns>
+   /// <returns>new EnemyChaseState</returns>
    public EnemyBaseState Chase() {
       return new EnemyChaseState(_context, this);
+   }
+
+   /// <summary>
+   /// Creates a new EnemyAttackingState
+   /// By Abdul
+   /// </summary>
+   /// <returns>new EnemyAttackingState</returns>
+   public EnemyBaseState Attack() {
+      return new EnemyAttackingState(_context, this);
+   }
+
+   /// <summary>
+   /// Creates a new EnmeyHAttackState
+   /// By Abdul
+   /// </summary>
+   /// <returns>new EnmeyHAttackState</returns>
+   public EnemyBaseState HeavyAttack() {
+      return new EnemyHAttackState(_context, this);
+   }
+
+   /// <summary>
+   /// Creates a new EnemyLAttackState
+   /// By Abdul
+   /// </summary>
+   /// <returns>new EnemyLAttackState</returns>
+   public EnemyBaseState LightAttack() {
+      return new EnemyLAttackState(_context, this);
+   }
+
+   /// <summary>
+   /// Creates a new EnemyMAttackState
+   /// By Abdul
+   /// </summary>
+   /// <returns>new EnemyMAttackState</returns>
+   public EnemyBaseState MediumAttack() {
+      return new EnemyMAttackState(_context, this);
    }
 }

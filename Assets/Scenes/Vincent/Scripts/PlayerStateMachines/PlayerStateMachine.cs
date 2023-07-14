@@ -13,6 +13,7 @@ public class PlayerStateMachine : MonoBehaviour {
     // Inspector Arguments
     [Header("Body Elements")]
     public GameObject body;
+    public int maxHealth = 100;
     
     [Header("Attack Boundaries")]
     public GameObject heavyAttackBounds;
@@ -64,6 +65,7 @@ public class PlayerStateMachine : MonoBehaviour {
     // State variables
     private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
+    private int _currentHealth;
     
     // Input values
     private Vector2 _currentMovementInput;
@@ -117,6 +119,7 @@ public class PlayerStateMachine : MonoBehaviour {
         // enter initial state. All assignments should go before here
         _currentState = _states.Idle();
         _currentState.EnterState();
+        _currentHealth = maxHealth;
     }
 
     /// <summary>

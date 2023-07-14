@@ -36,10 +36,15 @@ public class EnemyMovingState : EnemyBaseState {
          SwitchState(Factory.Idle());
       } else {
          float dist = Vector3.Distance(Ctx.gameObject.transform.position, CurrentPlayerMachine.gameObject.transform.position);
-         if (dist > Ctx.activationDistance) {//too far, go back to idle
+         if (dist > Ctx.activationDistance) { // too far, go back to idle
             SwitchState(Factory.Idle());
-         }else {
-            
+         } else if (dist <= Ctx.attackDistance) {
+            // Close enough to attack, but now checking if enough time elapsed to allow us to attack
+            if (Ctx.LastAttacked >= Ctx.attackReliefTime) {
+               SwitchState(Factory.Attack());
+            } else {
+               Ctx.LastAttacked += Time.deltaTime;
+            }
          }
       }
    }
