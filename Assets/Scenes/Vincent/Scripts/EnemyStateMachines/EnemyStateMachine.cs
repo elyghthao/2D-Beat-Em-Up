@@ -250,7 +250,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public int GetPressureAndDamage() {
         int pressure = 0;
         int damage = 0;
-        
+
         if (_recievedAttack[0].Used) {
             pressure = 40;
             damage = _playerAttackDamages[0];
