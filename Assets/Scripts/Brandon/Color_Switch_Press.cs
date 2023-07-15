@@ -50,7 +50,7 @@ public class Color_Switch_Press : MonoBehaviour
                     // ...then switch_is_blue is set to false (because it turns orange)
                     // and the color switch's sprite is changed to the "orange" state sprite.
                     switch_is_blue = false;
-                    shared_switch_sprite = switch_orange_sprite;
+                    // shared_switch_sprite = switch_orange_sprite;
                     Debug.Log("Turns Orange\n");
                 }
                 else // (switch_is_blue == false)
@@ -59,7 +59,7 @@ public class Color_Switch_Press : MonoBehaviour
                     // true (because it turns blue) and the color switch's sprite is set to
                     // the "blue" state sprite.
                     switch_is_blue = true;
-                    shared_switch_sprite = switch_blue_sprite;
+                    // shared_switch_sprite = switch_blue_sprite;
                     Debug.Log("Turns Blue\n");
                 }
 
