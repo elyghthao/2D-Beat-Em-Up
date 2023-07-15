@@ -1,22 +1,23 @@
 using UnityEngine;
 
 /// <summary>
-/// Substate of the PlayerAttackState. When the player performs a heavy attack
+/// Substate of the EnemyAttackingState. When the enemy performs a heavy attack
+
+/// WORKING ON CURRENTLY
 /// </summary>
-public class PlayerHAttackState : PlayerBaseState {
+public class EnemyHAttackState : EnemyBaseState {
    // Handles timing of the attack for startup, active, and recovery frames
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
 
-   public PlayerHAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
-      : base(currentContext, playerStateFactory) {
+   public EnemyHAttackState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) : base(currentContext, enemyStateFactory) {
       // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
    }
    
    public override void EnterState() {
-      // Debug.Log("SUB: ENTERED HEAVY");
+      // Debug.Log("ENEMY ROOT: ENTERED HEAVY");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.heavyAttackBounds.SetActive(true);
    }
@@ -30,13 +31,11 @@ public class PlayerHAttackState : PlayerBaseState {
       // Red is active frames: Damage can be given in this phase
       // Blue is recovery frames: No damage given in this phase
       if (_currentFrame <= Ctx.heavyStartupFrames.y) {
-         Ctx.HeavyBounds.setMatColor(Color.green);
+         Ctx.HeavyBoundsMat.color = Color.green;
       } else if (_currentFrame <= Ctx.heavyActiveFrames.y) {
-         Ctx.HeavyBounds.setMatColor(Color.red);
-         Ctx.HeavyBounds.setColliderActive(true);
+         Ctx.HeavyBoundsMat.color = Color.red;
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames.y) {
-         Ctx.HeavyBounds.setMatColor(Color.blue);
-         Ctx.HeavyBounds.setColliderActive(false);
+         Ctx.HeavyBoundsMat.color = Color.blue;
       } else {
          CanSwitch = true;
       }
@@ -46,18 +45,13 @@ public class PlayerHAttackState : PlayerBaseState {
    }
 
    public override void ExitState() {
-      // Debug.Log("SUB: EXITED HEAVY");
+      // Debug.Log("ENEMY ROOT: EXITED HEAVY");
       Ctx.heavyAttackBounds.SetActive(false);
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.IsLightAttackPressed) {
-         SwitchState(Factory.LightAttack());
-      } else if (Ctx.IsMediumAttackPressed) {
-         SwitchState(Factory.MediumAttack());
-      } else {
-         SwitchState(Factory.Idle()); // TEMP FIX for action not ending because the action is being held down
-      }
+      Ctx.Attacking = false;
+      SwitchState(Factory.Idle());
    }
 
    public override void InitializeSubState() {

@@ -11,17 +11,25 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void EnterState() {
-      Debug.Log("ENEMY ROOT: ENTERED MOVING");
+      // Debug.Log("ENEMY ROOT: ENTERED MOVING");
       Ctx.Moving = true;
       Ctx.BaseMaterial.color = Color.magenta;
    }
 
    public override void UpdateState() {
+      if (Ctx.KnockdownMeter < Ctx.knockdownMax) {
+         // Debug.Log("Regenerating: " + Ctx.KnockdownMeter);
+         Ctx.KnockdownMeter += Time.deltaTime * 50;
+      } else if (Ctx.KnockdownMeter > Ctx.knockdownMax){
+         // Debug.Log("Degenerating: " + Ctx.KnockdownMeter);
+         Ctx.KnockdownMeter = Ctx.knockdownMax;
+      }
+      
       CheckSwitchStates();
    }
 
    public override void ExitState() {
-      Debug.Log("ENEMY ROOT: EXITED MOVING");
+      // Debug.Log("ENEMY ROOT: EXITED MOVING");
       Ctx.Moving = false;
    }
 
@@ -36,10 +44,15 @@ public class EnemyMovingState : EnemyBaseState {
          SwitchState(Factory.Idle());
       } else {
          float dist = Vector3.Distance(Ctx.gameObject.transform.position, CurrentPlayerMachine.gameObject.transform.position);
-         if (dist > Ctx.activationDistance) {//too far, go back to idle
+         if (dist > Ctx.activationDistance) { // too far, go back to idle
             SwitchState(Factory.Idle());
-         }else {
-            
+         } else if (dist <= Ctx.attackDistance) {
+            // Close enough to attack, but now checking if enough time elapsed to allow us to attack
+            if (Ctx.LastAttacked >= Ctx.attackReliefTime) {
+               SwitchState(Factory.Attack());
+            } else {
+               Ctx.LastAttacked += Time.deltaTime;
+            }
          }
       }
    }
