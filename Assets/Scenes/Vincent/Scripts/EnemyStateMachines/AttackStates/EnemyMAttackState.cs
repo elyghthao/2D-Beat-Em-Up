@@ -1,16 +1,17 @@
 using UnityEngine;
 
 /// <summary>
-/// Substate of the PlayerAttackState. When the player does a medium attack
+/// Substate of the EnemyAttackingState. When the enemy does a medium attack
+
+/// NOT IMPLEMENTED YET
 /// </summary>
-public class PlayerMAttackState : PlayerBaseState {
+public class EnemyMAttackState : EnemyBaseState {
    // Handles timing of the attack for startup, active, and recovery frames
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
 
-   public PlayerMAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
-      : base(currentContext, playerStateFactory) {
+   public EnemyMAttackState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) : base(currentContext, enemyStateFactory) {
       // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
    }
@@ -31,13 +32,11 @@ public class PlayerMAttackState : PlayerBaseState {
       // Red is active frames: Damage can be given in this phase
       // Blue is recovery frames: No damage given in this phase
       if (_currentFrame <= Ctx.mediumStartupFrames.y) {
-         Ctx.MediumBounds.setMatColor(Color.green);
+         Ctx.MediumBoundsMat.color = Color.green;
       } else if (_currentFrame <= Ctx.mediumActiveFrames.y) {
-         Ctx.MediumBounds.setMatColor(Color.red);
-         Ctx.MediumBounds.setColliderActive(true);
+         Ctx.MediumBoundsMat.color = Color.red;
       } else if (_currentFrame <= Ctx.mediumRecoveryFrames.y) {
-         Ctx.MediumBounds.setMatColor(Color.blue);
-         Ctx.MediumBounds.setColliderActive(false);
+         Ctx.MediumBoundsMat.color = Color.blue;
       } else {
          CanSwitch = true;
       }
@@ -52,15 +51,8 @@ public class PlayerMAttackState : PlayerBaseState {
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.IsLightAttackPressed) {
-         SwitchState(Factory.LightAttack());
-      } else if (Ctx.IsHeavyAttackPressed) {
-         SwitchState(Factory.HeavyAttack());
-      } else if (Ctx.IsBlockPressed) {
-         SwitchState(Factory.Block());
-      } else {
-         SwitchState(Factory.Idle()); // TEMP FIX for action not ending because the action is being held down
-      }
+      Ctx.Attacking = false;
+      SwitchState(Factory.Idle());
    }
 
    public override void InitializeSubState() {
