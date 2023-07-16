@@ -105,4 +105,14 @@ public class EnemyStateFactory {
    public EnemyBaseState MediumAttack() {
       return new EnemyMAttackState(_context, this);
    }
+
+   /// <summary>
+   /// Creates a new EnemyDeathState
+   /// ONCE SWITCHED CANNOT GO BACK
+   /// By Abdul
+   /// </summary>
+   /// <returns>new EnemyDeathState</returns>
+   public EnemyBaseState Dead() {
+      return new EnemyDeathState(_context, this);
+   }
 }

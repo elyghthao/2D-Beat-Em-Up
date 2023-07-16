@@ -25,9 +25,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public enum EnemyType {
         Heavy,
     };
-    
+
     //// Variables
-    
+
     /// Inspector Arguments
     [Header("Body Pieces")]
     public GameObject body;
@@ -37,10 +37,10 @@ public class EnemyStateMachine : MonoBehaviour {
     public PlayerStateMachine currentPlayerMachine;
     [Header("Enemy Settings")]
     public EnemyType enemyType;
-    public int maxHealth = 100;
-    public float activationDistance = 15;    // Added by Abdul: The distance between the player and enemy in order for the enemy to start chasing
+    public int maxHealth = 100;             // Added by Abdul: Max health of the enemy
+    public float activationDistance = 15;   // Added by Abdul: The distance between the player and enemy in order for the enemy to start chasing
     public float attackReliefTime = .15f;  // Added by Abdul: Time between attacks until attacking again in seconds.
-    public float attackDistance = 3;        // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking
+    public float attackDistance = 3;       // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking
 
     // Attacks
     [Header("Attack Boundaries")]
@@ -48,9 +48,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject mediumAttackBounds;
     public GameObject lightAttackBounds;
 
-    [Header("FrameData")] 
+    [Header("FrameData")]
     public int framesPerSecond;
-    
+
     [Header("HeavyAttack")]
     public int heavyFrameCount = 44;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
@@ -60,7 +60,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public Vector2 heavyActiveFrames = new Vector2(11, 15);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
     public Vector2 heavyRecoveryFrames = new Vector2(16, 44);
-    
+
     [Header("MediumAttack")]
     public int mediumFrameCount = 32;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
@@ -69,7 +69,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public Vector2 mediumActiveFrames = new Vector2(10, 14);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
     public Vector2 mediumRecoveryFrames = new Vector2(15, 32);
-    
+
     [Header("LightAttack")]
     public int lightFrameCount = 23;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
@@ -119,6 +119,11 @@ public class EnemyStateMachine : MonoBehaviour {
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
 
+    // [TEMP FIX]
+    private bool _attackDebounce;       // [TEMP FIX]: Used to prevent the "doubling" glitch of player attacking the enemy
+    private int _attackDLength = 5;     // [TEMP FIX]: How long each debounce should last (in FPS)
+    private int _attackCTime = 0;       // [TEMP FIX]: Current time of the debounce (in FPS)
+
     //// Getters and Setters
     public Rigidbody Rigidbody => _rigidbody;
     public EnemyBaseState CurrentState { get => _currentState; set => _currentState = value; }
@@ -147,7 +152,7 @@ public class EnemyStateMachine : MonoBehaviour {
         _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(10, 500), 70, 40);
         _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
         _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(50, 800), 150, 50);
-        
+
         // Initializing the player attack damages
         _playerAttackDamages[0] = 5;
         _playerAttackDamages[1] = 15;
@@ -155,7 +160,7 @@ public class EnemyStateMachine : MonoBehaviour {
         _playerAttackDamages[3] = 40;
         _playerAttackDamages[4] = 50;
         _playerAttackDamages[5] = 50;
-        
+
         _states = new EnemyStateFactory(this);
         _baseMaterial = body.GetComponent<Renderer>().material;
         _rigidbody = GetComponent<Rigidbody>();
@@ -170,15 +175,25 @@ public class EnemyStateMachine : MonoBehaviour {
         _heavyBoundsMat = heavyAttackBounds.GetComponent<Renderer>().material;
         _mediumBoundsMat = mediumAttackBounds.GetComponent<Renderer>().material;
         _lightBoundsMat = lightAttackBounds.GetComponent<Renderer>().material;
-        
-        // Begins the initial state. All Awake code should go before here unless you want it defined after the initial 
+
+        // Begins the initial state. All Awake code should go before here unless you want it defined after the initial
         // states EnterState()
         _currentState = _states.Idle();
         _currentState.EnterState();
     }
-    
+
     void Update() {
         _currentState.UpdateStates();
+
+        // [TEMP FIX] All the lines of code below are to fix the doubling of the enemy getting attacked
+        if (_attackDebounce) {
+            if (_attackCTime > _attackDLength) {
+                _attackDebounce = false;
+                _attackCTime = 0;
+            } else {
+                _attackCTime++;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -223,7 +238,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
             Vector2 appliedKnockback = _recievedAttack[i].KnockbackDirection;
             if (_recievedAttack[i].AttackedFromRightSide) {
-                appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y); 
+                appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
             }
             _rigidbody.velocity = Vector3.zero;
             Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
