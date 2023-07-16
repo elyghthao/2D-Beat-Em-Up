@@ -14,6 +14,7 @@ public class PowerupSystem : MonoBehaviour {
     private Powerup _equippedPowerup = Powerup.None; // Currently equipped powerup
     private Dictionary<Powerup, bool> _unlockedPowerups = new Dictionary<Powerup, bool>(); // The dictionary determining which powerups are unlocked
 
+    // ============================================ PRIVATE METHODS/FUNCTIONS ============================================
     // Start is called before the first frame update
     void Start() {
         // Initiliazing power-ups to be unlocked
@@ -24,5 +25,21 @@ public class PowerupSystem : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         
+    }
+
+
+    // ============================================ PUBLIC METHODS/FUNCTIONS ============================================
+    /*
+    Unlocks the given powerup
+    */
+    public void unlockPowerup(Powerup unlockedPowerup) {
+        _unlockedPowerups[unlockedPowerup] = true;
+    }
+
+    /*
+    Returns if the given powerup is unlocked or not
+    */
+    public bool checkPowerup(Powerup checkingPowerup) {
+        return _unlockedPowerups[checkingPowerup];
     }
 }
