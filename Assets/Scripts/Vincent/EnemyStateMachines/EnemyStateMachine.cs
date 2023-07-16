@@ -5,14 +5,14 @@ using UnityEngine;
 /// <summary>
 /// Attack Type struct for identifying when we've been hit by a specific attack
 /// </summary>
-public struct AttackType {
+/*public struct AttackType {
     private string tag;
     private bool used;
     // Tag that we'll compare to the triggers tag
     public string Tag { get => tag; set => tag = value; }
     // Whether this attack has collided with us or not
     public bool Used { get => used; set => used = value; }
-}
+}*/
 
 /// <summary>
 /// Context file that holds important information for all enemy states to reference
@@ -119,7 +119,6 @@ public class EnemyStateMachine : MonoBehaviour {
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
 
-
     //// Getters and Setters
     public Rigidbody Rigidbody => _rigidbody;
     public EnemyBaseState CurrentState { get => _currentState; set => _currentState = value; }
@@ -141,16 +140,14 @@ public class EnemyStateMachine : MonoBehaviour {
     public Material LightBoundsMat { get => _lightBoundsMat; set => _lightBoundsMat = value; }
 
     // Functions
-    
     void Awake() {
-        // Initializing the various struct tags
-        _recievedAttack[0].Tag = "FirstLightAttack";
-        _recievedAttack[1].Tag = "SecondLightAttack";
-        _recievedAttack[2].Tag = "ThirdLightAttack";
-        _recievedAttack[3].Tag = "FirstMediumAttack";
-        _recievedAttack[4].Tag = "SecondMediumAttack";
-        _recievedAttack[5].Tag = "SlamAttack";
-
+        _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
+        _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
+        _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(50, 500), 100, 30);
+        _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(10, 500), 70, 40);
+        _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
+        _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(50, 800), 150, 50);
+        
         // Initializing the player attack damages
         _playerAttackDamages[0] = 5;
         _playerAttackDamages[1] = 15;
@@ -191,6 +188,9 @@ public class EnemyStateMachine : MonoBehaviour {
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
                 _recievedAttack[i].Used = true;
+                if (other.transform.position.x > transform.position.x) {
+                    _recievedAttack[i].AttackedFromRightSide = true;
+                }
                 _isAttacked = true;
             }
         }
@@ -204,6 +204,8 @@ public class EnemyStateMachine : MonoBehaviour {
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
                 _recievedAttack[i].Used = false;
+                _recievedAttack[i].AttackedFromRightSide = false;
+                _recievedAttack[i].StatsApplied = false;
             }
             if (_recievedAttack[i].Used) {
                 checkIfStillAttacked = true;
@@ -213,70 +215,22 @@ public class EnemyStateMachine : MonoBehaviour {
         _isAttacked = checkIfStillAttacked;
     }
 
-    /// <summary>
-    /// Determines the knockdown pressure depending on the type of attack used against us
-    /// </summary>
-    /// <returns>knockdown pressure</returns>
-    public int DetermineKnockdownPressure() {
-        if (_knockdownMeter <= 0) {
-            _knockdownMeter = 0;
-            return 0;
+    public void ApplyAttackStats() {
+        for (int i = 0; i < _recievedAttack.Length; i++) {
+            if (_recievedAttack[i].StatsApplied || !_recievedAttack[i].Used) {
+                continue;
+            }
+
+            Vector2 appliedKnockback = _recievedAttack[i].KnockbackDirection;
+            if (_recievedAttack[i].AttackedFromRightSide) {
+                appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y); 
+            }
+            _rigidbody.velocity = Vector3.zero;
+            Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
+            _rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
+            _knockdownMeter -= _recievedAttack[i].KnockdownPressure;
+            _currentHealth -= _recievedAttack[i].Damage;
+            _recievedAttack[i].StatsApplied = true;
         }
-
-        int pressure = 0;
-        if (_recievedAttack[0].Used) {
-            pressure = 40;
-        } else if (_recievedAttack[1].Used) {
-            pressure = 60;
-        } else if (_recievedAttack[2].Used) {
-            pressure = 100;
-        } else if (_recievedAttack[3].Used) {
-            pressure = 70;
-        } else if (_recievedAttack[4].Used) {
-            pressure = 80;
-        } else if (_recievedAttack[5].Used) {
-            pressure = 150;
-        }
-
-        Debug.Log(pressure);
-
-        return pressure;
-    }
-
-    /// <summary>
-    /// Determines the knockdown pressure depending on the type of attack used against us
-    /// </summary>
-    /// <returns>knockdown pressure</returns>
-    public int GetPressureAndDamage() {
-        int pressure = 0;
-        int damage = 0;
-
-        if (_recievedAttack[0].Used) {
-            pressure = 40;
-            damage = _playerAttackDamages[0];
-        } else if (_recievedAttack[1].Used) {
-            pressure = 60;
-            damage = _playerAttackDamages[1];
-        } else if (_recievedAttack[2].Used) {
-            pressure = 100;
-            damage = _playerAttackDamages[2];
-        } else if (_recievedAttack[3].Used) {
-            pressure = 70;
-            damage = _playerAttackDamages[3];
-        } else if (_recievedAttack[4].Used) {
-            pressure = 80;
-            damage = _playerAttackDamages[4];
-        } else if (_recievedAttack[5].Used) {
-            pressure = 150;
-            damage = _playerAttackDamages[5];
-        }
-
-        Debug.Log(damage);
-
-        if (_knockdownMeter <= 0) {
-            _knockdownMeter = 0;
-            return 0;
-        }
-        return pressure;
     }
 }

@@ -5,6 +5,16 @@ using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum Attacks {
+    LightAttack1,
+    LightAttack2,
+    LightAttack3,
+    MediumAttack1,
+    MediumAttack2,
+    Slam
+}
+
+
 /// <summary>
 /// Context file that holds important information for all player states to reference
 /// </summary>
@@ -53,6 +63,10 @@ public class PlayerStateMachine : MonoBehaviour {
     
     [Header("Movement")]
     public float movementSpeed;
+    
+    
+    [Header("Combat Stats")]
+    public int knockdownMax = 150;
 
     // Reference variables
     private PlayerInput _playerInput;
@@ -65,8 +79,7 @@ public class PlayerStateMachine : MonoBehaviour {
     // State variables
     private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
-    private int _currentHealth;
-    
+
     // Input values
     private Vector2 _currentMovementInput;
     private bool _isMovementPressed;
@@ -78,11 +91,20 @@ public class PlayerStateMachine : MonoBehaviour {
     private bool _isBlockPressed;
     private bool _isBlockHeld;
     
+    /// Attacked Indicators
+    private bool _isAttacked;
+    
     // Other Variables
     private bool _characterFlipped;
+    private bool _knockedDown;
+    private float _knockdownMeter;
+    private float _stunTimer;
+    private int _currentHealth;
+    private AttackType[] _recievedAttack = new AttackType[6];
 
     // Constants
     private readonly int _zero = 0;
+    
 
     // Getters and Setters
     public PlayerBaseState CurrentState { get => _currentState; set => _currentState = value; }
@@ -101,9 +123,22 @@ public class PlayerStateMachine : MonoBehaviour {
     public bool IsBlockPressed { get => _isBlockPressed; }
     public bool IsBlockHeld { get => _isBlockHeld; }
     public bool CharacterFlipped { get => _characterFlipped; set => _characterFlipped = value; }
+    public bool IsAttacked => _isAttacked;
+    public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
+    public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
+    public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
+    public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
+    public AttackType[] RecievedAttack { get => _recievedAttack; set => _recievedAttack = value; }
 
     // Functions
     private void Awake() {
+        GameObject.FindWithTag("GameController").GetComponent<GameManager>().PlayerRef = this;
+        _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(100, 10), 40, 5);
+        _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(50, 10), 60, 15);
+        _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(100, 50), 100, 30);
+        _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(100, 10), 70, 40);
+        _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(100, 300), 80, 50);
+        _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(300, 50), 150, 50);
                 
         _playerInput = new PlayerInput();
         _states = new PlayerStateFactory(this);
@@ -168,6 +203,57 @@ public class PlayerStateMachine : MonoBehaviour {
     void Update() {
         _currentState.UpdateStates();
         CheckActionPressed();
+    }
+
+    public void ApplyAttackStats() {
+        for (int i = 0; i < _recievedAttack.Length; i++) {
+            if (_recievedAttack[i].StatsApplied) {
+                continue;
+            }
+
+            Vector2 appliedKnockback = _recievedAttack[i].KnockbackDirection;
+            if (_recievedAttack[i].AttackedFromRightSide) {
+                appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y); 
+            }
+            Rigidbody.velocity = new Vector3(appliedKnockback.x, appliedKnockback.y, 0);
+            _knockdownMeter -= _recievedAttack[i].KnockdownPressure;
+            _currentHealth -= _recievedAttack[i].Damage;
+            _recievedAttack[i].StatsApplied = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
+        // be first before anything else
+        ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+        for (int i = 0; i < _recievedAttack.Length; i++) {
+            if (other.CompareTag(_recievedAttack[i].Tag)) {
+                _recievedAttack[i].Used = true;
+                if (other.transform.position.x > transform.position.x) {
+                    _recievedAttack[i].AttackedFromRightSide = true;
+                }
+                _isAttacked = true;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
+        // be first before anything else
+        ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
+        bool checkIfStillAttacked = false;
+        for (int i = 0; i < _recievedAttack.Length; i++) {
+            if (other.CompareTag(_recievedAttack[i].Tag)) {
+                _recievedAttack[i].Used = false;
+                _recievedAttack[i].AttackedFromRightSide = false;
+                _recievedAttack[i].StatsApplied = false;
+            }
+            if (_recievedAttack[i].Used) {
+                checkIfStillAttacked = true;
+            }
+        }
+
+        _isAttacked = checkIfStillAttacked;
     }
 
     /// <summary>
