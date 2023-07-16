@@ -22,23 +22,19 @@ public class PowerupSystem : MonoBehaviour {
         _unlockedPowerups[Powerup.Dash] = false;
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
-
     // ============================================ PUBLIC METHODS/FUNCTIONS ============================================
     /*
     Unlocks the given powerup
     */
-    public void unlockPowerup(Powerup unlockedPowerup) {
-        _unlockedPowerups[unlockedPowerup] = true;
-    }
+    public void unlockPowerup(Powerup unlockedPowerup) { _unlockedPowerups[unlockedPowerup] = true; }
 
     /*
     Returns if the given powerup is unlocked or not
     */
-    public bool checkPowerup(Powerup checkingPowerup) {
-        return _unlockedPowerups[checkingPowerup];
-    }
+    public bool checkPowerup(Powerup checkingPowerup) { return _unlockedPowerups[checkingPowerup]; }
+
+    /*
+    Returns the currently equipped powerup.
+    */
+    public Powerup getEquipped() { return _equippedPowerup; }
 }

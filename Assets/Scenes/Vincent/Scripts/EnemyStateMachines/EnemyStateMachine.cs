@@ -37,10 +37,10 @@ public class EnemyStateMachine : MonoBehaviour {
     public PlayerStateMachine currentPlayerMachine;
     [Header("Enemy Settings")]
     public EnemyType enemyType;
-    public int maxHealth = 100;
-    public float activationDistance = 15;    // Added by Abdul: The distance between the player and enemy in order for the enemy to start chasing
+    public int maxHealth = 100;             // Added by Abdul: Max health of the enemy
+    public float activationDistance = 15;   // Added by Abdul: The distance between the player and enemy in order for the enemy to start chasing
     public float attackReliefTime = .15f;  // Added by Abdul: Time between attacks until attacking again in seconds.
-    public float attackDistance = 3;        // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking
+    public float attackDistance = 3;       // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking
 
     // Attacks
     [Header("Attack Boundaries")]
@@ -119,6 +119,10 @@ public class EnemyStateMachine : MonoBehaviour {
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
 
+    // [TEMP FIX]
+    private bool _attackDebounce;       // [TEMP FIX]: Used to prevent the "doubling" glitch of player attacking the enemy
+    private int _attackDLength = 5;     // [TEMP FIX]: How long each debounce should last (in FPS)
+    private int _attackCTime = 0;       // [TEMP FIX]: Current time of the debounce (in FPS)
 
     //// Getters and Setters
     public Rigidbody Rigidbody => _rigidbody;
@@ -182,6 +186,16 @@ public class EnemyStateMachine : MonoBehaviour {
     
     void Update() {
         _currentState.UpdateStates();
+
+        // [TEMP FIX] All the lines of code below are to fix the doubling of the enemy getting attacked
+        if (_attackDebounce) {
+            if (_attackCTime > _attackDLength) {
+                _attackDebounce = false;
+                _attackCTime = 0;
+            } else {
+                _attackCTime++;   
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -248,6 +262,9 @@ public class EnemyStateMachine : MonoBehaviour {
     /// </summary>
     /// <returns>knockdown pressure</returns>
     public int GetPressureAndDamage() {
+        if (_attackDebounce) { return 0;} // [TEMP FIX] Return when we are in an attack debounce
+        _attackDebounce = true;
+
         int pressure = 0;
         int damage = 0;
 
@@ -272,11 +289,13 @@ public class EnemyStateMachine : MonoBehaviour {
         }
 
         Debug.Log(damage);
+        _currentHealth -= damage;
 
         if (_knockdownMeter <= 0) {
             _knockdownMeter = 0;
             return 0;
         }
+
         return pressure;
     }
 }

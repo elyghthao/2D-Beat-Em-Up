@@ -10,6 +10,13 @@ public class EnemyHurtState : EnemyBaseState {
       InitializeSubState();
    }
 
+   private void checkDeath() {
+      // Debug.Log(Ctx.Health);
+      if (Ctx.Health <= 0) {
+         // SwitchState(Factory.Dead());
+      }
+   }
+
    public override void EnterState() {
       // Debug.Log("ENEMY ROOT: ENTERED HURT");
    }
@@ -21,6 +28,7 @@ public class EnemyHurtState : EnemyBaseState {
       if (Ctx.StunTimer <= 0) {
          CheckSwitchStates();
       }
+      checkDeath();
    }
 
    public override void ExitState() {
