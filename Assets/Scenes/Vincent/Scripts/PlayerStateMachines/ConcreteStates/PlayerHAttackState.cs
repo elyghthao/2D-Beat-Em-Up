@@ -30,11 +30,13 @@ public class PlayerHAttackState : PlayerBaseState {
       // Red is active frames: Damage can be given in this phase
       // Blue is recovery frames: No damage given in this phase
       if (_currentFrame <= Ctx.heavyStartupFrames.y) {
-         Ctx.HeavyBoundsMat.color = Color.green;
+         Ctx.HeavyBounds.setMatColor(Color.green);
       } else if (_currentFrame <= Ctx.heavyActiveFrames.y) {
-         Ctx.HeavyBoundsMat.color = Color.red;
+         Ctx.HeavyBounds.setMatColor(Color.red);
+         Ctx.HeavyBounds.setColliderActive(true);
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames.y) {
-         Ctx.HeavyBoundsMat.color = Color.blue;
+         Ctx.HeavyBounds.setMatColor(Color.blue);
+         Ctx.HeavyBounds.setColliderActive(false);
       } else {
          CanSwitch = true;
       }

@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 879211307960757018}
   - component: {fileID: 5299804320426951563}
   - component: {fileID: 4777544015876746786}
+  - component: {fileID: 2235634202436855160}
   m_Layer: 0
   m_Name: MediumAttackBounds
   m_TagString: FirstMediumAttack
@@ -154,10 +155,22 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1.5938323}
   m_Center: {x: 0, y: 0, z: 0.11485681}
+--- !u!114 &2235634202436855160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3944727719667792075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4006682455540838733
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,6 +183,7 @@ GameObject:
   - component: {fileID: 359906806690958187}
   - component: {fileID: 1022305113780285997}
   - component: {fileID: 392017329426130873}
+  - component: {fileID: 1441908993513561239}
   m_Layer: 0
   m_Name: HeavyAttackBounds
   m_TagString: SlamAttack
@@ -259,10 +273,22 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 2.1630955}
   m_Center: {x: 0, y: 0, z: 0.19872642}
+--- !u!114 &1441908993513561239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4006682455540838733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5426378805633837113
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,6 +301,7 @@ GameObject:
   - component: {fileID: 7024757381724850668}
   - component: {fileID: 4933318909879292210}
   - component: {fileID: 4020184050658272127}
+  - component: {fileID: 502127337005686822}
   m_Layer: 0
   m_Name: LightAttack
   m_TagString: FirstLightAttack
@@ -364,10 +391,22 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.73566675}
   m_Center: {x: 0, y: 0, z: 0.12339121}
+--- !u!114 &502127337005686822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426378805633837113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6403516721902039514
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +443,7 @@ Transform:
   - {fileID: 6775423698702908374}
   - {fileID: 3608801552066855897}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3443836982169822796
 MonoBehaviour:
@@ -419,6 +458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 8288920109623470190}
+  maxHealth: 100
   heavyAttackBounds: {fileID: 4006682455540838733}
   mediumAttackBounds: {fileID: 3944727719667792075}
   lightAttackBounds: {fileID: 5426378805633837113}
