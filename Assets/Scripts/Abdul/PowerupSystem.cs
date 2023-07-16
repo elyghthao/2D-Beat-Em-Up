@@ -27,7 +27,6 @@ public class PowerupSystem : MonoBehaviour {
         
     }
 
-
     // ============================================ PUBLIC METHODS/FUNCTIONS ============================================
     /*
     Unlocks the given powerup
