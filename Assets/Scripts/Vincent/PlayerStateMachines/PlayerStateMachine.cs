@@ -135,12 +135,12 @@ public class PlayerStateMachine : MonoBehaviour {
     // Functions
     private void Awake() {
         GameObject.FindWithTag("GameController").GetComponent<GameManager>().PlayerRef = this;
-        _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(100, 10), 40, 5);
-        _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(50, 10), 60, 15);
-        _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(100, 50), 100, 30);
-        _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(100, 10), 70, 40);
-        _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(100, 300), 80, 50);
-        _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(300, 50), 150, 50);
+        _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(1, 10), 40, 5);
+        _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(1, 5), 60, 15);
+        _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(5, 10), 100, 30);
+        _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(1, 1), 70, 40);
+        _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(3, 1), 80, 50);
+        _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(1, 5), 150, 50);
                 
         _playerInput = new PlayerInput();
         _states = new PlayerStateFactory(this);
@@ -212,8 +212,8 @@ public class PlayerStateMachine : MonoBehaviour {
     {
         RaycastHit hit;
         Vector3 curPos = transform.position;
-        Debug.DrawRay(curPos, -Vector3.up * 0.5f, Color.red);
-        if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.1f, curPos.z), -transform.up * 0.5f, out hit, 1f)) {
+        Debug.DrawRay(curPos, -Vector3.up * 0.3f, Color.red);
+        if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.1f, curPos.z), -transform.up * 0.3f, out hit, 1f)) {
             return true;
         } else {
             return false;

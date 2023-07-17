@@ -12,7 +12,7 @@ public class PlayerMoveState : PlayerBaseState
 
    public override void EnterState() { 
       // Debug.Log("ROOT: ENTERED MOVEMENT"); 
-      }
+   }
 
    public override void UpdateState() {
       Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
