@@ -12,6 +12,7 @@ public class Crate_Destroy : MonoBehaviour
     public MeshRenderer crate_mesh; // The crate's mesh renderer.
     public bool health_appear_guarantee; // Whether it is guaranteed that a health pack will spawn from the crate.
     public GameObject health_pack; // The health pack prefab.
+    private GameObject fake_collider; // Fake collider inside the crate
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class Crate_Destroy : MonoBehaviour
         // components are given to the associated variables for access.
         crate_break_sound = GetComponent<AudioSource>();
         crate_collider = GetComponent<BoxCollider>();
+        fake_collider = gameObject.transform.Find("Collider").gameObject;
     }
 
     // Update is called once per frame
@@ -42,6 +44,7 @@ public class Crate_Destroy : MonoBehaviour
                 crate_break_sound.Play();
                 crate_collider.enabled = false;
                 crate_mesh.enabled = false;
+                fake_collider.SetActive(false);
 
                 // If health_appear_guarantee is false...
                 if (health_appear_guarantee == false)
