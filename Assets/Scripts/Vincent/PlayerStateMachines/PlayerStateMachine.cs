@@ -212,8 +212,8 @@ public class PlayerStateMachine : MonoBehaviour {
     {
         RaycastHit hit;
         Vector3 curPos = transform.position;
-        Debug.DrawRay(curPos, -Vector3.up * 0.3f, Color.red);
-        if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.1f, curPos.z), -transform.up * 0.3f, out hit, 1f)) {
+        // Debug.DrawRay(curPos, -Vector3.up * 0.3f, Color.red);
+        if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.25f, curPos.z), -transform.up * 0.3f, out hit, 1f)) {
             return true;
         } else {
             return false;
@@ -384,5 +384,16 @@ public class PlayerStateMachine : MonoBehaviour {
         _characterFlipped = !_characterFlipped;
         // Debug.Log("Character flipped: " + _characterFlipped);
         transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
+    }
+
+    /// <summary>
+    /// Adds health to the player
+    /// </summary>
+    public void HealCharacter(int addedHealth) {
+        if (addedHealth <= 0) { return; }
+        _currentHealth += addedHealth;
+        if (_currentHealth > maxHealth) {
+            _currentHealth = maxHealth;
+        }
     }
 }

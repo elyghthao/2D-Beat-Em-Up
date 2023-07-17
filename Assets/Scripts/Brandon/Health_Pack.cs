@@ -33,6 +33,9 @@ public class Health_Pack : MonoBehaviour
             health_pack_collect_sound.Play();
             health_pack_collider.enabled = false;
             health_pack_mesh.enabled = false;
+            GameObject player = GameObject.Find("Player");
+            PlayerStateMachine plrMachine = player.GetComponent<PlayerStateMachine>();
+            plrMachine.HealCharacter(35);
 
             // Finally, the health pack object is destroyed.
             Destroy(gameObject, 1);

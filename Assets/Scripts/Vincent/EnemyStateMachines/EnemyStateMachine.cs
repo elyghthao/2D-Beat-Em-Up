@@ -102,6 +102,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private float _knockdownMeter;
     private float _stunTimer;
     private int _currentHealth;
+    private GameObject _enemy;
 
     // Movement and Attack Info
     private bool _moving;
@@ -143,6 +144,8 @@ public class EnemyStateMachine : MonoBehaviour {
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
     public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
 
+    public GameObject Enemy { get => _enemy; }
+
     // Functions
     void Awake() {
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
@@ -171,6 +174,7 @@ public class EnemyStateMachine : MonoBehaviour {
         _lastAttacked = attackReliefTime;
         _currentHealth = maxHealth;
         _knockdownMeter = knockdownMax;
+        _enemy = gameObject;
 
         // Materials
         _baseMaterial = body.GetComponent<Renderer>().material;
