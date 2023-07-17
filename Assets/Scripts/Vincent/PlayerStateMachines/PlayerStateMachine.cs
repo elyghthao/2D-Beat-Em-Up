@@ -97,6 +97,7 @@ public class PlayerStateMachine : MonoBehaviour {
     // Other Variables
     private bool _characterFlipped;
     private bool _knockedDown;
+    private bool _isGrounded;
     private float _knockdownMeter;
     private float _stunTimer;
     private int _currentHealth;
@@ -125,6 +126,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public bool CharacterFlipped { get => _characterFlipped; set => _characterFlipped = value; }
     public bool IsAttacked => _isAttacked;
     public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
+    public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
     public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
     public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
@@ -203,6 +205,19 @@ public class PlayerStateMachine : MonoBehaviour {
     void Update() {
         _currentState.UpdateStates();
         CheckActionPressed();
+        _isGrounded = CheckIfGrounded();
+    }
+    
+    public bool CheckIfGrounded()
+    {
+        RaycastHit hit;
+        Vector3 curPos = transform.position;
+        Debug.DrawRay(curPos, -Vector3.up * 0.5f, Color.red);
+        if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.1f, curPos.z), -transform.up * 0.5f, out hit, 1f)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void ApplyAttackStats() {
@@ -228,7 +243,7 @@ public class PlayerStateMachine : MonoBehaviour {
         ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
-                _recievedAttack[i].Used = true;
+                _recievedAttack[i].Used = true; 
                 if (other.transform.position.x > transform.position.x) {
                     _recievedAttack[i].AttackedFromRightSide = true;
                 }

@@ -81,6 +81,9 @@ public class EnemyStateMachine : MonoBehaviour {
 
     // Reference Variables
     private Rigidbody _rigidbody;
+    private AttackBoundsManager _heavyBounds;
+    private AttackBoundsManager _mediumBounds;
+    private AttackBoundsManager _lightBounds;
 
     // State variables
     private EnemyBaseState _currentState;
@@ -88,15 +91,6 @@ public class EnemyStateMachine : MonoBehaviour {
 
     /// Attacked Indicators
     private bool _isAttacked;
-    // Light Attacks
-    private bool _receivedFirstLightAttack;
-    private bool _receivedSecondLightAttack;
-    private bool _receivedThirdLightAttack;
-    // Medium Attacks
-    private bool _receivedFirstMediumAttack;
-    private bool _receivedSecondMediumAttack;
-    // Special Attacks
-    private bool _receivedSlamAttack;
     private AttackType[] _recievedAttack = new AttackType[6];
 
     // Player Attack Damages
@@ -104,6 +98,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
     // Other
     private bool _knockedDown;
+    private bool _isGrounded;
     private float _knockdownMeter;
     private float _stunTimer;
     private int _currentHealth;
@@ -129,11 +124,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public EnemyBaseState CurrentState { get => _currentState; set => _currentState = value; }
     public bool IsAttacked => _isAttacked;
     public AttackType[] RecievedAttack => _recievedAttack;
-
-    // Other
-    public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
-    public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
-    public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
+    public AttackBoundsManager HeavyBounds { get => _heavyBounds; set => _heavyBounds = value; }
+    public AttackBoundsManager MediumBounds { get => _mediumBounds; set => _mediumBounds = value; }
+    public AttackBoundsManager LightBounds { get => _lightBounds; set => _lightBounds = value; }
     public bool Moving { get => _moving; set => _moving = value; }
     public bool Attacking { get => _attacking; set => _attacking = value; }
     public float LastAttacked { get => _lastAttacked; set => _lastAttacked = value; }
@@ -143,6 +136,12 @@ public class EnemyStateMachine : MonoBehaviour {
     public Material HeavyBoundsMat { get => _heavyBoundsMat; set => _heavyBoundsMat = value; }
     public Material MediumBoundsMat { get => _mediumBoundsMat; set => _mediumBoundsMat = value; }
     public Material LightBoundsMat { get => _lightBoundsMat; set => _lightBoundsMat = value; }
+    public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
+    
+    public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
+    public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
+    public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
+    public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
 
     // Functions
     void Awake() {
@@ -164,11 +163,14 @@ public class EnemyStateMachine : MonoBehaviour {
         _states = new EnemyStateFactory(this);
         _baseMaterial = body.GetComponent<Renderer>().material;
         _rigidbody = GetComponent<Rigidbody>();
-        _knockdownMeter = knockdownMax;
+        _heavyBounds = heavyAttackBounds.GetComponent<AttackBoundsManager>();
+        _mediumBounds = mediumAttackBounds.GetComponent<AttackBoundsManager>();
+        _lightBounds = lightAttackBounds.GetComponent<AttackBoundsManager>();
 
         // Other
         _lastAttacked = attackReliefTime;
         _currentHealth = maxHealth;
+        _knockdownMeter = knockdownMax;
 
         // Materials
         _baseMaterial = body.GetComponent<Renderer>().material;
@@ -183,6 +185,7 @@ public class EnemyStateMachine : MonoBehaviour {
     }
 
     void Update() {
+        _isGrounded = CheckIfGrounded();
         _currentState.UpdateStates();
 
         // [TEMP FIX] All the lines of code below are to fix the doubling of the enemy getting attacked
@@ -195,6 +198,18 @@ public class EnemyStateMachine : MonoBehaviour {
             }
         }
     }
+    
+    public bool CheckIfGrounded()
+    {
+        RaycastHit hit;
+        Vector3 curPos = transform.position;
+        Debug.DrawRay(curPos, -Vector3.up * 0.5f, Color.red);
+        if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.1f, curPos.z), -transform.up * 0.3f, out hit, 1f)) {
+            if(hit.collider.CompareTag("Ground"))
+                return true;
+        }
+        return false;
+    }
 
     private void OnTriggerEnter(Collider other) {
         // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
@@ -202,7 +217,8 @@ public class EnemyStateMachine : MonoBehaviour {
         ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
-                _recievedAttack[i].Used = true;
+                Debug.Log(i + " has collided");
+                _recievedAttack[i].Used = true; 
                 if (other.transform.position.x > transform.position.x) {
                     _recievedAttack[i].AttackedFromRightSide = true;
                 }
@@ -218,6 +234,7 @@ public class EnemyStateMachine : MonoBehaviour {
         bool checkIfStillAttacked = false;
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
+                Debug.Log(i + " is no longer colliding");
                 _recievedAttack[i].Used = false;
                 _recievedAttack[i].AttackedFromRightSide = false;
                 _recievedAttack[i].StatsApplied = false;
