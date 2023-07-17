@@ -91,10 +91,10 @@ public abstract class PlayerBaseState {
     /// their UpdateState() called
     /// </summary>
     public void UpdateStates() {
-        UpdateState();
         if (_currentSubState != null) {
             _currentSubState.UpdateStates();
         }
+        UpdateState();
     }
 
     /// <summary>
@@ -102,10 +102,11 @@ public abstract class PlayerBaseState {
     /// their ExitState() called
     /// </summary>
     public void ExitStates() {
-        ExitState();
         if (_currentSubState != null) {
             _currentSubState.ExitStates();
+            _currentSubState = null;
         }
+        ExitState();
     }
     
     /// <summary>

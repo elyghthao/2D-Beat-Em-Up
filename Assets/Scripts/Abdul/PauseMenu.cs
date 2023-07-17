@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour {
     public GameObject pauseMenu;    // Menu of the pause menu
     public GameObject player;       // Player
     public AudioMixer musicMixer;   // Music Mixer
-    public AudioMixer effectsMixer;   // Effects Mixer
+    public AudioMixer effectsMixer; // Effects Mixer
 
     // ============================================ PRIVATE VARIABLES ============================================
     // private PlayerPrefs playerSavedValues;  // For saving settings across scenes
