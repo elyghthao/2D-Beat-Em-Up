@@ -12,6 +12,7 @@ TagManager:
   - ThirdLightAttack
   - SecondMediumAttack
   - GameManager
+  - Ground
   layers:
   - Default
   - TransparentFX
