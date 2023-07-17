@@ -4,40 +4,41 @@ using UnityEngine;
 
 public class PlayerAnimationScript : MonoBehaviour
 {
-    private Animator anim;
-    // Start is called before the first frame update
+    public PlayerStateMachine stateScript;
+    public Animator anim;
+    public GameObject lightAttack;
+    public GameObject mediumAttack;
+    public GameObject slamAttack;
 
 
 
     
     void Start()
     {
-        anim = this.GetComponent<Animator>();
-        
+        stateScript = this.gameObject.GetComponent<PlayerStateMachine>();
+        lightAttack = stateScript.lightAttackBounds;
+        mediumAttack = stateScript.mediumAttackBounds;
+        slamAttack = stateScript.heavyAttackBounds;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        // Debug.Log(anim.GetCurrentAnimatorStateInfo(0).IsName("LightAttack"));
-        if (Input.GetKeyDown(KeyCode.A)) {
+        if(lightAttack.activeSelf){
             anim.Play("LightAttack");
-        }else if (anim.GetCurrentAnimatorStateInfo(0).IsName("LightAttack") && Input.GetKeyDown(KeyCode.A)){
-            anim.Play("LightAttack2");
-
-
-
-        }else if(!anim.GetCurrentAnimatorStateInfo(0).IsName("LightAttack")){
-            if (Input.GetKey(KeyCode.DownArrow) ||
-            Input.GetKey(KeyCode.UpArrow)||
-            Input.GetKey(KeyCode.LeftArrow)||
-            Input.GetKey(KeyCode.RightArrow) ){
-                anim.Play("Walk");
-            }else {
-                anim.Play("Idle");
-            }
+        }else if(mediumAttack.activeSelf){
+            anim.Play("MediumAttack");
+        }else if(slamAttack.activeSelf){
+            anim.Play("SlamAttack");
+        }else if(stateScript.CurrentState.ToString() == "EnemyMovingState"){
+            anim.Play("Walk");
+        }else if(stateScript.CurrentState.ToString() == "EnemyHurtState"){
+            anim.Play("Hurt");
+        }else if(stateScript.CurrentState.ToString() == "EnemyIdleState"){
+            anim.Play("Idle");
         }
+        
+        
 
 
         
