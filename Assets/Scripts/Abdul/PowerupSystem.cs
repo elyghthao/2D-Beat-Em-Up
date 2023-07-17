@@ -8,6 +8,7 @@ public class PowerupSystem : MonoBehaviour {
     public enum Powerup {
         None,
         Dash,
+        Slam,
     };
 
     // ============================================ PRIVATE VARIABLES ============================================
@@ -20,21 +21,33 @@ public class PowerupSystem : MonoBehaviour {
         // Initiliazing power-ups to be unlocked
         _unlockedPowerups[Powerup.None] = true;
         _unlockedPowerups[Powerup.Dash] = false;
+        _unlockedPowerups[Powerup.Slam] = false;
     }
 
     // ============================================ PUBLIC METHODS/FUNCTIONS ============================================
     /*
-    Unlocks the given powerup
+    Unlocks the given power-up.
     */
     public void unlockPowerup(Powerup unlockedPowerup) { _unlockedPowerups[unlockedPowerup] = true; }
 
     /*
-    Returns if the given powerup is unlocked or not
+    Returns if the given power-up is unlocked or not
     */
     public bool checkPowerup(Powerup checkingPowerup) { return _unlockedPowerups[checkingPowerup]; }
 
     /*
-    Returns the currently equipped powerup.
+    Returns the currently equipped power-up.
     */
     public Powerup getEquipped() { return _equippedPowerup; }
+
+    /*
+    Equips the given power-up.
+    */
+    public void equipPowerup(Powerup toEquip) { 
+        _equippedPowerup = toEquip;
+
+        // IDEA: INSTEAD OF THE STATE MACHINE CHECKING, COULD MAKE IT SO THAT THIS SYSTEM HERE
+        // FLICKS THE BOOLEANS FOR THE STATE MACHINE FOR IT. OTHERWISE, COULD JUST USE THE ABOVE
+        // METHOD SO EITHER WAY IT WILL WORK.
+    }
 }
