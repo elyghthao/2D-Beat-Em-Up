@@ -983,6 +983,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Color Switch
       objectReference: {fileID: 0}
+    - target: {fileID: 6234444089477347786, guid: 4dbaadd94e6a1614fa31693e58481f74, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7021971809804851602, guid: 4dbaadd94e6a1614fa31693e58481f74, type: 3}
       propertyPath: m_RootOrder
       value: 0

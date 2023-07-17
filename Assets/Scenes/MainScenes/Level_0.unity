@@ -3215,7 +3215,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6403516721902039514, guid: 0309d0281fe07ac4a9d7a9c4a3297b34, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 798190238}
   m_SourcePrefab: {fileID: 100100000, guid: 0309d0281fe07ac4a9d7a9c4a3297b34, type: 3}
 --- !u!1001 &684620118
 PrefabInstance:
@@ -3884,6 +3887,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5f116690b7f7646bd8d873e03eb8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &798190238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798190233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe03f5cf8d3bfa4b9034d5575184584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateScript: {fileID: 0}
+  anim: {fileID: 0}
+  lightAttack: {fileID: 0}
+  mediumAttack: {fileID: 0}
+  slamAttack: {fileID: 0}
 --- !u!4 &836125650 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4382358456776685034, guid: 5cc2d701d8b600b41a7d3ecf9ebc625c, type: 3}
@@ -5984,6 +6004,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySister
       objectReference: {fileID: 0}
+    - target: {fileID: 7084011497258826109, guid: 1b8fabaf447b9e4439fa5c8270c89dc2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 20ed669eb2662ad479ea12600421d47b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
