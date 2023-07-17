@@ -9,15 +9,11 @@ public class EnemySmackedState : EnemyBaseState
    }
 
    public override void EnterState() {
-      // Debug.Log("ENEMY SUB: ENTERED SMACKED");
+      Debug.Log("ENEMY SUB: ENTERED SMACKED");
       if (!Ctx.KnockedDown) {
-         Ctx.BaseMaterial.color = Color.red;
+         Ctx.BaseMaterial.color = new Color(255, 68, 0, 255);
       }
-      // Sets the velocity to 0 so there's no countering velocity when trying to apply the knockback
-      Ctx.Rigidbody.velocity = new Vector3(0, 0, 0);
-      // Default knockback settings, should be updated depending on the type of attack applied
-      Ctx.Rigidbody.AddForce(5f, 200, 0);
-      Ctx.KnockdownMeter -= Ctx.GetPressureAndDamage();
+      Ctx.ApplyAttackStats();
       // Sets the stun timer to 0.5f, which is the default for any non-knockdown attack
       if (Ctx.StunTimer < 0.5f) {
          Ctx.StunTimer = 0.5f;
@@ -31,7 +27,7 @@ public class EnemySmackedState : EnemyBaseState
    }
 
    public override void ExitState() {
-      // Debug.Log("ENEMY SUB: EXITED SMACKED");
+      Debug.Log("ENEMY SUB: EXITED SMACKED");
    }
 
    public override void CheckSwitchStates() {

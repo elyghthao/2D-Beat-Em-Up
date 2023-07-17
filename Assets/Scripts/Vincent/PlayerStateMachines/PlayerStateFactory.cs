@@ -91,4 +91,16 @@ public class PlayerStateFactory {
     public PlayerBaseState HeavyAttack() {
         return new PlayerHAttackState(_context, this);
     }
+
+    public PlayerBaseState Stunned() {
+        return new PlayerStunnedState(_context, this);
+    }
+
+    public PlayerBaseState KnockedDown() {
+        return new PlayerKnockedDownState(_context, this);
+    }
+
+    public PlayerBaseState Smacked() {
+        return new PlayerSmackedState(_context, this);
+    }
 }

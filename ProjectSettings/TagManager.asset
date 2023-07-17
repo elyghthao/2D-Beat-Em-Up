@@ -11,6 +11,7 @@ TagManager:
   - SecondLightAttack
   - ThirdLightAttack
   - SecondMediumAttack
+  - GameManager
   layers:
   - Default
   - TransparentFX
@@ -20,30 +21,30 @@ TagManager:
   - UI
   - Default-Without-Player
   - Enemy
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0

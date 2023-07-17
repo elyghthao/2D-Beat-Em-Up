@@ -9,7 +9,7 @@ public class EnemyIdleState : EnemyBaseState {
    }
 
    public override void EnterState() {
-      // Debug.Log("ENEMY ROOT: ENTERED IDLE");
+      Debug.Log("ENEMY ROOT: ENTERED IDLE");
       Ctx.BaseMaterial.color = Color.green;
    }
 
@@ -27,7 +27,7 @@ public class EnemyIdleState : EnemyBaseState {
    }
 
    public override void ExitState() {
-      // Debug.Log("ENEMY ROOT: EXITED IDLE");
+      Debug.Log("ENEMY ROOT: EXITED IDLE");
    }
    
    public override void CheckSwitchStates() {

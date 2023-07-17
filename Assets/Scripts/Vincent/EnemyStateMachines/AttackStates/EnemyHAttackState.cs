@@ -34,8 +34,10 @@ public class EnemyHAttackState : EnemyBaseState {
          Ctx.HeavyBoundsMat.color = Color.green;
       } else if (_currentFrame <= Ctx.heavyActiveFrames.y) {
          Ctx.HeavyBoundsMat.color = Color.red;
+         Ctx.HeavyBounds.setColliderActive(true);
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames.y) {
          Ctx.HeavyBoundsMat.color = Color.blue;
+         Ctx.HeavyBounds.setColliderActive(false);
       } else {
          CanSwitch = true;
       }

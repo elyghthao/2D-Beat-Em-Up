@@ -10,6 +10,13 @@ public class EnemyHurtState : EnemyBaseState {
       InitializeSubState();
    }
 
+   private void checkDeath() {
+      // Debug.Log(Ctx.Health);
+      if (Ctx.Health <= 0) {
+         // SwitchState(Factory.Dead());
+      }
+   }
+
    public override void EnterState() {
       // Debug.Log("ENEMY ROOT: ENTERED HURT");
    }
@@ -17,10 +24,14 @@ public class EnemyHurtState : EnemyBaseState {
    public override void UpdateState() {
       // If the stun timer has reached 0 or less, then we can transition out of being hurt. Substates will update the 
       // stun timer accordingly
-      Ctx.StunTimer -= Time.deltaTime;
+      if (Ctx.IsGrounded) {
+         Ctx.StunTimer -= Time.deltaTime;
+      }
+
       if (Ctx.StunTimer <= 0) {
          CheckSwitchStates();
       }
+      checkDeath();
    }
 
    public override void ExitState() {
@@ -30,7 +41,7 @@ public class EnemyHurtState : EnemyBaseState {
 
    public override void CheckSwitchStates() {
       // Only possible alternative currently is to be returned to the Idle State
-      SwitchState(Factory.Idle());
+         SwitchState(Factory.Idle());
       // Could add more states here when there are more root states implemented
    }
 

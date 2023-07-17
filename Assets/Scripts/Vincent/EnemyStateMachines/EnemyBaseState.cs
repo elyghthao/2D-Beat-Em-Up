@@ -97,10 +97,10 @@ public abstract class EnemyBaseState
     /// their UpdateState() called
     /// </summary>
     public void UpdateStates() {
-        UpdateState();
         if (_currentSubState != null) {
             _currentSubState.UpdateStates();
         }
+        UpdateState();
     }
 
     /// <summary>
@@ -108,11 +108,12 @@ public abstract class EnemyBaseState
     /// their ExitState() called
     /// </summary>
     public void ExitStates() {
-        ExitState();
         // Exits the substate if this state contains one
         if (_currentSubState != null) {
             _currentSubState.ExitStates();
+            _currentSubState = null;
         }
+        ExitState();
     }
     
     /// <summary>
