@@ -100,7 +100,7 @@ public class PlayerStateMachine : MonoBehaviour {
     private bool _isGrounded;
     private float _knockdownMeter;
     private float _stunTimer;
-    private int _currentHealth;
+    public int _currentHealth;
     private AttackType[] _recievedAttack = new AttackType[6];
 
     // Constants
@@ -222,7 +222,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
     public void ApplyAttackStats() {
         for (int i = 0; i < _recievedAttack.Length; i++) {
-            if (_recievedAttack[i].StatsApplied) {
+            if (_recievedAttack[i].StatsApplied || !_recievedAttack[i].Used) {
                 continue;
             }
 

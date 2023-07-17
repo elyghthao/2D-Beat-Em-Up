@@ -8,7 +8,7 @@ public class PlayerSmackedState : PlayerBaseState
         base(currentContext, playerStateFactory) {}
     
     public override void EnterState() {
-        Debug.Log("SUB: ENTERED SMACKED");
+        // Debug.Log("SUB: ENTERED SMACKED");
         if (!Ctx.KnockedDown) {
             Ctx.BaseMaterial.color = new Color(255, 68, 0, 255);
         }
@@ -26,7 +26,7 @@ public class PlayerSmackedState : PlayerBaseState
     }
 
     public override void ExitState() {
-        Debug.Log("SUB: EXITED SMACKED");
+        // Debug.Log("SUB: EXITED SMACKED");
     }
 
     public override void CheckSwitchStates() {

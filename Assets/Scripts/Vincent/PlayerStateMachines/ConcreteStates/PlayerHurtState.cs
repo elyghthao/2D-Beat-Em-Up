@@ -11,7 +11,7 @@ public class PlayerHurtState : PlayerBaseState
    }
 
    public override void EnterState() {
-      Debug.Log("ROOT: ENTERED HURT");
+      // Debug.Log("ROOT: ENTERED HURT");
    }
 
    public override void UpdateState() {
@@ -27,7 +27,7 @@ public class PlayerHurtState : PlayerBaseState
    }
 
    public override void ExitState() {
-      Debug.Log("ROOT: EXITED HURT");
+      // Debug.Log("ROOT: EXITED HURT");
       Ctx.KnockedDown = false;
    }
 

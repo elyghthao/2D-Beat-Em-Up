@@ -7,7 +7,7 @@ public class PlayerStunnedState : PlayerBaseState {
         base(currentContext, playerStateFactory) {}
     
     public override void EnterState() {
-        Debug.Log("SUB: ENTERED STUNNED");
+        // Debug.Log("SUB: ENTERED STUNNED");
         // Sets material color Orange
         if (!Ctx.KnockedDown) {
             Ctx.BaseMaterial.color = new Color(255, 165, 0);
@@ -19,7 +19,7 @@ public class PlayerStunnedState : PlayerBaseState {
     }
 
     public override void ExitState() {
-        Debug.Log("SUB: EXITED STUNNED");
+        // Debug.Log("SUB: EXITED STUNNED");
     }
 
     public override void CheckSwitchStates() {
