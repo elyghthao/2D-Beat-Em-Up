@@ -11,7 +11,7 @@ public class PlayerHurtState : PlayerBaseState
    }
 
    public override void EnterState() {
-      Debug.Log("ROOT: ENTERED HURT");
+      // Debug.Log("ROOT: ENTERED HURT");
    }
 
    public override void UpdateState() {
@@ -27,14 +27,18 @@ public class PlayerHurtState : PlayerBaseState
    }
 
    public override void ExitState() {
-      Debug.Log("ROOT: EXITED HURT");
+      // Debug.Log("ROOT: EXITED HURT");
       Ctx.KnockedDown = false;
    }
 
    public override void CheckSwitchStates() {
-      // Only possible alternative currently is to be returned to the Idle State
-      SwitchState(Factory.Idle());
-      // Could add more states here when there are more root states implemented
+      if (Ctx.CurrentHealth <= 0) {
+         SwitchState(Factory.Dead());
+      } else {
+         // Only possible alternative currently is to be returned to the Idle State
+         SwitchState(Factory.Idle());
+         // Could add more states here when there are more root states implemented
+      }
    }
 
    public override void InitializeSubState() {

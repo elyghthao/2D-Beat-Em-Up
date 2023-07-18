@@ -103,4 +103,8 @@ public class PlayerStateFactory {
     public PlayerBaseState Smacked() {
         return new PlayerSmackedState(_context, this);
     }
+
+    public PlayerBaseState Dead() {
+        return new PlayerDeathState(_context, this);
+    }
 }
