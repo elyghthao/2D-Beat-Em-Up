@@ -33,8 +33,6 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject body;
     [Header("Stats")]
     public int knockdownMax = 150;
-    [Header("Player Information")]
-    public PlayerStateMachine currentPlayerMachine;
     [Header("Enemy Settings")]
     public EnemyType enemyType;
     public int maxHealth = 100;             // Added by Abdul: Max health of the enemy
@@ -84,6 +82,9 @@ public class EnemyStateMachine : MonoBehaviour {
     private AttackBoundsManager _heavyBounds;
     private AttackBoundsManager _mediumBounds;
     private AttackBoundsManager _lightBounds;
+    private GameManager _gameManager;
+    [SerializeField]
+    public PlayerStateMachine _currentPlayerMachine;
 
     // State variables
     private EnemyBaseState _currentState;
@@ -115,14 +116,10 @@ public class EnemyStateMachine : MonoBehaviour {
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
 
-    // [TEMP FIX]
-    private bool _attackDebounce;       // [TEMP FIX]: Used to prevent the "doubling" glitch of player attacking the enemy
-    private int _attackDLength = 5;     // [TEMP FIX]: How long each debounce should last (in FPS)
-    private int _attackCTime = 0;       // [TEMP FIX]: Current time of the debounce (in FPS)
-
     //// Getters and Setters
     public Rigidbody Rigidbody => _rigidbody;
     public EnemyBaseState CurrentState { get => _currentState; set => _currentState = value; }
+    public PlayerStateMachine CurrentPlayerMachine { get => _currentPlayerMachine; set => _currentPlayerMachine = value; }
     public bool IsAttacked => _isAttacked;
     public AttackType[] RecievedAttack => _recievedAttack;
     public AttackBoundsManager HeavyBounds { get => _heavyBounds; set => _heavyBounds = value; }
@@ -148,6 +145,10 @@ public class EnemyStateMachine : MonoBehaviour {
 
     // Functions
     void Awake() {
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        Debug.Log(_gameManager);
+        _gameManager.AddEnemy(this);
+
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
         _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(50, 500), 100, 30);
@@ -191,16 +192,6 @@ public class EnemyStateMachine : MonoBehaviour {
     void Update() {
         _isGrounded = CheckIfGrounded();
         _currentState.UpdateStates();
-
-        // [TEMP FIX] All the lines of code below are to fix the doubling of the enemy getting attacked
-        if (_attackDebounce) {
-            if (_attackCTime > _attackDLength) {
-                _attackDebounce = false;
-                _attackCTime = 0;
-            } else {
-                _attackCTime++;
-            }
-        }
     }
     
     public bool CheckIfGrounded()
@@ -269,5 +260,10 @@ public class EnemyStateMachine : MonoBehaviour {
             // Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + _currentHealth);
             _recievedAttack[i].StatsApplied = true;
         }
+    }
+
+    public void SetDead() {
+        _gameManager.EnemyReferences.Remove(this);
+        _enemy.SetActive(false);
     }
 }

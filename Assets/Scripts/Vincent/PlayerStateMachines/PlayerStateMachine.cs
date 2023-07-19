@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Timeline;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public enum Attacks {
     LightAttack1,
@@ -69,27 +64,17 @@ public class PlayerStateMachine : MonoBehaviour {
     public int knockdownMax = 150;
 
     // Reference variables
-    private PlayerInput _playerInput;
     private Rigidbody _rigidbody;
     private AttackBoundsManager _heavyBounds;
     private AttackBoundsManager _mediumBounds;
     private AttackBoundsManager _lightBounds;
     private Material _baseMaterial;
+    private GameManager _gameManager;
+    private InputSystem _inputSystem;
 
     // State variables
     private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
-
-    // Input values
-    private Vector2 _currentMovementInput;
-    private bool _isMovementPressed;
-    private bool _isActionPressed;
-    private bool _isActionHeld;
-    private bool _isLightAttackPressed;
-    private bool _isMediumAttackPressed;
-    private bool _isHeavyAttackPressed;
-    private bool _isBlockPressed;
-    private bool _isBlockHeld;
     
     /// Attacked Indicators
     private bool _isAttacked;
@@ -109,20 +94,20 @@ public class PlayerStateMachine : MonoBehaviour {
 
     // Getters and Setters
     public PlayerBaseState CurrentState { get => _currentState; set => _currentState = value; }
-    public Vector2 CurrentMovementInput { get => _currentMovementInput; set => _currentMovementInput = value; }
-    public bool IsMovementPressed { get => _isMovementPressed; set => _isMovementPressed = value; }
+    public Vector2 CurrentMovementInput { get => _inputSystem.CurrentMovementInput; }
+    public bool IsMovementPressed { get => _inputSystem.IsMovementPressed; }
     public Material BaseMaterial { get => _baseMaterial; set => _baseMaterial = value; }
     public AttackBoundsManager HeavyBounds { get => _heavyBounds; set => _heavyBounds = value; }
     public AttackBoundsManager MediumBounds { get => _mediumBounds; set => _mediumBounds = value; }
     public AttackBoundsManager LightBounds { get => _lightBounds; set => _lightBounds = value; }
     public Rigidbody Rigidbody { get => _rigidbody; set => _rigidbody = value; }
-    public bool IsActionPressed { get => _isActionPressed; }
-    public bool IsActionHeld { get => _isActionHeld; }
-    public bool IsLightAttackPressed { get => _isLightAttackPressed; }
-    public bool IsMediumAttackPressed { get => _isMediumAttackPressed; }
-    public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; }
-    public bool IsBlockPressed { get => _isBlockPressed; }
-    public bool IsBlockHeld { get => _isBlockHeld; }
+    public bool IsActionPressed { get => _inputSystem.IsActionPressed; }
+    public bool IsActionHeld { get => _inputSystem.IsActionHeld; }
+    public bool IsLightAttackPressed { get => _inputSystem.IsLightAttackPressed; }
+    public bool IsMediumAttackPressed { get => _inputSystem.IsMediumAttackPressed; }
+    public bool IsHeavyAttackPressed { get => _inputSystem.IsHeavyAttackPressed; }
+    public bool IsBlockPressed { get => _inputSystem.IsBlockPressed; }
+    public bool IsBlockHeld { get => _inputSystem.IsBlockHeld; }
     public bool CharacterFlipped { get => _characterFlipped; set => _characterFlipped = value; }
     public bool IsAttacked => _isAttacked;
     public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
@@ -134,15 +119,17 @@ public class PlayerStateMachine : MonoBehaviour {
 
     // Functions
     private void Awake() {
-        GameObject.FindWithTag("GameController").GetComponent<GameManager>().PlayerRef = this;
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        Debug.Log(_gameManager);
+        _gameManager.AddPlayer(this);
+        _inputSystem = _gameManager.InputSystem;
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(1, 10), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(1, 5), 60, 15);
         _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(5, 10), 100, 30);
         _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(1, 1), 70, 40);
         _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(3, 1), 80, 50);
         _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(1, 5), 150, 50);
-                
-        _playerInput = new PlayerInput();
+        
         _states = new PlayerStateFactory(this);
         
         _baseMaterial = body.GetComponent<Renderer>().material;
@@ -163,61 +150,30 @@ public class PlayerStateMachine : MonoBehaviour {
     /// Enables all input for the character when the PlayerStateMachine script is enabled
     /// </summary>
     private void OnEnable() {
-        _playerInput.Enable();
-        _playerInput.Player.Movement.performed += OnMovementPerformed;
-        _playerInput.Player.Movement.canceled += OnMovementCanceled;
-        
-        _playerInput.Player.LightAttack.performed += OnLightAttackPerformed;
-        _playerInput.Player.LightAttack.canceled += OnLightAttackCanceled;
-        
-        _playerInput.Player.MediumAttack.performed += OnMediumAttackPerformed;
-        _playerInput.Player.MediumAttack.canceled += OnMediumAttackCanceled;
-        
-        _playerInput.Player.HeavyAttack.performed += OnHeavyAttackPerformed;
-        _playerInput.Player.HeavyAttack.canceled += OnHeavyAttackCanceled;
-        
-        _playerInput.Player.Block.performed += OnBlockPerformed;
-        _playerInput.Player.Block.canceled += OnBlockCanceled;
+        _inputSystem.EnablePlayerInput();
     }
 
     /// <summary>
     /// Disables all input for the character when the PlayerStateMachine script is disabled
     /// </summary>
     private void OnDisable() {
-        _playerInput.Disable();
-        _playerInput.Player.Movement.performed -= OnMovementPerformed;
-        _playerInput.Player.Movement.canceled -= OnMovementCanceled;
-        
-        _playerInput.Player.LightAttack.performed -= OnLightAttackPerformed;
-        _playerInput.Player.LightAttack.canceled -= OnLightAttackCanceled;
-        
-        _playerInput.Player.MediumAttack.performed -= OnMediumAttackPerformed;
-        _playerInput.Player.MediumAttack.canceled -= OnMediumAttackCanceled;
-        
-        _playerInput.Player.HeavyAttack.performed -= OnHeavyAttackPerformed;
-        _playerInput.Player.HeavyAttack.canceled -= OnHeavyAttackCanceled;
-        
-        _playerInput.Player.Block.performed -= OnBlockPerformed;
-        _playerInput.Player.Block.canceled -= OnBlockCanceled;
+        _inputSystem.DisablePlayerInput();
     }
 
     // Update is called once per frame
     void Update() {
         _currentState.UpdateStates();
-        CheckActionPressed();
         _isGrounded = CheckIfGrounded();
     }
     
-    public bool CheckIfGrounded()
-    {
+    public bool CheckIfGrounded() {
         RaycastHit hit;
         Vector3 curPos = transform.position;
         // Debug.DrawRay(curPos, -Vector3.up * 0.3f, Color.red);
         if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.25f, curPos.z), -transform.up * 0.3f, out hit, 1f)) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public void ApplyAttackStats() {
@@ -269,98 +225,6 @@ public class PlayerStateMachine : MonoBehaviour {
         }
 
         _isAttacked = checkIfStillAttacked;
-    }
-
-    /// <summary>
-    /// Checks for when certain buttons are pressed, is updated constantly so we can be sure any held, or immediately
-    /// pressed buttons are accurate
-    /// </summary>
-    void CheckActionPressed() {
-        PlayerInput.PlayerActions pAction = _playerInput.Player;
-        // Defies if an action was pressed, not held
-        _isActionPressed = pAction.LightAttack.WasPerformedThisFrame() ||
-                           pAction.MediumAttack.WasPerformedThisFrame() ||
-                           pAction.HeavyAttack.WasPerformedThisFrame() || pAction.Block.WasPerformedThisFrame();
-        // Defines if an action is being held down
-        _isActionHeld = pAction.LightAttack.IsPressed() || pAction.MediumAttack.IsPressed() ||
-                        pAction.HeavyAttack.IsPressed() || pAction.Block.IsPressed();
-        // Defines if the block button is currently being held down
-        _isBlockHeld = pAction.Block.IsPressed();
-    }
-
-    /// <summary>
-    /// When a movement action is performed
-    /// </summary>
-    /// <param name="context">Reference to our input system</param>
-    void OnMovementPerformed(InputAction.CallbackContext context) {
-        _currentMovementInput = context.ReadValue<Vector2>();
-        _isMovementPressed = _currentMovementInput.x != _zero || _currentMovementInput.y != _zero;
-    }
-    
-    /// <summary>
-    /// When a movement action is canceled
-    /// </summary>
-    /// <param name="context">Reference to our input system</param>
-    void OnMovementCanceled(InputAction.CallbackContext context) {
-        _currentMovementInput = Vector2.zero;
-        _isMovementPressed = false;
-    }
-
-    /// <summary>
-    /// When a light attack is performed
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnLightAttackPerformed(InputAction.CallbackContext context) {
-        _isLightAttackPressed = context.ReadValueAsButton();
-    }
-    /// <summary>
-    /// When a light attack is canceled
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnLightAttackCanceled(InputAction.CallbackContext context) {
-        _isLightAttackPressed = false;
-    }
-    /// <summary>
-    /// When a medium attack is performed
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnMediumAttackPerformed(InputAction.CallbackContext context) {
-        _isMediumAttackPressed = context.ReadValueAsButton();
-    }
-    /// <summary>
-    /// When a medium attack is canceled
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnMediumAttackCanceled(InputAction.CallbackContext context) {
-        _isMediumAttackPressed = false;
-    }
-    /// <summary>
-    /// When a heavy attack is performed
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnHeavyAttackPerformed(InputAction.CallbackContext context) {
-        _isHeavyAttackPressed = context.ReadValueAsButton();
-    }
-    /// <summary>
-    /// When a heavy attack is canceled
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnHeavyAttackCanceled(InputAction.CallbackContext context) {
-        _isHeavyAttackPressed = false;
-    }
-    /// <summary>
-    /// When block is performed
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnBlockPerformed(InputAction.CallbackContext context) {
-        _isBlockPressed = context.ReadValueAsButton();
-    }
-    /// <summary>
-    /// When block is cancelee
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnBlockCanceled(InputAction.CallbackContext context) {
-        _isBlockPressed = false;
     }
 
     /// <summary>
