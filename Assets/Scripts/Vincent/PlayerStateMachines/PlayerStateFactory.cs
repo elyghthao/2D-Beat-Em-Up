@@ -92,6 +92,14 @@ public class PlayerStateFactory {
         return new PlayerHAttackState(_context, this);
     }
 
+    /// <summary>
+    /// Creates new PlayerDashAttackState
+    /// </summary>
+    /// <returns>new PlayerDashAttackState</returns>
+    public PlayerBaseState DashAttack() {
+        return new PlayerDashAttackState(_context, this);
+    }
+
     public PlayerBaseState Stunned() {
         return new PlayerStunnedState(_context, this);
     }

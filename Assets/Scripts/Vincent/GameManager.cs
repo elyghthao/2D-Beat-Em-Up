@@ -12,10 +12,12 @@ public class GameManager : MonoBehaviour {
     private List<EnemyStateMachine> _enemyReferences = new List<EnemyStateMachine>();
     [SerializeField]
     private InputSystem _inputSystem = null;
+    private PowerupSystem _powerupSystem = null;
 
     public PlayerStateMachine PlayerRef { get => _playerRef; set => _playerRef = value; }
     public List<EnemyStateMachine> EnemyReferences { get => _enemyReferences;}
     public InputSystem InputSystem { get => _inputSystem; set => _inputSystem = value; }
+    public PowerupSystem PowerupSystem { get => _powerupSystem; set => _powerupSystem = value; }
 
     public void AddEnemy(EnemyStateMachine newEnemy) {
         newEnemy.CurrentPlayerMachine = PlayerRef;
