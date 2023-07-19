@@ -82,6 +82,7 @@ public class PlayerStateMachine : MonoBehaviour {
     // Other Variables
     private bool _characterFlipped;
     private bool _knockedDown;
+    private bool _dashing;
     private bool _isGrounded;
     private float _knockdownMeter;
     private float _stunTimer;
@@ -112,6 +113,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public bool IsAttacked => _isAttacked;
     public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
     public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
+    public bool Dashing { get => _dashing; set => _dashing = value; }
     public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
     public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }

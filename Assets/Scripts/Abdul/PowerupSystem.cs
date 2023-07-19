@@ -9,6 +9,7 @@ public class PowerupSystem : MonoBehaviour {
         None,
         Dash,
         Slam,
+        PowerBlock,
     };
 
     // ============================================ PRIVATE VARIABLES ============================================
@@ -22,6 +23,7 @@ public class PowerupSystem : MonoBehaviour {
         _unlockedPowerups[Powerup.None] = true;
         _unlockedPowerups[Powerup.Dash] = false;
         _unlockedPowerups[Powerup.Slam] = false;
+        _unlockedPowerups[Powerup.PowerBlock] = false;
     }
 
     // ============================================ PUBLIC METHODS/FUNCTIONS ============================================

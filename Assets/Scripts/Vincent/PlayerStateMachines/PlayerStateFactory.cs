@@ -107,4 +107,8 @@ public class PlayerStateFactory {
     public PlayerBaseState Dead() {
         return new PlayerDeathState(_context, this);
     }
+
+    public PlayerBaseState Recover() {
+        return new PlayerRecoveryState(_context, this);
+    }
 }
