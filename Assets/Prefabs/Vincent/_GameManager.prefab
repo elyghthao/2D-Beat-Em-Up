@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8858849111289878972}
   - component: {fileID: 4761225493869430105}
+  - component: {fileID: 869062904687253283}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: GameController
@@ -42,5 +43,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89df26d7b7fe0ac4491d362445ceedec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerRef: {fileID: 0}
+  _enemyReferences: []
+  _inputSystem: {fileID: 0}
+--- !u!114 &869062904687253283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4310546693390515160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 626879b408601154fa60261fd0242c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
