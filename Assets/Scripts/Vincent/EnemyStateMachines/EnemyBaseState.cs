@@ -53,7 +53,7 @@ public abstract class EnemyBaseState
     public EnemyBaseState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) {
         _ctx = currentContext;
         _factory = enemyStateFactory;
-        _currentPlayerMachine = currentContext.currentPlayerMachine;
+        _currentPlayerMachine = currentContext._currentPlayerMachine;
     }
     
     /// <summary>

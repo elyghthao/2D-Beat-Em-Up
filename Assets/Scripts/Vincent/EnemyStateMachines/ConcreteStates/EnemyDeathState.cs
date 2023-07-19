@@ -10,7 +10,7 @@ public class EnemyDeathState : EnemyBaseState {
    }
 
    public override void EnterState() {
-      Ctx.Enemy.SetActive(false);
+      Ctx.SetDead();
    }
 
    public override void UpdateState() {
