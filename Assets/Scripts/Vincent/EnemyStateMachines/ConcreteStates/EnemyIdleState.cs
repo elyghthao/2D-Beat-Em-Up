@@ -37,6 +37,7 @@ public class EnemyIdleState : EnemyBaseState {
       }
       
       // If player and if the player is within the activation distance, move towards the player
+      Debug.Log(Ctx._currentPlayerMachine);
       if (Ctx.CurrentPlayerMachine != null) {
          float dist = Vector3.Distance(Ctx.gameObject.transform.position, Ctx.CurrentPlayerMachine.gameObject.transform.position);
          if (dist <= Ctx.activationDistance) {

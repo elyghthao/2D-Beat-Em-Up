@@ -146,6 +146,7 @@ public class EnemyStateMachine : MonoBehaviour {
     // Functions
     public void Initialize() {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        _currentPlayerMachine = _gameManager.PlayerRef;
         Debug.Log(_gameManager);
 
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
