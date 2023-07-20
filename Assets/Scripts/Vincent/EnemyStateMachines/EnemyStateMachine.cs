@@ -144,10 +144,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject Enemy { get => _enemy; }
 
     // Functions
-    void Awake() {
+    public void Initialize() {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         Debug.Log(_gameManager);
-        _gameManager.AddEnemy(this);
 
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
@@ -191,7 +190,9 @@ public class EnemyStateMachine : MonoBehaviour {
 
     void Update() {
         _isGrounded = CheckIfGrounded();
-        _currentState.UpdateStates();
+        if (CurrentState != null) {
+            _currentState.UpdateStates();
+        }
     }
     
     public bool CheckIfGrounded()

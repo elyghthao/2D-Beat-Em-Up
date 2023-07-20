@@ -120,10 +120,8 @@ public class PlayerStateMachine : MonoBehaviour {
     public AttackType[] RecievedAttack { get => _recievedAttack; set => _recievedAttack = value; }
 
     // Functions
-    private void Awake() {
+    public void Initialize() {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        Debug.Log(_gameManager);
-        _gameManager.AddPlayer(this);
         _inputSystem = _gameManager.InputSystem;
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(1, 10), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(1, 5), 60, 15);
@@ -152,7 +150,9 @@ public class PlayerStateMachine : MonoBehaviour {
     /// Enables all input for the character when the PlayerStateMachine script is enabled
     /// </summary>
     private void OnEnable() {
-        _inputSystem.EnablePlayerInput();
+        if (_inputSystem != null) {
+            _inputSystem.EnablePlayerInput();
+        }
     }
 
     /// <summary>

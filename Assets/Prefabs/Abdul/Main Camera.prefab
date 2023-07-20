@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 12, y: 0, z: 0}
 --- !u!20 &3904518991961103097
 Camera:
@@ -107,13 +107,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rooms: []
   mainRoom:
-    boundsMin: {x: -10, y: -1}
-    boundsMax: {x: 10, y: 6}
-    eulerAngles: {x: 12, y: 0, z: 0}
-    positionOffset: {x: 0, y: 4.5}
-    zPos: -18
+    boundsMin: {x: -90, y: -1, z: -33}
+    boundsMax: {x: 400, y: 1, z: -25}
+    eulerAngles: {x: 13, y: 0, z: 0}
+    positionOffset: {x: 0, y: 5.5, z: -9}
     camSizeOffset: 0
     dampTime: 0.23
-  mouseFactor: 0.1
+  mouseFactor: 0
   mouseLimit: 2
   player: {fileID: 0}
