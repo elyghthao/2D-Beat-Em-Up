@@ -13,7 +13,7 @@ public class PowerupSystem : MonoBehaviour {
     };
 
     // ============================================ PRIVATE VARIABLES ============================================
-    private Powerup _equippedPowerup = Powerup.None; // Currently equipped powerup
+    private Powerup _equippedPowerup = Powerup.Slam; // Currently equipped powerup
     private Dictionary<Powerup, bool> _unlockedPowerups = new Dictionary<Powerup, bool>(); // The dictionary determining which powerups are unlocked
 
     // ============================================ PRIVATE METHODS/FUNCTIONS ============================================
@@ -27,6 +27,13 @@ public class PowerupSystem : MonoBehaviour {
     }
 
     // ============================================ PUBLIC METHODS/FUNCTIONS ============================================
+    /*
+    To make the PowerupSystem persistent, adding it to the GameManager
+    */
+    private void Awake() {
+        GetComponent<GameManager>().PowerupSystem = this;
+    }
+    
     /*
     Unlocks the given power-up.
     */
@@ -45,11 +52,17 @@ public class PowerupSystem : MonoBehaviour {
     /*
     Equips the given power-up.
     */
-    public void equipPowerup(Powerup toEquip) { 
-        _equippedPowerup = toEquip;
+    public void equipPowerup(Powerup toEquip) { _equippedPowerup = toEquip; }
 
-        // IDEA: INSTEAD OF THE STATE MACHINE CHECKING, COULD MAKE IT SO THAT THIS SYSTEM HERE
-        // FLICKS THE BOOLEANS FOR THE STATE MACHINE FOR IT. OTHERWISE, COULD JUST USE THE ABOVE
-        // METHOD SO EITHER WAY IT WILL WORK.
+    /*
+    Checks if the given Powerup is equipped or not
+    */
+    public bool isEquipped(Powerup check) { return _equippedPowerup == check; }
+
+    /*
+    Checks if an attack=type powerup is equipped
+    */
+    public bool attackEquipped() { 
+        return _equippedPowerup == Powerup.Dash || _equippedPowerup == Powerup.Slam; 
     }
 }

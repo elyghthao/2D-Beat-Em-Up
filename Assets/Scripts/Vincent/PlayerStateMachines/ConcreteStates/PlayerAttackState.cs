@@ -16,7 +16,7 @@ public class PlayerAttackState : PlayerBaseState
 
    public override void UpdateState() {
       // Will ONLY switch if the current substate is ready to me switched out of
-      if (CurrentSubState.CanSwitch) {
+      if (CurrentSubState == null || CurrentSubState.CanSwitch) {
          CheckSwitchStates();
       }
    }
@@ -30,6 +30,8 @@ public class PlayerAttackState : PlayerBaseState
    }
 
    public override void CheckSwitchStates() {
+      if (Ctx.Dashing) { return; } // If dashing, nothing can interrupt it
+
       if (Ctx.IsMovementPressed) {
          SwitchState(Factory.Move());
       } else if(!Ctx.IsActionHeld) {
@@ -42,8 +44,12 @@ public class PlayerAttackState : PlayerBaseState
          SetSubState(Factory.LightAttack());
       } else if (Ctx.IsMediumAttackPressed) {
          SetSubState(Factory.MediumAttack());
-      } else if (Ctx.IsHeavyAttackPressed) {
-         SetSubState(Factory.HeavyAttack());
+      } else if (Ctx.IsPowerupPressed) {
+         if (Ctx.PowerupSystem.isEquipped(PowerupSystem.Powerup.Slam)) {
+            SetSubState(Factory.HeavyAttack());
+         } else if (Ctx.PowerupSystem.isEquipped(PowerupSystem.Powerup.Dash)) {
+            SetSubState(Factory.DashAttack());
+         }
       } else if (Ctx.IsBlockPressed) {
          SetSubState(Factory.Block());
       }

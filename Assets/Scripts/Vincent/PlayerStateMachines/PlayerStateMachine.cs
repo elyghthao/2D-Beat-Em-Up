@@ -106,7 +106,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public bool IsActionHeld { get => _inputSystem.IsActionHeld; }
     public bool IsLightAttackPressed { get => _inputSystem.IsLightAttackPressed; }
     public bool IsMediumAttackPressed { get => _inputSystem.IsMediumAttackPressed; }
-    public bool IsHeavyAttackPressed { get => _inputSystem.IsHeavyAttackPressed; }
+    public bool IsPowerupPressed { get => _inputSystem.IsHeavyAttackPressed; }
     public bool IsBlockPressed { get => _inputSystem.IsBlockPressed; }
     public bool IsBlockHeld { get => _inputSystem.IsBlockHeld; }
     public bool CharacterFlipped { get => _characterFlipped; set => _characterFlipped = value; }
@@ -118,6 +118,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
     public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
     public AttackType[] RecievedAttack { get => _recievedAttack; set => _recievedAttack = value; }
+    public PowerupSystem PowerupSystem { get => _gameManager.PowerupSystem; }
 
     // Functions
     public void Initialize() {

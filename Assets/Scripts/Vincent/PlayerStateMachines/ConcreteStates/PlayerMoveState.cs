@@ -25,13 +25,22 @@ public class PlayerMoveState : PlayerBaseState
 
    public override void ExitState() { 
       // Debug.Log("ROOT: EXITED MOVEMENT"); 
-      }
+   }
 
    public override void CheckSwitchStates() {
       if (Ctx.IsAttacked) {
          SwitchState(Factory.Hurt());
       } else  if (Ctx.IsActionPressed) {
-         SwitchState(Factory.Attack());
+         // Pathway: If we pressed the powerup key and we have an attack powerup, we attack.
+         // If we pressed the powerup key and we do not have an attack powerup equipped, dont do anything.
+         // If we did not press a powerup key, then just attack.
+         if (Ctx.IsPowerupPressed) {
+            if (Ctx.PowerupSystem.attackEquipped()) {
+               SwitchState(Factory.Attack());
+            }
+         } else {
+            SwitchState(Factory.Attack());
+         }
       } else if (!Ctx.IsMovementPressed) {
          SwitchState(Factory.Idle());
       }

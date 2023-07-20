@@ -33,8 +33,12 @@ public class PlayerBlockState : PlayerBaseState {
          SwitchState(Factory.LightAttack());
       } else if (Ctx.IsMediumAttackPressed) {
          SwitchState(Factory.MediumAttack());
-      } else if (Ctx.IsHeavyAttackPressed) {
-         SwitchState(Factory.HeavyAttack());
+      } else if (Ctx.IsPowerupPressed) {
+         if (Ctx.PowerupSystem.isEquipped(PowerupSystem.Powerup.Slam)) {
+            SetSubState(Factory.HeavyAttack());
+         } else if (Ctx.PowerupSystem.isEquipped(PowerupSystem.Powerup.Dash)) {
+            SetSubState(Factory.DashAttack());
+         }
       }
    }
 
