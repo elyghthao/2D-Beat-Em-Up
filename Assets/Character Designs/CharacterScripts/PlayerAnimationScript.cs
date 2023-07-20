@@ -39,21 +39,25 @@ public class PlayerAnimationScript : MonoBehaviour
             isHit = false;
 
             if(lightAttack.activeSelf){
-                if (rand == 0){
-                    Debug.Log("light attack");
+                if (rand == 1){
                     anim.Play("LightAttack");
                 }else {
-                    Debug.Log("Light attack 1");
                     anim.Play("LightAttack1");
                 }
         }else if(mediumAttack.activeSelf){
-            anim.Play("MediumAttack");
+            
+            if (rand == 1){
+                    anim.Play("MediumAttack");
+                }else {
+                    anim.Play("MediumAttack1");
+                }
+
         }else if(slamAttack.activeSelf){
             anim.Play("SlamAttack");
         }
         }else if (isAttacking) {
             isAttacking = false;
-            rand = Random.Range(0, 2);
+            rand = (rand + 1) % 2;
         }
 
 
@@ -61,16 +65,19 @@ public class PlayerAnimationScript : MonoBehaviour
         
         
         if(stateScript.CurrentState.ToString() == "PlayerMoveState" && !isAttacking){
+            rand = 1;
             isHit = false;
             anim.Play("Walk");
         }else if(stateScript.CurrentState.ToString() == "PlayerHurtState" ){
             anim.Play("Hurt");
             if(!isHit){
+                rand = 1;
                 anim.Play("Hurt");
                 hitParticle.Play();
                 isHit = true;
             }
         }else if(stateScript.CurrentState.ToString() == "PlayerIdleState" && !isAttacking){
+            // rand = 1;
             isHit = false;
             anim.Play("Idle");
         }
@@ -88,10 +95,5 @@ public class PlayerAnimationScript : MonoBehaviour
         
     }
 
-    IEnumerator RandNum() {
-        Debug.Log("Running");
-        rand = Random.Range(0, 2);
-        yield return new WaitForSeconds(.5f);
-        // StartCoroutine(RandNum());
-    }
+    
 }

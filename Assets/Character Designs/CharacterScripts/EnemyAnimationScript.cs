@@ -31,7 +31,7 @@ public class EnemyAnimationScript : MonoBehaviour
     {
 
         // Debug.Log(mediumAttack.activeSelf);
-        // Debug.Log(stateScript.CurrentState.ToString());
+        Debug.Log(stateScript.CurrentState.ToString());
 
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
