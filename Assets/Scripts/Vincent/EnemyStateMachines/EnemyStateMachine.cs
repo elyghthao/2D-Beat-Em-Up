@@ -259,7 +259,7 @@ public class EnemyStateMachine : MonoBehaviour {
             _rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
             _knockdownMeter -= _recievedAttack[i].KnockdownPressure;
             _currentHealth -= _recievedAttack[i].Damage;
-            // Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + _currentHealth);
+            // Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
             _recievedAttack[i].StatsApplied = true;
         }
     }

@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum Attacks {
     LightAttack1,
@@ -56,12 +59,13 @@ public class PlayerStateMachine : MonoBehaviour {
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
     public Vector2 lightRecoveryFrames = new Vector2(10, 23);
     
-    [Header("Movement")]
-    public float movementSpeed;
-    
-    
     [Header("Combat Stats")]
     public int knockdownMax = 150;
+    [Tooltip("How much time in seconds is given to initiate a followup attack")]
+    public float attackFollowupThreshold = 0.75f;
+    public int currentHealth;
+    [Header("Movement")]
+    public float movementSpeed;
 
     // Reference variables
     private Rigidbody _rigidbody;
@@ -86,8 +90,9 @@ public class PlayerStateMachine : MonoBehaviour {
     private bool _isGrounded;
     private float _knockdownMeter;
     private float _stunTimer;
-    public int _currentHealth;
     private AttackType[] _recievedAttack = new AttackType[6];
+    private Queue<PlayerBaseState> _followupAttacks = new Queue<PlayerBaseState>();
+    
 
     // Constants
     private readonly int _zero = 0;
@@ -116,9 +121,10 @@ public class PlayerStateMachine : MonoBehaviour {
     public bool Dashing { get => _dashing; set => _dashing = value; }
     public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
-    public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
+    public int CurrentHealth { get => currentHealth; set => currentHealth = value; }
     public AttackType[] RecievedAttack { get => _recievedAttack; set => _recievedAttack = value; }
     public PowerupSystem PowerupSystem { get => _gameManager.PowerupSystem; }
+    public PlayerBaseState FollowupAttacks { get => _followupAttacks.Dequeue(); set => _followupAttacks.Enqueue(value); }
 
     // Functions
     public void Initialize() {
@@ -144,7 +150,7 @@ public class PlayerStateMachine : MonoBehaviour {
         // enter initial state. All assignments should go before here
         _currentState = _states.Idle();
         _currentState.EnterState();
-        _currentHealth = maxHealth;
+        currentHealth = maxHealth;
     }
 
     /// <summary>
@@ -191,7 +197,7 @@ public class PlayerStateMachine : MonoBehaviour {
             }
             Rigidbody.velocity = new Vector3(appliedKnockback.x, appliedKnockback.y, 0);
             _knockdownMeter -= _recievedAttack[i].KnockdownPressure;
-            _currentHealth -= _recievedAttack[i].Damage;
+            currentHealth -= _recievedAttack[i].Damage;
             _recievedAttack[i].StatsApplied = true;
         }
     }
@@ -258,9 +264,9 @@ public class PlayerStateMachine : MonoBehaviour {
     /// </summary>
     public void HealCharacter(int addedHealth) {
         if (addedHealth <= 0) { return; }
-        _currentHealth += addedHealth;
-        if (_currentHealth > maxHealth) {
-            _currentHealth = maxHealth;
+        currentHealth += addedHealth;
+        if (currentHealth > maxHealth) {
+            currentHealth = maxHealth;
         }
     }
 }
