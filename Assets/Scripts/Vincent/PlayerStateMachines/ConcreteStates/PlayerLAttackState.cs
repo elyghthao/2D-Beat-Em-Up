@@ -54,9 +54,9 @@ public class PlayerLAttackState : PlayerBaseState {
       if (Ctx.IsMediumAttackPressed) {
          SwitchState(Factory.MediumAttack());
       } else if (Ctx.IsPowerupPressed) {
-         if (Ctx.PowerupSystem.isEquipped(PowerupSystem.Powerup.Slam)) {
+         if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Slam)) {
             SetSubState(Factory.HeavyAttack());
-         } else if (Ctx.PowerupSystem.isEquipped(PowerupSystem.Powerup.Dash)) {
+         } else if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Dash)) {
             SetSubState(Factory.DashAttack());
          }
       } else if (Ctx.IsBlockPressed) {

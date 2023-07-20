@@ -32,7 +32,7 @@ public class PlayerIdleState : PlayerBaseState
          // If we pressed the powerup key and we do not have an attack powerup equipped, dont do anything.
          // If we did not press a powerup key, then just attack.
          if (Ctx.IsPowerupPressed) {
-            if (Ctx.PowerupSystem.attackEquipped()) {
+            if (Ctx.PowerupSystem.AttackEquipped()) {
                SwitchState(Factory.Attack());
             }
          } else {
