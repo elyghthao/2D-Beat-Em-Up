@@ -9,7 +9,12 @@ public class PlayerAnimationScript : MonoBehaviour
     public GameObject lightAttack;
     public GameObject mediumAttack;
     public GameObject slamAttack;
+    int rand ;
+    public bool isHit;
 
+
+    private bool isAttacking;
+    public ParticleSystem hitParticle;
 
 
     
@@ -19,22 +24,54 @@ public class PlayerAnimationScript : MonoBehaviour
         lightAttack = stateScript.lightAttackBounds;
         mediumAttack = stateScript.mediumAttackBounds;
         slamAttack = stateScript.heavyAttackBounds;
+        isAttacking = false;
+        isHit = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(lightAttack.activeSelf){
-            anim.Play("LightAttack");
+        // Debug.Log("rand num: " + rand);
+        // Debug.Log(stateScript.CurrentState.ToString());
+
+        if(stateScript.CurrentState.ToString() == "PlayerAttackState") {
+            isAttacking = true;
+            isHit = false;
+
+            if(lightAttack.activeSelf){
+                if (rand == 0){
+                    Debug.Log("light attack");
+                    anim.Play("LightAttack");
+                }else {
+                    Debug.Log("Light attack 1");
+                    anim.Play("LightAttack1");
+                }
         }else if(mediumAttack.activeSelf){
             anim.Play("MediumAttack");
         }else if(slamAttack.activeSelf){
             anim.Play("SlamAttack");
-        }else if(stateScript.CurrentState.ToString() == "EnemyMovingState"){
+        }
+        }else if (isAttacking) {
+            isAttacking = false;
+            rand = Random.Range(0, 2);
+        }
+
+
+        
+        
+        
+        if(stateScript.CurrentState.ToString() == "PlayerMoveState" && !isAttacking){
+            isHit = false;
             anim.Play("Walk");
-        }else if(stateScript.CurrentState.ToString() == "EnemyHurtState"){
+        }else if(stateScript.CurrentState.ToString() == "PlayerHurtState" ){
             anim.Play("Hurt");
-        }else if(stateScript.CurrentState.ToString() == "EnemyIdleState"){
+            if(!isHit){
+                anim.Play("Hurt");
+                hitParticle.Play();
+                isHit = true;
+            }
+        }else if(stateScript.CurrentState.ToString() == "PlayerIdleState" && !isAttacking){
+            isHit = false;
             anim.Play("Idle");
         }
         
@@ -49,5 +86,12 @@ public class PlayerAnimationScript : MonoBehaviour
 
 
         
+    }
+
+    IEnumerator RandNum() {
+        Debug.Log("Running");
+        rand = Random.Range(0, 2);
+        yield return new WaitForSeconds(.5f);
+        // StartCoroutine(RandNum());
     }
 }

@@ -476,6 +476,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySister_AAN (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1011,6 +1015,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySister_AAN (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1217,6 +1225,10 @@ PrefabInstance:
     - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_Name
       value: EnemySister_AAN (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1596,6 +1608,10 @@ PrefabInstance:
     - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_Name
       value: EnemySister_AAN (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2318,6 +2334,10 @@ PrefabInstance:
     - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_Name
       value: EnemySister_AAN (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3307,6 +3327,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySister_AAN (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3376,6 +3400,10 @@ PrefabInstance:
     - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_Name
       value: EnemySister_AAN (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4132,6 +4160,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySister_AAN (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4418,7 +4450,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1958036411310207668, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.88
+      value: -25.86
       objectReference: {fileID: 0}
     - target: {fileID: 1958036411310207668, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4426,7 +4458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1958036411310207668, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.99
+      value: 3.45
       objectReference: {fileID: 0}
     - target: {fileID: 1958036411310207668, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5095,6 +5127,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySister_AAN (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5540,6 +5576,10 @@ PrefabInstance:
     - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_Name
       value: EnemySister_AAN (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6954,6 +6994,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySister_AAN (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7160,6 +7204,10 @@ PrefabInstance:
     - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_Name
       value: EnemySister_AAN (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7815,6 +7863,10 @@ PrefabInstance:
     - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
       propertyPath: m_Name
       value: EnemySister_AAN (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
