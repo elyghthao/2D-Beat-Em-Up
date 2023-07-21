@@ -121,6 +121,7 @@ public class PlayerStateMachine : MonoBehaviour {
     private PlayerBaseState _queuedAttack = null;
     private float _followupTimer;
     private bool _canQueueAttack;
+    private string _mostRecentAttack;
     
 
     // Constants
@@ -158,7 +159,9 @@ public class PlayerStateMachine : MonoBehaviour {
     public AttackType[] RecievedAttack { get => _recievedAttack; set => _recievedAttack = value; }
     public PowerupSystem PowerupSystem { get => _gameManager.PowerupSystem; }
     public PlayerBaseState QueuedAttack { get => _queuedAttack; set => _queuedAttack = value; }
+    public float FollowupTimer { get => _followupTimer; set => _followupTimer = value; }
     public bool CanQueueAttacks { get => _canQueueAttack; set => _canQueueAttack = value; }
+    public string MostRecentAttack { get => _mostRecentAttack; set => _mostRecentAttack = value; }
 
     // Functions
     public void Initialize() {
@@ -183,7 +186,7 @@ public class PlayerStateMachine : MonoBehaviour {
         _rigidbody.freezeRotation = true;
         
         currentHealth = maxHealth;
-        _followupTimer = attackFollowupThreshold;
+        _followupTimer = 0;
         
         // enter initial state. All assignments should go before here
         _states = new PlayerStateFactory(this);
@@ -211,6 +214,10 @@ public class PlayerStateMachine : MonoBehaviour {
     void Update() {
         _currentState.UpdateStates();
         _isGrounded = CheckIfGrounded();
+        if (_followupTimer > 0) {
+            _followupTimer -= Time.deltaTime;
+            Debug.Log("Followup Timer: " + _followupTimer);
+        }
     }
     
     public bool CheckIfGrounded() {

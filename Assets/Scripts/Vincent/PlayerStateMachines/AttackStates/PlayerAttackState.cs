@@ -40,7 +40,9 @@ public class PlayerAttackState : PlayerBaseState
    }
 
    public override void InitializeSubState() {
-      if (Ctx.IsLightAttackPressed) {
+      if (Ctx.QueuedAttack != null) {
+         SetSubState(Ctx.QueuedAttack);
+      } else if (Ctx.IsLightAttackPressed) {
          SetSubState(Factory.LightAttack());
       } else if (Ctx.IsMediumAttackPressed) {
          SetSubState(Factory.MediumAttack());

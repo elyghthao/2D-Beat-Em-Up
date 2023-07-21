@@ -9,19 +9,34 @@ public class PlayerIdleState : PlayerBaseState
    public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
       IsRootState = true;
-      //InitializeSubState();
    }
 
    public override void EnterState() {
-
       Ctx.BaseMaterial.color = Color.green;
    }
 
    public override void UpdateState() {
+      if (!Ctx.InputSystem.IsActionHeld && Ctx.FollowupTimer > 0) {
+         if (Ctx.InputSystem.IsLightAttackPressed) {
+            if (Ctx.MostRecentAttack == "PlayerLAttackState") {
+               Ctx.QueuedAttack = Factory.LightFirstFollowupAttack();
+            }
+            else if (Ctx.MostRecentAttack == "PlayerL1AttackState") {
+               Ctx.QueuedAttack = Factory.LightSecondFollowupAttack();
+            }
+         }
+         if (Ctx.InputSystem.IsMediumAttackPressed) {
+            if (Ctx.MostRecentAttack == "PlayerMAttackState") {
+               Ctx.QueuedAttack = Factory.MediumFirstFollowupAttack();
+            }
+         }
+      }
+
       CheckSwitchStates();
    }
 
    public override void ExitState() {
+      
    }
 
    public override void CheckSwitchStates() {

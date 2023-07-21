@@ -22,6 +22,8 @@ public class PlayerMAttackState : PlayerBaseState {
       // Sets the time per frame
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.mediumAttackBounds.SetActive(true);
+      Ctx.FollowupTimer = Ctx.attackFollowupThreshold;
+      Ctx.MostRecentAttack = this.ToString();
    }
 
    public override void UpdateState() {

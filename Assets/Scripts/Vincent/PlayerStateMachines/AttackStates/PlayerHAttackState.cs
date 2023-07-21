@@ -19,6 +19,7 @@ public class PlayerHAttackState : PlayerBaseState {
       // Debug.Log("SUB: ENTERED HEAVY");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.heavyAttackBounds.SetActive(true);
+      Ctx.MostRecentAttack = this.ToString();
    }
 
    public override void UpdateState() {

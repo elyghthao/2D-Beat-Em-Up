@@ -17,6 +17,8 @@ public class PlayerL1AttackState : PlayerBaseState {
         //Debug.Log("SUB: ENTERED LIGHT 1");
         _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
         Ctx.lightFirstFollowupAttackBounds.SetActive(true);
+        Ctx.FollowupTimer = Ctx.attackFollowupThreshold;
+        Ctx.MostRecentAttack = this.ToString();
     }
 
     public override void UpdateState() {

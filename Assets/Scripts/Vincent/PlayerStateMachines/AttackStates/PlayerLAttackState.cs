@@ -21,6 +21,8 @@ public class PlayerLAttackState : PlayerBaseState {
       //Debug.Log("SUB: ENTERED LIGHT");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.lightAttackBounds.SetActive(true);
+      Ctx.FollowupTimer = Ctx.attackFollowupThreshold;
+      Ctx.MostRecentAttack = this.ToString();
    }
 
    public override void UpdateState() {
@@ -52,21 +54,6 @@ public class PlayerLAttackState : PlayerBaseState {
       } else {
          SwitchState(Factory.Idle());
       }
-      /*if (Ctx.FollowupAttacks.Count > 0 && Ctx.FollowupAttacks.Peek().ToString() == "PlayerL1AttackState") {
-         SwitchState(Ctx.FollowupAttacks.Dequeue());
-      } else if (Ctx.IsMediumAttackPressed) {
-         SwitchState(Factory.MediumAttack());
-      } else if (Ctx.IsPowerupPressed) {
-         if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Slam)) {
-            SetSubState(Factory.HeavyAttack());
-         } else if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Dash)) {
-            SetSubState(Factory.DashAttack());
-         }
-      } else if (Ctx.IsBlockPressed) {
-         SwitchState(Factory.Block());
-      } else {
-         SwitchState(Factory.Idle()); // TEMP FIX for action not ending because the action is being held down
-      }*/
    }
 
    public override void InitializeSubState() {
