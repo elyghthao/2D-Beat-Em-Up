@@ -147,7 +147,6 @@ public class EnemyStateMachine : MonoBehaviour {
     public void Initialize() {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _currentPlayerMachine = _gameManager.PlayerRef;
-        Debug.Log(_gameManager);
 
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
@@ -214,7 +213,6 @@ public class EnemyStateMachine : MonoBehaviour {
         ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
-                Debug.Log(i + " has collided");
                 _recievedAttack[i].Used = true; 
                 if (other.transform.position.x > transform.position.x) {
                     _recievedAttack[i].AttackedFromRightSide = true;
@@ -231,7 +229,6 @@ public class EnemyStateMachine : MonoBehaviour {
         bool checkIfStillAttacked = false;
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
-                Debug.Log(i + " is no longer colliding");
                 _recievedAttack[i].Used = false;
                 _recievedAttack[i].AttackedFromRightSide = false;
                 _recievedAttack[i].StatsApplied = false;

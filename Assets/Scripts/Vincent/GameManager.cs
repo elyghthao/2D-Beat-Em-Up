@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        Debug.Log("New scene loaded");
         GameObject[] duplicates = GameObject.FindGameObjectsWithTag("GameController");
         foreach (GameObject i in duplicates) {
             if(i != gameObject) {

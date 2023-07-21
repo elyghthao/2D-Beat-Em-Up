@@ -1,25 +1,24 @@
 using UnityEngine;
 
 /// <summary>
-/// Substate of the PlayerAttackState. When the player does a medium attack
+/// Substate of the PlayerAttackState. When the player performs a heavy attack
 /// </summary>
-public class PlayerMAttackState : PlayerBaseState {
+public class PlayerHAttackState : PlayerBaseState {
    // Handles timing of the attack for startup, active, and recovery frames
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
 
-   public PlayerMAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+   public PlayerHAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
       // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
    }
-
+   
    public override void EnterState() {
-      // Debug.Log("SUB: ENTERED MEDIUM");
-      // Sets the time per frame
+      // Debug.Log("SUB: ENTERED HEAVY");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
-      Ctx.mediumAttackBounds.SetActive(true);
+      Ctx.heavyAttackBounds.SetActive(true);
    }
 
    public override void UpdateState() {
@@ -30,14 +29,14 @@ public class PlayerMAttackState : PlayerBaseState {
       // Green is startup frames: No damage is given in this phase
       // Red is active frames: Damage can be given in this phase
       // Blue is recovery frames: No damage given in this phase
-      if (_currentFrame <= Ctx.mediumStartupFrames.y) {
-         Ctx.MediumBounds.setMatColor(Color.green);
-      } else if (_currentFrame <= Ctx.mediumActiveFrames.y) {
-         Ctx.MediumBounds.setMatColor(Color.red);
-         Ctx.MediumBounds.setColliderActive(true);
-      } else if (_currentFrame <= Ctx.mediumRecoveryFrames.y) {
-         Ctx.MediumBounds.setMatColor(Color.blue);
-         Ctx.MediumBounds.setColliderActive(false);
+      if (_currentFrame <= Ctx.heavyStartupFrames) {
+         Ctx.HeavyBounds.setMatColor(Color.green);
+      } else if (_currentFrame <= Ctx.heavyActiveFrames) {
+         Ctx.HeavyBounds.setMatColor(Color.red);
+         Ctx.HeavyBounds.setColliderActive(true);
+      } else if (_currentFrame <= Ctx.heavyRecoveryFrames) {
+         Ctx.HeavyBounds.setMatColor(Color.blue);
+         Ctx.HeavyBounds.setColliderActive(false);
       } else {
          CanSwitch = true;
       }
@@ -47,21 +46,15 @@ public class PlayerMAttackState : PlayerBaseState {
    }
 
    public override void ExitState() {
-      // Debug.Log("SUB: EXITED MEDIUM");
-      Ctx.mediumAttackBounds.SetActive(false);
+      // Debug.Log("SUB: EXITED HEAVY");
+      Ctx.heavyAttackBounds.SetActive(false);
    }
 
    public override void CheckSwitchStates() {
       if (Ctx.IsLightAttackPressed) {
          SwitchState(Factory.LightAttack());
-      } else if (Ctx.IsPowerupPressed) {
-         if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Slam)) {
-            SetSubState(Factory.HeavyAttack());
-         } else if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Dash)) {
-            SetSubState(Factory.DashAttack());
-         }
-      } else if (Ctx.IsBlockPressed) {
-         SwitchState(Factory.Block());
+      } else if (Ctx.IsMediumAttackPressed) {
+         SwitchState(Factory.MediumAttack());
       } else {
          SwitchState(Factory.Idle()); // TEMP FIX for action not ending because the action is being held down
       }

@@ -8,6 +8,8 @@ public class PlayerLAttackState : PlayerBaseState {
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
+   // 0 == startup, 1 == active, 2 == recovery, 3 == finished
+   private int _currentFrameState;
    
    public PlayerLAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
@@ -25,22 +27,15 @@ public class PlayerLAttackState : PlayerBaseState {
       _animationTime += Time.deltaTime;
       _currentFrame = _animationTime / _timePerFrame;
 
-      // Displays the current state of the attack frames.
-      // Green is startup frames: No damage is given in this phase
-      // Red is active frames: Damage can be given in this phase
-      // Blue is recovery frames: No damage given in this phase
-      if (_currentFrame <= Ctx.lightStartupFrames.y) {
-         Ctx.LightBounds.setMatColor(Color.green);
-      } else if (_currentFrame <= Ctx.lightActiveFrames.y) {
-         Ctx.LightBounds.setMatColor(Color.red);
-         Ctx.LightBounds.setColliderActive(true);
-      } else if (_currentFrame <= Ctx.lightRecoveryFrames.y) {
-         Ctx.LightBounds.setMatColor(Color.blue);
-         Ctx.LightBounds.setColliderActive(false);
-      } else {
-         CanSwitch = true;
+      _currentFrameState = Ctx.FrameState(Ctx.LightBounds, _currentFrame, Ctx.lightStartupFrames, Ctx.lightActiveFrames,
+         Ctx.lightRecoveryFrames);
+      Debug.Log("CurrentFrameState for LightAttack: " + _currentFrameState);
+      if (Ctx.InputSystem.IsLightAttackPressed && _currentFrameState >= 2 && !Ctx.InputSystem.IsActionHeld) {
+         Ctx.QueuedAttack = Factory.LightFirstFollowupAttack();
+         Debug.Log("LightAttack 1 Queued");
       }
-      if (CanSwitch) {
+      if (_currentFrameState == 3) {
+         CanSwitch = true;
          CheckSwitchStates();
       }
    }
@@ -51,7 +46,15 @@ public class PlayerLAttackState : PlayerBaseState {
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.IsMediumAttackPressed) {
+      if (Ctx.QueuedAttack != null) {
+         SwitchState(Ctx.QueuedAttack);
+         Ctx.ResetAttackQueue();
+      } else {
+         SwitchState(Factory.Idle());
+      }
+      /*if (Ctx.FollowupAttacks.Count > 0 && Ctx.FollowupAttacks.Peek().ToString() == "PlayerL1AttackState") {
+         SwitchState(Ctx.FollowupAttacks.Dequeue());
+      } else if (Ctx.IsMediumAttackPressed) {
          SwitchState(Factory.MediumAttack());
       } else if (Ctx.IsPowerupPressed) {
          if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Slam)) {
@@ -63,7 +66,7 @@ public class PlayerLAttackState : PlayerBaseState {
          SwitchState(Factory.Block());
       } else {
          SwitchState(Factory.Idle()); // TEMP FIX for action not ending because the action is being held down
-      }
+      }*/
    }
 
    public override void InitializeSubState() {

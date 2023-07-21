@@ -3,13 +3,13 @@ using UnityEngine;
 /// <summary>
 /// Substate of the PlayerAttackState. When the player performs a heavy attack
 /// </summary>
-public class PlayerHAttackState : PlayerBaseState {
+public class PlayerDashAttackState : PlayerBaseState {
    // Handles timing of the attack for startup, active, and recovery frames
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
 
-   public PlayerHAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+   public PlayerDashAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
       // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
@@ -29,12 +29,12 @@ public class PlayerHAttackState : PlayerBaseState {
       // Green is startup frames: No damage is given in this phase
       // Red is active frames: Damage can be given in this phase
       // Blue is recovery frames: No damage given in this phase
-      if (_currentFrame <= Ctx.heavyStartupFrames.y) {
+      if (_currentFrame <= Ctx.heavyStartupFrames) {
          Ctx.HeavyBounds.setMatColor(Color.green);
-      } else if (_currentFrame <= Ctx.heavyActiveFrames.y) {
+      } else if (_currentFrame <= Ctx.heavyActiveFrames) {
          Ctx.HeavyBounds.setMatColor(Color.red);
          Ctx.HeavyBounds.setColliderActive(true);
-      } else if (_currentFrame <= Ctx.heavyRecoveryFrames.y) {
+      } else if (_currentFrame <= Ctx.heavyRecoveryFrames) {
          Ctx.HeavyBounds.setMatColor(Color.blue);
          Ctx.HeavyBounds.setColliderActive(false);
       } else {
