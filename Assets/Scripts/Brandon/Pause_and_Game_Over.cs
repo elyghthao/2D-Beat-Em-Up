@@ -71,7 +71,8 @@ public class Pause_and_Game_Over : MonoBehaviour
         black_screen.SetActive(true);
 
         Time.timeScale = 0f;
-        player.SetActive(false);
+        //player.SetActive(false);
+        player.GetComponent<PlayerStateMachine>().enabled = false;
         enemies.SetActive(false);
     }
 
@@ -83,7 +84,8 @@ public class Pause_and_Game_Over : MonoBehaviour
         black_screen.SetActive(false);
 
         Time.timeScale = 1f;
-        player.SetActive(true);
+        //player.SetActive(true);
+        player.GetComponent<PlayerStateMachine>().enabled = true;
         enemies.SetActive(true);
     }
 
@@ -95,7 +97,8 @@ public class Pause_and_Game_Over : MonoBehaviour
         black_screen.SetActive(true);
 
         Time.timeScale = 0f;
-        player.SetActive(false);
+        //player.SetActive(false);
+        player.GetComponent<PlayerStateMachine>().enabled = false;
         enemies.SetActive(false);
     }
 }
