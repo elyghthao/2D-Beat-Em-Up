@@ -1308,7 +1308,7 @@ MonoBehaviour:
   heavyAttackBounds: {fileID: 6305237836866135980}
   mediumAttackBounds: {fileID: 1389033172223256393}
   lightAttackBounds: {fileID: 4663574474443355849}
-  framesPerSecond: 80
+  framesPerSecond: 100
   heavyFrameCount: 44
   heavyStartupFrames: {x: 1, y: 10}
   heavyActiveFrames: {x: 11, y: 15}
