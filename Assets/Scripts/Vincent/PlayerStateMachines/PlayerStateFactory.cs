@@ -69,11 +69,27 @@ public class PlayerStateFactory {
     }
 
     /// <summary>
-    /// Creates new PlayerLightAttackState
+    /// Creates new PlayerLAttackState
     /// </summary>
-    /// <returns>new PlayerLightAttackState</returns>
+    /// <returns>new PlayerLAttackState</returns>
     public PlayerBaseState LightAttack() {
         return new PlayerLAttackState(_context, this);
+    }
+    
+    /// <summary>
+    /// Creates new PlayerL1AttackState
+    /// </summary>
+    /// <returns>new PlayerL1AttackState</returns>
+    public PlayerBaseState LightFirstFollowupAttack() {
+        return new PlayerL1AttackState(_context, this);
+    }
+    
+    /// <summary>
+    /// Creates new PlayerL2AttackState
+    /// </summary>
+    /// <returns>new PlayerL2AttackState</returns>
+    public PlayerBaseState LightSecondFollowupAttack() {
+        return new PlayerL2AttackState(_context, this);
     }
 
     /// <summary>
@@ -83,6 +99,14 @@ public class PlayerStateFactory {
     public PlayerBaseState MediumAttack() {
         return new PlayerMAttackState(_context, this);
     }
+    
+    /// <summary>
+    /// Creates new PlayerM1AttackState
+    /// </summary>
+    /// <returns>new PlayerM1AttackState</returns>
+    public PlayerBaseState MediumFirstFollowupAttack() {
+        return new PlayerM1AttackState(_context, this);
+    }
 
     /// <summary>
     /// Creates new PlayerHeavyAttackState
@@ -90,6 +114,14 @@ public class PlayerStateFactory {
     /// <returns>new PlayerHeavyAttackState</returns>
     public PlayerBaseState HeavyAttack() {
         return new PlayerHAttackState(_context, this);
+    }
+
+    /// <summary>
+    /// Creates new PlayerDashAttackState
+    /// </summary>
+    /// <returns>new PlayerDashAttackState</returns>
+    public PlayerBaseState DashAttack() {
+        return new PlayerDashAttackState(_context, this);
     }
 
     public PlayerBaseState Stunned() {
@@ -106,5 +138,9 @@ public class PlayerStateFactory {
 
     public PlayerBaseState Dead() {
         return new PlayerDeathState(_context, this);
+    }
+
+    public PlayerBaseState Recover() {
+        return new PlayerRecoveryState(_context, this);
     }
 }

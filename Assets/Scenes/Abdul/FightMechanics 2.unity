@@ -404,6 +404,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySister_AAN
       objectReference: {fileID: 0}
+    - target: {fileID: 6264643045722117704, guid: 11ef3a9479b5d7249b55c90bf0ad2dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -594,7 +598,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 18673388}
   knockdownMax: 150
-  currentPlayerMachine: {fileID: 1606900934086823903}
   enemyType: 0
   maxHealth: 100
   activationDistance: 0.03
@@ -616,6 +619,7 @@ MonoBehaviour:
   lightStartupFrames: {x: 1, y: 7}
   lightActiveFrames: {x: 8, y: 9}
   lightRecoveryFrames: {x: 10, y: 23}
+  _currentPlayerMachine: {fileID: 0}
 --- !u!1 &466214330
 GameObject:
   m_ObjectHideFlags: 0

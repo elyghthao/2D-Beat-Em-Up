@@ -8,8 +8,8 @@ public class AttackBoundsManager : MonoBehaviour {
     private Material mat;
     private void Awake() {
         col = GetComponent<BoxCollider>();
-        // Debug.Log(col);
         mat = GetComponent<Renderer>().material;
+        Debug.Log(mat);
     }
 
     public void setMatColor(Color color) {

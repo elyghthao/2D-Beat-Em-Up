@@ -9,10 +9,11 @@ public class PowerupSystem : MonoBehaviour {
         None,
         Dash,
         Slam,
+        PowerBlock,
     };
 
     // ============================================ PRIVATE VARIABLES ============================================
-    private Powerup _equippedPowerup = Powerup.None; // Currently equipped powerup
+    private Powerup _equippedPowerup = Powerup.Slam; // Currently equipped powerup
     private Dictionary<Powerup, bool> _unlockedPowerups = new Dictionary<Powerup, bool>(); // The dictionary determining which powerups are unlocked
 
     // ============================================ PRIVATE METHODS/FUNCTIONS ============================================
@@ -22,32 +23,46 @@ public class PowerupSystem : MonoBehaviour {
         _unlockedPowerups[Powerup.None] = true;
         _unlockedPowerups[Powerup.Dash] = false;
         _unlockedPowerups[Powerup.Slam] = false;
+        _unlockedPowerups[Powerup.PowerBlock] = false;
     }
 
     // ============================================ PUBLIC METHODS/FUNCTIONS ============================================
     /*
+    To make the PowerupSystem persistent, adding it to the GameManager
+    */
+    private void Awake() {
+        GetComponent<GameManager>().PowerupSystem = this;
+    }
+    
+    /*
     Unlocks the given power-up.
     */
-    public void unlockPowerup(Powerup unlockedPowerup) { _unlockedPowerups[unlockedPowerup] = true; }
+    public void UnlockPowerup(Powerup unlockedPowerup) { _unlockedPowerups[unlockedPowerup] = true; }
 
     /*
     Returns if the given power-up is unlocked or not
     */
-    public bool checkPowerup(Powerup checkingPowerup) { return _unlockedPowerups[checkingPowerup]; }
+    public bool CheckPowerup(Powerup checkingPowerup) { return _unlockedPowerups[checkingPowerup]; }
 
     /*
     Returns the currently equipped power-up.
     */
-    public Powerup getEquipped() { return _equippedPowerup; }
+    public Powerup GetEquipped() { return _equippedPowerup; }
 
     /*
     Equips the given power-up.
     */
-    public void equipPowerup(Powerup toEquip) { 
-        _equippedPowerup = toEquip;
+    public void EquipPowerup(Powerup toEquip) { _equippedPowerup = toEquip; }
 
-        // IDEA: INSTEAD OF THE STATE MACHINE CHECKING, COULD MAKE IT SO THAT THIS SYSTEM HERE
-        // FLICKS THE BOOLEANS FOR THE STATE MACHINE FOR IT. OTHERWISE, COULD JUST USE THE ABOVE
-        // METHOD SO EITHER WAY IT WILL WORK.
+    /*
+    Checks if the given Powerup is equipped or not
+    */
+    public bool IsEquipped(Powerup check) { return _equippedPowerup == check; }
+
+    /*
+    Checks if an attack=type powerup is equipped
+    */
+    public bool AttackEquipped() { 
+        return _equippedPowerup == Powerup.Dash || _equippedPowerup == Powerup.Slam; 
     }
 }

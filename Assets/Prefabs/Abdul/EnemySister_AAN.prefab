@@ -1232,7 +1232,7 @@ GameObject:
   - component: {fileID: 6645445974233381345}
   m_Layer: 7
   m_Name: EnemySister_AAN
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1300,7 +1300,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 8402972654335376429}
   knockdownMax: 150
-  currentPlayerMachine: {fileID: 0}
   enemyType: 0
   maxHealth: 100
   activationDistance: 12
@@ -1322,6 +1321,7 @@ MonoBehaviour:
   lightStartupFrames: {x: 1, y: 7}
   lightActiveFrames: {x: 8, y: 9}
   lightRecoveryFrames: {x: 10, y: 23}
+  _currentPlayerMachine: {fileID: 0}
 --- !u!114 &8931059919346083695
 MonoBehaviour:
   m_ObjectHideFlags: 0

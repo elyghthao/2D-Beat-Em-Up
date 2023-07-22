@@ -701,23 +701,33 @@ MonoBehaviour:
   maxHealth: 100
   heavyAttackBounds: {fileID: 4006682455540838733}
   mediumAttackBounds: {fileID: 3944727719667792075}
+  mediumFirstFollowupAttackBounds: {fileID: 2535181072139920709}
   lightAttackBounds: {fileID: 5426378805633837113}
+  lightFirstFollowupAttackBounds: {fileID: 8587952957894100113}
+  lightSecondFollowupAttackBounds: {fileID: 1249893923475625342}
   framesPerSecond: 30
-  heavyFrameCount: 44
-  heavyStartupFrames: {x: 1, y: 10}
-  heavyActiveFrames: {x: 11, y: 15}
-  heavyRecoveryFrames: {x: 16, y: 44}
-  mediumFrameCount: 32
-  mediumStartupFrames: {x: 1, y: 9}
-  mediumActiveFrames: {x: 10, y: 14}
-  mediumRecoveryFrames: {x: 15, y: 32}
-  lightFrameCount: 23
-  lightStartupFrames: {x: 1, y: 9}
-  lightActiveFrames: {x: 10, y: 14}
-  lightRecoveryFrames: {x: 15, y: 23}
-  movementSpeed: 5
+  heavyStartupFrames: 20
+  heavyActiveFrames: 25
+  heavyRecoveryFrames: 54
+  mediumStartupFrames: 19
+  mediumActiveFrames: 24
+  mediumRecoveryFrames: 42
+  medium1StartupFrames: 19
+  medium1ActiveFrames: 24
+  medium1RecoveryFrames: 42
+  lightStartupFrames: 17
+  lightActiveFrames: 19
+  lightRecoveryFrames: 33
+  light1StartupFrames: 17
+  light1ActiveFrames: 19
+  light1RecoveryFrames: 33
+  light2StartupFrames: 17
+  light2ActiveFrames: 19
+  light2RecoveryFrames: 33
   knockdownMax: 150
-  _currentHealth: 0
+  attackFollowupThreshold: 0.75
+  currentHealth: 0
+  movementSpeed: 5
 --- !u!54 &3587425202357328570
 Rigidbody:
   m_ObjectHideFlags: 0
