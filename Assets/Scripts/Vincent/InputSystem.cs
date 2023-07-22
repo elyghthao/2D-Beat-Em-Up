@@ -68,7 +68,10 @@ public class InputSystem : MonoBehaviour
     }
 
     private void Awake() {
-        GetComponent<GameManager>().InputSystem = this;
+        //_playerInput = new PlayerInput();
+    }
+
+    public void Initialize() {
         _playerInput = new PlayerInput();
     }
 

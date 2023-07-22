@@ -12,10 +12,12 @@ public class GameManager : MonoBehaviour {
     private List<EnemyStateMachine> _enemyReferences = new List<EnemyStateMachine>();
     [SerializeField]
     private InputSystem _inputSystem = null;
+    private PowerupSystem _powerupSystem = null;
 
     public PlayerStateMachine PlayerRef { get => _playerRef; set => _playerRef = value; }
     public List<EnemyStateMachine> EnemyReferences { get => _enemyReferences;}
     public InputSystem InputSystem { get => _inputSystem; set => _inputSystem = value; }
+    public PowerupSystem PowerupSystem { get => _powerupSystem; set => _powerupSystem = value; }
 
     public void AddEnemy(EnemyStateMachine newEnemy) {
         newEnemy.CurrentPlayerMachine = PlayerRef;
@@ -31,6 +33,16 @@ public class GameManager : MonoBehaviour {
     
     // Start is called before the first frame update
     void Awake() {
+        _inputSystem = GetComponent<InputSystem>();
+        _inputSystem.Initialize();
+        _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
+        _playerRef.Initialize();
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject i in enemies) {
+            EnemyStateMachine enemyRef = i.GetComponent<EnemyStateMachine>();
+            _enemyReferences.Add(enemyRef);
+            enemyRef.Initialize();
+        }
         SceneManager.sceneLoaded -= OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -42,7 +54,6 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        Debug.Log("New scene loaded");
         GameObject[] duplicates = GameObject.FindGameObjectsWithTag("GameController");
         foreach (GameObject i in duplicates) {
             if(i != gameObject) {
