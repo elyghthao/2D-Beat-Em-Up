@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 5105669468791422790}
   - component: {fileID: 7635339613858587676}
   - component: {fileID: 6814833420107093752}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MediumAttackBounds
   m_TagString: FirstMediumAttack
   m_Icon: {fileID: 0}
@@ -916,7 +916,7 @@ GameObject:
   - component: {fileID: 1620700589406613972}
   - component: {fileID: 6095975340388672941}
   - component: {fileID: 5402103433120399017}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LightAttack
   m_TagString: FirstLightAttack
   m_Icon: {fileID: 0}
@@ -1257,7 +1257,7 @@ Transform:
   - {fileID: 1844057885946809828}
   - {fileID: 6567936611830985798}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6131943060730053032
 Rigidbody:
@@ -1300,7 +1300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 8402972654335376429}
   knockdownMax: 150
-  enemyType: 0
+  enemyType: 1
   maxHealth: 100
   activationDistance: 12
   attackReliefTime: 1
@@ -1407,7 +1407,7 @@ GameObject:
   - component: {fileID: 817929657580041834}
   - component: {fileID: 6066415831181927450}
   - component: {fileID: 6921542624227314645}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HeavyAttackBounds
   m_TagString: SlamAttack
   m_Icon: {fileID: 0}

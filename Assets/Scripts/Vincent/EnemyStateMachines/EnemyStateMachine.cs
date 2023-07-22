@@ -18,12 +18,17 @@ using UnityEngine;
 /// Context file that holds important information for all enemy states to reference
 /// </summary>
 public class EnemyStateMachine : MonoBehaviour {
+    // Static Variables
+    private static int _enemiesFlanking;
+
     /// <summary>
     /// For identifying the type of enemy this enemy is representing
     /// Added by Abdul
+    /// SCRIPTS: EnemyAttackingState, EnemyMovingState
     /// </summary>
     public enum EnemyType {
         Heavy,
+        Medium,
     };
 
     //// Variables
@@ -39,6 +44,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public float activationDistance = 15;   // Added by Abdul: The distance between the player and enemy in order for the enemy to start chasing
     public float attackReliefTime = .15f;  // Added by Abdul: Time between attacks until attacking again in seconds.
     public float attackDistance = 3;       // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking
+    public float movementSpeed = 5;        // Added by Abdul: The movement speed of the enemy
 
     // Attacks
     [Header("Attack Boundaries")]
@@ -109,6 +115,8 @@ public class EnemyStateMachine : MonoBehaviour {
     private bool _moving;
     private bool _attacking;
     private float _lastAttacked;
+    private Transform _movingGoal;
+    private Vector2 _movingGoalOffset;
 
     // Materials
     private Material _baseMaterial;
@@ -142,6 +150,8 @@ public class EnemyStateMachine : MonoBehaviour {
     public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
 
     public GameObject Enemy { get => _enemy; }
+    public Transform MovingGoal { get => _movingGoal; set => _movingGoal = value; }
+    public Vector2 MovingGoalOffset { get => _movingGoalOffset; set => _movingGoalOffset = value; }
 
     // Functions
     public void Initialize() {
@@ -264,5 +274,19 @@ public class EnemyStateMachine : MonoBehaviour {
     public void SetDead() {
         _gameManager.EnemyReferences.Remove(this);
         _enemy.SetActive(false);
+    }
+
+    /// <summary>
+    /// Calculates the speed of the enemy
+    /// </summary>
+    public void SpeedControl() {
+        Vector3 enemyVelocity = Rigidbody.velocity;
+        Vector3 flatVelocity = new Vector3(enemyVelocity.x, 0f, enemyVelocity.z);
+      
+        // limit velocity if needed
+        if (flatVelocity.magnitude > movementSpeed) {
+            Vector3 limitedVelocity = flatVelocity.normalized * movementSpeed;
+            _rigidbody.velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z);
+        }
     }
 }

@@ -302,6 +302,13 @@ public class PlayerStateMachine : MonoBehaviour {
         _characterFlipped = !_characterFlipped;
         // Debug.Log("Character flipped: " + _characterFlipped);
         transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
+
+        // NEW FLIP SYSTEM BELOW
+        // if (!CharacterFlipped) {
+        //     transform.localEulerAngles = new Vector3(0, 0, 0);
+        // } else {
+        //     transform.localEulerAngles = new Vector3(0, 180, 0);
+        // }
     }
 
     /// <summary>
