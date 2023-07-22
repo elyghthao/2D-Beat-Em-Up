@@ -7,11 +7,12 @@ public class Pause_and_Game_Over : MonoBehaviour
 {
     private static bool game_paused;
     private static bool game_over;
-    private GameObject enemies;
+    private GameManager game_manager;
     private GameObject player;
     private GameObject bgm_object;
     private GameObject black_screen;
     private Scene current_scene;
+    private List<EnemyStateMachine> enemy_state_machine_scripts;
 
     // Start is called before the first frame update
     void Start()
@@ -19,10 +20,12 @@ public class Pause_and_Game_Over : MonoBehaviour
         game_paused = false;
         game_over = false;
 
-        enemies = GameObject.Find("Enemies");
+        game_manager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        
         player = GameObject.Find("Player");
         bgm_object = GameObject.Find("BGM");
         black_screen = gameObject.transform.GetChild(0).gameObject;
+        
         current_scene = SceneManager.GetActiveScene();
     }
 
@@ -71,8 +74,14 @@ public class Pause_and_Game_Over : MonoBehaviour
         black_screen.SetActive(true);
 
         Time.timeScale = 0f;
-        player.SetActive(false);
-        enemies.SetActive(false);
+        player.GetComponent<PlayerStateMachine>().enabled = false;
+
+        enemy_state_machine_scripts = game_manager.EnemyReferences;
+
+        foreach(EnemyStateMachine i in enemy_state_machine_scripts)
+        {
+            i.enabled = false;
+        }
     }
 
     void ResumeGame()
@@ -83,8 +92,14 @@ public class Pause_and_Game_Over : MonoBehaviour
         black_screen.SetActive(false);
 
         Time.timeScale = 1f;
-        player.SetActive(true);
-        enemies.SetActive(true);
+        player.GetComponent<PlayerStateMachine>().enabled = true;
+
+        enemy_state_machine_scripts = game_manager.EnemyReferences;
+
+        foreach(EnemyStateMachine i in enemy_state_machine_scripts)
+        {
+            i.enabled = true;
+        }
     }
 
     void GameOver()
@@ -95,7 +110,13 @@ public class Pause_and_Game_Over : MonoBehaviour
         black_screen.SetActive(true);
 
         Time.timeScale = 0f;
-        player.SetActive(false);
-        enemies.SetActive(false);
+        player.GetComponent<PlayerStateMachine>().enabled = false;
+
+        enemy_state_machine_scripts = game_manager.EnemyReferences;
+
+        foreach(EnemyStateMachine i in enemy_state_machine_scripts)
+        {
+            i.enabled = false;
+        }
     }
 }
