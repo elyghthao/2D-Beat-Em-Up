@@ -11,7 +11,7 @@ public class Background_Music : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        PlayBackgroundMusic();
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class Background_Music : MonoBehaviour
     public void PlayPauseSound()
     {
         GetComponent<AudioSource>().clip = pause_sound;
-        GetComponent<AudioSource>().loop = false;
+        GetComponent<AudioSource>().loop = true;
         GetComponent<AudioSource>().Play();
     }
 

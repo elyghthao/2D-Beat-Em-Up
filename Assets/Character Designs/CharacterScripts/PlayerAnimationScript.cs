@@ -7,7 +7,10 @@ public class PlayerAnimationScript : MonoBehaviour
     public PlayerStateMachine stateScript;
     public Animator anim;
     public GameObject lightAttack;
+    public GameObject lightAttack1;
+    public GameObject lightAttack2;
     public GameObject mediumAttack;
+    public GameObject mediumAttack1;
     public GameObject slamAttack;
     int rand ;
     public bool isHit;
@@ -22,7 +25,10 @@ public class PlayerAnimationScript : MonoBehaviour
     {
         stateScript = this.gameObject.GetComponent<PlayerStateMachine>();
         lightAttack = stateScript.lightAttackBounds;
+        lightAttack1 = stateScript.lightFirstFollowupAttackBounds;
+        lightAttack2 = stateScript.lightSecondFollowupAttackBounds;
         mediumAttack = stateScript.mediumAttackBounds;
+        mediumAttack1 = stateScript.mediumFirstFollowupAttackBounds;
         slamAttack = stateScript.heavyAttackBounds;
         isAttacking = false;
         isHit = false;
@@ -39,25 +45,20 @@ public class PlayerAnimationScript : MonoBehaviour
             isHit = false;
 
             if(lightAttack.activeSelf){
-                if (rand == 1){
-                    anim.Play("LightAttack");
-                }else {
-                    anim.Play("LightAttack1");
-                }
-        }else if(mediumAttack.activeSelf){
-            
-            if (rand == 1){
-                    anim.Play("MediumAttack");
-                }else {
-                    anim.Play("MediumAttack1");
-                }
-
-        }else if(slamAttack.activeSelf){
-            anim.Play("SlamAttack");
-        }
+                anim.Play("LightAttack");
+            }else if(lightAttack1.activeSelf){
+                anim.Play("LightAttack1");
+            }else if(lightAttack2.activeSelf){
+                anim.Play("LightAttack2");
+            }else if(mediumAttack.activeSelf){
+                anim.Play("MediumAttack");
+            }else if(mediumAttack1.activeSelf){
+                anim.Play("MediumAttack1");
+            }else if(slamAttack.activeSelf){
+                anim.Play("SlamAttack");
+            }
         }else if (isAttacking) {
             isAttacking = false;
-            rand = (rand + 1) % 2;
         }
 
 
