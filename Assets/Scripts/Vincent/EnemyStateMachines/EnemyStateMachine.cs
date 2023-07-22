@@ -152,6 +152,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject Enemy { get => _enemy; }
     public Transform MovingGoal { get => _movingGoal; set => _movingGoal = value; }
     public Vector2 MovingGoalOffset { get => _movingGoalOffset; set => _movingGoalOffset = value; }
+    public SpriteEffects SpriteEffects { get => gameObject.GetComponent<SpriteEffects>(); }
 
     // Functions
     public void Initialize() {

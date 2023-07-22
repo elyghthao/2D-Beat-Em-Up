@@ -162,6 +162,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public float FollowupTimer { get => _followupTimer; set => _followupTimer = value; }
     public bool CanQueueAttacks { get => _canQueueAttack; set => _canQueueAttack = value; }
     public string MostRecentAttack { get => _mostRecentAttack; set => _mostRecentAttack = value; }
+    public SpriteEffects SpriteEffects { get => gameObject.GetComponent<SpriteEffects>(); }
 
     // Functions
     public void Initialize() {
@@ -302,6 +303,14 @@ public class PlayerStateMachine : MonoBehaviour {
         _characterFlipped = !_characterFlipped;
         // Debug.Log("Character flipped: " + _characterFlipped);
         transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
+
+        // Effect
+        int effectNumber = Random.Range(1, 3);
+        if (effectNumber == 1) {
+            SpriteEffects.doEffect("Direction", _characterFlipped); 
+        } else {
+            SpriteEffects.doEffect("Direction2", _characterFlipped); 
+        }
 
         // NEW FLIP SYSTEM BELOW
         // if (!CharacterFlipped) {
