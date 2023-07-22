@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum Attacks {
     LightAttack1,
@@ -23,51 +26,79 @@ public class PlayerStateMachine : MonoBehaviour {
     [Header("Attack Boundaries")]
     public GameObject heavyAttackBounds;
     public GameObject mediumAttackBounds;
+    public GameObject mediumFirstFollowupAttackBounds;
     public GameObject lightAttackBounds;
+    public GameObject lightFirstFollowupAttackBounds;
+    public GameObject lightSecondFollowupAttackBounds;
     
     [Header("FrameData")] 
     public int framesPerSecond;
     
     [Header("HeavyAttack")]
-    public int heavyFrameCount = 44;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 heavyStartupFrames = new Vector2(1, 10);
+    public float heavyStartupFrames = 10;
 
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 heavyActiveFrames = new Vector2(11, 15);
+    public float heavyActiveFrames = 15;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 heavyRecoveryFrames = new Vector2(16, 44);
+    public float heavyRecoveryFrames = 44;
     
     [Header("MediumAttack")]
-    public int mediumFrameCount = 32;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 mediumStartupFrames = new Vector2(1, 9);
+    public int mediumStartupFrames = 9;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 mediumActiveFrames = new Vector2(10, 14);
+    public int mediumActiveFrames = 14;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 mediumRecoveryFrames = new Vector2(15, 32);
+    public int mediumRecoveryFrames = 32;
+    
+    [Header("MediumFirstFollowupAttack")]
+    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+    public int medium1StartupFrames = 9;
+    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+    public int medium1ActiveFrames = 14;
+    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+    public int medium1RecoveryFrames = 32;
     
     [Header("LightAttack")]
-    public int lightFrameCount = 23;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 lightStartupFrames = new Vector2(1, 7);
+    public int lightStartupFrames = 7;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 lightActiveFrames = new Vector2(8, 9);
+    public int lightActiveFrames = 9;
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
-    public Vector2 lightRecoveryFrames = new Vector2(10, 23);
+    public int lightRecoveryFrames = 23;
     
-    [Header("Movement")]
-    public float movementSpeed;
+    [Header("LightFirstFollowupAttack")]
+    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+    public int light1StartupFrames = 7;
+    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+    public int light1ActiveFrames = 9;
+    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+    public int light1RecoveryFrames = 23;
     
+    [Header("LightsecondFollowupAttack")]
+    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+    public int light2StartupFrames = 7;
+    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+    public int light2ActiveFrames = 9;
+    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+    public int light2RecoveryFrames = 23;
     
     [Header("Combat Stats")]
     public int knockdownMax = 150;
+    [Tooltip("How much time in seconds is given to initiate a followup attack")]
+    public float attackFollowupThreshold = 0.75f;
+    public int currentHealth;
+    [Header("Movement")]
+    public float movementSpeed;
 
     // Reference variables
     private Rigidbody _rigidbody;
     private AttackBoundsManager _heavyBounds;
     private AttackBoundsManager _mediumBounds;
+    private AttackBoundsManager _mediumFirstFollowupBounds;
     private AttackBoundsManager _lightBounds;
+    private AttackBoundsManager _lightFirstFollowupBounds;
+    private AttackBoundsManager _lightSecondFollowupBounds;
     private Material _baseMaterial;
     private GameManager _gameManager;
     private InputSystem _inputSystem;
@@ -86,8 +117,12 @@ public class PlayerStateMachine : MonoBehaviour {
     private bool _isGrounded;
     private float _knockdownMeter;
     private float _stunTimer;
-    public int _currentHealth;
     private AttackType[] _recievedAttack = new AttackType[6];
+    private PlayerBaseState _queuedAttack = null;
+    private float _followupTimer;
+    private bool _canQueueAttack;
+    private string _mostRecentAttack;
+    
 
     // Constants
     private readonly int _zero = 0;
@@ -100,8 +135,12 @@ public class PlayerStateMachine : MonoBehaviour {
     public Material BaseMaterial { get => _baseMaterial; set => _baseMaterial = value; }
     public AttackBoundsManager HeavyBounds { get => _heavyBounds; set => _heavyBounds = value; }
     public AttackBoundsManager MediumBounds { get => _mediumBounds; set => _mediumBounds = value; }
+    public AttackBoundsManager MediumFirstFollowupBounds { get => _mediumFirstFollowupBounds; }
     public AttackBoundsManager LightBounds { get => _lightBounds; set => _lightBounds = value; }
+    public AttackBoundsManager LightFirstFollowupBounds { get => _lightFirstFollowupBounds; }
+    public AttackBoundsManager LightSecondFollowupBounds { get => _lightSecondFollowupBounds; }
     public Rigidbody Rigidbody { get => _rigidbody; set => _rigidbody = value; }
+    public InputSystem InputSystem { get => _inputSystem; }
     public bool IsActionPressed { get => _inputSystem.IsActionPressed; }
     public bool IsActionHeld { get => _inputSystem.IsActionHeld; }
     public bool IsLightAttackPressed { get => _inputSystem.IsLightAttackPressed; }
@@ -116,15 +155,17 @@ public class PlayerStateMachine : MonoBehaviour {
     public bool Dashing { get => _dashing; set => _dashing = value; }
     public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
-    public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
+    public int CurrentHealth { get => currentHealth; set => currentHealth = value; }
     public AttackType[] RecievedAttack { get => _recievedAttack; set => _recievedAttack = value; }
     public PowerupSystem PowerupSystem { get => _gameManager.PowerupSystem; }
+    public PlayerBaseState QueuedAttack { get => _queuedAttack; set => _queuedAttack = value; }
+    public float FollowupTimer { get => _followupTimer; set => _followupTimer = value; }
+    public bool CanQueueAttacks { get => _canQueueAttack; set => _canQueueAttack = value; }
+    public string MostRecentAttack { get => _mostRecentAttack; set => _mostRecentAttack = value; }
 
     // Functions
-    private void Awake() {
+    public void Initialize() {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        Debug.Log(_gameManager);
-        _gameManager.AddPlayer(this);
         _inputSystem = _gameManager.InputSystem;
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(1, 10), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(1, 5), 60, 15);
@@ -132,28 +173,34 @@ public class PlayerStateMachine : MonoBehaviour {
         _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(1, 1), 70, 40);
         _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(3, 1), 80, 50);
         _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(1, 5), 150, 50);
-        
-        _states = new PlayerStateFactory(this);
-        
+
         _baseMaterial = body.GetComponent<Renderer>().material;
         _heavyBounds = heavyAttackBounds.GetComponent<AttackBoundsManager>();
         _mediumBounds = mediumAttackBounds.GetComponent<AttackBoundsManager>();
+        _mediumFirstFollowupBounds = mediumFirstFollowupAttackBounds.GetComponent<AttackBoundsManager>();
         _lightBounds = lightAttackBounds.GetComponent<AttackBoundsManager>();
+        _lightFirstFollowupBounds = lightFirstFollowupAttackBounds.GetComponent<AttackBoundsManager>();
+        _lightSecondFollowupBounds = lightSecondFollowupAttackBounds.GetComponent<AttackBoundsManager>();
 
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.freezeRotation = true;
         
+        currentHealth = maxHealth;
+        _followupTimer = 0;
+        
         // enter initial state. All assignments should go before here
+        _states = new PlayerStateFactory(this);
         _currentState = _states.Idle();
         _currentState.EnterState();
-        _currentHealth = maxHealth;
     }
 
     /// <summary>
     /// Enables all input for the character when the PlayerStateMachine script is enabled
     /// </summary>
     private void OnEnable() {
-        _inputSystem.EnablePlayerInput();
+        if (_inputSystem != null) {
+            _inputSystem.EnablePlayerInput();
+        }
     }
 
     /// <summary>
@@ -167,6 +214,10 @@ public class PlayerStateMachine : MonoBehaviour {
     void Update() {
         _currentState.UpdateStates();
         _isGrounded = CheckIfGrounded();
+        if (_followupTimer > 0) {
+            _followupTimer -= Time.deltaTime;
+            Debug.Log("Followup Timer: " + _followupTimer);
+        }
     }
     
     public bool CheckIfGrounded() {
@@ -191,7 +242,7 @@ public class PlayerStateMachine : MonoBehaviour {
             }
             Rigidbody.velocity = new Vector3(appliedKnockback.x, appliedKnockback.y, 0);
             _knockdownMeter -= _recievedAttack[i].KnockdownPressure;
-            _currentHealth -= _recievedAttack[i].Damage;
+            currentHealth -= _recievedAttack[i].Damage;
             _recievedAttack[i].StatsApplied = true;
         }
     }
@@ -258,9 +309,36 @@ public class PlayerStateMachine : MonoBehaviour {
     /// </summary>
     public void HealCharacter(int addedHealth) {
         if (addedHealth <= 0) { return; }
-        _currentHealth += addedHealth;
-        if (_currentHealth > maxHealth) {
-            _currentHealth = maxHealth;
+        currentHealth += addedHealth;
+        if (currentHealth > maxHealth) {
+            currentHealth = maxHealth;
         }
+    }
+
+    public int FrameState(AttackBoundsManager bounds, float currentFrame, int startup, int active, int recovery) {
+        // Displays the current state of the attack frames.
+        // Green is startup frames: No damage is given in this phase
+        // Red is active frames: Damage can be given in this phase
+        // Blue is recovery frames: No damage given in this phase
+        if (currentFrame <= startup) {
+            bounds.setMatColor(Color.green);
+            return 0;
+        }
+        if (currentFrame <= active) { 
+            bounds.setMatColor(Color.red); 
+            bounds.setColliderActive(true); 
+            return 1;
+        }
+        if (currentFrame <= recovery) {
+            bounds.setMatColor(Color.blue);
+            bounds.setColliderActive(false);
+            return 2;
+        }
+        return 3;
+    }
+
+    public void ResetAttackQueue() {
+        _queuedAttack = null;
+        _canQueueAttack = false;
     }
 }

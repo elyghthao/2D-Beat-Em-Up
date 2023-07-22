@@ -33,6 +33,16 @@ public class GameManager : MonoBehaviour {
     
     // Start is called before the first frame update
     void Awake() {
+        _inputSystem = GetComponent<InputSystem>();
+        _inputSystem.Initialize();
+        _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
+        _playerRef.Initialize();
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject i in enemies) {
+            EnemyStateMachine enemyRef = i.GetComponent<EnemyStateMachine>();
+            _enemyReferences.Add(enemyRef);
+            enemyRef.Initialize();
+        }
         SceneManager.sceneLoaded -= OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -44,7 +54,6 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        Debug.Log("New scene loaded");
         GameObject[] duplicates = GameObject.FindGameObjectsWithTag("GameController");
         foreach (GameObject i in duplicates) {
             if(i != gameObject) {

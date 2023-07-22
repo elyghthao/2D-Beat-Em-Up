@@ -13,6 +13,7 @@ TagManager:
   - SecondMediumAttack
   - GameManager
   - Ground
+  - Enemy
   layers:
   - Default
   - TransparentFX

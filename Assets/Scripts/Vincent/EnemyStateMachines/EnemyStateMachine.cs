@@ -144,10 +144,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject Enemy { get => _enemy; }
 
     // Functions
-    void Awake() {
+    public void Initialize() {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        Debug.Log(_gameManager);
-        _gameManager.AddEnemy(this);
+        _currentPlayerMachine = _gameManager.PlayerRef;
 
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
@@ -191,7 +190,9 @@ public class EnemyStateMachine : MonoBehaviour {
 
     void Update() {
         _isGrounded = CheckIfGrounded();
-        _currentState.UpdateStates();
+        if (CurrentState != null) {
+            _currentState.UpdateStates();
+        }
     }
     
     public bool CheckIfGrounded()
@@ -212,7 +213,6 @@ public class EnemyStateMachine : MonoBehaviour {
         ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
-                Debug.Log(i + " has collided");
                 _recievedAttack[i].Used = true; 
                 if (other.transform.position.x > transform.position.x) {
                     _recievedAttack[i].AttackedFromRightSide = true;
@@ -229,7 +229,6 @@ public class EnemyStateMachine : MonoBehaviour {
         bool checkIfStillAttacked = false;
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
-                Debug.Log(i + " is no longer colliding");
                 _recievedAttack[i].Used = false;
                 _recievedAttack[i].AttackedFromRightSide = false;
                 _recievedAttack[i].StatsApplied = false;
@@ -257,7 +256,7 @@ public class EnemyStateMachine : MonoBehaviour {
             _rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
             _knockdownMeter -= _recievedAttack[i].KnockdownPressure;
             _currentHealth -= _recievedAttack[i].Damage;
-            // Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + _currentHealth);
+            // Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
             _recievedAttack[i].StatsApplied = true;
         }
     }

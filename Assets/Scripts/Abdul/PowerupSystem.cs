@@ -37,32 +37,32 @@ public class PowerupSystem : MonoBehaviour {
     /*
     Unlocks the given power-up.
     */
-    public void unlockPowerup(Powerup unlockedPowerup) { _unlockedPowerups[unlockedPowerup] = true; }
+    public void UnlockPowerup(Powerup unlockedPowerup) { _unlockedPowerups[unlockedPowerup] = true; }
 
     /*
     Returns if the given power-up is unlocked or not
     */
-    public bool checkPowerup(Powerup checkingPowerup) { return _unlockedPowerups[checkingPowerup]; }
+    public bool CheckPowerup(Powerup checkingPowerup) { return _unlockedPowerups[checkingPowerup]; }
 
     /*
     Returns the currently equipped power-up.
     */
-    public Powerup getEquipped() { return _equippedPowerup; }
+    public Powerup GetEquipped() { return _equippedPowerup; }
 
     /*
     Equips the given power-up.
     */
-    public void equipPowerup(Powerup toEquip) { _equippedPowerup = toEquip; }
+    public void EquipPowerup(Powerup toEquip) { _equippedPowerup = toEquip; }
 
     /*
     Checks if the given Powerup is equipped or not
     */
-    public bool isEquipped(Powerup check) { return _equippedPowerup == check; }
+    public bool IsEquipped(Powerup check) { return _equippedPowerup == check; }
 
     /*
     Checks if an attack=type powerup is equipped
     */
-    public bool attackEquipped() { 
+    public bool AttackEquipped() { 
         return _equippedPowerup == Powerup.Dash || _equippedPowerup == Powerup.Slam; 
     }
 }
