@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+    
+    public static GameManager Instance { get; private set; }
 
     [SerializeField]
     private PlayerStateMachine _playerRef = null;
@@ -35,17 +37,19 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void AddPlayer(PlayerStateMachine newPlayer) {
-        _playerRef = newPlayer;
-        foreach (EnemyStateMachine i in _enemyReferences) {
-            i.CurrentPlayerMachine = _playerRef;
+    public async void AddPlayer() {
+        while (_inputSystem == null) {
+            await Task.Yield();
         }
+        _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
+        _playerRef.InputSystem = _inputSystem;
     }
     
     // Start is called before the first frame update
     void Awake() {
         CheckDuplicates();
         AddEnemies();
+        AddPlayer();
         SceneManager.sceneLoaded -= OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -68,11 +72,9 @@ public class GameManager : MonoBehaviour {
     /// Deletes self if not the original
     /// </summary>
     public void CheckDuplicates() {
-        GameObject[] duplicates = GameObject.FindGameObjectsWithTag("GameController");
-        foreach (GameObject i in duplicates) {
-            if (i != gameObject) {
-                Destroy(gameObject);
-            }
+        if (Instance != null && Instance != this) {
+            Destroy(this);
+            return;
         }
     }
 }

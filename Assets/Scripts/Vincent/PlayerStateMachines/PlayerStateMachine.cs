@@ -102,7 +102,6 @@ public class PlayerStateMachine : MonoBehaviour {
     private AttackBoundsManager _lightFirstFollowupBounds;
     private AttackBoundsManager _lightSecondFollowupBounds;
     private Material _baseMaterial;
-    private GameManager _gameManager;
     private InputSystem _inputSystem;
 
     // State variables
@@ -156,7 +155,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public AttackBoundsManager LightFirstFollowupBounds { get => _lightFirstFollowupBounds; }
     public AttackBoundsManager LightSecondFollowupBounds { get => _lightSecondFollowupBounds; }
     public Rigidbody Rigidbody { get => _rigidbody; set => _rigidbody = value; }
-    public InputSystem InputSystem { get => _inputSystem; }
+    public InputSystem InputSystem { get => _inputSystem; set => _inputSystem = value; }
     public bool IsActionPressed {
         get {
             if (_inputSystem == null) {
@@ -224,7 +223,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
     public int CurrentHealth { get => currentHealth; set => currentHealth = value; }
     public AttackType[] RecievedAttack { get => _recievedAttack; set => _recievedAttack = value; }
-    public PowerupSystem PowerupSystem { get => _gameManager.PowerupSystem; }
+    public PowerupSystem PowerupSystem { get => GameManager.Instance.PowerupSystem; }
     public PlayerBaseState QueuedAttack { get => _queuedAttack; set => _queuedAttack = value; }
     public float FollowupTimer { get => _followupTimer; set => _followupTimer = value; }
     public bool CanQueueAttacks { get => _canQueueAttack; set => _canQueueAttack = value; }
@@ -233,9 +232,6 @@ public class PlayerStateMachine : MonoBehaviour {
     // Functions
 
     private void Awake() {
-        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        Initialize();
-
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(1, 10), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(1, 5), 60, 15);
         _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(5, 10), 100, 30);
@@ -261,15 +257,6 @@ public class PlayerStateMachine : MonoBehaviour {
         _states = new PlayerStateFactory(this);
         _currentState = _states.Idle();
         _currentState.EnterState();
-    }
-
-    public async void Initialize() {
-        while (_gameManager.InputSystem == null) {
-            Debug.Log("Waiting for Input System Initialization: " + _gameManager.InputSystem);
-            await Task.Yield();
-        }
-        _inputSystem = _gameManager.InputSystem;
-        _gameManager.AddPlayer(this);
     }
 
     /// <summary>
@@ -365,7 +352,7 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        _gameManager.PlayerRef = null;
+        GameManager.Instance.PlayerRef = null;
     }
 
     /// <summary>

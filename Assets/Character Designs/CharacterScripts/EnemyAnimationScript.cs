@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class EnemyAnimationScript : MonoBehaviour
@@ -14,11 +14,13 @@ public class EnemyAnimationScript : MonoBehaviour
     public bool isAttacking;
     public bool isHit;
     public ParticleSystem hitParticle;
-
+    private bool _ready;
+    
     // Start is called before the first frame update
     void Start()
     {
         stateScript = this.gameObject.GetComponent<EnemyStateMachine>();
+        checkStateReady();
         lightAttack = stateScript.lightAttackBounds;
         mediumAttack = stateScript.mediumAttackBounds;
         slamAttack = stateScript.heavyAttackBounds;
@@ -28,9 +30,8 @@ public class EnemyAnimationScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
+    void Update() {
+        if (!_ready) return;
         // Debug.Log(mediumAttack.activeSelf);
         Debug.Log(stateScript.CurrentState.ToString());
 
@@ -70,5 +71,12 @@ public class EnemyAnimationScript : MonoBehaviour
 
 
         
+    }
+
+    private async void checkStateReady() {
+        while (!stateScript.FinishedInitialization) {
+            await Task.Yield();
+        }
+        _ready = true;
     }
 }
