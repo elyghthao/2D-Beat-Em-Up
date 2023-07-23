@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -83,6 +85,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private AttackBoundsManager _mediumBounds;
     private AttackBoundsManager _lightBounds;
     private GameManager _gameManager;
+
     [SerializeField]
     public PlayerStateMachine _currentPlayerMachine;
 
@@ -115,6 +118,9 @@ public class EnemyStateMachine : MonoBehaviour {
     private Material _heavyBoundsMat;
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
+    
+    // Async Check
+    private bool _finishedInitialization;
 
     //// Getters and Setters
     public Rigidbody Rigidbody => _rigidbody;
@@ -140,14 +146,59 @@ public class EnemyStateMachine : MonoBehaviour {
     public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
     public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
-
     public GameObject Enemy { get => _enemy; }
+    public GameManager GameManager { get => _gameManager; set => _gameManager = value; }
 
     // Functions
+
+    private void Awake() {
+        /*_gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        Initialize();
+        
+        _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
+        _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
+        _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(50, 500), 100, 30);
+        _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(10, 500), 70, 40);
+        _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
+        _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(50, 800), 150, 50);
+
+        // Initializing the player attack damages
+        _playerAttackDamages[0] = 5;
+        _playerAttackDamages[1] = 15;
+        _playerAttackDamages[2] = 30;
+        _playerAttackDamages[3] = 40;
+        _playerAttackDamages[4] = 50;
+        _playerAttackDamages[5] = 50;
+
+        _states = new EnemyStateFactory(this);
+        _baseMaterial = body.GetComponent<Renderer>().material;
+        _rigidbody = GetComponent<Rigidbody>();
+        _heavyBounds = heavyAttackBounds.GetComponent<AttackBoundsManager>();
+        _mediumBounds = mediumAttackBounds.GetComponent<AttackBoundsManager>();
+        _lightBounds = lightAttackBounds.GetComponent<AttackBoundsManager>();
+
+        // Other
+        _lastAttacked = attackReliefTime;
+        _currentHealth = maxHealth;
+        _knockdownMeter = knockdownMax;
+        _enemy = gameObject;
+
+        // Materials
+        _baseMaterial = body.GetComponent<Renderer>().material;
+        _heavyBoundsMat = heavyAttackBounds.GetComponent<Renderer>().material;
+        _mediumBoundsMat = mediumAttackBounds.GetComponent<Renderer>().material;
+        _lightBoundsMat = lightAttackBounds.GetComponent<Renderer>().material;
+
+        // Begins the initial state. All Awake code should go before here unless you want it defined after the initial
+        // states EnterState()
+        _currentState = _states.Idle();
+        _currentState.EnterState();*/
+    }
+
     public void Initialize() {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _currentPlayerMachine = _gameManager.PlayerRef;
-
+        
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
         _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(50, 500), 100, 30);
@@ -239,6 +290,10 @@ public class EnemyStateMachine : MonoBehaviour {
         }
 
         _isAttacked = checkIfStillAttacked;
+    }
+
+    private void OnDestroy() {
+        _gameManager.EnemyReferences.Remove(this);
     }
 
     public void ApplyAttackStats() {

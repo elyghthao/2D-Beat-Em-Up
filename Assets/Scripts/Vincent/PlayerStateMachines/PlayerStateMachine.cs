@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -122,16 +124,30 @@ public class PlayerStateMachine : MonoBehaviour {
     private float _followupTimer;
     private bool _canQueueAttack;
     private string _mostRecentAttack;
+    private bool _enableWhenReady;
     
 
     // Constants
     private readonly int _zero = 0;
     
-
     // Getters and Setters
     public PlayerBaseState CurrentState { get => _currentState; set => _currentState = value; }
-    public Vector2 CurrentMovementInput { get => _inputSystem.CurrentMovementInput; }
-    public bool IsMovementPressed { get => _inputSystem.IsMovementPressed; }
+    public Vector2 CurrentMovementInput {
+        get {
+            if (_inputSystem == null) {
+                return new Vector2(0, 0);
+            }
+            return _inputSystem.CurrentMovementInput;
+        }
+    }
+    public bool IsMovementPressed {
+        get {
+            if (_inputSystem == null) {
+                return false;
+            }
+            return _inputSystem.IsMovementPressed;
+        }
+    }
     public Material BaseMaterial { get => _baseMaterial; set => _baseMaterial = value; }
     public AttackBoundsManager HeavyBounds { get => _heavyBounds; set => _heavyBounds = value; }
     public AttackBoundsManager MediumBounds { get => _mediumBounds; set => _mediumBounds = value; }
@@ -141,13 +157,64 @@ public class PlayerStateMachine : MonoBehaviour {
     public AttackBoundsManager LightSecondFollowupBounds { get => _lightSecondFollowupBounds; }
     public Rigidbody Rigidbody { get => _rigidbody; set => _rigidbody = value; }
     public InputSystem InputSystem { get => _inputSystem; }
-    public bool IsActionPressed { get => _inputSystem.IsActionPressed; }
-    public bool IsActionHeld { get => _inputSystem.IsActionHeld; }
-    public bool IsLightAttackPressed { get => _inputSystem.IsLightAttackPressed; }
-    public bool IsMediumAttackPressed { get => _inputSystem.IsMediumAttackPressed; }
-    public bool IsPowerupPressed { get => _inputSystem.IsHeavyAttackPressed; }
-    public bool IsBlockPressed { get => _inputSystem.IsBlockPressed; }
-    public bool IsBlockHeld { get => _inputSystem.IsBlockHeld; }
+    public bool IsActionPressed {
+        get {
+            if (_inputSystem == null) {
+                return false;
+            }
+            return _inputSystem.IsActionPressed;
+        }
+    }
+
+    public bool IsActionHeld {
+        get {
+            if (InputSystem == null) {
+                return false;
+            }
+            return InputSystem.IsActionHeld;
+        }
+    }
+
+    public bool IsLightAttackPressed { 
+        get {
+            if (InputSystem == null) {
+                return false;
+            }
+            return InputSystem.IsLightAttackPressed;
+        } 
+    }
+    public bool IsMediumAttackPressed { 
+        get {
+            if (InputSystem == null) {
+                return false;
+            }
+            return InputSystem.IsMediumAttackPressed;
+        } 
+    }
+    public bool IsPowerupPressed { 
+        get {
+            if (InputSystem == null) {
+                return false;
+            }
+            return InputSystem.IsHeavyAttackPressed;
+        } 
+    }
+    public bool IsBlockPressed { 
+        get {
+            if (InputSystem == null) {
+                return false;
+            }
+            return InputSystem.IsBlockPressed;
+        } 
+    }
+    public bool IsBlockHeld { 
+        get {
+            if (InputSystem == null) {
+                return false;
+            }
+            return InputSystem.IsBlockHeld;
+        } 
+    }
     public bool CharacterFlipped { get => _characterFlipped; set => _characterFlipped = value; }
     public bool IsAttacked => _isAttacked;
     public bool KnockedDown { get => _knockedDown; set => _knockedDown = value; }
@@ -164,16 +231,18 @@ public class PlayerStateMachine : MonoBehaviour {
     public string MostRecentAttack { get => _mostRecentAttack; set => _mostRecentAttack = value; }
 
     // Functions
-    public void Initialize() {
+
+    private void Awake() {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        _inputSystem = _gameManager.InputSystem;
+        Initialize();
+
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(1, 10), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(1, 5), 60, 15);
         _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(5, 10), 100, 30);
         _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(1, 1), 70, 40);
         _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(3, 1), 80, 50);
         _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(1, 5), 150, 50);
-
+        
         _baseMaterial = body.GetComponent<Renderer>().material;
         _heavyBounds = heavyAttackBounds.GetComponent<AttackBoundsManager>();
         _mediumBounds = mediumAttackBounds.GetComponent<AttackBoundsManager>();
@@ -194,13 +263,27 @@ public class PlayerStateMachine : MonoBehaviour {
         _currentState.EnterState();
     }
 
+    public async void Initialize() {
+        while (_gameManager.InputSystem == null) {
+            Debug.Log("Waiting for Input System Initialization: " + _gameManager.InputSystem);
+            await Task.Yield();
+        }
+        _inputSystem = _gameManager.InputSystem;
+        _gameManager.AddPlayer(this);
+    }
+
     /// <summary>
     /// Enables all input for the character when the PlayerStateMachine script is enabled
     /// </summary>
     private void OnEnable() {
-        if (_inputSystem != null) {
-            _inputSystem.EnablePlayerInput();
+        safeOnEnable();
+    }
+
+    private async void safeOnEnable() {
+        while (_inputSystem == null) {
+            await Task.Yield();
         }
+        _inputSystem.EnablePlayerInput();
     }
 
     /// <summary>
@@ -279,6 +362,10 @@ public class PlayerStateMachine : MonoBehaviour {
         }
 
         _isAttacked = checkIfStillAttacked;
+    }
+
+    private void OnDestroy() {
+        _gameManager.PlayerRef = null;
     }
 
     /// <summary>
