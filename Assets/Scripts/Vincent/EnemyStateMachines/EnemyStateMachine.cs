@@ -151,7 +151,7 @@ public class EnemyStateMachine : MonoBehaviour {
     // Functions
     
     public void Initialize() {
-        _currentPlayerMachine = GameManager.Instance.PlayerRef;
+        _currentPlayerMachine = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
         
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
@@ -191,6 +191,7 @@ public class EnemyStateMachine : MonoBehaviour {
         // states EnterState()
         _currentState = _states.Idle();
         _currentState.EnterState();
+        _finishedInitialization = true;
     }
 
     void Update() {

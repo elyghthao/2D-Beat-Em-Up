@@ -20,7 +20,7 @@ public class EnemyAnimationScript : MonoBehaviour
     void Start()
     {
         stateScript = this.gameObject.GetComponent<EnemyStateMachine>();
-        checkStateReady();
+        StartCoroutine(checkStateReady());
         lightAttack = stateScript.lightAttackBounds;
         mediumAttack = stateScript.mediumAttackBounds;
         slamAttack = stateScript.heavyAttackBounds;
@@ -33,7 +33,7 @@ public class EnemyAnimationScript : MonoBehaviour
     void Update() {
         if (!_ready) return;
         // Debug.Log(mediumAttack.activeSelf);
-        Debug.Log(stateScript.CurrentState.ToString());
+        //Debug.Log(stateScript.CurrentState.ToString());
 
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
@@ -73,9 +73,10 @@ public class EnemyAnimationScript : MonoBehaviour
         
     }
 
-    private async void checkStateReady() {
+    IEnumerator checkStateReady() {
         while (!stateScript.FinishedInitialization) {
-            await Task.Yield();
+            Debug.Log("StuckInAnimationCheck");
+            yield return null;
         }
         _ready = true;
     }

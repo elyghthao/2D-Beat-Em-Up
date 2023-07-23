@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,29 +6,29 @@ using UnityEngine;
 public class AttackType
 {
     public AttackType(string tag, Vector2 knockbackDirection, float knockdownPressure, int damage) {
-        this.tag = tag;
-        this.knockbackDirection = knockbackDirection;
-        this.knockdownPressure = knockdownPressure;
-        this.damage = damage;
+        this._tag = tag;
+        this._knockbackDirection = knockbackDirection;
+        this._knockdownPressure = knockdownPressure;
+        this._damage = damage;
     }
     
-    private string tag;
-    private float knockdownPressure;
-    private int damage;
-    private Vector2 knockbackDirection;
-    private bool statsApplied;
-    private bool used;
-    private bool attackedFromRightSide;
+    private string _tag;
+    private float _knockdownPressure;
+    private int _damage;
+    private Vector2 _knockbackDirection;
+    private bool _statsApplied;
+    private bool _used;
+    private bool _attackedFromRightSide;
     
-    // Tag that we'll compare to the triggers tag
-    public string Tag { get => tag; }
+    // Tag that we'll compare to the triggers _tag
+    public string Tag { get => _tag; }
     // Whether this attack has collided with us or not
-    public float KnockdownPressure { get => knockdownPressure; }
-    public int Damage { get => damage; }
-    public Vector2 KnockbackDirection { get => knockbackDirection; }
+    public float KnockdownPressure { get => _knockdownPressure; }
+    public int Damage { get => _damage; }
+    public Vector2 KnockbackDirection { get => _knockbackDirection; }
     
-    public bool StatsApplied { get => statsApplied; set => statsApplied = value; }
-    public bool Used { get => used; set => used = value; }
-    public bool AttackedFromRightSide { get => attackedFromRightSide; set => attackedFromRightSide = value; }
+    public bool StatsApplied { get => _statsApplied; set => _statsApplied = value; }
+    public bool Used { get => _used; set => _used = value; }
+    public bool AttackedFromRightSide { get => _attackedFromRightSide; set => _attackedFromRightSide = value; }
     
 }
