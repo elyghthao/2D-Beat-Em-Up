@@ -194,6 +194,8 @@ public class PlayerStateMachine : MonoBehaviour {
 
    public bool FinishedInitialization { get; private set; }
 
+   public SpriteEffects SpriteEffects { get; private set; }
+
    // Functions
 
    private void Awake() {
@@ -213,6 +215,7 @@ public class PlayerStateMachine : MonoBehaviour {
       LightFirstFollowupBounds = lightFirstFollowupAttackBounds.GetComponent<AttackBoundsManager>();
       LightSecondFollowupBounds = lightSecondFollowupAttackBounds.GetComponent<AttackBoundsManager>();
 
+      SpriteEffects = GetComponent<SpriteEffects>();
       Rigidbody = GetComponent<Rigidbody>();
       Rigidbody.freezeRotation = true;
 
@@ -333,6 +336,21 @@ public class PlayerStateMachine : MonoBehaviour {
       CharacterFlipped = !CharacterFlipped;
       // Debug.Log("Character flipped: " + _characterFlipped);
       transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
+
+      // Effect
+      int effectNumber = Random.Range(1, 3);
+      if (effectNumber == 1) {
+         SpriteEffects.doEffect("Direction", CharacterFlipped); 
+      } else {
+         SpriteEffects.doEffect("Direction2", CharacterFlipped); 
+      }
+
+      // NEW FLIP SYSTEM BELOW
+      // if (!CharacterFlipped) {
+      //     transform.localEulerAngles = new Vector3(0, 0, 0);
+      // } else {
+      //     transform.localEulerAngles = new Vector3(0, 180, 0);
+      // }
    }
 
    /// <summary>
