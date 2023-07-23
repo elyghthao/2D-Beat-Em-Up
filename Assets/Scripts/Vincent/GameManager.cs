@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,10 +21,10 @@ public class GameManager : MonoBehaviour {
     public InputSystem InputSystem { get => _inputSystem; set => _inputSystem = value; }
     public PowerupSystem PowerupSystem { get => _powerupSystem; set => _powerupSystem = value; }
 
-    public async void AddEnemies() {
+    IEnumerator AddEnemies() {
         while (_playerRef == null) {
             Debug.Log("Awaiting player reference assignment before performing enemy reference assignment");
-            await Task.Yield();
+            yield return null;
         }
         _enemyReferences.Clear();
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -37,9 +36,9 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public async void AddPlayer() {
+    IEnumerator AddPlayer() {
         while (_inputSystem == null) {
-            await Task.Yield();
+            yield return null;
         }
         _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
         _playerRef.InputSystem = _inputSystem;
@@ -48,8 +47,9 @@ public class GameManager : MonoBehaviour {
     // Start is called before the first frame update
     void Awake() {
         CheckDuplicates();
-        AddEnemies();
-        AddPlayer();
+        _inputSystem = GetComponent<InputSystem>();
+        StartCoroutine(AddEnemies());
+        StartCoroutine(AddPlayer());
         SceneManager.sceneLoaded -= OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -62,7 +62,8 @@ public class GameManager : MonoBehaviour {
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (!FirstLoad) {
-            AddEnemies();
+            StartCoroutine(AddEnemies());
+            StartCoroutine(AddPlayer());
         }
         FirstLoad = false;
     }
@@ -73,7 +74,7 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     public void CheckDuplicates() {
         if (Instance != null && Instance != this) {
-            Destroy(this);
+            Destroy(this.gameObject);
             return;
         }
 

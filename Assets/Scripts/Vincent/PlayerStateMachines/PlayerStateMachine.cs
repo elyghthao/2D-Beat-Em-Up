@@ -123,7 +123,7 @@ public class PlayerStateMachine : MonoBehaviour {
     private float _followupTimer;
     private bool _canQueueAttack;
     private string _mostRecentAttack;
-    private bool _enableWhenReady;
+    private bool _finishedInitialization;
     
 
     // Constants
@@ -228,10 +228,12 @@ public class PlayerStateMachine : MonoBehaviour {
     public float FollowupTimer { get => _followupTimer; set => _followupTimer = value; }
     public bool CanQueueAttacks { get => _canQueueAttack; set => _canQueueAttack = value; }
     public string MostRecentAttack { get => _mostRecentAttack; set => _mostRecentAttack = value; }
+    public bool FinishedInitialization { get => _finishedInitialization; }
 
     // Functions
 
     private void Awake() {
+        _inputSystem = GameManager.Instance.gameObject.GetComponent<InputSystem>();
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(1, 10), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(1, 5), 60, 15);
         _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(5, 10), 100, 30);
@@ -257,18 +259,19 @@ public class PlayerStateMachine : MonoBehaviour {
         _states = new PlayerStateFactory(this);
         _currentState = _states.Idle();
         _currentState.EnterState();
+        _finishedInitialization = true;
     }
 
     /// <summary>
     /// Enables all input for the character when the PlayerStateMachine script is enabled
     /// </summary>
     private void OnEnable() {
-        safeOnEnable();
+        StartCoroutine(SafeOnEnable());
     }
 
-    private async void safeOnEnable() {
-        while (_inputSystem == null) {
-            await Task.Yield();
+    IEnumerator SafeOnEnable() {
+        while (_inputSystem == null || _inputSystem.EmptyPlayerInput) {
+            yield return null;
         }
         _inputSystem.EnablePlayerInput();
     }

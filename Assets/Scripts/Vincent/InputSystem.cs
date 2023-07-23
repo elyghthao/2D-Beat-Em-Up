@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 public class InputSystem : MonoBehaviour
 {
     private PlayerInput _playerInput;
-    private GameManager _gameManager;
     
     // Input values
     private Vector2 _currentMovementInput;
@@ -34,6 +33,7 @@ public class InputSystem : MonoBehaviour
     public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; }
     public bool IsBlockPressed { get => _isBlockPressed; }
     public bool IsBlockHeld { get => _isBlockHeld; }
+    public bool EmptyPlayerInput { get => _playerInput == null; }
 
     public void DisablePlayerInput() {
         _playerInput.Enable();
@@ -70,10 +70,8 @@ public class InputSystem : MonoBehaviour
         _playerInput.Player.Block.canceled += OnBlockCanceled;
     }
 
-    private void Awake() {
-        _gameManager = GetComponent<GameManager>();
+    public void Awake() { 
         _playerInput = new PlayerInput();
-        _gameManager.InputSystem = this;
     }
 
     private void Update() {
