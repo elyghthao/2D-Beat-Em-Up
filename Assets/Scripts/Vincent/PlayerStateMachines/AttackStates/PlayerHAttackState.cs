@@ -8,13 +8,11 @@ public class PlayerHAttackState : PlayerBaseState {
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
-   private bool _didEffect;
 
    public PlayerHAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
       // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
-      _didEffect = false;
    }
    
    public override void EnterState() {
@@ -37,12 +35,6 @@ public class PlayerHAttackState : PlayerBaseState {
       } else if (_currentFrame <= Ctx.heavyActiveFrames) {
          Ctx.HeavyBounds.setMatColor(Color.red);
          Ctx.HeavyBounds.setColliderActive(true);
-
-         // Slam Effect
-         if (!_didEffect) {
-            Ctx.SpriteEffects.doEffect("Slam", Ctx.CharacterFlipped);
-            _didEffect = true;
-         }
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames) {
          Ctx.HeavyBounds.setMatColor(Color.blue);
          Ctx.HeavyBounds.setColliderActive(false);
