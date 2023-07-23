@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour {
             yield return null;
         }
         _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
-        _playerRef.InputSystem = _inputSystem;
+        _playerRef.InputSys = _inputSystem;
     }
     
     // Start is called before the first frame update

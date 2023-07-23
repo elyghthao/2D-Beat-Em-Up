@@ -75,7 +75,7 @@ public class EnemyAnimationScript : MonoBehaviour
 
     IEnumerator checkStateReady() {
         while (!stateScript.FinishedInitialization) {
-            Debug.Log("StuckInAnimationCheck");
+            Debug.Log("Awaiting statescript initialization before enabling animation for enemy: " + this.ToString());
             yield return null;
         }
         _ready = true;
