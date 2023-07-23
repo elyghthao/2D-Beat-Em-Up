@@ -33,7 +33,7 @@ public class EnemyAnimationScript : MonoBehaviour
     void Update() {
         if (!_ready) return;
         // Debug.Log(mediumAttack.activeSelf);
-        Debug.Log(stateScript.CurrentState.ToString());
+        // Debug.Log(stateScript.CurrentState.ToString());
 
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
