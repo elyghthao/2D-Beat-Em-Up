@@ -5925,7 +5925,6 @@ GameObject:
   - component: {fileID: 9156497077837927515}
   - component: {fileID: 313025584698401456}
   - component: {fileID: 5326526767108593139}
-  - component: {fileID: 4103391496053228246}
   m_Layer: 7
   m_Name: EnemyKnight
   m_TagString: Enemy
@@ -5953,7 +5952,7 @@ Transform:
   - {fileID: 3369920841179285377}
   - {fileID: 4587880694808618140}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &9156497077837927515
 Rigidbody:
@@ -6038,27 +6037,6 @@ MonoBehaviour:
   isAttacking: 0
   isHit: 0
   hitParticle: {fileID: 1767613172925613758}
---- !u!95 &4103391496053228246
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4918985376813494681}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f8aaf8cf80c4dce40a7d707a87ad453b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5031669023924802589
 GameObject:
   m_ObjectHideFlags: 0
