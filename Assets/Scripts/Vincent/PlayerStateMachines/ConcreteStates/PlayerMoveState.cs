@@ -10,18 +10,14 @@ public class PlayerMoveState : PlayerBaseState
       InitializeSubState();
    }
 
-   public override void EnterState() {
-      // Debug.Log("ROOT: ENTERED MOVEMENT");
-      Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
-      // Applies movement to the player depending on the player input
-      Ctx.Rigidbody.velocity = new Vector3(moveDir.x, 0, moveDir.y);
-      Ctx.SpeedControl();
+   public override void EnterState() { 
+      // Debug.Log("ROOT: ENTERED MOVEMENT"); 
    }
 
    public override void UpdateState() {
       Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
       // Applies movement to the player depending on the player input
-      Ctx.Rigidbody.velocity = new Vector3(moveDir.x, 0, moveDir.y);
+      Ctx.Rigidbody.AddForce(new Vector3(moveDir.x, 0, moveDir.y), ForceMode.Force);
       Ctx.SpeedControl();
       // Debug.Log(Ctx);
       CheckSwitchStates();

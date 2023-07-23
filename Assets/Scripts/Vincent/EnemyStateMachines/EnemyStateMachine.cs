@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -84,7 +82,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private AttackBoundsManager _heavyBounds;
     private AttackBoundsManager _mediumBounds;
     private AttackBoundsManager _lightBounds;
-
+    private GameManager _gameManager;
     [SerializeField]
     public PlayerStateMachine _currentPlayerMachine;
 
@@ -117,9 +115,6 @@ public class EnemyStateMachine : MonoBehaviour {
     private Material _heavyBoundsMat;
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
-    
-    // Async Check
-    private bool _finishedInitialization;
 
     //// Getters and Setters
     public Rigidbody Rigidbody => _rigidbody;
@@ -145,14 +140,14 @@ public class EnemyStateMachine : MonoBehaviour {
     public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
     public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
+
     public GameObject Enemy { get => _enemy; }
-    public bool FinishedInitialization { get => _finishedInitialization; }
 
     // Functions
-    
     public void Initialize() {
-        _currentPlayerMachine = GameManager.Instance.PlayerRef;
-        
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        _currentPlayerMachine = _gameManager.PlayerRef;
+
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
         _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(50, 500), 100, 30);
@@ -246,10 +241,6 @@ public class EnemyStateMachine : MonoBehaviour {
         _isAttacked = checkIfStillAttacked;
     }
 
-    private void OnDestroy() {
-        GameManager.Instance.EnemyReferences.Remove(this);
-    }
-
     public void ApplyAttackStats() {
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (_recievedAttack[i].StatsApplied || !_recievedAttack[i].Used) {
@@ -271,7 +262,7 @@ public class EnemyStateMachine : MonoBehaviour {
     }
 
     public void SetDead() {
-        GameManager.Instance.EnemyReferences.Remove(this);
+        _gameManager.EnemyReferences.Remove(this);
         _enemy.SetActive(false);
     }
 }

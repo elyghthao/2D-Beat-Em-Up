@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputSystem : MonoBehaviour
 {
     private PlayerInput _playerInput;
-    private GameManager _gameManager;
     
     // Input values
     private Vector2 _currentMovementInput;
@@ -20,11 +18,10 @@ public class InputSystem : MonoBehaviour
     private bool _isHeavyAttackPressed;
     private bool _isBlockPressed;
     private bool _isBlockHeld;
-    private bool _enableWhenReady;
     
     // Constants
     private readonly int _zero = 0;
-
+    
     public Vector2 CurrentMovementInput { get => _currentMovementInput; set => _currentMovementInput = value; }
     public bool IsMovementPressed { get => _isMovementPressed; set => _isMovementPressed = value; }
     public bool IsActionPressed { get => _isActionPressed; }
@@ -36,21 +33,21 @@ public class InputSystem : MonoBehaviour
     public bool IsBlockHeld { get => _isBlockHeld; }
 
     public void DisablePlayerInput() {
-        _playerInput.Enable();
-        _playerInput.Player.Movement.performed += OnMovementPerformed;
-        _playerInput.Player.Movement.canceled += OnMovementCanceled;
+        _playerInput.Disable();
+        _playerInput.Player.Movement.performed -= OnMovementPerformed;
+        _playerInput.Player.Movement.canceled -= OnMovementCanceled;
         
-        _playerInput.Player.LightAttack.performed += OnLightAttackPerformed;
-        _playerInput.Player.LightAttack.canceled += OnLightAttackCanceled;
+        _playerInput.Player.LightAttack.performed -= OnLightAttackPerformed;
+        _playerInput.Player.LightAttack.canceled -= OnLightAttackCanceled;
         
-        _playerInput.Player.MediumAttack.performed += OnMediumAttackPerformed;
-        _playerInput.Player.MediumAttack.canceled += OnMediumAttackCanceled;
+        _playerInput.Player.MediumAttack.performed -= OnMediumAttackPerformed;
+        _playerInput.Player.MediumAttack.canceled -= OnMediumAttackCanceled;
         
-        _playerInput.Player.HeavyAttack.performed += OnHeavyAttackPerformed;
-        _playerInput.Player.HeavyAttack.canceled += OnHeavyAttackCanceled;
+        _playerInput.Player.HeavyAttack.performed -= OnHeavyAttackPerformed;
+        _playerInput.Player.HeavyAttack.canceled -= OnHeavyAttackCanceled;
         
-        _playerInput.Player.Block.performed += OnBlockPerformed;
-        _playerInput.Player.Block.canceled += OnBlockCanceled;
+        _playerInput.Player.Block.performed -= OnBlockPerformed;
+        _playerInput.Player.Block.canceled -= OnBlockCanceled;
     }
     public void EnablePlayerInput() {
         _playerInput.Enable();
@@ -71,9 +68,11 @@ public class InputSystem : MonoBehaviour
     }
 
     private void Awake() {
-        _gameManager = GetComponent<GameManager>();
+        //_playerInput = new PlayerInput();
+    }
+
+    public void Initialize() {
         _playerInput = new PlayerInput();
-        _gameManager.InputSystem = this;
     }
 
     private void Update() {

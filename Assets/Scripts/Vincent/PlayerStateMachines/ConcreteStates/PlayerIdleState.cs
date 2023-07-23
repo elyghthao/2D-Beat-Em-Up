@@ -16,7 +16,7 @@ public class PlayerIdleState : PlayerBaseState
    }
 
    public override void UpdateState() {
-      if (!Ctx.IsActionHeld && Ctx.FollowupTimer > 0) {
+      if (!Ctx.InputSystem.IsActionHeld && Ctx.FollowupTimer > 0) {
          if (Ctx.InputSystem.IsLightAttackPressed) {
             if (Ctx.MostRecentAttack == "PlayerLAttackState") {
                Ctx.QueuedAttack = Factory.LightFirstFollowupAttack();
