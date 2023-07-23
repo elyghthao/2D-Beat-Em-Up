@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator AddEnemies() {
         while (_playerRef == null) {
-            Debug.Log("Awaiting player reference assignment before performing enemy reference assignment");
+            //Debug.Log("Awaiting player reference assignment before performing enemy reference assignment");
             yield return null;
         }
         _enemyReferences.Clear();
@@ -46,7 +46,11 @@ public class GameManager : MonoBehaviour {
     
     // Start is called before the first frame update
     void Awake() {
-        CheckDuplicates();
+        if (Instance != null && Instance != this) {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
         _inputSystem = GetComponent<InputSystem>();
         StartCoroutine(AddEnemies());
         StartCoroutine(AddPlayer());
@@ -62,6 +66,11 @@ public class GameManager : MonoBehaviour {
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (!FirstLoad) {
+            if (Instance != null && Instance != this) {
+                Destroy(this.gameObject);
+                return;
+            }
+            Instance = this;
             StartCoroutine(AddEnemies());
             StartCoroutine(AddPlayer());
         }
@@ -73,11 +82,6 @@ public class GameManager : MonoBehaviour {
     /// Deletes self if not the original
     /// </summary>
     public void CheckDuplicates() {
-        if (Instance != null && Instance != this) {
-            Destroy(this.gameObject);
-            return;
-        }
-
-        Instance = this;
+        
     }
 }
