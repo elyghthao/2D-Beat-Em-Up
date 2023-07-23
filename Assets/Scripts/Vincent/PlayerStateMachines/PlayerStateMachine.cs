@@ -194,7 +194,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
    public bool FinishedInitialization { get; private set; }
 
-   public SpriteEffects SpriteEffects { get; }
+   public SpriteEffects SpriteEffects { get; private set; }
 
    // Functions
 
@@ -215,6 +215,7 @@ public class PlayerStateMachine : MonoBehaviour {
       LightFirstFollowupBounds = lightFirstFollowupAttackBounds.GetComponent<AttackBoundsManager>();
       LightSecondFollowupBounds = lightSecondFollowupAttackBounds.GetComponent<AttackBoundsManager>();
 
+      SpriteEffects = GetComponent<SpriteEffects>();
       Rigidbody = GetComponent<Rigidbody>();
       Rigidbody.freezeRotation = true;
 

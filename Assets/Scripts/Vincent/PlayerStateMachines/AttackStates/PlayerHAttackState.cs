@@ -35,8 +35,8 @@ public class PlayerHAttackState : PlayerBaseState {
       if (_currentFrame <= Ctx.heavyStartupFrames) {
          Ctx.HeavyBounds.SetMatColor(Color.green);
       } else if (_currentFrame <= Ctx.heavyActiveFrames) {
-         Ctx.HeavyBounds.setMatColor(Color.red);
-         Ctx.HeavyBounds.setColliderActive(true);
+         Ctx.HeavyBounds.SetMatColor(Color.red);
+         Ctx.HeavyBounds.SetColliderActive(true);
 
          // Slam Effect
          if (!_didEffect) {
