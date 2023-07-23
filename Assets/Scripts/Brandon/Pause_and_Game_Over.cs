@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -118,5 +119,9 @@ public class Pause_and_Game_Over : MonoBehaviour
         {
             i.enabled = false;
         }
+    }
+
+    private void OnDestroy() {
+        Time.timeScale = 1f;
     }
 }

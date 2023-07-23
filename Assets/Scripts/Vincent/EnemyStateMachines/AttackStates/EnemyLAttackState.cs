@@ -34,10 +34,10 @@ public class EnemyLAttackState : EnemyBaseState {
          Ctx.LightBoundsMat.color = Color.green;
       } else if (_currentFrame <= Ctx.lightActiveFrames.y) {
          Ctx.LightBoundsMat.color = Color.red;
-         Ctx.LightBounds.setColliderActive(true);
+         Ctx.LightBounds.SetColliderActive(true);
       } else if (_currentFrame <= Ctx.lightRecoveryFrames.y) {
          Ctx.LightBoundsMat.color = Color.blue;
-         Ctx.LightBounds.setColliderActive(false);
+         Ctx.LightBounds.SetColliderActive(false);
       } else {
          CanSwitch = true;
       }

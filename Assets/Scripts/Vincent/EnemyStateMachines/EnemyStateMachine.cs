@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -88,7 +90,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private AttackBoundsManager _heavyBounds;
     private AttackBoundsManager _mediumBounds;
     private AttackBoundsManager _lightBounds;
-    private GameManager _gameManager;
+
     [SerializeField]
     public PlayerStateMachine _currentPlayerMachine;
 
@@ -123,6 +125,9 @@ public class EnemyStateMachine : MonoBehaviour {
     private Material _heavyBoundsMat;
     private Material _mediumBoundsMat;
     private Material _lightBoundsMat;
+    
+    // Async Check
+    private bool _finishedInitialization;
 
     //// Getters and Setters
     public Rigidbody Rigidbody => _rigidbody;
@@ -148,17 +153,17 @@ public class EnemyStateMachine : MonoBehaviour {
     public float KnockdownMeter { get => _knockdownMeter; set => _knockdownMeter = value; }
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
     public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
-
     public GameObject Enemy { get => _enemy; }
     public Transform MovingGoal { get => _movingGoal; set => _movingGoal = value; }
     public Vector2 MovingGoalOffset { get => _movingGoalOffset; set => _movingGoalOffset = value; }
     public SpriteEffects SpriteEffects { get => gameObject.GetComponent<SpriteEffects>(); }
+    public bool FinishedInitialization { get => _finishedInitialization; }
 
     // Functions
+    
     public void Initialize() {
-        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        _currentPlayerMachine = _gameManager.PlayerRef;
-
+        _currentPlayerMachine = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
+        
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
         _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
         _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(50, 500), 100, 30);
@@ -197,6 +202,7 @@ public class EnemyStateMachine : MonoBehaviour {
         // states EnterState()
         _currentState = _states.Idle();
         _currentState.EnterState();
+        _finishedInitialization = true;
     }
 
     void Update() {
@@ -252,6 +258,10 @@ public class EnemyStateMachine : MonoBehaviour {
         _isAttacked = checkIfStillAttacked;
     }
 
+    private void OnDestroy() {
+        GameManager.Instance.EnemyReferences.Remove(this);
+    }
+
     public void ApplyAttackStats() {
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (_recievedAttack[i].StatsApplied || !_recievedAttack[i].Used) {
@@ -273,7 +283,7 @@ public class EnemyStateMachine : MonoBehaviour {
     }
 
     public void SetDead() {
-        _gameManager.EnemyReferences.Remove(this);
+        GameManager.Instance.EnemyReferences.Remove(this);
         _enemy.SetActive(false);
     }
 

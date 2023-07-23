@@ -16,8 +16,8 @@ public class PlayerIdleState : PlayerBaseState
    }
 
    public override void UpdateState() {
-      if (!Ctx.InputSystem.IsActionHeld && Ctx.FollowupTimer > 0) {
-         if (Ctx.InputSystem.IsLightAttackPressed) {
+      if (!Ctx.IsActionHeld && Ctx.FollowupTimer > 0) {
+         if (Ctx.InputSys.IsLightAttackPressed) {
             if (Ctx.MostRecentAttack == "PlayerLAttackState") {
                Ctx.QueuedAttack = Factory.LightFirstFollowupAttack();
             }
@@ -25,7 +25,7 @@ public class PlayerIdleState : PlayerBaseState
                Ctx.QueuedAttack = Factory.LightSecondFollowupAttack();
             }
          }
-         if (Ctx.InputSystem.IsMediumAttackPressed) {
+         if (Ctx.InputSys.IsMediumAttackPressed) {
             if (Ctx.MostRecentAttack == "PlayerMAttackState") {
                Ctx.QueuedAttack = Factory.MediumFirstFollowupAttack();
             }

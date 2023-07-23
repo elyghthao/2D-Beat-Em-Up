@@ -14,7 +14,7 @@ public class PlayerAnimationScript : MonoBehaviour
     public GameObject slamAttack;
     int rand ;
     public bool isHit;
-
+    private bool _ready;
 
     private bool isAttacking;
     public ParticleSystem hitParticle;
@@ -24,6 +24,7 @@ public class PlayerAnimationScript : MonoBehaviour
     void Start()
     {
         stateScript = this.gameObject.GetComponent<PlayerStateMachine>();
+        StartCoroutine(checkStateReady());
         lightAttack = stateScript.lightAttackBounds;
         lightAttack1 = stateScript.lightFirstFollowupAttackBounds;
         lightAttack2 = stateScript.lightSecondFollowupAttackBounds;
@@ -35,8 +36,8 @@ public class PlayerAnimationScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+        if (!_ready) return;
         // Debug.Log("rand num: " + rand);
         // Debug.Log(stateScript.CurrentState.ToString());
 
@@ -95,6 +96,11 @@ public class PlayerAnimationScript : MonoBehaviour
 
         
     }
-
+    IEnumerator checkStateReady() {
+        while (!stateScript.FinishedInitialization) {
+            yield return null;
+        }
+        _ready = true;
+    }
     
 }

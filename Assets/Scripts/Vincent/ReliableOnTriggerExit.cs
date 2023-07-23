@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
  
@@ -92,14 +91,14 @@ public class ReliableOnTriggerExit : MonoBehaviour
             // Will GetOnTriggerExit with null, but is better than no call at all
             CallCallbacks();
  
-            Component.Destroy(this);
+            Destroy(this);
         }
         else if (thisCollider.enabled == false)
         {
             CallCallbacks();
         }
     }
-    void CallCallbacks()
+    private void CallCallbacks()
     {
         ignoreNotifyTriggerExit = true;
         foreach (var v in waitingForOnTriggerExit)
