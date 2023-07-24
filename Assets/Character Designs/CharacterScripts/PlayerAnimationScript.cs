@@ -11,6 +11,7 @@ public class PlayerAnimationScript : MonoBehaviour
     public GameObject lightAttack2;
     public GameObject mediumAttack;
     public GameObject mediumAttack1;
+    // public GameObject mediumAttack2;// add this later, talk with vincent
     public GameObject slamAttack;
     int rand ;
     public bool isHit;
@@ -30,6 +31,7 @@ public class PlayerAnimationScript : MonoBehaviour
         lightAttack2 = stateScript.lightSecondFollowupAttackBounds;
         mediumAttack = stateScript.mediumAttackBounds;
         mediumAttack1 = stateScript.mediumFirstFollowupAttackBounds;
+        // mediumAttack2 = stateScript.mediumSecondFollowupAttackBounds;
         slamAttack = stateScript.heavyAttackBounds;
         isAttacking = false;
         isHit = false;
@@ -55,7 +57,11 @@ public class PlayerAnimationScript : MonoBehaviour
                 anim.Play("MediumAttack");
             }else if(mediumAttack1.activeSelf){
                 anim.Play("MediumAttack1");
-            }else if(slamAttack.activeSelf){
+            }
+            // else if(mediumAttack2.activeSelf){
+            //     anim.Play("MediumAttack2");
+            // }
+            else if(slamAttack.activeSelf){
                 anim.Play("SlamAttack");
             }
         }else if (isAttacking) {
