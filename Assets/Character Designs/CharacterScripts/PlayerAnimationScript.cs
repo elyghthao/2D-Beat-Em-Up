@@ -41,7 +41,7 @@ public class PlayerAnimationScript : MonoBehaviour
     void Update() {
         if (!_ready) return;
         // Debug.Log("rand num: " + rand);
-        // Debug.Log(stateScript.CurrentState.ToString());
+        // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
 
         if(stateScript.CurrentState.ToString() == "PlayerAttackState") {
             isAttacking = true;
@@ -63,6 +63,9 @@ public class PlayerAnimationScript : MonoBehaviour
             // }
             else if(slamAttack.activeSelf){
                 anim.Play("SlamAttack");
+            }else if (stateScript.CurrentState.CurrentSubState.ToString() == "PlayerBlockState"){
+                // Debug.Log("Block");
+                anim.Play("Block");
             }
         }else if (isAttacking) {
             isAttacking = false;
