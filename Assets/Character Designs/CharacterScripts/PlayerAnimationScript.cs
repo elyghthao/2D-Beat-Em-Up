@@ -18,7 +18,8 @@ public class PlayerAnimationScript : MonoBehaviour
     private bool _ready;
 
     private bool isAttacking;
-    public ParticleSystem hitParticle;
+    public ParticleSystem knockedOutParticle;
+    public ParticleSystem healthGainParticle;
 
 
     
@@ -40,14 +41,19 @@ public class PlayerAnimationScript : MonoBehaviour
     // Update is called once per frame
     void Update() {
         if (!_ready) return;
-        // Debug.Log("rand num: " + rand);
         // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
-
+        Debug.Log(stateScript.CurrentState.ToString());
+        // Debug.Log(stateScript.currentHealth);
         if(stateScript.CurrentState.ToString() == "PlayerAttackState") {
             isAttacking = true;
             isHit = false;
 
-            if(lightAttack.activeSelf){
+
+            if (stateScript.CurrentState.CurrentSubState.ToString() == "PlayerBlockState"){
+                anim.Play("Block");
+            }
+
+            else if(lightAttack.activeSelf){
                 anim.Play("LightAttack");
             }else if(lightAttack1.activeSelf){
                 anim.Play("LightAttack1");
@@ -63,9 +69,6 @@ public class PlayerAnimationScript : MonoBehaviour
             // }
             else if(slamAttack.activeSelf){
                 anim.Play("SlamAttack");
-            }else if (stateScript.CurrentState.CurrentSubState.ToString() == "PlayerBlockState"){
-                // Debug.Log("Block");
-                anim.Play("Block");
             }
         }else if (isAttacking) {
             isAttacking = false;
@@ -84,7 +87,7 @@ public class PlayerAnimationScript : MonoBehaviour
             if(!isHit){
                 rand = 1;
                 anim.Play("Hurt");
-                hitParticle.Play();
+                knockedOutParticle.Play();
                 isHit = true;
             }
         }else if(stateScript.CurrentState.ToString() == "PlayerIdleState" && !isAttacking){
@@ -93,6 +96,12 @@ public class PlayerAnimationScript : MonoBehaviour
             anim.Play("Idle");
         }
         
+
+
+        if(stateScript.gotHealed){
+            stateScript.gotHealed = false;
+            healthGainParticle.Play();
+        }
         
 
 

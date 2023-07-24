@@ -19,6 +19,7 @@ public class PlayerStateMachine : MonoBehaviour {
    [Header("Body Elements")] public GameObject body;
 
    public int maxHealth = 100;
+   public bool gotHealed = false;
 
    [Header("Attack Boundaries")] public GameObject heavyAttackBounds;
 
@@ -232,7 +233,7 @@ public class PlayerStateMachine : MonoBehaviour {
       IsGrounded = CheckIfGrounded();
       if (FollowupTimer > 0) {
          FollowupTimer -= Time.deltaTime;
-         Debug.Log("Followup Timer: " + FollowupTimer);
+         // Debug.Log("Followup Timer: " + FollowupTimer);
       }
    }
 
@@ -339,6 +340,7 @@ public class PlayerStateMachine : MonoBehaviour {
    ///    Adds health to the player
    /// </summary>
    public void HealCharacter(int addedHealth) {
+      gotHealed = true;
       if (addedHealth <= 0) return;
       currentHealth += addedHealth;
       if (currentHealth > maxHealth) currentHealth = maxHealth;
