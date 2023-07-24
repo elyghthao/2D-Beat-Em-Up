@@ -25,6 +25,7 @@ public class EnemyHAttackState : EnemyBaseState {
    public override void UpdateState() {
       _animationTime += Time.deltaTime;
       _currentFrame = _animationTime / _timePerFrame;
+      Debug.Log("Here");
 
       // Displays the current state of the attack frames.
       // Green is startup frames: No damage is given in this phase
@@ -34,10 +35,10 @@ public class EnemyHAttackState : EnemyBaseState {
          Ctx.HeavyBoundsMat.color = Color.green;
       } else if (_currentFrame <= Ctx.heavyActiveFrames.y) {
          Ctx.HeavyBoundsMat.color = Color.red;
-         Ctx.HeavyBounds.setColliderActive(true);
+         Ctx.HeavyBounds.SetColliderActive(true);
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames.y) {
          Ctx.HeavyBoundsMat.color = Color.blue;
-         Ctx.HeavyBounds.setColliderActive(false);
+         Ctx.HeavyBounds.SetColliderActive(false);
       } else {
          CanSwitch = true;
       }

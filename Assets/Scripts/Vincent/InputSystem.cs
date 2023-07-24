@@ -1,173 +1,193 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputSystem : MonoBehaviour
-{
-    private PlayerInput _playerInput;
-    
-    // Input values
-    private Vector2 _currentMovementInput;
-    private bool _isMovementPressed;
-    private bool _isActionPressed;
-    private bool _isActionHeld;
-    private bool _isLightAttackPressed;
-    private bool _isMediumAttackPressed;
-    private bool _isHeavyAttackPressed;
-    private bool _isBlockPressed;
-    private bool _isBlockHeld;
-    
-    // Constants
-    private readonly int _zero = 0;
-    
-    public Vector2 CurrentMovementInput { get => _currentMovementInput; set => _currentMovementInput = value; }
-    public bool IsMovementPressed { get => _isMovementPressed; set => _isMovementPressed = value; }
-    public bool IsActionPressed { get => _isActionPressed; }
-    public bool IsActionHeld { get => _isActionHeld; }
-    public bool IsLightAttackPressed { get => _isLightAttackPressed; }
-    public bool IsMediumAttackPressed { get => _isMediumAttackPressed; }
-    public bool IsHeavyAttackPressed { get => _isHeavyAttackPressed; }
-    public bool IsBlockPressed { get => _isBlockPressed; }
-    public bool IsBlockHeld { get => _isBlockHeld; }
+public class InputSystem : MonoBehaviour {
+   // Constants
+   private readonly int _zero = 0;
 
-    public void DisablePlayerInput() {
-        _playerInput.Disable();
-        _playerInput.Player.Movement.performed -= OnMovementPerformed;
-        _playerInput.Player.Movement.canceled -= OnMovementCanceled;
-        
-        _playerInput.Player.LightAttack.performed -= OnLightAttackPerformed;
-        _playerInput.Player.LightAttack.canceled -= OnLightAttackCanceled;
-        
-        _playerInput.Player.MediumAttack.performed -= OnMediumAttackPerformed;
-        _playerInput.Player.MediumAttack.canceled -= OnMediumAttackCanceled;
-        
-        _playerInput.Player.HeavyAttack.performed -= OnHeavyAttackPerformed;
-        _playerInput.Player.HeavyAttack.canceled -= OnHeavyAttackCanceled;
-        
-        _playerInput.Player.Block.performed -= OnBlockPerformed;
-        _playerInput.Player.Block.canceled -= OnBlockCanceled;
-    }
-    public void EnablePlayerInput() {
-        _playerInput.Enable();
-        _playerInput.Player.Movement.performed += OnMovementPerformed;
-        _playerInput.Player.Movement.canceled += OnMovementCanceled;
-        
-        _playerInput.Player.LightAttack.performed += OnLightAttackPerformed;
-        _playerInput.Player.LightAttack.canceled += OnLightAttackCanceled;
-        
-        _playerInput.Player.MediumAttack.performed += OnMediumAttackPerformed;
-        _playerInput.Player.MediumAttack.canceled += OnMediumAttackCanceled;
-        
-        _playerInput.Player.HeavyAttack.performed += OnHeavyAttackPerformed;
-        _playerInput.Player.HeavyAttack.canceled += OnHeavyAttackCanceled;
-        
-        _playerInput.Player.Block.performed += OnBlockPerformed;
-        _playerInput.Player.Block.canceled += OnBlockCanceled;
-    }
+   // Input values
+   private Vector2 _currentMovementInput;
+   private bool _enableWhenReady;
+   private PlayerInput _playerInput;
 
-    private void Awake() {
-        //_playerInput = new PlayerInput();
-    }
+   public Vector2 CurrentMovementInput {
+      get => _currentMovementInput;
+      set => _currentMovementInput = value;
+   }
 
-    public void Initialize() {
-        _playerInput = new PlayerInput();
-    }
+   public bool IsMovementPressed { get; set; }
 
-    private void Update() {
-        CheckActionPressed();
-    }
-    
-    /// <summary>
-    /// Checks for when certain buttons are pressed, is updated constantly so we can be sure any held, or immediately
-    /// pressed buttons are accurate
-    /// </summary>
-    void CheckActionPressed() {
-        PlayerInput.PlayerActions pAction = _playerInput.Player;
-        // Defies if an action was pressed, not held
-        _isActionPressed = pAction.LightAttack.WasPerformedThisFrame() ||
-                           pAction.MediumAttack.WasPerformedThisFrame() ||
-                           pAction.HeavyAttack.WasPerformedThisFrame() || pAction.Block.WasPerformedThisFrame();
-        // Defines if an action is being held down
-        _isActionHeld = pAction.LightAttack.IsPressed() || pAction.MediumAttack.IsPressed() ||
-                        pAction.HeavyAttack.IsPressed() || pAction.Block.IsPressed();
-        // Defines if the block button is currently being held down
-        _isBlockHeld = pAction.Block.IsPressed();
-    }
+   public bool IsActionPressed { get; private set; }
 
-    /// <summary>
-    /// When a movement action is performed
-    /// </summary>
-    /// <param name="context">Reference to our input system</param>
-    void OnMovementPerformed(InputAction.CallbackContext context) {
-        _currentMovementInput = context.ReadValue<Vector2>();
-        _isMovementPressed = _currentMovementInput.x != _zero || _currentMovementInput.y != _zero;
-    }
-    
-    /// <summary>
-    /// When a movement action is canceled
-    /// </summary>
-    /// <param name="context">Reference to our input system</param>
-    void OnMovementCanceled(InputAction.CallbackContext context) {
-        _currentMovementInput = Vector2.zero;
-        _isMovementPressed = false;
-    }
+   public bool IsActionHeld { get; private set; }
 
-    /// <summary>
-    /// When a light attack is performed
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnLightAttackPerformed(InputAction.CallbackContext context) {
-        _isLightAttackPressed = context.ReadValueAsButton();
-    }
-    /// <summary>
-    /// When a light attack is canceled
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnLightAttackCanceled(InputAction.CallbackContext context) {
-        _isLightAttackPressed = false;
-    }
-    /// <summary>
-    /// When a medium attack is performed
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnMediumAttackPerformed(InputAction.CallbackContext context) {
-        _isMediumAttackPressed = context.ReadValueAsButton();
-    }
-    /// <summary>
-    /// When a medium attack is canceled
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnMediumAttackCanceled(InputAction.CallbackContext context) {
-        _isMediumAttackPressed = false;
-    }
-    /// <summary>
-    /// When a heavy attack is performed
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnHeavyAttackPerformed(InputAction.CallbackContext context) {
-        _isHeavyAttackPressed = context.ReadValueAsButton();
-    }
-    /// <summary>
-    /// When a heavy attack is canceled
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnHeavyAttackCanceled(InputAction.CallbackContext context) {
-        _isHeavyAttackPressed = false;
-    }
-    /// <summary>
-    /// When block is performed
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnBlockPerformed(InputAction.CallbackContext context) {
-        _isBlockPressed = context.ReadValueAsButton();
-    }
-    /// <summary>
-    /// When block is canceled
-    /// </summary>
-    /// <param name="context">Reference to our movement system</param>
-    void OnBlockCanceled(InputAction.CallbackContext context) {
-        _isBlockPressed = false;
-    }
+   public bool IsLightAttackPressed { get; private set; }
+
+   public bool IsMediumAttackPressed { get; private set; }
+
+   public bool IsHeavyAttackPressed { get; private set; }
+
+   public bool IsBlockPressed { get; private set; }
+
+   public bool IsBlockHeld { get; private set; }
+
+   public bool EmptyPlayerInput => _playerInput == null;
+
+   public void Awake() {
+      if (GameManager.Instance != null && GameManager.Instance != gameObject.GetComponent<GameManager>()) {
+         Destroy(this);
+         return;
+      }
+
+      Debug.Log("TEEEEEEEst");
+      _playerInput = new PlayerInput();
+   }
+
+   private void Update() {
+      CheckActionPressed();
+   }
+
+   private void OnDestroy() {
+      if (GameManager.Instance != null && GameManager.Instance != gameObject.GetComponent<GameManager>()) {
+         Destroy(this);
+         return;
+      }
+
+      Debug.LogWarning("ORIGINAL INPUT DESTROYED, THIS SHOULDN'T HAPPEN UNLESS STOPPING GAME");
+   }
+
+   public void DisablePlayerInput() {
+      _playerInput.Enable();
+      _playerInput.Player.Movement.performed += OnMovementPerformed;
+      _playerInput.Player.Movement.canceled += OnMovementCanceled;
+
+      _playerInput.Player.LightAttack.performed += OnLightAttackPerformed;
+      _playerInput.Player.LightAttack.canceled += OnLightAttackCanceled;
+
+      _playerInput.Player.MediumAttack.performed += OnMediumAttackPerformed;
+      _playerInput.Player.MediumAttack.canceled += OnMediumAttackCanceled;
+
+      _playerInput.Player.HeavyAttack.performed += OnHeavyAttackPerformed;
+      _playerInput.Player.HeavyAttack.canceled += OnHeavyAttackCanceled;
+
+      _playerInput.Player.Block.performed += OnBlockPerformed;
+      _playerInput.Player.Block.canceled += OnBlockCanceled;
+   }
+
+   public void EnablePlayerInput() {
+      _playerInput.Enable();
+      _playerInput.Player.Movement.performed += OnMovementPerformed;
+      _playerInput.Player.Movement.canceled += OnMovementCanceled;
+
+      _playerInput.Player.LightAttack.performed += OnLightAttackPerformed;
+      _playerInput.Player.LightAttack.canceled += OnLightAttackCanceled;
+
+      _playerInput.Player.MediumAttack.performed += OnMediumAttackPerformed;
+      _playerInput.Player.MediumAttack.canceled += OnMediumAttackCanceled;
+
+      _playerInput.Player.HeavyAttack.performed += OnHeavyAttackPerformed;
+      _playerInput.Player.HeavyAttack.canceled += OnHeavyAttackCanceled;
+
+      _playerInput.Player.Block.performed += OnBlockPerformed;
+      _playerInput.Player.Block.canceled += OnBlockCanceled;
+   }
+
+   /// <summary>
+   ///    Checks for when certain buttons are pressed, is updated constantly so we can be sure any held, or immediately
+   ///    pressed buttons are accurate
+   /// </summary>
+   private void CheckActionPressed() {
+      var pAction = _playerInput.Player;
+      // Defies if an action was pressed, not held
+      IsActionPressed = pAction.LightAttack.WasPerformedThisFrame() ||
+                        pAction.MediumAttack.WasPerformedThisFrame() ||
+                        pAction.HeavyAttack.WasPerformedThisFrame() || pAction.Block.WasPerformedThisFrame();
+      // Defines if an action is being held down
+      IsActionHeld = pAction.LightAttack.IsPressed() || pAction.MediumAttack.IsPressed() ||
+                     pAction.HeavyAttack.IsPressed() || pAction.Block.IsPressed();
+      // Defines if the block button is currently being held down
+      IsBlockHeld = pAction.Block.IsPressed();
+   }
+
+   /// <summary>
+   ///    When a movement action is performed
+   /// </summary>
+   /// <param name="context">Reference to our input system</param>
+   private void OnMovementPerformed(InputAction.CallbackContext context) {
+      _currentMovementInput = context.ReadValue<Vector2>();
+      IsMovementPressed = _currentMovementInput.x != _zero || _currentMovementInput.y != _zero;
+   }
+
+   /// <summary>
+   ///    When a movement action is canceled
+   /// </summary>
+   /// <param name="context">Reference to our input system</param>
+   private void OnMovementCanceled(InputAction.CallbackContext context) {
+      _currentMovementInput = Vector2.zero;
+      IsMovementPressed = false;
+   }
+
+   /// <summary>
+   ///    When a light attack is performed
+   /// </summary>
+   /// <param name="context">Reference to our movement system</param>
+   private void OnLightAttackPerformed(InputAction.CallbackContext context) {
+      IsLightAttackPressed = context.ReadValueAsButton();
+   }
+
+   /// <summary>
+   ///    When a light attack is canceled
+   /// </summary>
+   /// <param name="context">Reference to our movement system</param>
+   private void OnLightAttackCanceled(InputAction.CallbackContext context) {
+      IsLightAttackPressed = false;
+   }
+
+   /// <summary>
+   ///    When a medium attack is performed
+   /// </summary>
+   /// <param name="context">Reference to our movement system</param>
+   private void OnMediumAttackPerformed(InputAction.CallbackContext context) {
+      IsMediumAttackPressed = context.ReadValueAsButton();
+   }
+
+   /// <summary>
+   ///    When a medium attack is canceled
+   /// </summary>
+   /// <param name="context">Reference to our movement system</param>
+   private void OnMediumAttackCanceled(InputAction.CallbackContext context) {
+      IsMediumAttackPressed = false;
+   }
+
+   /// <summary>
+   ///    When a heavy attack is performed
+   /// </summary>
+   /// <param name="context">Reference to our movement system</param>
+   private void OnHeavyAttackPerformed(InputAction.CallbackContext context) {
+      IsHeavyAttackPressed = context.ReadValueAsButton();
+   }
+
+   /// <summary>
+   ///    When a heavy attack is canceled
+   /// </summary>
+   /// <param name="context">Reference to our movement system</param>
+   private void OnHeavyAttackCanceled(InputAction.CallbackContext context) {
+      IsHeavyAttackPressed = false;
+   }
+
+   /// <summary>
+   ///    When block is performed
+   /// </summary>
+   /// <param name="context">Reference to our movement system</param>
+   private void OnBlockPerformed(InputAction.CallbackContext context) {
+      IsBlockPressed = context.ReadValueAsButton();
+   }
+
+   /// <summary>
+   ///    When block is canceled
+   /// </summary>
+   /// <param name="context">Reference to our movement system</param>
+   private void OnBlockCanceled(InputAction.CallbackContext context) {
+      IsBlockPressed = false;
+   }
 }

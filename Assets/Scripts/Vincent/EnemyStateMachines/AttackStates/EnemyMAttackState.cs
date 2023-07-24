@@ -35,10 +35,10 @@ public class EnemyMAttackState : EnemyBaseState {
          Ctx.MediumBoundsMat.color = Color.green;
       } else if (_currentFrame <= Ctx.mediumActiveFrames.y) {
          Ctx.MediumBoundsMat.color = Color.red;
-         Ctx.MediumBounds.setColliderActive(true);
+         Ctx.MediumBounds.SetColliderActive(true);
       } else if (_currentFrame <= Ctx.mediumRecoveryFrames.y) {
          Ctx.MediumBoundsMat.color = Color.blue;
-         Ctx.MediumBounds.setColliderActive(false);
+         Ctx.MediumBounds.SetColliderActive(false);
       } else {
          CanSwitch = true;
       }

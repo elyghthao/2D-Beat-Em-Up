@@ -11,10 +11,11 @@ public class PlayerAnimationScript : MonoBehaviour
     public GameObject lightAttack2;
     public GameObject mediumAttack;
     public GameObject mediumAttack1;
+    // public GameObject mediumAttack2;// add this later, talk with vincent
     public GameObject slamAttack;
     int rand ;
     public bool isHit;
-
+    private bool _ready;
 
     private bool isAttacking;
     public ParticleSystem hitParticle;
@@ -24,19 +25,21 @@ public class PlayerAnimationScript : MonoBehaviour
     void Start()
     {
         stateScript = this.gameObject.GetComponent<PlayerStateMachine>();
+        StartCoroutine(checkStateReady());
         lightAttack = stateScript.lightAttackBounds;
         lightAttack1 = stateScript.lightFirstFollowupAttackBounds;
         lightAttack2 = stateScript.lightSecondFollowupAttackBounds;
         mediumAttack = stateScript.mediumAttackBounds;
         mediumAttack1 = stateScript.mediumFirstFollowupAttackBounds;
+        // mediumAttack2 = stateScript.mediumSecondFollowupAttackBounds;
         slamAttack = stateScript.heavyAttackBounds;
         isAttacking = false;
         isHit = false;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+        if (!_ready) return;
         // Debug.Log("rand num: " + rand);
         // Debug.Log(stateScript.CurrentState.ToString());
 
@@ -54,7 +57,11 @@ public class PlayerAnimationScript : MonoBehaviour
                 anim.Play("MediumAttack");
             }else if(mediumAttack1.activeSelf){
                 anim.Play("MediumAttack1");
-            }else if(slamAttack.activeSelf){
+            }
+            // else if(mediumAttack2.activeSelf){
+            //     anim.Play("MediumAttack2");
+            // }
+            else if(slamAttack.activeSelf){
                 anim.Play("SlamAttack");
             }
         }else if (isAttacking) {
@@ -95,6 +102,11 @@ public class PlayerAnimationScript : MonoBehaviour
 
         
     }
-
+    IEnumerator checkStateReady() {
+        while (!stateScript.FinishedInitialization) {
+            yield return null;
+        }
+        _ready = true;
+    }
     
 }
