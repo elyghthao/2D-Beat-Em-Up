@@ -38,8 +38,6 @@ public class InputSystem : MonoBehaviour {
          Destroy(this);
          return;
       }
-
-      Debug.Log("TEEEEEEEst");
       _playerInput = new PlayerInput();
    }
 

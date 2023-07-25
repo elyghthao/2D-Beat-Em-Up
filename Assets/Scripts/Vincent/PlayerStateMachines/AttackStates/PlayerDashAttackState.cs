@@ -56,9 +56,9 @@ public class PlayerDashAttackState : PlayerBaseState {
          SwitchState(Factory.LightAttack());
       } else if (Ctx.IsMediumAttackPressed) {
          SwitchState(Factory.MediumAttack());
-      } else {
-         SwitchState(Factory.Idle()); // TEMP FIX for action not ending because the action is being held down
+         return;
       }
+      SwitchState(Factory.Idle());
    }
 
    public override void InitializeSubState() {
