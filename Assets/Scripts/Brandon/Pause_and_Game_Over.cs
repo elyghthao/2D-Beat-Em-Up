@@ -84,7 +84,10 @@ public class Pause_and_Game_Over : MonoBehaviour
         // state, then the game is over.
         if (player.GetComponent<PlayerStateMachine>().CurrentHealth <= 0 && game_over == false)
         {
+            Debug.Log("Calling this");
+            Debug.Log(player.GetComponent<PlayerStateMachine>().CurrentHealth);
             GameOver();
+            
         }
     }
 
