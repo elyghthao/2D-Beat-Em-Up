@@ -4,8 +4,8 @@ using UnityEngine;
 /// Default substate of EnemyHurtState. When nothing is happening to the enemy other than recovering from having been
 /// hit
 /// </summary>
-public class EnemyStunnedState : EnemyBaseState
-{
+public class EnemyStunnedState : EnemyBaseState {
+   private bool _wentAirborne;
    public EnemyStunnedState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) : base(currentContext, enemyStateFactory) {
    
    }
@@ -19,7 +19,13 @@ public class EnemyStunnedState : EnemyBaseState
    }
 
    public override void UpdateState() {
+      if (!Ctx.IsGrounded) {
+         _wentAirborne = true;
+      }
       CheckSwitchStates();
+      if (Ctx.IsGrounded) {
+         _wentAirborne = false;
+      }
    }
 
    public override void ExitState() {
@@ -28,6 +34,10 @@ public class EnemyStunnedState : EnemyBaseState
 
    public override void CheckSwitchStates() {
       // If we've been attacked, check to see if we should be knocked down or not.
+      if (Ctx.IsGrounded && Ctx.KnockedDown && _wentAirborne) {
+         SwitchState(Factory.Recovery());
+         return;
+      }
       if (Ctx.IsAttacked) {
          if (Ctx.KnockdownMeter > 0) {
             SwitchState(Factory.Smacked());
