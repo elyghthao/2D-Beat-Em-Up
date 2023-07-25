@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Sprites/Abdul/Animation.meta
-guid: 741b246a328f43348b3380175d051ff1
-========
-guid: ca03ac53bf9bc5c439a07ae2a14756f2
->>>>>>>> FightMechanics:Assets/Sprites/Abdul/VFX.meta
+guid: fcf96b0a3dbd247488dc3f92e8d9b399
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
