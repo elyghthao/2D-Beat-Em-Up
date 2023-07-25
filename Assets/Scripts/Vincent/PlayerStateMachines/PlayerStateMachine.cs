@@ -19,6 +19,7 @@ public class PlayerStateMachine : MonoBehaviour {
    [Header("Body Elements")] public GameObject body;
 
    public int maxHealth = 100;
+   public bool gotHealed = false;
 
    [Header("Attack Boundaries")] public GameObject heavyAttackBounds;
 
@@ -106,57 +107,57 @@ public class PlayerStateMachine : MonoBehaviour {
    // Getters and Setters
    public Vector2 CurrentMovementInput {
       get {
-         if (InputSys == null) return new Vector2(0, 0);
-         return InputSys.CurrentMovementInput;
+         if (InputSystem == null) return new Vector2(0, 0);
+         return InputSystem.CurrentMovementInput;
       }
    }
 
    public bool IsMovementPressed {
       get {
-         if (InputSys == null) return false;
-         return InputSys.IsMovementPressed;
+         if (InputSystem == null) return false;
+         return InputSystem.IsMovementPressed;
       }
    }
    public bool IsActionPressed {
       get {
-         if (InputSys == null) return false;
-         return InputSys.IsActionPressed;
+         if (InputSystem == null) return false;
+         return InputSystem.IsActionPressed;
       }
    }
    public bool IsActionHeld {
       get {
-         if (InputSys == null) return false;
-         return InputSys.IsActionHeld;
+         if (InputSystem == null) return false;
+         return InputSystem.IsActionHeld;
       }
    }
    public bool IsLightAttackPressed {
       get {
-         if (InputSys == null) return false;
-         return InputSys.IsLightAttackPressed;
+         if (InputSystem == null) return false;
+         return InputSystem.IsLightAttackPressed;
       }
    }
    public bool IsMediumAttackPressed {
       get {
-         if (InputSys == null) return false;
-         return InputSys.IsMediumAttackPressed;
+         if (InputSystem == null) return false;
+         return InputSystem.IsMediumAttackPressed;
       }
    }
    public bool IsPowerupPressed {
       get {
-         if (InputSys == null) return false;
-         return InputSys.IsHeavyAttackPressed;
+         if (InputSystem == null) return false;
+         return InputSystem.IsHeavyAttackPressed;
       }
    }
    public bool IsBlockPressed {
       get {
-         if (InputSys == null) return false;
-         return InputSys.IsBlockPressed;
+         if (InputSystem == null) return false;
+         return InputSystem.IsBlockPressed;
       }
    }
    public bool IsBlockHeld {
       get {
-         if (InputSys == null) return false;
-         return InputSys.IsBlockHeld;
+         if (InputSystem == null) return false;
+         return InputSystem.IsBlockHeld;
       }
    }
    public PlayerBaseState CurrentState { get; set; }
@@ -168,7 +169,7 @@ public class PlayerStateMachine : MonoBehaviour {
    public AttackBoundsManager LightFirstFollowupBounds { get; private set; }
    public AttackBoundsManager LightSecondFollowupBounds { get; private set; }
    public Rigidbody Rigidbody { get; set; }
-   public InputSystem InputSys { get; set; }
+   public InputSystem InputSystem { get; set; }
    public bool CharacterFlipped { get; set; }
    /// Attacked Indicators
    public bool IsAttacked { get; private set; }
@@ -194,12 +195,10 @@ public class PlayerStateMachine : MonoBehaviour {
 
    public bool FinishedInitialization { get; private set; }
 
-   public SpriteEffects SpriteEffects { get; private set; }
-
    // Functions
 
    private void Awake() {
-      InputSys = GameManager.Instance.gameObject.GetComponent<InputSystem>();
+      InputSystem = GameManager.Instance.gameObject.GetComponent<InputSystem>();
       RecievedAttack[(int) Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(1, 10), 40, 5);
       RecievedAttack[(int) Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(1, 5), 60, 15);
       RecievedAttack[(int) Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(5, 10), 100, 30);
@@ -215,7 +214,6 @@ public class PlayerStateMachine : MonoBehaviour {
       LightFirstFollowupBounds = lightFirstFollowupAttackBounds.GetComponent<AttackBoundsManager>();
       LightSecondFollowupBounds = lightSecondFollowupAttackBounds.GetComponent<AttackBoundsManager>();
 
-      SpriteEffects = GetComponent<SpriteEffects>();
       Rigidbody = GetComponent<Rigidbody>();
       Rigidbody.freezeRotation = true;
 
@@ -235,7 +233,7 @@ public class PlayerStateMachine : MonoBehaviour {
       IsGrounded = CheckIfGrounded();
       if (FollowupTimer > 0) {
          FollowupTimer -= Time.deltaTime;
-         //Debug.Log("Followup Timer: " + FollowupTimer);
+         // Debug.Log("Followup Timer: " + FollowupTimer);
       }
    }
 
@@ -250,7 +248,7 @@ public class PlayerStateMachine : MonoBehaviour {
    ///    Disables all input for the character when the PlayerStateMachine script is disabled
    /// </summary>
    private void OnDisable() {
-      InputSys.DisablePlayerInput();
+      InputSystem.DisablePlayerInput();
    }
 
    private void OnDestroy() {
@@ -288,8 +286,8 @@ public class PlayerStateMachine : MonoBehaviour {
    }
 
    private IEnumerator SafeOnEnable() {
-      while (InputSys == null || InputSys.EmptyPlayerInput) yield return null;
-      InputSys.EnablePlayerInput();
+      while (InputSystem == null || InputSystem.EmptyPlayerInput) yield return null;
+      InputSystem.EnablePlayerInput();
    }
 
    public bool CheckIfGrounded() {
@@ -325,7 +323,7 @@ public class PlayerStateMachine : MonoBehaviour {
       // limit velocity if needed
       if (flatVelocity.magnitude > movementSpeed) {
          var limitedVelocity = flatVelocity.normalized * movementSpeed;
-         GetComponent<Rigidbody>().velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z);
+         Rigidbody.velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z);
       }
    }
 
@@ -336,27 +334,13 @@ public class PlayerStateMachine : MonoBehaviour {
       CharacterFlipped = !CharacterFlipped;
       // Debug.Log("Character flipped: " + _characterFlipped);
       transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
-
-      // Effect
-      int effectNumber = Random.Range(1, 3);
-      if (effectNumber == 1) {
-         SpriteEffects.doEffect("Direction", CharacterFlipped); 
-      } else {
-         SpriteEffects.doEffect("Direction2", CharacterFlipped); 
-      }
-
-      // NEW FLIP SYSTEM BELOW
-      // if (!CharacterFlipped) {
-      //     transform.localEulerAngles = new Vector3(0, 0, 0);
-      // } else {
-      //     transform.localEulerAngles = new Vector3(0, 180, 0);
-      // }
    }
 
    /// <summary>
    ///    Adds health to the player
    /// </summary>
    public void HealCharacter(int addedHealth) {
+      gotHealed = true;
       if (addedHealth <= 0) return;
       currentHealth += addedHealth;
       if (currentHealth > maxHealth) currentHealth = maxHealth;

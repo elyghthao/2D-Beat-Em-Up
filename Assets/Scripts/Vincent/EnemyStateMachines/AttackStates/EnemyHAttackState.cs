@@ -25,7 +25,6 @@ public class EnemyHAttackState : EnemyBaseState {
    public override void UpdateState() {
       _animationTime += Time.deltaTime;
       _currentFrame = _animationTime / _timePerFrame;
-      Debug.Log("Here");
 
       // Displays the current state of the attack frames.
       // Green is startup frames: No damage is given in this phase

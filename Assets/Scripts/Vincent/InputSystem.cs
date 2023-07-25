@@ -53,7 +53,7 @@ public class InputSystem : MonoBehaviour {
          return;
       }
 
-      Debug.LogWarning("ORIGINAL INPUT DESTROYED, THIS SHOULDN'T HAPPEN UNLESS STOPPING GAME");
+      Debug.LogError("ORIGINAL INPUT DESTROYED, THIS SHOULDN'T HAPPEN UNLESS STOPPING GAME");
    }
 
    public void DisablePlayerInput() {

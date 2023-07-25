@@ -6,6 +6,7 @@ public class AttackBoundsManager : MonoBehaviour {
     private void Awake() {
         _collider = GetComponent<BoxCollider>();
         _material = GetComponent<Renderer>().material;
+        Debug.Log(_material);
     }
 
     public void SetMatColor(Color color) {

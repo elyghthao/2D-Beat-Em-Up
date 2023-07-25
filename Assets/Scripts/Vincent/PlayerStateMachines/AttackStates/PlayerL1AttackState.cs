@@ -28,7 +28,7 @@ public class PlayerL1AttackState : PlayerBaseState {
         _currentFrameState = Ctx.FrameState(Ctx.LightFirstFollowupBounds, _currentFrame, Ctx.light1StartupFrames,
             Ctx.light1ActiveFrames, Ctx.light1RecoveryFrames);
         Debug.Log("CurrentFrameState for LightAttack 1: " + _currentFrameState);
-        if (Ctx.InputSys.IsLightAttackPressed && _currentFrameState >= 2 && !Ctx.InputSys.IsActionHeld) {
+        if (Ctx.InputSystem.IsLightAttackPressed && _currentFrameState >= 2 && !Ctx.InputSystem.IsActionHeld) {
             Ctx.QueuedAttack = Factory.LightSecondFollowupAttack();
             Debug.Log("LightAttack 2 Queued");
         }
