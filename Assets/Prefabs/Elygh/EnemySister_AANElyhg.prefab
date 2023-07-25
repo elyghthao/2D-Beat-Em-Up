@@ -1231,7 +1231,7 @@ GameObject:
   - component: {fileID: 8931059919346083695}
   - component: {fileID: 6645445974233381345}
   m_Layer: 7
-  m_Name: EnemySister_AAN
+  m_Name: EnemySister_AANElyhg
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

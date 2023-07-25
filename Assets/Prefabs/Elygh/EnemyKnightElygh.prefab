@@ -5948,7 +5948,7 @@ GameObject:
   - component: {fileID: 313025584698401456}
   - component: {fileID: 5326526767108593139}
   m_Layer: 7
-  m_Name: EnemyKnight
+  m_Name: EnemyKnightElygh
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

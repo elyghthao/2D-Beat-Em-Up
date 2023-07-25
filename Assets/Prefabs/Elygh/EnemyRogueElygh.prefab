@@ -1161,7 +1161,7 @@ GameObject:
   - component: {fileID: 9107608860072175199}
   - component: {fileID: 7055535822989626395}
   m_Layer: 7
-  m_Name: EnemyRogue
+  m_Name: EnemyRogueElygh
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
