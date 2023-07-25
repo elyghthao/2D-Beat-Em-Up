@@ -324,6 +324,11 @@ Transform:
   m_Father: {fileID: 417581548}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!198 &86057570 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 377815586480378776, guid: e9779507f60078f4c9e7a13b1412d1fc, type: 3}
+  m_PrefabInstance: {fileID: 3331324724853709454}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &184657379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,6 +1731,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8805817542326784441, guid: e9779507f60078f4c9e7a13b1412d1fc, type: 3}
+      propertyPath: healthGainParticle
+      value: 
+      objectReference: {fileID: 86057570}
+    - target: {fileID: 8805817542326784441, guid: e9779507f60078f4c9e7a13b1412d1fc, type: 3}
+      propertyPath: knockedOutParticle
+      value: 
+      objectReference: {fileID: 86057570}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
