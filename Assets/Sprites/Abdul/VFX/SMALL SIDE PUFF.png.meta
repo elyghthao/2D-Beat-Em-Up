@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -121,7 +121,202 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: SMALL SIDE PUFF_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 0
+        width: 23
+        height: 20
+      alignment: 9
+      pivot: {x: 0.87, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      physicsShape:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe3b60f8c47400c45b14fe0eaa33cd35
+      internalID: 1870628020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SMALL SIDE PUFF_1
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 0
+        width: 23
+        height: 20
+      alignment: 9
+      pivot: {x: 0.87, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      physicsShape:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8648807909c7a37489e79dc6817e04cf
+      internalID: 1187441400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SMALL SIDE PUFF_2
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 0
+        width: 23
+        height: 20
+      alignment: 9
+      pivot: {x: 0.87, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      physicsShape:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa0668cc0c110ce408d3372e7fc072ae
+      internalID: 1647529452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SMALL SIDE PUFF_3
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 0
+        width: 23
+        height: 20
+      alignment: 9
+      pivot: {x: 0.87, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      physicsShape:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 232a982f487da324baf683406427d728
+      internalID: 331193535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SMALL SIDE PUFF_4
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 0
+        width: 23
+        height: 20
+      alignment: 9
+      pivot: {x: 0.87, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      physicsShape:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac1818f2be2f496478b6fa4062d75d59
+      internalID: 785109580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SMALL SIDE PUFF_5
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 0
+        width: 23
+        height: 20
+      alignment: 9
+      pivot: {x: 0.87, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      physicsShape:
+      - - {x: 0, y: -10}
+        - {x: 11.5, y: 0}
+        - {x: 0, y: 10}
+        - {x: -11.5, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5725235e06a75ca4db53033a252da555
+      internalID: 359990066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SMALL SIDE PUFF_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 23
+        height: 20
+      alignment: 9
+      pivot: {x: 0.87, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e12a4d24a5e39bf45b5c2962ca3efe3f
+      internalID: 1202325737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +327,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SMALL SIDE PUFF_0: 1870628020
+      SMALL SIDE PUFF_1: 1187441400
+      SMALL SIDE PUFF_2: 1647529452
+      SMALL SIDE PUFF_3: 331193535
+      SMALL SIDE PUFF_4: 785109580
+      SMALL SIDE PUFF_5: 359990066
+      SMALL SIDE PUFF_6: 1202325737
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -24,6 +24,10 @@ public class PlayerStunnedState : PlayerBaseState {
 
     public override void CheckSwitchStates() {
         // If we've been attacked, check to see if we should be knocked down or not.
+        if (Ctx.IsGrounded && Ctx.KnockedDown) {
+            SwitchState(Factory.Recover());
+            return;
+        }
         if (Ctx.IsAttacked) {
             if (Ctx.KnockdownMeter > 0) {
                 SwitchState(Factory.Smacked());

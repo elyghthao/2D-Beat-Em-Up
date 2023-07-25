@@ -8,11 +8,13 @@ public class PlayerHAttackState : PlayerBaseState {
    private float _animationTime;
    private float _currentFrame = 1;
    private float _timePerFrame;
+   private bool _didEffect;
 
    public PlayerHAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
       : base(currentContext, playerStateFactory) {
       // Set canSwitch to false so we can constrain when it's ok to switch from this state
       CanSwitch = false;
+      _didEffect = false;
    }
    
    public override void EnterState() {
@@ -33,6 +35,14 @@ public class PlayerHAttackState : PlayerBaseState {
       if (_currentFrame <= Ctx.heavyStartupFrames) {
          Ctx.HeavyBounds.SetMatColor(Color.green);
       } else if (_currentFrame <= Ctx.heavyActiveFrames) {
+         Ctx.HeavyBounds.SetMatColor(Color.red);
+         Ctx.HeavyBounds.SetColliderActive(true);
+
+         // Slam Effect
+         if (!_didEffect) {
+            Ctx.SpriteEffects.doEffect("Slam", Ctx.CharacterFlipped);
+            _didEffect = true;
+         }
          Ctx.HeavyBounds.SetMatColor(Color.red);
          Ctx.HeavyBounds.SetColliderActive(true);
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames) {
@@ -56,9 +66,9 @@ public class PlayerHAttackState : PlayerBaseState {
          SwitchState(Factory.LightAttack());
       } else if (Ctx.IsMediumAttackPressed) {
          SwitchState(Factory.MediumAttack());
-      } else {
-         SwitchState(Factory.Idle()); // TEMP FIX for action not ending because the action is being held down
+         return;
       }
+      SwitchState(Factory.Idle());
    }
 
    public override void InitializeSubState() {
