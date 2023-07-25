@@ -15,7 +15,6 @@ public class EnemyAnimationScript : MonoBehaviour
     public bool isHit;
     public ParticleSystem hitParticle;
     private bool _ready;
-    private GameObject currentPlayer;
     
     // Start is called before the first frame update
     void Start()
@@ -27,15 +26,14 @@ public class EnemyAnimationScript : MonoBehaviour
         slamAttack = stateScript.heavyAttackBounds;
         isAttacking = false;
         isHit = false;
-        currentPlayer = GameObject.FindWithTag("Player");
+        
     }
 
     // Update is called once per frame
     void Update() {
         if (!_ready) return;
-        // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+        // Debug.Log(mediumAttack.activeSelf);
         // Debug.Log(stateScript.CurrentState.ToString());
-        // Debug.Log(stateScript.currentHealth);
 
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
@@ -57,11 +55,7 @@ public class EnemyAnimationScript : MonoBehaviour
         
         
         if(stateScript.CurrentState.ToString() == "EnemyMovingState" && !isAttacking){
-            if(Vector3.Distance(this.gameObject.transform.position, currentPlayer.transform.position) <= 3) {
-                anim.Play("FightStance");
-            }else {
-                anim.Play("Walk");
-            }
+            anim.Play("Walk");
             isHit = false;
         }else if(stateScript.CurrentState.ToString() == "EnemyHurtState" ){
             if(!isHit){
@@ -81,7 +75,7 @@ public class EnemyAnimationScript : MonoBehaviour
 
     IEnumerator checkStateReady() {
         while (!stateScript.FinishedInitialization) {
-            Debug.Log("StuckInAnimationCheck");
+            Debug.Log("Awaiting statescript initialization before enabling animation for enemy: " + this.ToString());
             yield return null;
         }
         _ready = true;
