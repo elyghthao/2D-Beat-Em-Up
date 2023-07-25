@@ -17,29 +17,6 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void UpdateState() {
-      // Chasing goal Transform and offsets
-      Vector3 goalPos = Ctx.MovingGoal.position; // NOTE: The y for the MovingGoalOffset is really the z
-      goalPos.x += Ctx.MovingGoalOffset.x;
-      goalPos.y = Ctx.gameObject.transform.position.y;
-      goalPos.z += Ctx.MovingGoalOffset.y;
-
-      // Chasing the goal with the offset
-      Vector3 directionToGoal = goalPos - Ctx.gameObject.transform.position;
-      directionToGoal = directionToGoal.normalized * Ctx.movementSpeed * 10f;
-      Ctx.Rigidbody.AddForce(directionToGoal, ForceMode.Force);
-      Ctx.SpeedControl();
-
-      // Make it so the right of enemy will always face the Transform goal when chasing
-      Vector3 enemyScale = Ctx.transform.localScale;
-      if(directionToGoal.x > 0) {
-         // Ctx.transform.localEulerAngles = new Vector3(0, 0, 0);
-         Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
-      }else {
-         // Ctx.transform.localEulerAngles = new Vector3(0, -180, 0);
-         Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
-      }
-
-      // Update KnowckdownMeter
       if (Ctx.KnockdownMeter < Ctx.knockdownMax) {
          // Debug.Log("Regenerating: " + Ctx.KnockdownMeter);
          Ctx.KnockdownMeter += Time.deltaTime * 50;
@@ -84,34 +61,9 @@ public class EnemyMovingState : EnemyBaseState {
       // If a heavy enemy, they will only ever chase
       if (Ctx.enemyType == EnemyStateMachine.EnemyType.Heavy) {
          SetSubState(Factory.Chase());
-      } else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Medium) {
-         SetSubState(Factory.Chase());
       }
 
       // Only state that should be set to the substate initially is the Stunned state
       // SetSubState(Factory.Stunned());
    }
 }
-
-
-/*
-TEST CODE FOR UPDATE
-
-Vector2 movementDir = new Vector2(1, 0);
-      Vector3 directionToPlayer = Ctx.CurrentPlayerMachine.gameObject.transform.position - Ctx.gameObject.transform.position;
-      if (directionToPlayer.x < 0) {
-         movementDir = new Vector2(-1, 0);
-      }
-      Vector2 moveDir = movementDir * (Ctx.movementSpeed * 10f);
-      // Applies movement to the player depending on the player input
-      Ctx.Rigidbody.AddForce(new Vector3(moveDir.x, 0, moveDir.y), ForceMode.Force);
-      Ctx.SpeedControl();
-
-      // make it so the right of enemy will always face player when chasing
-      Vector3 enemyScale = Ctx.transform.localScale;
-      if(directionToPlayer.x > 0) {
-         Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x),enemyScale.y,enemyScale.z);
-      }else {
-         Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x),enemyScale.y,enemyScale.z);
-      }
-*/
