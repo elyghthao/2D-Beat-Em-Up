@@ -23,7 +23,7 @@ public class EnemyChaseState : EnemyBaseState
 
 
 
-      if (Vector3.Distance(CurrentPlayerMachine.gameObject.transform.position, Ctx.gameObject.transform.position) > 3){
+      if (Vector3.Distance(CurrentPlayerMachine.gameObject.transform.position, Ctx.gameObject.transform.position) > 3.2){
          directionToPlayer = directionToPlayer.normalized * amountOfForce; //this value affects speed
          Ctx.Rigidbody.AddForce(directionToPlayer, ForceMode.Force);
          // Debug.Log(directionToPlayer.x);
