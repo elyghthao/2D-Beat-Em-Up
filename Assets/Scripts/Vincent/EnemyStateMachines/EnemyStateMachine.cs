@@ -104,7 +104,6 @@ public class EnemyStateMachine : MonoBehaviour {
     private bool _isGrounded;
     private float _knockdownMeter;
     private float _stunTimer;
-    [SerializeField]
     private int _currentHealth;
     private GameObject _enemy;
 
@@ -147,9 +146,6 @@ public class EnemyStateMachine : MonoBehaviour {
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
     public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
     public GameObject Enemy { get => _enemy; }
-    public Transform MovingGoal { get => _movingGoal; set => _movingGoal = value; }
-    public Vector2 MovingGoalOffset { get => _movingGoalOffset; set => _movingGoalOffset = value; }
-    public SpriteEffects SpriteEffects { get => gameObject.GetComponent<SpriteEffects>(); }
     public bool FinishedInitialization { get => _finishedInitialization; }
 
     // Functions
@@ -200,13 +196,12 @@ public class EnemyStateMachine : MonoBehaviour {
 
     void Update() {
         _isGrounded = CheckIfGrounded();
-        Debug.Log("ENEMY GROUNDED: " + _isGrounded);
         if (CurrentState != null) {
             _currentState.UpdateStates();
         }
     }
     
-    private bool CheckIfGrounded()
+    public bool CheckIfGrounded()
     {
         RaycastHit hit;
         Vector3 curPos = transform.position;
@@ -225,7 +220,7 @@ public class EnemyStateMachine : MonoBehaviour {
         for (int i = 0; i < _recievedAttack.Length; i++) {
             if (other.CompareTag(_recievedAttack[i].Tag)) {
                 _recievedAttack[i].Used = true; 
-                if (other.transform.parent.position.x > transform.position.x) {
+                if (other.transform.position.x > transform.position.x) {
                     _recievedAttack[i].AttackedFromRightSide = true;
                 }
                 _isAttacked = true;
@@ -258,21 +253,20 @@ public class EnemyStateMachine : MonoBehaviour {
 
     public void ApplyAttackStats() {
         for (int i = 0; i < _recievedAttack.Length; i++) {
-            if (_recievedAttack[i].StatsApplied || !_recievedAttack[i].Used) continue;
-            
-            if (KnockedDown) {
-                Vector2 appliedKnockback = _recievedAttack[i].KnockbackDirection;
-                if (_recievedAttack[i].AttackedFromRightSide) {
-                    appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
-                }
-                _rigidbody.velocity = Vector3.zero;
-                Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
-                _rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
-            } else {
-                _knockdownMeter -= _recievedAttack[i].KnockdownPressure;
+            if (_recievedAttack[i].StatsApplied || !_recievedAttack[i].Used) {
+                continue;
             }
+
+            Vector2 appliedKnockback = _recievedAttack[i].KnockbackDirection;
+            if (_recievedAttack[i].AttackedFromRightSide) {
+                appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
+            }
+            _rigidbody.velocity = Vector3.zero;
+            // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
+            _rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
+            _knockdownMeter -= _recievedAttack[i].KnockdownPressure;
             _currentHealth -= _recievedAttack[i].Damage;
-            //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
+            // Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
             _recievedAttack[i].StatsApplied = true;
         }
     }

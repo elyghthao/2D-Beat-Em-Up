@@ -34,9 +34,11 @@ public class EnemyHurtState : EnemyBaseState {
    public override void CheckSwitchStates() {
       if (Ctx.Health <= 0) {
          SwitchState(Factory.Dead());
-         return;
+      } else {
+         // Only possible alternative currently is to be returned to the Idle State
+         SwitchState(Factory.Idle());
+         // Could add more states here when there are more root states implemented
       }
-      SwitchState(Factory.Idle());
    }
 
    public override void InitializeSubState() {

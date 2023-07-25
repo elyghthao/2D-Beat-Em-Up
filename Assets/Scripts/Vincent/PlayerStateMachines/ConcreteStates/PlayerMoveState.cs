@@ -21,7 +21,7 @@ public class PlayerMoveState : PlayerBaseState
    public override void UpdateState() {
       Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
       // Applies movement to the player depending on the player input
-      Ctx.GetComponent<Rigidbody>().velocity = new Vector3(moveDir.x, 0, moveDir.y);
+      Ctx.Rigidbody.velocity = new Vector3(moveDir.x, 0, moveDir.y);
       Ctx.SpeedControl();
       // Debug.Log(Ctx);
       CheckSwitchStates();

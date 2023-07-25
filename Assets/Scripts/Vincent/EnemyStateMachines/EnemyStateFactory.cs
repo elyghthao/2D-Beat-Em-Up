@@ -107,15 +107,6 @@ public class EnemyStateFactory {
    }
 
    /// <summary>
-   /// Creates a new EnemyRecoveryState
-   /// By Vincent
-   /// </summary>
-   /// <returns>new EnemyRecoveryState</returns>
-   public EnemyBaseState Recovery() {
-      return new EnemyRecoveryState(_context, this);
-   }
-
-   /// <summary>
    /// Creates a new EnemyDeathState
    /// ONCE SWITCHED CANNOT GO BACK
    /// By Abdul

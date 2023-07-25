@@ -11,7 +11,6 @@ public class PlayerDeathState : PlayerBaseState
    }
 
    public override void EnterState() {
-      Debug.Log("Player Died: " + Ctx.CurrentHealth);
       Scene current_scene = SceneManager.GetActiveScene();
       SceneManager.LoadScene(current_scene.name);
    }

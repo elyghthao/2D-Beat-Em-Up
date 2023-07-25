@@ -45,10 +45,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 10
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -121,202 +121,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: IMPACT DUST KICK_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 25
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      physicsShape:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 291cd5619e82d2d4d9d600799df45627
-      internalID: 246915243
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IMPACT DUST KICK_1
-      rect:
-        serializedVersion: 2
-        x: 25
-        y: 0
-        width: 25
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      physicsShape:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 340812f06e3f09f498a1df12a77a3d65
-      internalID: 916241998
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IMPACT DUST KICK_2
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 0
-        width: 22
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      physicsShape:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 092bcc5b3c4861640b989cef093ea45a
-      internalID: -2106987381
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IMPACT DUST KICK_3
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 0
-        width: 23
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      physicsShape:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: e4ab58dc35a6dd342836b1d75c5c442e
-      internalID: 395362370
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IMPACT DUST KICK_4
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 22
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      physicsShape:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2a0b33e19f2a19242b13169d8672ba73
-      internalID: -1315613895
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IMPACT DUST KICK_5
-      rect:
-        serializedVersion: 2
-        x: 119
-        y: 0
-        width: 22
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      physicsShape:
-      - - {x: 0, y: -7}
-        - {x: 12.5, y: 0}
-        - {x: 0, y: 7}
-        - {x: -12.5, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6f23bfa592bed4943b8973500d08f89f
-      internalID: 1999461032
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IMPACT DUST KICK_6
-      rect:
-        serializedVersion: 2
-        x: 143
-        y: 0
-        width: 20
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 075214229eb15954db67d5a757236eda
-      internalID: -1351740371
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -327,14 +132,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      IMPACT DUST KICK_0: 246915243
-      IMPACT DUST KICK_1: 916241998
-      IMPACT DUST KICK_2: -2106987381
-      IMPACT DUST KICK_3: 395362370
-      IMPACT DUST KICK_4: -1315613895
-      IMPACT DUST KICK_5: 1999461032
-      IMPACT DUST KICK_6: -1351740371
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
