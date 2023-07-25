@@ -63,7 +63,10 @@ public class Pause_and_Game_Over : MonoBehaviour
         
         if (player.GetComponent<PlayerStateMachine>().CurrentHealth <= 0 && game_over == false)
         {
+            Debug.Log("Calling this");
+            Debug.Log(player.GetComponent<PlayerStateMachine>().CurrentHealth);
             GameOver();
+            
         }
     }
 

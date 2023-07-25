@@ -19,6 +19,7 @@ public class PlayerStateMachine : MonoBehaviour {
    [Header("Body Elements")] public GameObject body;
 
    public int maxHealth = 100;
+   public bool gotHealed = false;
 
    [Header("Attack Boundaries")] public GameObject heavyAttackBounds;
 
@@ -219,8 +220,7 @@ public class PlayerStateMachine : MonoBehaviour {
       Rigidbody = GetComponent<Rigidbody>();
       Rigidbody.freezeRotation = true;
 
-      currentHealth = maxHealth;
-      FollowupTimer = 0;
+      CurrentHealth = maxHealth;
 
       // enter initial state. All assignments should go before here
       _states = new PlayerStateFactory(this);
@@ -357,6 +357,7 @@ public class PlayerStateMachine : MonoBehaviour {
    ///    Adds health to the player
    /// </summary>
    public void HealCharacter(int addedHealth) {
+      gotHealed = true;
       if (addedHealth <= 0) return;
       currentHealth += addedHealth;
       if (currentHealth > maxHealth) currentHealth = maxHealth;
