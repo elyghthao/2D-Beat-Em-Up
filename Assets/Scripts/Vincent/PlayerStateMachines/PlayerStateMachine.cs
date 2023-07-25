@@ -209,7 +209,7 @@ public class PlayerStateMachine : MonoBehaviour {
       Rigidbody = GetComponent<Rigidbody>();
       Rigidbody.freezeRotation = true;
 
-      currentHealth = maxHealth;
+      CurrentHealth = maxHealth;
 
       // enter initial state. All assignments should go before here
       _states = new PlayerStateFactory(this);
