@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerKnockedDownState : PlayerBaseState
@@ -26,10 +28,6 @@ public class PlayerKnockedDownState : PlayerBaseState
     }
 
     public override void CheckSwitchStates() {
-        if (Ctx.IsGrounded) {
-            SwitchState(Factory.Recover());
-            return;
-        }
         SwitchState(Factory.Stunned());
     }
 

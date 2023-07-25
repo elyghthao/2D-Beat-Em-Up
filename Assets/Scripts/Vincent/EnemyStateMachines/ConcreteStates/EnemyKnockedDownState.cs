@@ -9,7 +9,7 @@ public class EnemyKnockedDownState : EnemyBaseState {
    }
 
    public override void EnterState() {
-      Debug.Log("ENEMY ENTERING SUBSTATE: KNOCKDOWN");
+      // Debug.Log("ENEMY SUB: ENTERED KNOCKDOWN");
       Ctx.BaseMaterial.color = new Color(25, 0, 0, 255);
       // Sets the knockedDown bool in our context file to true, for other states to see
       Ctx.KnockedDown = true;
@@ -25,7 +25,7 @@ public class EnemyKnockedDownState : EnemyBaseState {
    }
 
    public override void ExitState() {
-      Debug.Log("ENEMY EXITING SUBSTATE: KNOCKDOWN");
+      // Debug.Log("ENEMY SUB: EXITED KNOCKDOWN");
       Ctx.KnockdownMeter = Ctx.knockdownMax;
    }
 

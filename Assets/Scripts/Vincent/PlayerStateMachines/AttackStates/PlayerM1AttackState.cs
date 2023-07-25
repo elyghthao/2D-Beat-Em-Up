@@ -45,10 +45,10 @@ public class PlayerM1AttackState : PlayerBaseState
    public override void CheckSwitchStates() {
       if (Ctx.QueuedAttack != null) {
          SwitchState(Ctx.QueuedAttack);
-         Ctx.QueuedAttack = null;
-         return;
+         Ctx.ResetAttackQueue();
+      } else {
+         SwitchState(Factory.Idle());
       }
-      SwitchState(Factory.Idle());
    }
 
    public override void InitializeSubState() {

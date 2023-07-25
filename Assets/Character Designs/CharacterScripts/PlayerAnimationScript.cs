@@ -13,7 +13,7 @@ public class PlayerAnimationScript : MonoBehaviour
     public GameObject mediumAttack1;
     // public GameObject mediumAttack2;// add this later, talk with vincent
     public GameObject slamAttack;
-    private int rand;
+    int rand ;
     public bool isHit;
     private bool _ready;
 

@@ -96,6 +96,10 @@ public class PlayerStateMachine : MonoBehaviour {
 
    [Header("Movement")] public float movementSpeed;
 
+
+   // Constants
+   private readonly int _zero = 0;
+
    // Reference variables
    private PlayerStateFactory _states;
 
@@ -166,7 +170,6 @@ public class PlayerStateMachine : MonoBehaviour {
    public Rigidbody Rigidbody { get; set; }
    public InputSystem InputSys { get; set; }
    public bool CharacterFlipped { get; set; }
-   
    /// Attacked Indicators
    public bool IsAttacked { get; private set; }
    public bool KnockedDown { get; set; }
@@ -174,16 +177,24 @@ public class PlayerStateMachine : MonoBehaviour {
    public bool Dashing { get; set; }
    public float KnockdownMeter { get; set; }
    public float StunTimer { get; set; }
-   
-   public int CurrentHealth { get; set; }
+
+   public int CurrentHealth {
+      get => currentHealth;
+      set => currentHealth = value;
+   }
+
    public AttackType[] RecievedAttack { get; set; } = new AttackType[6];
    public PowerupSystem PowerupSystem => GameManager.Instance.PowerupSystem;
    public PlayerBaseState QueuedAttack { get; set; }
    public float FollowupTimer { get; set; }
+
+   public bool CanQueueAttacks { get; set; }
+
    public string MostRecentAttack { get; set; }
+
    public bool FinishedInitialization { get; private set; }
+
    public SpriteEffects SpriteEffects { get; private set; }
-   public float RecoveryTimer { get; set; }
 
    // Functions
 
@@ -209,6 +220,7 @@ public class PlayerStateMachine : MonoBehaviour {
       Rigidbody.freezeRotation = true;
 
       currentHealth = maxHealth;
+      FollowupTimer = 0;
 
       // enter initial state. All assignments should go before here
       _states = new PlayerStateFactory(this);
@@ -252,7 +264,7 @@ public class PlayerStateMachine : MonoBehaviour {
       for (var i = 0; i < RecievedAttack.Length; i++)
          if (other.CompareTag(RecievedAttack[i].Tag)) {
             RecievedAttack[i].Used = true;
-            if (other.transform.parent.position.x > transform.position.x) RecievedAttack[i].AttackedFromRightSide = true;
+            if (other.transform.position.x > transform.position.x) RecievedAttack[i].AttackedFromRightSide = true;
             IsAttacked = true;
          }
    }
@@ -373,5 +385,10 @@ public class PlayerStateMachine : MonoBehaviour {
       }
 
       return 3;
+   }
+
+   public void ResetAttackQueue() {
+      QueuedAttack = null;
+      CanQueueAttacks = false;
    }
 }

@@ -66,9 +66,9 @@ public class PlayerHAttackState : PlayerBaseState {
          SwitchState(Factory.LightAttack());
       } else if (Ctx.IsMediumAttackPressed) {
          SwitchState(Factory.MediumAttack());
-         return;
+      } else {
+         SwitchState(Factory.Idle()); // TEMP FIX for action not ending because the action is being held down
       }
-      SwitchState(Factory.Idle());
    }
 
    public override void InitializeSubState() {
