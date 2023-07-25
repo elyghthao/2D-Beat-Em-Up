@@ -17,9 +17,22 @@ public class EnemyChaseState : EnemyBaseState
    public override void UpdateState() {
       //needs functionality to alter the speed of enemy, right now its proportional to distance
       Vector3 directionToPlayer = CurrentPlayerMachine.gameObject.transform.position - Ctx.gameObject.transform.position;
-      directionToPlayer = directionToPlayer.normalized * 10; //this value affects speed
-      Ctx.Rigidbody.AddForce(directionToPlayer, ForceMode.Force);
-      // Debug.Log(directionToPlayer.x);
+      float amountOfForce = 15;
+
+      // Debug.Log(Vector3.Distance(CurrentPlayerMachine.gameObject.transform.position, Ctx.gameObject.transform.position));
+
+
+
+      if (Vector3.Distance(CurrentPlayerMachine.gameObject.transform.position, Ctx.gameObject.transform.position) > 3){
+         directionToPlayer = directionToPlayer.normalized * amountOfForce; //this value affects speed
+         Ctx.Rigidbody.AddForce(directionToPlayer, ForceMode.Force);
+         // Debug.Log(directionToPlayer.x);
+      }
+
+
+
+
+      
 
 
       //make it so the right of enemy will always face player when chasing

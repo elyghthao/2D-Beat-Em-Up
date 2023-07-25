@@ -42,7 +42,7 @@ public class PlayerAnimationScript : MonoBehaviour
     void Update() {
         if (!_ready) return;
         // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
-        Debug.Log(stateScript.CurrentState.ToString());
+        // Debug.Log(stateScript.CurrentState.ToString());
         // Debug.Log(stateScript.currentHealth);
         if(stateScript.CurrentState.ToString() == "PlayerAttackState") {
             isAttacking = true;
