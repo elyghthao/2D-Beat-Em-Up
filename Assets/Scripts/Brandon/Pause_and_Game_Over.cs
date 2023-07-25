@@ -121,7 +121,9 @@ public class Pause_and_Game_Over : MonoBehaviour
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
+        // When this script is destroyed, reset the timescale to 1.
         Time.timeScale = 1f;
     }
 }
