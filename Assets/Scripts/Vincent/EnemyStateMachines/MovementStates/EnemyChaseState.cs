@@ -16,7 +16,7 @@ public class EnemyChaseState : EnemyBaseState
 
    public override void UpdateState() {
       Ctx.MovingGoal = Ctx.CurrentPlayerMachine.transform;
-      Ctx.MovingGoalOffset = new Vector2(-2, 0);
+      // Ctx.MovingGoalOffset = new Vector2(-2, 0);
       CheckSwitchStates();
    }
 

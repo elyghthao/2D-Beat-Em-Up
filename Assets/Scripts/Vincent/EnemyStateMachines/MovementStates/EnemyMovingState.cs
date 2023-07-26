@@ -27,12 +27,12 @@ public class EnemyMovingState : EnemyBaseState {
       Vector3 directionToGoal = goalPos - Ctx.gameObject.transform.position;
       directionToGoal = directionToGoal.normalized * Ctx.movementSpeed * 10f;
       // Debug.Log("Postion:" + Ctx.CurrentPlayerMachine.gameObject.transform.position);
-      // if(Vector3.Distance(Ctx.gameObject.transform.position, Ctx.CurrentPlayerMachine.gameObject.transform.position) > 2){
-      //    Ctx.Rigidbody.AddForce(directionToGoal, ForceMode.Force);
-      // }else {
-      // }
+      if(Vector3.Distance(Ctx.gameObject.transform.position, Ctx.CurrentPlayerMachine.gameObject.transform.position) > 3.5){
+         Ctx.Rigidbody.AddForce(directionToGoal, ForceMode.Force);
+      }else {
+      }
 
-      Ctx.Rigidbody.AddForce(directionToGoal, ForceMode.Force);
+      // Ctx.Rigidbody.AddForce(directionToGoal, ForceMode.Force);
       
       Ctx.SpeedControl();
 

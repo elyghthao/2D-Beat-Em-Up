@@ -8897,10 +8897,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyRogue
       objectReference: {fileID: 0}
-    - target: {fileID: 4527150428063327851, guid: 03bdca17c22ecae4cbc7a949d544b68c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5846583888517228480, guid: 03bdca17c22ecae4cbc7a949d544b68c, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -9627,11 +9623,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_RootOrder
@@ -9639,27 +9635,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9904,10 +9900,6 @@ PrefabInstance:
     - target: {fileID: 4918985376813494681, guid: 3086f6f4bc45c064c82c84814860ad16, type: 3}
       propertyPath: m_Name
       value: EnemyKnight
-      objectReference: {fileID: 0}
-    - target: {fileID: 4918985376813494681, guid: 3086f6f4bc45c064c82c84814860ad16, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6439710343388414821, guid: 3086f6f4bc45c064c82c84814860ad16, type: 3}
       propertyPath: m_RootOrder
