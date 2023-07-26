@@ -34,7 +34,7 @@ public class EnemyAnimationScript : MonoBehaviour
     void Update() {
         if (!_ready) return;
         try {
-            Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+            // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.CurrentState.ToString());
             // Debug.Log(stateScript.currentHealth);
         }catch (Exception e){
@@ -79,6 +79,9 @@ public class EnemyAnimationScript : MonoBehaviour
                 }else if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemySmackedState") {
                     // anim.Play("Idle");
                     anim.Play("Hurt");
+                }else {//add more code to account repeatedly getting hit
+                    Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+                    // anim.Play("Idle");
                 }
                 
                 
