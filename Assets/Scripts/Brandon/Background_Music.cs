@@ -27,7 +27,7 @@ public class Background_Music : MonoBehaviour
         GetComponent<AudioSource>().Play();
     }
 
-    public void PlayPauseSound()
+    public void PlayPauseMusic()
     {
         GetComponent<AudioSource>().clip = pause_sound;
         GetComponent<AudioSource>().loop = true;

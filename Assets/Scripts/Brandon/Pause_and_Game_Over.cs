@@ -3,15 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Pause_and_Game_Over : MonoBehaviour
 {
     private static bool game_paused;
     private static bool game_over;
-    private GameManager game_manager;
-    private GameObject player;
     private GameObject bgm_object;
+    private GameObject player;
+    private GameManager game_manager;
     private GameObject black_screen;
+    private GameObject pause_text;
+    private GameObject controls_text;
     private Scene current_scene;
     private List<EnemyStateMachine> enemy_state_machine_scripts;
 
@@ -21,11 +24,13 @@ public class Pause_and_Game_Over : MonoBehaviour
         game_paused = false;
         game_over = false;
 
-        game_manager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        
-        player = GameObject.Find("Player");
         bgm_object = GameObject.Find("BGM");
+        player = GameObject.Find("Player");
+        game_manager = GameObject.FindWithTag("GameController").GetComponent<GameManager>(); 
+
         black_screen = gameObject.transform.GetChild(0).gameObject;
+        pause_text = gameObject.transform.GetChild(1).gameObject;
+        controls_text = gameObject.transform.GetChild(2).gameObject;
         
         current_scene = SceneManager.GetActiveScene();
     }
@@ -63,10 +68,7 @@ public class Pause_and_Game_Over : MonoBehaviour
         
         if (player.GetComponent<PlayerStateMachine>().CurrentHealth <= 0 && game_over == false)
         {
-            Debug.Log("Calling this");
-            Debug.Log(player.GetComponent<PlayerStateMachine>().CurrentHealth);
-            GameOver();
-            
+            GameOver();   
         }
     }
 
@@ -74,17 +76,24 @@ public class Pause_and_Game_Over : MonoBehaviour
     {
         game_paused = true;
 
-        bgm_object.GetComponent<Background_Music>().PlayPauseSound();
+        bgm_object.GetComponent<Background_Music>().PlayPauseMusic();
         black_screen.SetActive(true);
+
+        pause_text.SetActive(true);
+        pause_text.GetComponent<TMP_Text>().text = "PAUSED";
+
+        controls_text.SetActive(true);
+        controls_text.GetComponent<TMP_Text>().text =
+            "\"R\": Restart the level\n" + "\"Y\": Quit to the title screen\n" + "\"Enter\": Resume the game";
 
         Time.timeScale = 0f;
         player.GetComponent<PlayerStateMachine>().enabled = false;
 
         enemy_state_machine_scripts = game_manager.EnemyReferences;
 
-        foreach(EnemyStateMachine i in enemy_state_machine_scripts)
+        foreach(EnemyStateMachine esm in enemy_state_machine_scripts)
         {
-            i.enabled = false;
+            esm.enabled = false;
         }
     }
 
@@ -95,14 +104,21 @@ public class Pause_and_Game_Over : MonoBehaviour
         bgm_object.GetComponent<Background_Music>().PlayBackgroundMusic();
         black_screen.SetActive(false);
 
+        pause_text.SetActive(false);
+        pause_text.GetComponent<TMP_Text>().text = "NOT PAUSED";
+
+        controls_text.SetActive(false);
+        controls_text.GetComponent<TMP_Text>().text =
+            "You shouldn't be able to see this.";
+
         Time.timeScale = 1f;
         player.GetComponent<PlayerStateMachine>().enabled = true;
 
         enemy_state_machine_scripts = game_manager.EnemyReferences;
 
-        foreach(EnemyStateMachine i in enemy_state_machine_scripts)
+        foreach(EnemyStateMachine esm in enemy_state_machine_scripts)
         {
-            i.enabled = true;
+            esm.enabled = true;
         }
     }
 
@@ -113,14 +129,21 @@ public class Pause_and_Game_Over : MonoBehaviour
         bgm_object.GetComponent<Background_Music>().PlayGameOverSound();
         black_screen.SetActive(true);
 
+        pause_text.SetActive(true);
+        pause_text.GetComponent<TMP_Text>().text = "GAME OVER";
+
+        controls_text.SetActive(true);
+        controls_text.GetComponent<TMP_Text>().text =
+            "\"R\": Restart the level\n" + "\"Y\": Quit to the title screen\n";
+
         Time.timeScale = 0f;
         player.GetComponent<PlayerStateMachine>().enabled = false;
 
         enemy_state_machine_scripts = game_manager.EnemyReferences;
 
-        foreach(EnemyStateMachine i in enemy_state_machine_scripts)
+        foreach(EnemyStateMachine esm in enemy_state_machine_scripts)
         {
-            i.enabled = false;
+            esm.enabled = false;
         }
     }
 
