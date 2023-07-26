@@ -381,6 +381,7 @@ GameObject:
   - component: {fileID: 8384381227116114908}
   - component: {fileID: 277058174284171426}
   - component: {fileID: 8053376868569881025}
+  - component: {fileID: 5124014364518980850}
   m_Layer: 0
   m_Name: KnightSpriteSheet
   m_TagString: Untagged
@@ -503,6 +504,27 @@ MonoBehaviour:
     m_Extent: {x: 1.9569397, y: 2.569291, z: 0.000005722046}
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
+--- !u!95 &5124014364518980850
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2764043669055573349}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2270555e1bb4c154faa51a0e142d40e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3077813995447489641
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,6 +703,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8884830313575887671}
   - {fileID: 8406040658967214116}
   - {fileID: 2041438761383830773}
   - {fileID: 7730343931119749201}
@@ -760,7 +783,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3496989167480935018}
   serializedVersion: 8
-  lengthInSec: 3
+  lengthInSec: 1
   simulationSpeed: 4
   stopAction: 0
   cullingMode: 0
@@ -835,7 +858,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 1.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5939,12 +5962,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4918985376813494681}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -26.08, y: -4.975, z: 1.99}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2.1, y: 2.1, z: 2.1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8884830313575887671}
   - {fileID: 8384381227116114908}
   - {fileID: 5699946735362251736}
   - {fileID: 8346839487003301381}
@@ -5952,7 +5974,7 @@ Transform:
   - {fileID: 3369920841179285377}
   - {fileID: 4587880694808618140}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &9156497077837927515
 Rigidbody:
@@ -5996,10 +6018,11 @@ MonoBehaviour:
   body: {fileID: 2621195874405066515}
   knockdownMax: 150
   enemyType: 0
-  maxHealth: 100
+  maxHealth: 300
   activationDistance: 12
   attackReliefTime: 1
   attackDistance: 3
+  movementSpeed: 5
   heavyAttackBounds: {fileID: 6638405829207540676}
   mediumAttackBounds: {fileID: 4560999138246919705}
   lightAttackBounds: {fileID: 3077813995447489641}
@@ -6017,6 +6040,7 @@ MonoBehaviour:
   lightActiveFrames: {x: 8, y: 9}
   lightRecoveryFrames: {x: 10, y: 23}
   _currentPlayerMachine: {fileID: 0}
+  _knockedDown: 0
 --- !u!114 &5326526767108593139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6030,12 +6054,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateScript: {fileID: 0}
-  anim: {fileID: 0}
+  anim: {fileID: 5124014364518980850}
   lightAttack: {fileID: 0}
   mediumAttack: {fileID: 0}
   slamAttack: {fileID: 0}
   isAttacking: 0
-  isHit: 0
   hitParticle: {fileID: 1767613172925613758}
 --- !u!1 &5031669023924802589
 GameObject:
@@ -6112,7 +6135,7 @@ GameObject:
   - component: {fileID: 1767613172925613758}
   - component: {fileID: 958461825589916845}
   m_Layer: 0
-  m_Name: StatusAilment_01
+  m_Name: HitParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6125,13 +6148,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5294546947136421059}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.11, y: 1.28, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: -0, y: -0, z: -0.72699714, w: 0.6866405}
+  m_LocalPosition: {x: 0.27518177, y: 0.04, z: -0.3379992}
+  m_LocalScale: {x: 0.4999999, y: 0.4761905, z: 0.4999999}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4473548631296203568}
-  m_Father: {fileID: 6439710343388414821}
+  m_Father: {fileID: 8523942101058201839}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &1767613172925613758
@@ -6142,14 +6165,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5294546947136421059}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 2
+  stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -6217,7 +6240,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 1.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2

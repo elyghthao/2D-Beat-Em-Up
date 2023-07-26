@@ -106,7 +106,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private int[] _playerAttackDamages = new int[6];
 
     // Other
-    private bool _knockedDown;
+    public bool _knockedDown;
     private bool _isGrounded;
     private float _knockdownMeter;
     private float _stunTimer;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using System;
 
 public class EnemyAnimationScript : MonoBehaviour
 {
@@ -10,12 +11,11 @@ public class EnemyAnimationScript : MonoBehaviour
     public GameObject lightAttack;
     public GameObject mediumAttack;
     public GameObject slamAttack;
-    private int rand ;
     public bool isAttacking;
-    public bool isHit;
     public ParticleSystem hitParticle;
     private bool _ready;
     private GameObject currentPlayer;
+    private bool gotKnockedOut;
     
     // Start is called before the first frame update
     void Start()
@@ -26,20 +26,24 @@ public class EnemyAnimationScript : MonoBehaviour
         mediumAttack = stateScript.mediumAttackBounds;
         slamAttack = stateScript.heavyAttackBounds;
         isAttacking = false;
-        isHit = false;
         currentPlayer = GameObject.FindWithTag("Player");
+        gotKnockedOut = false;
     }
 
     // Update is called once per frame
     void Update() {
         if (!_ready) return;
-        // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
-        // Debug.Log(stateScript.CurrentState.ToString());
-        // Debug.Log(stateScript.currentHealth);
+        try {
+            Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+            // Debug.Log(stateScript.CurrentState.ToString());
+            // Debug.Log(stateScript.currentHealth);
+        }catch (Exception e){
+            Debug.Log(e);
+        }
+        
 
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
-            isHit = false;
             if(lightAttack.activeSelf){
                 anim.Play("LightAttack");
             }else if(mediumAttack.activeSelf){
@@ -49,29 +53,38 @@ public class EnemyAnimationScript : MonoBehaviour
             }
             }else if (isAttacking) {
                 isAttacking = false;
-                rand = Random.Range(0, 2);
         }
 
 
         
         
         
-        if(stateScript.CurrentState.ToString() == "EnemyMovingState" && !isAttacking){
+        if(stateScript.CurrentState.ToString() == "EnemyMovingState" && !isAttacking){//MOVING STATE
             if(Vector3.Distance(this.gameObject.transform.position, currentPlayer.transform.position) <= 3) {
                 anim.Play("FightStance");
             }else {
                 anim.Play("Walk");
             }
-            isHit = false;
-        }else if(stateScript.CurrentState.ToString() == "EnemyHurtState" ){
-            if(!isHit){
-                anim.Play("Hurt");
-                hitParticle.Play();
-                isHit = true;
-            }
+        }else if(stateScript.CurrentState.ToString() == "EnemyHurtState" ){//HURT STATE
+
+
+                if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemyRecoveryState") {
+                    anim.Play("Recover");
+                }else if (stateScript._knockedDown){
+                    if(stateScript.CurrentState.CurrentSubState.ToString() == "EnemyKnockedDownState") {//this makes the particle effect 
+                        hitParticle.Play();
+                    }
+                    anim.Play("KnockedDown");
+                    
+                }else if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemySmackedState") {
+                    // anim.Play("Idle");
+                    anim.Play("Hurt");
+                }
+                
+                
+                
             
-        }else if(stateScript.CurrentState.ToString() == "EnemyIdleState" && !isAttacking){
-            isHit = false;
+        }else if(stateScript.CurrentState.ToString() == "EnemyIdleState" && !isAttacking){//IDLE STATE
             anim.Play("Idle");
         }
 

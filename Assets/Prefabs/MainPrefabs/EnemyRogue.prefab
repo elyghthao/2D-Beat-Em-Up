@@ -520,6 +520,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8097051525196319762}
   - {fileID: 5202006526332555179}
   - {fileID: 293295741017061267}
   - {fileID: 4971954586731931756}
@@ -1180,7 +1181,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 156352167254875106}
-  - {fileID: 8097051525196319762}
   - {fileID: 7959029794404122481}
   - {fileID: 5767089173136985321}
   - {fileID: 1462027752743825894}
@@ -1237,6 +1237,7 @@ MonoBehaviour:
   activationDistance: 12
   attackReliefTime: 1
   attackDistance: 3
+  movementSpeed: 5
   heavyAttackBounds: {fileID: 1272650948903839902}
   mediumAttackBounds: {fileID: 7216001987956938960}
   lightAttackBounds: {fileID: 696328274990151439}
@@ -1254,6 +1255,7 @@ MonoBehaviour:
   lightActiveFrames: {x: 8, y: 9}
   lightRecoveryFrames: {x: 10, y: 23}
   _currentPlayerMachine: {fileID: 0}
+  _knockedDown: 0
 --- !u!114 &7055535822989626395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1272,7 +1274,6 @@ MonoBehaviour:
   mediumAttack: {fileID: 0}
   slamAttack: {fileID: 0}
   isAttacking: 0
-  isHit: 0
   hitParticle: {fileID: 1057431756320928210}
 --- !u!1 &4606210145811220490
 GameObject:
@@ -1445,7 +1446,7 @@ GameObject:
   - component: {fileID: 1057431756320928210}
   - component: {fileID: 4809542527591160671}
   m_Layer: 0
-  m_Name: StatusAilment_01
+  m_Name: HitParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1458,13 +1459,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5852092630849304526}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.11, y: 1.28, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: -0, y: -0, z: -0.68145186, w: 0.731863}
+  m_LocalPosition: {x: 0.515, y: 0.029, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1967588678256532269}
-  m_Father: {fileID: 5846583888517228480}
+  m_Father: {fileID: 4196608988589000956}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &1057431756320928210
@@ -1550,7 +1551,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 1.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -6942,7 +6943,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 1.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2

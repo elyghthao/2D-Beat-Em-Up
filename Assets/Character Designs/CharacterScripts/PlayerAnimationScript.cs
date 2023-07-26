@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerAnimationScript : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerAnimationScript : MonoBehaviour
     public GameObject mediumAttack1;
     // public GameObject mediumAttack2;// add this later, talk with vincent
     public GameObject slamAttack;
-    private int rand;
+    // private int rand;
     public bool isHit;
     private bool _ready;
 
@@ -48,28 +49,29 @@ public class PlayerAnimationScript : MonoBehaviour
             isAttacking = true;
             isHit = false;
 
-
-            if (stateScript.CurrentState.CurrentSubState.ToString() == "PlayerBlockState"){
-                anim.Play("Block");
-            }
-
-            else if(lightAttack.activeSelf){
-                anim.Play("LightAttack");
-            }else if(lightAttack1.activeSelf){
-                anim.Play("LightAttack1");
-            }else if(lightAttack2.activeSelf){
-                anim.Play("LightAttack2");
-            }else if(mediumAttack.activeSelf){
-                anim.Play("MediumAttack");
-            }else if(mediumAttack1.activeSelf){
-                anim.Play("MediumAttack1");
-            }
-            // else if(mediumAttack2.activeSelf){
-            //     anim.Play("MediumAttack2");
-            // }
-            else if(slamAttack.activeSelf){
-                anim.Play("SlamAttack");
-            }
+            try {
+                if (stateScript.CurrentState.CurrentSubState.ToString() == "PlayerBlockState"){
+                    anim.Play("Block");
+                }else if(lightAttack.activeSelf){
+                    anim.Play("LightAttack");
+                }else if(lightAttack1.activeSelf){
+                    anim.Play("LightAttack1");
+                }else if(lightAttack2.activeSelf){
+                    anim.Play("LightAttack2");
+                }else if(mediumAttack.activeSelf){
+                    anim.Play("MediumAttack");
+                }else if(mediumAttack1.activeSelf){
+                    anim.Play("MediumAttack1");
+                }
+                // else if(mediumAttack2.activeSelf){
+                //     anim.Play("MediumAttack2");
+                // }
+                else if(slamAttack.activeSelf){
+                    anim.Play("SlamAttack");
+                }
+                } catch(Exception e){
+                    
+                }
         }else if (isAttacking) {
             isAttacking = false;
         }
@@ -79,13 +81,13 @@ public class PlayerAnimationScript : MonoBehaviour
         
         
         if(stateScript.CurrentState.ToString() == "PlayerMoveState" && !isAttacking){
-            rand = 1;
+            // rand = 1;
             isHit = false;
             anim.Play("Walk");
         }else if(stateScript.CurrentState.ToString() == "PlayerHurtState" ){
             anim.Play("Hurt");
             if(!isHit){
-                rand = 1;
+                // rand = 1;
                 anim.Play("Hurt");
                 knockedOutParticle.Play();
                 isHit = true;
@@ -98,10 +100,10 @@ public class PlayerAnimationScript : MonoBehaviour
         
 
 
-        // if(stateScript.gotHealed){
-        //     stateScript.gotHealed = false;
-        //     healthGainParticle.Play();
-        // }
+        if(stateScript.gotHealed){
+            stateScript.gotHealed = false;
+            healthGainParticle.Play();
+        }
         
 
 
