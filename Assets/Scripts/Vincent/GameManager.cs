@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour {
         _enemyReferences.Clear();
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject i in enemies) {
+            if (i.GetComponent<EnemyStateMachine>() == null) continue;
             EnemyStateMachine newEnemy = i.GetComponent<EnemyStateMachine>();
             newEnemy.CurrentPlayerMachine = PlayerRef;
             newEnemy.Initialize();

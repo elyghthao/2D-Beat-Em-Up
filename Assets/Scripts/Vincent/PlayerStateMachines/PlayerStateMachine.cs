@@ -302,15 +302,22 @@ public class PlayerStateMachine : MonoBehaviour {
    }
 
    public void ApplyAttackStats() {
-      for (var i = 0; i < RecievedAttack.Length; i++) {
+      for (int i = 0; i < RecievedAttack.Length; i++) {
          if (RecievedAttack[i].StatsApplied || !RecievedAttack[i].Used) continue;
-
-         var appliedKnockback = RecievedAttack[i].KnockbackDirection;
-         if (RecievedAttack[i].AttackedFromRightSide)
-            appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
-         Rigidbody.velocity = new Vector3(appliedKnockback.x, appliedKnockback.y, 0);
-         KnockdownMeter -= RecievedAttack[i].KnockdownPressure;
-         currentHealth -= RecievedAttack[i].Damage;
+            
+         if (KnockedDown) {
+            Vector2 appliedKnockback = RecievedAttack[i].KnockbackDirection;
+            if (RecievedAttack[i].AttackedFromRightSide) {
+               appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
+            }
+            Rigidbody.velocity = Vector3.zero;
+            //Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
+            Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
+         } else {
+            KnockdownMeter -= RecievedAttack[i].KnockdownPressure;
+         }
+         CurrentHealth -= RecievedAttack[i].Damage;
+         //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
          RecievedAttack[i].StatsApplied = true;
       }
    }
