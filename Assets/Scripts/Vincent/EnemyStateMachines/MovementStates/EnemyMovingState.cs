@@ -26,7 +26,14 @@ public class EnemyMovingState : EnemyBaseState {
       // Chasing the goal with the offset
       Vector3 directionToGoal = goalPos - Ctx.gameObject.transform.position;
       directionToGoal = directionToGoal.normalized * Ctx.movementSpeed * 10f;
+      // Debug.Log("Postion:" + Ctx.CurrentPlayerMachine.gameObject.transform.position);
+      // if(Vector3.Distance(Ctx.gameObject.transform.position, Ctx.CurrentPlayerMachine.gameObject.transform.position) > 2){
+      //    Ctx.Rigidbody.AddForce(directionToGoal, ForceMode.Force);
+      // }else {
+      // }
+
       Ctx.Rigidbody.AddForce(directionToGoal, ForceMode.Force);
+      
       Ctx.SpeedControl();
 
       // Make it so the right of enemy will always face the Transform goal when chasing
@@ -85,6 +92,8 @@ public class EnemyMovingState : EnemyBaseState {
       if (Ctx.enemyType == EnemyStateMachine.EnemyType.Heavy) {
          SetSubState(Factory.Chase());
       } else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Medium) {
+         SetSubState(Factory.Chase());
+      }else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Light) {
          SetSubState(Factory.Chase());
       }
 

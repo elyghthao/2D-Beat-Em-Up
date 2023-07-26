@@ -31,6 +31,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public enum EnemyType {
         Heavy,
         Medium,
+        Light,
     };
 
     //// Variables

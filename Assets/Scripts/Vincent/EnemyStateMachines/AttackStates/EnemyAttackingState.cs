@@ -63,6 +63,9 @@ public class EnemyAttackingState : EnemyBaseState {
          } else if (attackNumber == 2) {
             SetSubState(Factory.MediumAttack());
          }
-      }  
+      }  else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Light) {
+         int attackNumber = Random.Range(1, 3); // 1 for light, 2 for medium
+         SetSubState(Factory.LightAttack());
+      } 
    }
 }
