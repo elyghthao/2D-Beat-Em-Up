@@ -22,7 +22,7 @@ public class HealthBarController : MonoBehaviour {
             return;
         }
 
-        _healthMaterial = healthBar.GetComponent<Renderer>().sharedMaterial;
+        _healthMaterial = healthBar.GetComponent<Renderer>().material;
         _enemyState = transform.parent.gameObject.GetComponent<EnemyStateMachine>();
         _playerState = transform.parent.gameObject.GetComponent<PlayerStateMachine>();
         if (_enemyState == null && _playerState == null) {
