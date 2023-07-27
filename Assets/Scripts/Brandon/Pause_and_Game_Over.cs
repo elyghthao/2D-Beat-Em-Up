@@ -18,6 +18,7 @@ public class Pause_and_Game_Over : MonoBehaviour
     private GameObject gameplay_controls_text; // The gameplay controls description text that appears when paused.
     private Scene current_scene; // The currently loaded scene.
     private List<EnemyStateMachine> enemy_state_machine_scripts;
+    private GameObject volumeSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,7 @@ public class Pause_and_Game_Over : MonoBehaviour
         pause_text = gameObject.transform.GetChild(1).gameObject;
         pause_controls_text = gameObject.transform.GetChild(2).gameObject;
         gameplay_controls_text = gameObject.transform.GetChild(3).gameObject;
+        volumeSlider = gameObject.transform.GetChild(4).gameObject;
         
         // The currently loaded scene is stored.
         current_scene = SceneManager.GetActiveScene();
@@ -108,6 +110,9 @@ public class Pause_and_Game_Over : MonoBehaviour
         // The gameplay controls description text is activated.
         gameplay_controls_text.SetActive(true);
 
+        //volume slider
+        volumeSlider.SetActive(true);
+
         // The game freezes movement by setting the timescale to 0, and disabling
         // the player's state machine script.
         Time.timeScale = 0f;
@@ -143,6 +148,9 @@ public class Pause_and_Game_Over : MonoBehaviour
 
         // The gameplay controls description text is deactivated.
         gameplay_controls_text.SetActive(false);
+
+        //volume slider
+        volumeSlider.SetActive(false);
 
         // The game resumes movement by setting the timescale to 1, and re-enabling
         // the player's state machine script.

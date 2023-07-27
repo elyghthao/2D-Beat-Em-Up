@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4761225493869430105
 MonoBehaviour:
@@ -44,11 +44,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89df26d7b7fe0ac4491d362445ceedec, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   _playerRef: {fileID: 0}
   _enemyReferences: []
   _inputSystem: {fileID: 0}
+  volume: 1
+  audio: {fileID: 0}
+  audioSlider: {fileID: 0}
 --- !u!114 &4741447321348735413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,8 +62,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 531583cbc458f924282edc79893a5e41, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7434896088000378792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,5 +74,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 626879b408601154fa60261fd0242c80, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 

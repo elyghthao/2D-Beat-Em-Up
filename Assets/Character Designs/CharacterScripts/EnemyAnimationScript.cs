@@ -15,7 +15,6 @@ public class EnemyAnimationScript : MonoBehaviour
     public ParticleSystem hitParticle;
     private bool _ready;
     private GameObject currentPlayer;
-    private bool gotKnockedOut;
     
     // Start is called before the first frame update
     void Start()
@@ -27,7 +26,6 @@ public class EnemyAnimationScript : MonoBehaviour
         slamAttack = stateScript.heavyAttackBounds;
         isAttacking = false;
         currentPlayer = GameObject.FindWithTag("Player");
-        gotKnockedOut = false;
     }
 
     // Update is called once per frame

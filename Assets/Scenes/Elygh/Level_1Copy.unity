@@ -5915,9 +5915,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1354058834104066131, guid: 40158892d4592a1409985e43dfed5942, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354058834104066131, guid: 40158892d4592a1409985e43dfed5942, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354058834104066131, guid: 40158892d4592a1409985e43dfed5942, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5009533687869059769, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_Name
       value: Pause & Game Over Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422934131343893157, guid: 40158892d4592a1409985e43dfed5942, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422934131343893157, guid: 40158892d4592a1409985e43dfed5942, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827258017213827576, guid: 40158892d4592a1409985e43dfed5942, type: 3}
       propertyPath: m_Pivot.x

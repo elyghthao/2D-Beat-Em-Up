@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     
@@ -15,6 +17,9 @@ public class GameManager : MonoBehaviour {
     private InputSystem _inputSystem = null;
     private PowerupSystem _powerupSystem = null;
     private bool FirstLoad = true;
+    public float volume = 1;
+    public AudioListener audio;//make this private later
+    public GameObject audioSlider;
 
     public PlayerStateMachine PlayerRef { get => _playerRef; set => _playerRef = value; }
     public List<EnemyStateMachine> EnemyReferences { get => _enemyReferences;}
@@ -41,8 +46,11 @@ public class GameManager : MonoBehaviour {
         while (_inputSystem == null) {
             yield return null;
         }
-        _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
-        _playerRef.InputSys = _inputSystem;
+        try {
+            _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
+            _playerRef.InputSys = _inputSystem;
+        }catch (Exception){}
+        
     }
     
     // Start is called before the first frame update
@@ -58,11 +66,16 @@ public class GameManager : MonoBehaviour {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        audio = GameObject.FindWithTag("MainCamera").GetComponent<AudioListener>();
+        audioSlider = GameObject.FindWithTag("VolumeController");
+        
     }
 
     // Update is called once per frame
     void Update() {
-
+        volume = audioSlider.GetComponent<Slider>().value;
+        AudioListener.volume = audioSlider.GetComponent<Slider>().value;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
@@ -76,6 +89,16 @@ public class GameManager : MonoBehaviour {
             StartCoroutine(AddPlayer());
         }
         FirstLoad = false;
+
+
+        audio = GameObject.FindWithTag("MainCamera").GetComponent<AudioListener>();
+        audioSlider = GameObject.FindWithTag("VolumeController");
+        audioSlider.GetComponent<Slider>().value = volume;
+        Debug.Log(SceneManager.GetActiveScene().name);
+        if(SceneManager.GetActiveScene().name.ToString() != "Main_Menu"){
+            audioSlider.SetActive(false);
+        }
+        
     }
 
     /// <summary>
