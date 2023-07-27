@@ -24,24 +24,30 @@ public class EnemyMovingState : EnemyBaseState {
       goalPos.z += Ctx.MovingGoalOffset.y;
 
       // Chasing the goal with the offset
-      Vector3 directionToGoal = goalPos - Ctx.gameObject.transform.position;
-      directionToGoal = directionToGoal.normalized * Ctx.movementSpeed * 10f;
-      // Debug.Log("Postion:" + Ctx.CurrentPlayerMachine.gameObject.transform.position);
-      if(Vector3.Distance(Ctx.gameObject.transform.position, Ctx.CurrentPlayerMachine.gameObject.transform.position) > 3.5){
-         Ctx.Rigidbody.AddForce(directionToGoal, ForceMode.Force);
-      }else {
+      Vector3 vecToGoal = goalPos - Ctx.gameObject.transform.position;
+      float distanceToGoal = Vector3.Distance(Ctx.gameObject.transform.position, goalPos);
+      vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
+
+      // Only will move towards goal when it is a certain distance away from it
+      if (distanceToGoal > Ctx.distanceGoal){
+         Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
       }
 
-      // Ctx.Rigidbody.AddForce(directionToGoal, ForceMode.Force);
+      // Old Eli's Code
+      // Debug.Log("Postion:" + Ctx.CurrentPlayerMachine.gameObject.transform.position);
+      // if (Vector3.Distance(Ctx.gameObject.transform.position, Ctx.CurrentPlayerMachine.gameObject.transform.position) > 3.5){
+      //    Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
+      // } else {
+      // }
       
-      Ctx.SpeedControl();
+      Ctx.SpeedControl(); // Calling state machine to smooth out movement
 
       // Make it so the right of enemy will always face the Transform goal when chasing
       Vector3 enemyScale = Ctx.transform.localScale;
-      if(directionToGoal.x > 0) {
+      if (vecToGoal.x > 0) {
          // Ctx.transform.localEulerAngles = new Vector3(0, 0, 0);
          Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
-      }else {
+      } else {
          // Ctx.transform.localEulerAngles = new Vector3(0, -180, 0);
          Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
       }

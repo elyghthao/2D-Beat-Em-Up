@@ -48,6 +48,8 @@ public class EnemyStateMachine : MonoBehaviour {
     public float attackReliefTime = .15f;  // Added by Abdul: Time between attacks until attacking again in seconds.
     public float attackDistance = 3;       // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking
     public float movementSpeed = 5;        // Added by Abdul: The movement speed of the enemy
+    public float distanceGoal = 3.65f;      // Added by Abdul: Distance that the enemy will try to keep between it and the goal
+    // public float maxGoalOffset = .8f;     // Added by Abdul: The offset the enemy will go from left/right of the player
 
     // Attacks
     [Header("Attack Boundaries")]
