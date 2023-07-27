@@ -16,7 +16,7 @@ public class ShadowManager : MonoBehaviour {
 
     public Vector3 GetPointBelow() {
         RaycastHit hit;
-        int layer = 9;
+        int layer = 10;
         int layerMask = 1 << layer;
         Vector3 curPos = host.transform.position;
         //Debug.DrawRay(new Vector3(curPos.x, curPos.y + host.transform.localScale.y * 0.75f, curPos.z), Vector3.down * 10f, Color.red);
