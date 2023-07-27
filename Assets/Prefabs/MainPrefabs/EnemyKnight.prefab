@@ -623,7 +623,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -5916,7 +5916,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -5976,7 +5976,7 @@ Transform:
   - {fileID: 8891047094362343215}
   - {fileID: 1788263488807488645}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &9156497077837927515
 Rigidbody:
@@ -6025,6 +6025,7 @@ MonoBehaviour:
   attackReliefTime: 1
   attackDistance: 3
   movementSpeed: 5
+  distanceGoal: 3.65
   heavyAttackBounds: {fileID: 6638405829207540676}
   mediumAttackBounds: {fileID: 4560999138246919705}
   lightAttackBounds: {fileID: 3077813995447489641}
@@ -11148,7 +11149,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
