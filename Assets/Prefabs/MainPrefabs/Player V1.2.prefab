@@ -20129,7 +20129,7 @@ MonoBehaviour:
   light2RecoveryFrames: 33
   knockdownMax: 200
   attackFollowupThreshold: 0.75
-  movementSpeed: 5
+  movementSpeed: 6.5
 --- !u!54 &1776082032416857755
 Rigidbody:
   m_ObjectHideFlags: 0
