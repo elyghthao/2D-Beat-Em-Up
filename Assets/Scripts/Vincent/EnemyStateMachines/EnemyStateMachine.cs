@@ -168,9 +168,9 @@ public class EnemyStateMachine : MonoBehaviour {
         _currentPlayerMachine = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
         
         _recievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
-        _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(10, 250), 60, 15);
-        _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(50, 500), 100, 30);
-        _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(10, 500), 70, 40);
+        _recievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(50, 250), 60, 15);
+        _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(150, 500), 100, 30);
+        _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(50, 500), 70, 40);
         _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
         _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(50, 800), 150, 50);
 

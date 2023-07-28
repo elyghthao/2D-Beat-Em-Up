@@ -1232,9 +1232,9 @@ MonoBehaviour:
   body: {fileID: 3458909696434553823}
   knockdownMax: 150
   enemyType: 2
-  maxHealth: 150
+  maxHealth: 250
   activationDistance: 12
-  attackReliefTime: 1
+  attackReliefTime: 0.5
   attackDistance: 3
   movementSpeed: 5
   distanceGoal: 3.65
