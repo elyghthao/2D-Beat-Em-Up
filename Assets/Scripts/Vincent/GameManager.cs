@@ -70,6 +70,9 @@ public class GameManager : MonoBehaviour {
 
       audio = GameObject.FindWithTag("MainCamera").GetComponent<AudioListener>();
       audioSlider = GameObject.FindWithTag("VolumeController");
+      if(SceneManager.GetActiveScene().name.ToString() != "Main_Menu"){
+            audioSlider.SetActive(false);
+         }
    }
 
    private void AddEnemies() {
@@ -92,16 +95,19 @@ public class GameManager : MonoBehaviour {
    }
 
    private void AddPlayer() {
-      _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
-      _playerRef.InputSys = _inputSystem;
+      try{
+         _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
+         _playerRef.InputSys = _inputSystem;
+         
+         // Instantiate healthbar for player
+         var currentHealthBar = Instantiate(healthBarPrefab);
+         var healthBarController = currentHealthBar.GetComponent<HealthBarController>();
+         healthBarController.playerState = _playerRef;
+         healthBarController.offset = new Vector3(0, 5, 0);
+         healthBarController.sizeOffset = new Vector3(1.5f, 1.5f, 1f);
+         healthBarController.leftColor = Color.green;
+      }catch(Exception){}
       
-      // Instantiate healthbar for player
-      var currentHealthBar = Instantiate(healthBarPrefab);
-      var healthBarController = currentHealthBar.GetComponent<HealthBarController>();
-      healthBarController.playerState = _playerRef;
-      healthBarController.offset = new Vector3(0, 5, 0);
-      healthBarController.sizeOffset = new Vector3(1.5f, 1.5f, 1f);
-      healthBarController.leftColor = Color.green;
    }
 
    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {

@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class Pause_and_Game_Over : MonoBehaviour
 {
-    private static bool game_paused; // Tracks whether the game is currently paused.
-    private static bool game_over; // Tracks whether the game is currently in a game over state.
+    public  bool game_paused; // Tracks whether the game is currently paused.
+    public  bool game_over; // Tracks whether the game is currently in a game over state.
     private GameObject bgm_object; // The object playing the current level's background music.
     private GameObject player; // The player character.
     private GameManager game_manager; // The game manager object, used to access the enemy scripts.
@@ -46,9 +47,11 @@ public class Pause_and_Game_Over : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         // If the "Enter" key is pressed, and the game is not over...
         if (Input.GetKeyDown(KeyCode.Return) && game_over == false)
         {
+            
             // ...then the game pauses if it is not currently paused,
             // and resumes if it is currently paused.
             if (game_paused == false)
