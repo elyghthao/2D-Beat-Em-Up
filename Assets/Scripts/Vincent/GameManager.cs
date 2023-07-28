@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
    
@@ -9,6 +11,10 @@ public class GameManager : MonoBehaviour {
    
    public GameObject healthBarPrefab;
    private bool FirstLoad = true;
+
+   public AudioListener audio;
+   public GameObject audioSlider;
+   public float volume = 1;
 
    [SerializeField] private PlayerStateMachine _playerRef;
    [SerializeField] private List<EnemyStateMachine> _enemyReferences;
@@ -20,6 +26,24 @@ public class GameManager : MonoBehaviour {
    }
 
    public List<EnemyStateMachine> EnemyReferences => _enemyReferences;
+
+   
+    
+
+
+    // Update is called once per frame
+    void Update() {
+        volume = audioSlider.GetComponent<Slider>().value;
+        AudioListener.volume = audioSlider.GetComponent<Slider>().value;
+    }
+
+   
+
+    /// <summary>
+    /// Checks for any duplicate GameManagers, if any are found, then this GameManager instance is not the original. 
+    /// Deletes self if not the original
+    /// </summary>
+    
 
    public InputSystem InputSystem {
       get => _inputSystem;
@@ -43,6 +67,12 @@ public class GameManager : MonoBehaviour {
       SceneManager.sceneLoaded -= OnSceneLoaded;
       DontDestroyOnLoad(gameObject);
       SceneManager.sceneLoaded += OnSceneLoaded;
+
+      audio = GameObject.FindWithTag("MainCamera").GetComponent<AudioListener>();
+      audioSlider = GameObject.FindWithTag("VolumeController");
+      if(SceneManager.GetActiveScene().name.ToString() != "Main_Menu"){
+            audioSlider.SetActive(false);
+         }
    }
 
    private void AddEnemies() {
@@ -65,16 +95,19 @@ public class GameManager : MonoBehaviour {
    }
 
    private void AddPlayer() {
-      _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
-      _playerRef.InputSys = _inputSystem;
+      try{
+         _playerRef = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
+         _playerRef.InputSys = _inputSystem;
+         
+         // Instantiate healthbar for player
+         var currentHealthBar = Instantiate(healthBarPrefab);
+         var healthBarController = currentHealthBar.GetComponent<HealthBarController>();
+         healthBarController.playerState = _playerRef;
+         healthBarController.offset = new Vector3(0, 5, 0);
+         healthBarController.sizeOffset = new Vector3(1.5f, 1.5f, 1f);
+         healthBarController.leftColor = Color.green;
+      }catch(Exception){}
       
-      // Instantiate healthbar for player
-      var currentHealthBar = Instantiate(healthBarPrefab);
-      var healthBarController = currentHealthBar.GetComponent<HealthBarController>();
-      healthBarController.playerState = _playerRef;
-      healthBarController.offset = new Vector3(0, 5, 0);
-      healthBarController.sizeOffset = new Vector3(1.5f, 1.5f, 1f);
-      healthBarController.leftColor = Color.green;
    }
 
    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
@@ -90,8 +123,19 @@ public class GameManager : MonoBehaviour {
             Debug.LogWarning("Player was not assigned, might be in a scene without a player prefab...");
          else
             AddEnemies();
+         audio = GameObject.FindWithTag("MainCamera").GetComponent<AudioListener>();
+         audioSlider = GameObject.FindWithTag("VolumeController");
+         audioSlider.GetComponent<Slider>().value = volume;
+         Debug.Log(SceneManager.GetActiveScene().name);
+         if(SceneManager.GetActiveScene().name.ToString() != "Main_Menu"){
+            audioSlider.SetActive(false);
+         }
       }
 
       FirstLoad = false;
+
+      
+
+
    }
 }

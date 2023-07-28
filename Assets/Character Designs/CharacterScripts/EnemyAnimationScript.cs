@@ -15,7 +15,6 @@ public class EnemyAnimationScript : MonoBehaviour
     public ParticleSystem hitParticle;
     private bool _ready;
     private GameObject currentPlayer;
-    private bool gotKnockedOut;
     
     // Start is called before the first frame update
     void Start()
@@ -27,18 +26,16 @@ public class EnemyAnimationScript : MonoBehaviour
         slamAttack = stateScript.heavyAttackBounds;
         isAttacking = false;
         currentPlayer = GameObject.FindWithTag("Player");
-        gotKnockedOut = false;
     }
 
     // Update is called once per frame
     void Update() {
         if (!_ready) return;
         try {
-            // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+            Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.CurrentState.ToString());
             // Debug.Log(stateScript.currentHealth);
         }catch (Exception e){
-            Debug.Log(e);
         }
         
 
@@ -80,7 +77,7 @@ public class EnemyAnimationScript : MonoBehaviour
                     // anim.Play("Idle");
                     anim.Play("Hurt");
                 }else {//add more code to account repeatedly getting hit
-                    Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+                    // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
                     // anim.Play("Idle");
                 }
                 

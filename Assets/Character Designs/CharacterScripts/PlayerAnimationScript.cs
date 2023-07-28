@@ -69,7 +69,7 @@ public class PlayerAnimationScript : MonoBehaviour
                 else if(slamAttack.activeSelf){
                     anim.Play("SlamAttack");
                 }
-                } catch(Exception e){
+                } catch(Exception ){
                     
                 }
         }else if (isAttacking) {
