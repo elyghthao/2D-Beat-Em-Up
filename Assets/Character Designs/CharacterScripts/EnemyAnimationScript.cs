@@ -15,7 +15,7 @@ public class EnemyAnimationScript : MonoBehaviour
     public ParticleSystem hitParticle;
     private bool _ready;
     private GameObject currentPlayer;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,9 +35,9 @@ public class EnemyAnimationScript : MonoBehaviour
             Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.CurrentState.ToString());
             // Debug.Log(stateScript.currentHealth);
-        }catch (Exception e){
+        }catch (Exception){
         }
-        
+
 
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
@@ -53,9 +53,9 @@ public class EnemyAnimationScript : MonoBehaviour
         }
 
 
-        
-        
-        
+
+
+
         if(stateScript.CurrentState.ToString() == "EnemyMovingState" && !isAttacking){//MOVING STATE
             if(Vector3.Distance(this.gameObject.transform.position, currentPlayer.transform.position) <= 3) {
                 anim.Play("FightStance");
@@ -68,28 +68,28 @@ public class EnemyAnimationScript : MonoBehaviour
                 if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemyRecoveryState") {
                     anim.Play("Recover");
                 }else if (stateScript._knockedDown){
-                    if(stateScript.CurrentState.CurrentSubState.ToString() == "EnemyKnockedDownState") {//this makes the particle effect 
+                    if(stateScript.CurrentState.CurrentSubState.ToString() == "EnemyKnockedDownState") {//this makes the particle effect
                         hitParticle.Play();
                     }
                     anim.Play("KnockedDown");
-                    
+
                 }else if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemySmackedState") {
                     // anim.Play("Idle");
                     anim.Play("Hurt");
                 }else {//add more code to account repeatedly getting hit
-                    // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+                    //Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
                     // anim.Play("Idle");
                 }
-                
-                
-                
-            
+
+
+
+
         }else if(stateScript.CurrentState.ToString() == "EnemyIdleState" && !isAttacking){//IDLE STATE
             anim.Play("Idle");
         }
 
 
-        
+
     }
 
     IEnumerator checkStateReady() {

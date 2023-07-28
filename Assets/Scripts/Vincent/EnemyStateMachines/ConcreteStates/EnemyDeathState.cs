@@ -14,6 +14,8 @@ public class EnemyDeathState : EnemyBaseState {
    }
 
    public override void UpdateState() {
+      
+      Ctx.SetDead();
    }
 
    public override void ExitState() {

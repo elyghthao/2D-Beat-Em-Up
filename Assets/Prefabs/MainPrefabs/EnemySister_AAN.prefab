@@ -1299,9 +1299,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 8402972654335376429}
-  knockdownMax: 150
+  knockdownMax: 200
   enemyType: 1
-  maxHealth: 200
+  maxHealth: 400
   activationDistance: 12
   attackReliefTime: 1
   attackDistance: 3
