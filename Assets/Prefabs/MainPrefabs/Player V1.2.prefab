@@ -20100,7 +20100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 140674419555158845}
-  maxHealth: 150
+  maxHealth: 200
   gotHealed: 0
   heavyAttackBounds: {fileID: 5247690065994906466}
   mediumAttackBounds: {fileID: 7825572174776549748}
@@ -20109,15 +20109,15 @@ MonoBehaviour:
   lightFirstFollowupAttackBounds: {fileID: 5483468236248993634}
   lightSecondFollowupAttackBounds: {fileID: 7798247080663870650}
   framesPerSecond: 40
-  heavyStartupFrames: 20
-  heavyActiveFrames: 25
-  heavyRecoveryFrames: 54
+  heavyStartupFrames: 30
+  heavyActiveFrames: 35
+  heavyRecoveryFrames: 74
   mediumStartupFrames: 19
   mediumActiveFrames: 24
   mediumRecoveryFrames: 42
-  medium1StartupFrames: 19
-  medium1ActiveFrames: 24
-  medium1RecoveryFrames: 42
+  medium1StartupFrames: 24
+  medium1ActiveFrames: 26
+  medium1RecoveryFrames: 52
   lightStartupFrames: 17
   lightActiveFrames: 19
   lightRecoveryFrames: 33
