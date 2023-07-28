@@ -93,13 +93,7 @@ public class PlayerStateMachine : MonoBehaviour {
    [Tooltip("How much time in seconds is given to initiate a followup attack")]
    public float attackFollowupThreshold = 0.75f;
 
-   public int currentHealth;
-
    [Header("Movement")] public float movementSpeed;
-
-
-   // Constants
-   private readonly int _zero = 0;
 
    // Reference variables
    private PlayerStateFactory _states;
@@ -179,10 +173,7 @@ public class PlayerStateMachine : MonoBehaviour {
    public float KnockdownMeter { get; set; }
    public float StunTimer { get; set; }
 
-   public int CurrentHealth {
-      get => currentHealth;
-      set => currentHealth = value;
-   }
+   public int CurrentHealth { get; set; }
 
    public AttackType[] RecievedAttack { get; set; } = new AttackType[6];
    public PowerupSystem PowerupSystem => GameManager.Instance.PowerupSystem;
@@ -366,8 +357,8 @@ public class PlayerStateMachine : MonoBehaviour {
    public void HealCharacter(int addedHealth) {
       gotHealed = true;
       if (addedHealth <= 0) return;
-      currentHealth += addedHealth;
-      if (currentHealth > maxHealth) currentHealth = maxHealth;
+      CurrentHealth += addedHealth;
+      if (CurrentHealth > maxHealth) CurrentHealth = maxHealth;
    }
 
    public int FrameState(AttackBoundsManager bounds, float currentFrame, int startup, int active, int recovery) {

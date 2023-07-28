@@ -17,8 +17,8 @@ public class ReliableOnTriggerExit : MonoBehaviour
 {
     public delegate void _OnTriggerExit(Collider c);
  
-    Collider thisCollider;
-    bool ignoreNotifyTriggerExit = false;
+    private Collider _thisCollider;
+    private bool _ignoreNotifyTriggerExit = false;
  
     // Target callback
     Dictionary<GameObject, _OnTriggerExit> waitingForOnTriggerExit = new Dictionary<GameObject, _OnTriggerExit>();
@@ -29,7 +29,7 @@ public class ReliableOnTriggerExit : MonoBehaviour
         ReliableOnTriggerExit[] ftncs = c.gameObject.GetComponents<ReliableOnTriggerExit>();
         foreach (ReliableOnTriggerExit ftnc in ftncs)
         {
-            if (ftnc.thisCollider == c)
+            if (ftnc._thisCollider == c)
             {
                 thisComponent = ftnc;
                 break;
@@ -38,7 +38,7 @@ public class ReliableOnTriggerExit : MonoBehaviour
         if (thisComponent == null)
         {
             thisComponent = c.gameObject.AddComponent<ReliableOnTriggerExit>();
-            thisComponent.thisCollider = c;
+            thisComponent._thisCollider = c;
         }
         // Unity bug? (!!!!): Removing a Rigidbody while the collider is in contact will call OnTriggerEnter twice, so I need to check to make sure it isn't in the list twice
         // In addition, force a call to NotifyTriggerExit so the number of calls to OnTriggerEnter and OnTriggerExit match up
@@ -49,9 +49,9 @@ public class ReliableOnTriggerExit : MonoBehaviour
         }
         else
         {
-            thisComponent.ignoreNotifyTriggerExit = true;
+            thisComponent._ignoreNotifyTriggerExit = true;
             thisComponent.waitingForOnTriggerExit[caller].Invoke(c);
-            thisComponent.ignoreNotifyTriggerExit = false;
+            thisComponent._ignoreNotifyTriggerExit = false;
         }
     }
  
@@ -64,13 +64,13 @@ public class ReliableOnTriggerExit : MonoBehaviour
         ReliableOnTriggerExit[] ftncs = c.gameObject.GetComponents<ReliableOnTriggerExit>();
         foreach (ReliableOnTriggerExit ftnc in ftncs)
         {
-            if (ftnc.thisCollider == c)
+            if (ftnc._thisCollider == c)
             {
                 thisComponent = ftnc;
                 break;
             }
         }
-        if (thisComponent != null && thisComponent.ignoreNotifyTriggerExit == false)
+        if (thisComponent != null && thisComponent._ignoreNotifyTriggerExit == false)
         {
             thisComponent.waitingForOnTriggerExit.Remove(caller);
             if (thisComponent.waitingForOnTriggerExit.Count == 0)
@@ -86,21 +86,21 @@ public class ReliableOnTriggerExit : MonoBehaviour
     }
     private void Update()
     {
-        if (thisCollider == null)
+        if (_thisCollider == null)
         {
             // Will GetOnTriggerExit with null, but is better than no call at all
             CallCallbacks();
  
             Destroy(this);
         }
-        else if (thisCollider.enabled == false)
+        else if (_thisCollider.enabled == false)
         {
             CallCallbacks();
         }
     }
     private void CallCallbacks()
     {
-        ignoreNotifyTriggerExit = true;
+        _ignoreNotifyTriggerExit = true;
         foreach (var v in waitingForOnTriggerExit)
         {
             if (v.Key == null)
@@ -108,9 +108,9 @@ public class ReliableOnTriggerExit : MonoBehaviour
                 continue;
             }
  
-            v.Value.Invoke(thisCollider);
+            v.Value.Invoke(_thisCollider);
         }
-        ignoreNotifyTriggerExit = false;
+        _ignoreNotifyTriggerExit = false;
         waitingForOnTriggerExit.Clear();
         enabled = false;
     }
