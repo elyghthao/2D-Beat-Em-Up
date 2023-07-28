@@ -38,6 +38,7 @@ public class InputSystem : MonoBehaviour {
          Destroy(this);
          return;
       }
+
       _playerInput = new PlayerInput();
    }
 
