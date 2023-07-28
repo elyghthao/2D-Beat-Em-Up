@@ -632,7 +632,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -950,6 +950,10 @@ PrefabInstance:
     - target: {fileID: 4310546693390515160, guid: cf74653b0c1278449901e7b1153c4e39, type: 3}
       propertyPath: m_Name
       value: _GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761225493869430105, guid: cf74653b0c1278449901e7b1153c4e39, type: 3}
+      propertyPath: volume
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8858849111289878972, guid: cf74653b0c1278449901e7b1153c4e39, type: 3}
       propertyPath: m_RootOrder
@@ -1562,7 +1566,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press "Enter" during gameplay to see the controls!
+  m_text: 'Press "Enter" during gameplay to see the
+
+    controls and change the
+    global volume!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
   m_sharedMaterial: {fileID: 2330881663515301021, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
 
    public AudioListener audio;
    public GameObject audioSlider;
-   public float volume = 1;
+   public float volume = 0.1f;
 
    [SerializeField] private PlayerStateMachine _playerRef;
    [SerializeField] private List<EnemyStateMachine> _enemyReferences;

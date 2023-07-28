@@ -35,7 +35,7 @@ public class EnemyAnimationScript : MonoBehaviour
             Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.CurrentState.ToString());
             // Debug.Log(stateScript.currentHealth);
-        }catch (Exception e){
+        }catch (Exception){
         }
         
 
