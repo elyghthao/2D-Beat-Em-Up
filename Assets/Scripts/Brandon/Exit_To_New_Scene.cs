@@ -29,7 +29,7 @@ public class Exit_To_New_Scene : MonoBehaviour
     {
         // If the exit comes into contact with the player's collision,
         // signified by the tag "Player"...
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.transform.parent.gameObject.CompareTag("Player"))
         {
             // ...and if the destination string is empty...
             if (destination == "")

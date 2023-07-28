@@ -28,11 +28,11 @@ Transform:
   m_GameObject: {fileID: 4310546693390515160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.432215, y: -34.675686, z: 78.96973}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4761225493869430105
 MonoBehaviour:
@@ -46,12 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89df26d7b7fe0ac4491d362445ceedec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 1283117529937839412, guid: f5fab63dfa1922d46854d4819863ddae, type: 3}
   _playerRef: {fileID: 0}
   _enemyReferences: []
   _inputSystem: {fileID: 0}
-  volume: 1
-  audio: {fileID: 0}
-  audioSlider: {fileID: 0}
 --- !u!114 &4741447321348735413
 MonoBehaviour:
   m_ObjectHideFlags: 0
