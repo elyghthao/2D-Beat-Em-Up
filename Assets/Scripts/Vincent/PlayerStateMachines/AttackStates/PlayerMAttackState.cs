@@ -32,10 +32,10 @@ public class PlayerMAttackState : PlayerBaseState {
 
       _currentFrameState = Ctx.FrameState(Ctx.MediumBounds, _currentFrame, Ctx.mediumStartupFrames,
          Ctx.mediumActiveFrames, Ctx.mediumRecoveryFrames);
-      Debug.Log("CurrentFrameState for MediumAttack: " + _currentFrameState);
+      //Debug.Log("CurrentFrameState for MediumAttack: " + _currentFrameState);
       if (Ctx.InputSys.IsMediumAttackPressed && _currentFrameState >= 2 && !Ctx.InputSys.IsActionHeld) {
          Ctx.QueuedAttack = Factory.MediumFirstFollowupAttack();
-         Debug.Log("MediumAttack 1 Queued");
+         //Debug.Log("MediumAttack 1 Queued");
       }
       if (_currentFrameState == 3) {
          CanSwitch = true;

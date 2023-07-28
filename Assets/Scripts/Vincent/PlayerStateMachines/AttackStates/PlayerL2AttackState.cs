@@ -17,7 +17,7 @@ public class PlayerL2AttackState : PlayerBaseState
    }
 
    public override void EnterState() {
-      Debug.Log("SUB: ENTERED LIGHT 2");
+      //Debug.Log("SUB: ENTERED LIGHT 2");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.lightSecondFollowupAttackBounds.SetActive(true);
       Ctx.MostRecentAttack = this.ToString();
@@ -29,7 +29,7 @@ public class PlayerL2AttackState : PlayerBaseState
 
       _currentFrameState = Ctx.FrameState(Ctx.LightSecondFollowupBounds, _currentFrame, Ctx.light2StartupFrames,
          Ctx.light2ActiveFrames, Ctx.light2RecoveryFrames);
-      Debug.Log("CurrentFrameState for LightAttack 2: " + _currentFrameState);
+      //Debug.Log("CurrentFrameState for LightAttack 2: " + _currentFrameState);
       if (_currentFrameState == 3) {
          CanSwitch = true;
          CheckSwitchStates();
@@ -37,7 +37,7 @@ public class PlayerL2AttackState : PlayerBaseState
    }
 
    public override void ExitState() {
-      Debug.Log("SUB: EXITED LIGHT 2");
+      //Debug.Log("SUB: EXITED LIGHT 2");
       Ctx.lightSecondFollowupAttackBounds.SetActive(false);
    }
 

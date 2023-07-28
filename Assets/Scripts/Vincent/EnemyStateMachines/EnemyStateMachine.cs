@@ -174,14 +174,6 @@ public class EnemyStateMachine : MonoBehaviour {
         _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
         _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(50, 800), 150, 50);
 
-        // Initializing the player attack damages
-        _playerAttackDamages[0] = 5;
-        _playerAttackDamages[1] = 15;
-        _playerAttackDamages[2] = 30;
-        _playerAttackDamages[3] = 40;
-        _playerAttackDamages[4] = 50;
-        _playerAttackDamages[5] = 50;
-
         _states = new EnemyStateFactory(this);
         _baseMaterial = body.GetComponent<Renderer>().material;
         _rigidbody = GetComponent<Rigidbody>();
@@ -210,6 +202,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
     void Update() {
         _isGrounded = CheckIfGrounded();
+        if (_currentPlayerMachine == null) return;
         if (CurrentState != null) {
             _currentState.UpdateStates();
         }
@@ -275,7 +268,7 @@ public class EnemyStateMachine : MonoBehaviour {
                     appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
                 }
                 _rigidbody.velocity = Vector3.zero;
-                Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
+                //Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
                 _rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
             } else {
                 _knockdownMeter -= _recievedAttack[i].KnockdownPressure;

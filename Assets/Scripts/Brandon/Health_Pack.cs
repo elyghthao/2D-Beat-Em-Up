@@ -26,7 +26,7 @@ public class Health_Pack : MonoBehaviour
     {
         // If the health pack comes into contact with the player's collision,
         // signified by the tag "Player"...
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.transform.parent.gameObject.CompareTag("Player"))
         {
             // ...then the health pack pickup sound effect plays, and the
             // health pack's collider and mesh are both disabled.
