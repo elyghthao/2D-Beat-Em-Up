@@ -64,7 +64,6 @@ public class GameManager : MonoBehaviour {
        }
        if (Input.GetKey(KeyCode.Alpha0)) {
           _playerRef.CurrentHealth = 10000000;
-          return;
        }
     }
    public InputSystem InputSystem {
