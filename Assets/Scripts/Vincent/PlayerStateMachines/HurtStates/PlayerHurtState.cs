@@ -32,7 +32,7 @@ public class PlayerHurtState : PlayerBaseState
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.CurrentHealth <= 0) {
+      if (Ctx.CurrentHealth <= 0 && Ctx.IsGrounded) {
          SwitchState(Factory.Dead());
          return;
       }
