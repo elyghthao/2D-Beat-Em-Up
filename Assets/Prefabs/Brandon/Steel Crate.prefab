@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2460846685233260778}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.59758925, y: 1.25, z: 1.84}
-  m_LocalScale: {x: 2, y: 2, z: 1.5}
+  m_LocalScale: {x: 4, y: 4, z: 3.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6673298157866613564}
@@ -82,8 +82,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.0782237}
-  m_Center: {x: 0, y: 0, z: 0.46088815}
+  m_Size: {x: 1, y: 1.8891698, z: 1.0782238}
+  m_Center: {x: 0, y: 0.4445849, z: 0.46088827}
 --- !u!82 &7394414456515465107
 AudioSource:
   m_ObjectHideFlags: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crate_mesh: {fileID: 1107463621185756353}
   health_appear_guarantee: 0
-  crate_health: 3
+  crate_health: 5
   health_pack: {fileID: 6154500908062176162, guid: 040adfd802eb3d747968704107370636, type: 3}
   crate_break_sound: {fileID: 8300000, guid: f408462386d92e043a8704323d4d6351, type: 3}
 --- !u!1 &4712743466239585726
