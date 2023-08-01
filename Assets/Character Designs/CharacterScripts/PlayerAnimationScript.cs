@@ -42,9 +42,14 @@ public class PlayerAnimationScript : MonoBehaviour
     // Update is called once per frame
     void Update() {
         if (!_ready) return;
-        // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
-        // Debug.Log(stateScript.CurrentState.ToString());
-        // Debug.Log(stateScript.currentHealth);
+        try {
+            // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+            // Debug.Log(stateScript.CurrentState.ToString());
+            // Debug.Log(stateScript.currentHealth);
+        }catch (Exception){
+        }
+
+
         if(stateScript.CurrentState.ToString() == "PlayerAttackState") {
             isAttacking = true;
             isHit = false;
@@ -85,12 +90,20 @@ public class PlayerAnimationScript : MonoBehaviour
             isHit = false;
             anim.Play("Walk");
         }else if(stateScript.CurrentState.ToString() == "PlayerHurtState" ){
-            anim.Play("Hurt");
-            if(!isHit){
-                // rand = 1;
-                anim.Play("Hurt");
-                knockedOutParticle.Play();
-                isHit = true;
+            if (stateScript.CurrentState.CurrentSubState.ToString() == "PlayerRecoveryState") {
+                anim.Play("Recover");
+            }else if (stateScript.KnockedDown){
+                if(stateScript.CurrentState.CurrentSubState.ToString() == "PlayerKnockedDownState") {//this makes the particle effect
+                    knockedOutParticle.Play();
+                }
+                anim.Play("KnockedDown");
+
+            }else if (stateScript.CurrentState.CurrentSubState.ToString() == "PlayerSmackedState") {
+                // anim.Play("Idle");
+                anim.Play("Hurt", -1, 0f);
+            }else {//add more code to account repeatedly getting hit
+                //Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+                // anim.Play("Idle");
             }
         }else if(stateScript.CurrentState.ToString() == "PlayerIdleState" && !isAttacking){
             // rand = 1;

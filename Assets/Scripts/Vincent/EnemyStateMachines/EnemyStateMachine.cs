@@ -109,7 +109,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private int[] _playerAttackDamages = new int[6];
 
     // Other
-    public bool _knockedDown;
+    private bool _knockedDown;
     private bool _isGrounded;
     private float _knockdownMeter;
     private float _stunTimer;
@@ -161,6 +161,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public Vector2 MovingGoalOffset { get => _movingGoalOffset; set => _movingGoalOffset = value; }
     public SpriteEffects SpriteEffects { get => gameObject.GetComponent<SpriteEffects>(); }
     public bool FinishedInitialization { get => _finishedInitialization; }
+
 
     // Functions
     

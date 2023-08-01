@@ -154,6 +154,7 @@ public class PlayerStateMachine : MonoBehaviour {
          return InputSys.IsBlockHeld;
       }
    }
+
    public PlayerBaseState CurrentState { get; set; }
    public Material BaseMaterial { get; set; }
    public AttackBoundsManager HeavyBounds { get; set; }
@@ -299,11 +300,18 @@ public class PlayerStateMachine : MonoBehaviour {
          if (KnockedDown) {
             Vector2 appliedKnockback = RecievedAttack[i].KnockbackDirection;
             if (RecievedAttack[i].AttackedFromRightSide) {
-               appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
+               appliedKnockback = new Vector2(appliedKnockback.x * -4, appliedKnockback.y);
             }
+            appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
             Rigidbody.velocity = Vector3.zero;
-            //Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
+            // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
             Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
+            Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + this.transform.localScale.x);
+            if((appliedKnockback.x < 0 && this.transform.localScale.x < 0) 
+               || (appliedKnockback.x > 0 && this.transform.localScale.x > 0)){
+               this.FlipCharacter();
+            }
+            
          } else {
             KnockdownMeter -= RecievedAttack[i].KnockdownPressure;
          }
