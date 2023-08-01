@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
 
       audio = GameObject.FindWithTag("MainCamera").GetComponent<AudioListener>();
       audioSlider = GameObject.FindWithTag("VolumeController");
-      if(SceneManager.GetActiveScene().name.ToString() != "Main_Menu"){
+      if(SceneManager.GetActiveScene().name.ToString() != "Main_Menu" && audioSlider != null){
          audioSlider.SetActive(false);
       }
    }

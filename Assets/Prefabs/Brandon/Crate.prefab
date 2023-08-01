@@ -51,8 +51,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7587001, y: 1, z: 0.6760605}
-  m_Center: {x: 0.12064998, y: 0, z: 0.16196977}
+  m_Size: {x: 0.7587001, y: 1.9396942, z: 0.6760605}
+  m_Center: {x: 0.12064995, y: 0.46984547, z: 0.16196975}
 --- !u!1 &2188250172326951908
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,13 +165,13 @@ Transform:
   m_GameObject: {fileID: 8124455214483180191}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3, y: 0.5, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1.5}
+  m_LocalScale: {x: 3, y: 3, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3506544553395857159}
   - {fileID: 3471770811880259023}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2685550892748237354
 Rigidbody:
@@ -219,8 +219,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.1039681}
-  m_Center: {x: 0, y: 0, z: 0.44801614}
+  m_Size: {x: 1, y: 1.9416306, z: 1}
+  m_Center: {x: 0, y: 0.4708135, z: 0.44801617}
 --- !u!82 &3150037123102344785
 AudioSource:
   m_ObjectHideFlags: 0
