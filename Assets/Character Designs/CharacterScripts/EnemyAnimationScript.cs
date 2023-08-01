@@ -15,6 +15,7 @@ public class EnemyAnimationScript : MonoBehaviour
     public ParticleSystem hitParticle;
     private bool _ready;
     private GameObject currentPlayer;
+    public GameObject body;
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +33,8 @@ public class EnemyAnimationScript : MonoBehaviour
     void Update() {
         if (!_ready) return;
         try {
-            Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
-            // Debug.Log(stateScript.CurrentState.ToString());
+            // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+            // Debug.Log(stateScript.CurrentState.ToString() + ": " + stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.currentHealth);
         }catch (Exception){
         }
@@ -67,7 +68,7 @@ public class EnemyAnimationScript : MonoBehaviour
 
                 if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemyRecoveryState") {
                     anim.Play("Recover");
-                }else if (stateScript._knockedDown){
+                }else if (stateScript.KnockedDown){
                     if(stateScript.CurrentState.CurrentSubState.ToString() == "EnemyKnockedDownState") {//this makes the particle effect
                         hitParticle.Play();
                     }
@@ -75,7 +76,9 @@ public class EnemyAnimationScript : MonoBehaviour
 
                 }else if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemySmackedState") {
                     // anim.Play("Idle");
-                    anim.Play("Hurt");
+                    // anim.Play("Hurt");
+                    anim.Play("Hurt", -1, 0f);
+                    
                 }else {//add more code to account repeatedly getting hit
                     //Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
                     // anim.Play("Idle");
