@@ -26,25 +26,46 @@ public class GameManager : MonoBehaviour {
    }
 
    public List<EnemyStateMachine> EnemyReferences => _enemyReferences;
-
    
-    
-
-
     // Update is called once per frame
     void Update() {
-        volume = audioSlider.GetComponent<Slider>().value;
-        AudioListener.volume = audioSlider.GetComponent<Slider>().value;
+       if (audioSlider != null) {
+          volume = audioSlider.GetComponent<Slider>().value;
+          AudioListener.volume = audioSlider.GetComponent<Slider>().value;
+       }
+       Cheats();
     }
 
-   
+    public void Cheats() {
+       if (Input.GetKey(KeyCode.Alpha1)) {
+          SceneManager.LoadScene("Scenes/MainScenes/Main_Menu");
+          return;
+       }
 
-    /// <summary>
-    /// Checks for any duplicate GameManagers, if any are found, then this GameManager instance is not the original. 
-    /// Deletes self if not the original
-    /// </summary>
-    
-
+       if (Input.GetKey(KeyCode.Alpha2)) {
+          SceneManager.LoadScene("Scenes/MainScenes/Level_0");
+          return;
+       }
+       if (Input.GetKey(KeyCode.Alpha3)) {
+          SceneManager.LoadScene("Scenes/MainScenes/Level_1");
+          return;
+       }
+       if (Input.GetKey(KeyCode.Alpha4)) {
+          SceneManager.LoadScene("Scenes/MainScenes/Level_2");
+          return;
+       }
+       if (Input.GetKey(KeyCode.Alpha5)) {
+          SceneManager.LoadScene("Scenes/MainScenes/You_Win_Screen");
+          return;
+       }
+       if (Input.GetKey(KeyCode.Equals)) {
+          _playerRef.CurrentHealth = _playerRef.maxHealth;
+          return;
+       }
+       if (Input.GetKey(KeyCode.Alpha0)) {
+          _playerRef.CurrentHealth = 10000000;
+       }
+    }
    public InputSystem InputSystem {
       get => _inputSystem;
       set => _inputSystem = value;
@@ -71,8 +92,8 @@ public class GameManager : MonoBehaviour {
       audio = GameObject.FindWithTag("MainCamera").GetComponent<AudioListener>();
       audioSlider = GameObject.FindWithTag("VolumeController");
       if(SceneManager.GetActiveScene().name.ToString() != "Main_Menu"){
-            audioSlider.SetActive(false);
-         }
+         audioSlider.SetActive(false);
+      }
    }
 
    private void AddEnemies() {
@@ -106,7 +127,7 @@ public class GameManager : MonoBehaviour {
          healthBarController.offset = new Vector3(0, 5, 0);
          healthBarController.sizeOffset = new Vector3(1.5f, 1.5f, 1f);
          healthBarController.leftColor = Color.green;
-      }catch(Exception){}
+      } catch (Exception){}
       
    }
 
@@ -124,18 +145,15 @@ public class GameManager : MonoBehaviour {
          else
             AddEnemies();
          audio = GameObject.FindWithTag("MainCamera").GetComponent<AudioListener>();
-         audioSlider = GameObject.FindWithTag("VolumeController");
-         audioSlider.GetComponent<Slider>().value = volume;
-         Debug.Log(SceneManager.GetActiveScene().name);
-         if(SceneManager.GetActiveScene().name.ToString() != "Main_Menu"){
-            audioSlider.SetActive(false);
-         }
+         try {
+            audioSlider = GameObject.FindWithTag("VolumeController");
+            audioSlider.GetComponent<Slider>().value = volume;
+            Debug.Log(SceneManager.GetActiveScene().name);
+            if (SceneManager.GetActiveScene().name.ToString() != "Main_Menu") {
+               audioSlider.SetActive(false);
+            }
+         } catch (Exception) {}
       }
-
       FirstLoad = false;
-
-      
-
-
    }
 }

@@ -1305,7 +1305,7 @@ MonoBehaviour:
   activationDistance: 12
   attackReliefTime: 1
   attackDistance: 3
-  movementSpeed: 4.8
+  movementSpeed: 2
   distanceGoal: 3.65
   heavyAttackBounds: {fileID: 6305237836866135980}
   mediumAttackBounds: {fileID: 1389033172223256393}

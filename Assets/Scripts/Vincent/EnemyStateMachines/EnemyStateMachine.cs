@@ -172,7 +172,7 @@ public class EnemyStateMachine : MonoBehaviour {
         _recievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(150, 500), 100, 30);
         _recievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(50, 500), 70, 40);
         _recievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
-        _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(50, 800), 150, 50);
+        _recievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(800, 800), 300, 5);
 
         _states = new EnemyStateFactory(this);
         _baseMaterial = body.GetComponent<Renderer>().material;

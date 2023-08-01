@@ -6023,7 +6023,7 @@ MonoBehaviour:
   activationDistance: 12
   attackReliefTime: 1
   attackDistance: 3
-  movementSpeed: 5
+  movementSpeed: 1.9
   distanceGoal: 3.65
   heavyAttackBounds: {fileID: 6638405829207540676}
   mediumAttackBounds: {fileID: 4560999138246919705}
@@ -11400,7 +11400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8659767548363356812, guid: 09382917de2ca3345bb92e9d3ec82894, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4761905
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8659767548363356812, guid: 09382917de2ca3345bb92e9d3ec82894, type: 3}
       propertyPath: m_LocalScale.z
@@ -11416,7 +11416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8659767548363356812, guid: 09382917de2ca3345bb92e9d3ec82894, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.05
+      value: 0.43
       objectReference: {fileID: 0}
     - target: {fileID: 8659767548363356812, guid: 09382917de2ca3345bb92e9d3ec82894, type: 3}
       propertyPath: m_LocalRotation.w

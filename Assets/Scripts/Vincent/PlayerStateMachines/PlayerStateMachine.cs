@@ -192,12 +192,12 @@ public class PlayerStateMachine : MonoBehaviour {
 
    private void Awake() {
       InputSys = GameManager.Instance.gameObject.GetComponent<InputSystem>();
-      RecievedAttack[(int) Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(1, 10), 40, 5);
-      RecievedAttack[(int) Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(1, 5), 60, 15);
-      RecievedAttack[(int) Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(5, 10), 100, 30);
-      RecievedAttack[(int) Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(1, 1), 70, 40);
-      RecievedAttack[(int) Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(3, 1), 80, 50);
-      RecievedAttack[(int) Attacks.Slam] = new AttackType("SlamAttack", new Vector2(1, 5), 150, 50);
+      RecievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
+      RecievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(50, 250), 60, 15);
+      RecievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(150, 500), 100, 30);
+      RecievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(50, 500), 70, 40);
+      RecievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
+      RecievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(400, 800), 150, 50);
 
       BaseMaterial = body.GetComponent<Renderer>().material;
       HeavyBounds = heavyAttackBounds.GetComponent<AttackBoundsManager>();

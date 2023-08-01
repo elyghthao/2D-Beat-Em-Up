@@ -32,7 +32,7 @@ public class EnemyHurtState : EnemyBaseState {
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.Health <= 0) {
+      if (Ctx.CurrentHealth <= 0 && Ctx.IsGrounded) {
          SwitchState(Factory.Dead());
       } else {
          // Only possible alternative currently is to be returned to the Idle State
