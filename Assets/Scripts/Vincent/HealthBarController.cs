@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class HealthBarController : MonoBehaviour {
    public GameObject healthBar;
    public Color leftColor;
@@ -34,52 +34,53 @@ public class HealthBarController : MonoBehaviour {
          return;
       }
 
-      _healthMaterial = healthBar.GetComponent<Renderer>().sharedMaterial;
-      //_healthMaterial = healthBar.GetComponent<Renderer>().material;
-      // if (enemyState == null && playerState == null) {
-      //    Debug.LogWarning("HealthObject not attached to an object with a state machine,"
-      //                     + " current parent: " + transform.parent);
-      //    return;
-      // }
-      //
-      // _isPlayer = playerState != null;
-      // if (_isPlayer) {
-      //    transform.position = playerState.transform.position + offset;
-      //    maxHealth = playerState.maxHealth;
-      //    currentHealth = playerState.CurrentHealth;
-      //    return;
-      // }
-      //
-      // transform.position = enemyState.transform.position + offset;
-      // maxHealth = enemyState.maxHealth;
-      // currentHealth = enemyState.CurrentHealth;
+      // Swap the line below for the next line when using ExecuteInEditMode
+      //_healthMaterial = healthBar.GetComponent<Renderer>().sharedMaterial;
+      _healthMaterial = healthBar.GetComponent<Renderer>().material;
+       if (enemyState == null && playerState == null) {
+          Debug.LogWarning("HealthObject not attached to an object with a state machine,"
+                           + " current parent: " + transform.parent);
+          return;
+       }
+      
+       _isPlayer = playerState != null;
+       if (_isPlayer) {
+          transform.position = playerState.transform.position + offset;
+          maxHealth = playerState.maxHealth;
+          currentHealth = playerState.CurrentHealth;
+          return;
+       }
+      
+       transform.position = enemyState.transform.position + offset;
+       maxHealth = enemyState.maxHealth;
+       currentHealth = enemyState.CurrentHealth;
    }
 
    // Update is called once per frame
    private void Update() {
-      // if (!_initialized) {
-      //    _initialized = true;
-      //    _isPlayer = playerState != null;
-      //    if (_isPlayer)
-      //       maxHealth = playerState.maxHealth;
-      //    else if (enemyState != null)
-      //       maxHealth = enemyState.maxHealth;
-      //    else
-      //       _initialized = false;
-      //    transform.localScale = Vector3.Scale(transform.localScale, sizeOffset);
-      // }
-      //
-      // if (!CheckReferences()) {
-      //    maxHealth = -1;
-      //    currentHealth = -1;
-      //    leftColor = Color.magenta;
-      // }
-      // else {
-      //    if (_isPlayer)
-      //       PlayerUpdate();
-      //    else
-      //       EnemyUpdate();
-      // }
+      if (!_initialized) {
+         _initialized = true;
+         _isPlayer = playerState != null;
+         if (_isPlayer)
+            maxHealth = playerState.maxHealth;
+         else if (enemyState != null)
+            maxHealth = enemyState.maxHealth;
+         else
+            _initialized = false;
+         transform.localScale = Vector3.Scale(transform.localScale, sizeOffset);
+      }
+      
+      if (!CheckReferences()) {
+         maxHealth = -1;
+         currentHealth = -1;
+         leftColor = Color.magenta;
+      }
+      else {
+         if (_isPlayer)
+            PlayerUpdate();
+         else
+            EnemyUpdate();
+      }
 
       _healthMaterial.SetColor(LeftColor, leftColor);
       _healthMaterial.SetColor(RightColor, rightColor);

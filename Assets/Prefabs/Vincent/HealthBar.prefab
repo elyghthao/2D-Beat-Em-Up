@@ -26,12 +26,12 @@ Transform:
   m_GameObject: {fileID: 1283117529937839412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.02, y: 2.65, z: 0}
-  m_LocalScale: {x: 1, y: 0.05, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6915746098174499455}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8659042840677402247
 MonoBehaviour:
@@ -46,10 +46,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 8731831592489824138}
-  leftColor: {r: 1, g: 0.0141509175, b: 0.0141509175, a: 1}
+  leftColor: {r: 1, g: 0, b: 0, a: 1}
   rightColor: {r: 0, g: 0, b: 0, a: 1}
-  _currentHealth: 150
-  _maxHealth: 150
+  enemyState: {fileID: 0}
+  playerState: {fileID: 0}
+  boarderRound: 0.05
+  healthBarRound: 0.02
+  currentHealth: -1
+  maxHealth: -1
+  offset: {x: 0, y: 0, z: 0}
+  sizeOffset: {x: 1, y: 1, z: 1}
 --- !u!1 &8731831592489824138
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,8 +82,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8731831592489824138}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.2625, y: -0.3711, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6931263024406676494}
