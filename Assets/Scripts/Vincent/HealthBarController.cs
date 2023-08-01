@@ -1,12 +1,15 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class HealthBarController : MonoBehaviour {
    public GameObject healthBar;
    public Color leftColor;
    public Color rightColor;
    public EnemyStateMachine enemyState;
    public PlayerStateMachine playerState;
+   [FormerlySerializedAs("cornerRound")] public float boarderRound;
+   public float healthBarRound;
    public float currentHealth = 100;
    public float maxHealth = 150;
    public Vector3 offset = Vector3.zero;
@@ -14,6 +17,14 @@ public class HealthBarController : MonoBehaviour {
    private Material _healthMaterial;
    private bool _initialized;
    private bool _isPlayer;
+   
+   // Cached property references
+   private static readonly int LeftColor = Shader.PropertyToID("_LeftColor");
+   private static readonly int RightColor = Shader.PropertyToID("_RightColor");
+   private static readonly int MaxHealth = Shader.PropertyToID("_MaxHealth");
+   private static readonly int CurrentHealth = Shader.PropertyToID("_CurrentHealth");
+   private static readonly int BoarderRound = Shader.PropertyToID("_BoarderRound");
+   private static readonly int HealthBarRound = Shader.PropertyToID("_HealthBarRound");
 
    // Start is called before the first frame update
    private void Start() {
@@ -23,56 +34,59 @@ public class HealthBarController : MonoBehaviour {
          return;
       }
 
-      _healthMaterial = healthBar.GetComponent<Renderer>().material;
-      if (enemyState == null && playerState == null) {
-         Debug.LogWarning("HealthObject not attached to an object with a state machine,"
-                          + " current parent: " + transform.parent);
-         return;
-      }
-
-      _isPlayer = playerState != null;
-      if (_isPlayer) {
-         transform.position = playerState.transform.position + offset;
-         maxHealth = playerState.maxHealth;
-         currentHealth = playerState.CurrentHealth;
-         return;
-      }
-
-      transform.position = enemyState.transform.position + offset;
-      maxHealth = enemyState.maxHealth;
-      currentHealth = enemyState.CurrentHealth;
+      _healthMaterial = healthBar.GetComponent<Renderer>().sharedMaterial;
+      //_healthMaterial = healthBar.GetComponent<Renderer>().material;
+      // if (enemyState == null && playerState == null) {
+      //    Debug.LogWarning("HealthObject not attached to an object with a state machine,"
+      //                     + " current parent: " + transform.parent);
+      //    return;
+      // }
+      //
+      // _isPlayer = playerState != null;
+      // if (_isPlayer) {
+      //    transform.position = playerState.transform.position + offset;
+      //    maxHealth = playerState.maxHealth;
+      //    currentHealth = playerState.CurrentHealth;
+      //    return;
+      // }
+      //
+      // transform.position = enemyState.transform.position + offset;
+      // maxHealth = enemyState.maxHealth;
+      // currentHealth = enemyState.CurrentHealth;
    }
 
    // Update is called once per frame
    private void Update() {
-      if (!_initialized) {
-         _initialized = true;
-         _isPlayer = playerState != null;
-         if (_isPlayer)
-            maxHealth = playerState.maxHealth;
-         else if (enemyState != null)
-            maxHealth = enemyState.maxHealth;
-         else
-            _initialized = false;
-         transform.localScale = Vector3.Scale(transform.localScale, sizeOffset);
-      }
+      // if (!_initialized) {
+      //    _initialized = true;
+      //    _isPlayer = playerState != null;
+      //    if (_isPlayer)
+      //       maxHealth = playerState.maxHealth;
+      //    else if (enemyState != null)
+      //       maxHealth = enemyState.maxHealth;
+      //    else
+      //       _initialized = false;
+      //    transform.localScale = Vector3.Scale(transform.localScale, sizeOffset);
+      // }
+      //
+      // if (!CheckReferences()) {
+      //    maxHealth = -1;
+      //    currentHealth = -1;
+      //    leftColor = Color.magenta;
+      // }
+      // else {
+      //    if (_isPlayer)
+      //       PlayerUpdate();
+      //    else
+      //       EnemyUpdate();
+      // }
 
-      if (!CheckReferences()) {
-         maxHealth = -1;
-         currentHealth = -1;
-         leftColor = Color.magenta;
-      }
-      else {
-         if (_isPlayer)
-            PlayerUpdate();
-         else
-            EnemyUpdate();
-      }
-
-      _healthMaterial.SetColor("_LeftColor", leftColor);
-      _healthMaterial.SetColor("_RightColor", rightColor);
-      _healthMaterial.SetFloat("_MaxHealth", maxHealth);
-      _healthMaterial.SetFloat("_CurrentHealth", currentHealth);
+      _healthMaterial.SetColor(LeftColor, leftColor);
+      _healthMaterial.SetColor(RightColor, rightColor);
+      _healthMaterial.SetFloat(MaxHealth, maxHealth);
+      _healthMaterial.SetFloat(CurrentHealth, currentHealth);
+      _healthMaterial.SetFloat(BoarderRound, boarderRound);
+      _healthMaterial.SetFloat(HealthBarRound, healthBarRound);
    }
 
    private void PlayerUpdate() {
@@ -90,7 +104,6 @@ public class HealthBarController : MonoBehaviour {
    private bool CheckReferences() {
       if (playerState == null && enemyState == null) return false;
       if (_healthMaterial == null) return false;
-      if (healthBar == null) return false;
-      return true;
+      return healthBar != null;
    }
 }
