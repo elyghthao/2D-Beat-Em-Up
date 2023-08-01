@@ -5,7 +5,7 @@ public class EnemyRecoveryState : EnemyBaseState {
       : base(currentContext, enemyStateFactory) { }
 
    public override void EnterState() {
-      Debug.Log("ENEMY ENTERING SUBSTATE: RECOVERY");
+      // Debug.Log("ENEMY ENTERING SUBSTATE: RECOVERY");
    }
 
    public override void UpdateState() {
@@ -13,7 +13,7 @@ public class EnemyRecoveryState : EnemyBaseState {
    }
 
    public override void ExitState() {
-      Debug.Log("ENEMY EXITING SUBSTATE: RECOVERY");
+      // Debug.Log("ENEMY EXITING SUBSTATE: RECOVERY");
    }
 
    public override void CheckSwitchStates() {
