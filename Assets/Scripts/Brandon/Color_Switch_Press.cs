@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Color_Switch_Press : MonoBehaviour
 {
-    // The list of attack hitbox tags to check for collision with the color switch.
-    private string[] tags_to_check = {"FirstLightAttack", "SecondLightAttack", "ThirdLightAttack",
-                                    "FirstMediumAttack", "SecondMediumAttack", "SlamAttack", "Attack Hitbox"};
     private AudioSource switch_press_sound; // The sound clip for when the color switch is pressed.
     private BoxCollider switch_collider; // The color switch's box collider.
     public MeshRenderer switch_frame_mesh; // The color switch's frame's mesh renderer.
@@ -14,6 +12,7 @@ public class Color_Switch_Press : MonoBehaviour
     private Material shared_switch_center_material; // The center material shared between all color switches in the scene.
     private Color switch_blue_color = new Color(0.0f, 0.58f, 1.0f, 1.0f); // The color for the switch's blue state.
     private Color switch_orange_color = new Color(1.0f, 0.42f, 0.0f, 1.0f); // The color for the switch's orange state.
+    private bool player_is_touching; // Whether the player is currently colliding with the color switch.
 
     // Start is called before the first frame update
     void Start()
@@ -24,43 +23,64 @@ public class Color_Switch_Press : MonoBehaviour
         switch_collider = GetComponent<BoxCollider>();
 
         // The shared material of the center sprite of all the color switches in the scene starts out
-        // in the blue state.
+        // in the blue state, and player_is_touching is set to false.
         shared_switch_center_material = switch_center_mesh.GetComponent<MeshRenderer>().sharedMaterial;
         shared_switch_center_material.color = switch_blue_color;
+        player_is_touching = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // If the player is touching the color switch...
+        if (player_is_touching == true)
+        {
+            // ...and they press the "E" key...
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                // ...then the color switch is activated.
+                ActivateSwitch();
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        // Every attack hitbox tag is used to check collision between the color switch
-        // and the player's attack hitboxes.
-        foreach (string tag in tags_to_check)
+        // If the color switch comes into contact with the player's collider,
+        // then player_is_touching is set to true.
+        if (other.gameObject.transform.parent.gameObject.CompareTag("Player"))
         {
-            // If the color switch comes into contact with the player's attack hitbox,
-            // signified by the currently compared tag...
-            if (other.gameObject.CompareTag(tag))
-            {
-                // ...and the color switch's center is currently blue...
-                if (shared_switch_center_material.color == switch_blue_color)
-                {
-                    // ...then the center sprites of all of the color switches in the scene
-                    // are changed to the "orange" state color.
-                    shared_switch_center_material.color = switch_orange_color;
-                }
-                else if (shared_switch_center_material.color == switch_orange_color)
-                {
-                    // If the switch is currently orange, then the center sprites of all
-                    // of the color switches in the scene are changed to the "blue" state color.
-                    shared_switch_center_material.color = switch_blue_color;
-                }
-
-                // Regardless of the state of the color switch, the switch press sound plays.
-                switch_press_sound.Play();
-            }
+            player_is_touching = true;
         }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        // If the color switch leaves contact with the player's collider,
+        // then player_is_touching is set to false.
+        if (other.gameObject.transform.parent.gameObject.CompareTag("Player"))
+        {
+            player_is_touching = false;
+        }
+    }
+
+    void ActivateSwitch()
+    {
+        // If the color switch's center is currently blue...
+        if (shared_switch_center_material.color == switch_blue_color)
+        {
+            // ...then the center sprites of all of the color switches in the scene
+            // are changed to the "orange" state color.
+            shared_switch_center_material.color = switch_orange_color;
+        }
+        else if (shared_switch_center_material.color == switch_orange_color)
+        {
+            // If the switch is currently orange, then the center sprites of all
+            // of the color switches in the scene are changed to the "blue" state color.
+            shared_switch_center_material.color = switch_blue_color;
+        }
+
+        // Regardless of the state of the color switch, the switch press sound effect plays.
+        switch_press_sound.Play();
     }
 }
