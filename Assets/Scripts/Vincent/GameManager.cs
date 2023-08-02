@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour {
          var healthBarController = currentHealthBar.GetComponent<HealthBarController>();
          healthBarController.enemyState = newEnemy;
          healthBarController.offset = new Vector3(0, 5, 0);
-         healthBarController.sizeOffset = new Vector3(1.5f, 1.5f, 1f);
+         healthBarController.sizeOffset = new Vector3(1f, 1f, 1f);
       }
    }
 
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour {
          var healthBarController = currentHealthBar.GetComponent<HealthBarController>();
          healthBarController.playerState = _playerRef;
          healthBarController.offset = new Vector3(0, 5, 0);
-         healthBarController.sizeOffset = new Vector3(1.5f, 1.5f, 1f);
+         healthBarController.sizeOffset = new Vector3(1f, 1f, 1f);
          healthBarController.leftColor = Color.green;
       } catch (Exception){}
       
