@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum Attacks {
@@ -17,9 +18,6 @@ public enum Attacks {
 public class PlayerStateMachine : MonoBehaviour {
    // Inspector Arguments
    [Header("Body Elements")] public GameObject body;
-
-   public int maxHealth = 100;
-   public bool gotHealed = false;
 
    [Header("Attack Boundaries")] public GameObject heavyAttackBounds;
 
@@ -88,7 +86,14 @@ public class PlayerStateMachine : MonoBehaviour {
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int light2RecoveryFrames = 23;
 
-   [Header("Combat Stats")] public int knockdownMax = 150;
+   [Header("Combat Stats")]
+
+   public int maxHealth = 100;
+   
+   public bool gotHealed = false;
+   
+   [Tooltip("How much knockdown pressure this character can take before entering the knockdown state")]
+   public int knockdownMax = 150;
 
    [Tooltip("How much time in seconds is given to initiate a followup attack")]
    public float attackFollowupThreshold = 0.75f;
@@ -176,7 +181,8 @@ public class PlayerStateMachine : MonoBehaviour {
 
    public int CurrentHealth { get; set; }
 
-   public AttackType[] RecievedAttack { get; set; } = new AttackType[6];
+   //public AttackType[] RecievedAttack { get; set; } = new AttackType[6];
+   private Dictionary<GameObject, AttackType> _receivedAttacks = new Dictionary<GameObject, AttackType>();
    public PowerupSystem PowerupSystem => GameManager.Instance.PowerupSystem;
    public PlayerBaseState QueuedAttack { get; set; }
    public float FollowupTimer { get; set; }
@@ -193,12 +199,12 @@ public class PlayerStateMachine : MonoBehaviour {
 
    private void Awake() {
       InputSys = GameManager.Instance.gameObject.GetComponent<InputSystem>();
-      RecievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
-      RecievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(50, 250), 60, 15);
-      RecievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(150, 500), 100, 30);
-      RecievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(50, 500), 70, 40);
-      RecievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
-      RecievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(400, 800), 150, 50);
+      // RecievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
+      // RecievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(50, 250), 60, 15);
+      // RecievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(150, 500), 100, 30);
+      // RecievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(50, 500), 70, 40);
+      // RecievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
+      // RecievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(400, 800), 150, 50);
 
       BaseMaterial = body.GetComponent<Renderer>().material;
       HeavyBounds = heavyAttackBounds.GetComponent<AttackBoundsManager>();
@@ -252,31 +258,39 @@ public class PlayerStateMachine : MonoBehaviour {
    private void OnTriggerEnter(Collider other) {
       // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
       // be first before anything else
-      ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
-      for (var i = 0; i < RecievedAttack.Length; i++)
-         if (other.CompareTag(RecievedAttack[i].Tag)) {
-            RecievedAttack[i].Used = true;
-            if (other.transform.position.x > transform.position.x) RecievedAttack[i].AttackedFromRightSide = true;
-            IsAttacked = true;
-         }
+      //ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+      AttackBoundsManager otherAttackManager;
+      if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
+         if (_receivedAttacks.ContainsKey(other.gameObject)) return;
+         AttackType receivedAttack = new AttackType(otherAttackManager.knockback, otherAttackManager.pressure,
+            otherAttackManager.damage);
+         if (other.transform.parent.position.x > transform.position.x) receivedAttack.AttackedFromRightSide = true;
+         _receivedAttacks[other.gameObject] = receivedAttack;
+         IsAttacked = true;
+      }
    }
 
    private void OnTriggerExit(Collider other) {
       // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
       // be first before anything else
       ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
-      var checkIfStillAttacked = false;
-      for (var i = 0; i < RecievedAttack.Length; i++) {
-         if (other.CompareTag(RecievedAttack[i].Tag)) {
-            RecievedAttack[i].Used = false;
-            RecievedAttack[i].AttackedFromRightSide = false;
-            RecievedAttack[i].StatsApplied = false;
-         }
-
-         if (RecievedAttack[i].Used) checkIfStillAttacked = true;
+      //bool checkIfStillAttacked = false;
+      if (_receivedAttacks.ContainsKey(other.gameObject)) {
+         _receivedAttacks.Remove(other.gameObject);
       }
-
-      IsAttacked = checkIfStillAttacked;
+      // for (int i = 0; i < _recievedAttack.Length; i++) {
+      //     if (other.CompareTag(_recievedAttack[i].Tag)) {
+      //         _recievedAttack[i].Used = false;
+      //         _recievedAttack[i].AttackedFromRightSide = false;
+      //         _recievedAttack[i].StatsApplied = false;
+      //     }
+      //     if (_recievedAttack[i].Used) {
+      //         checkIfStillAttacked = true;
+      //     }
+      // }
+    
+      // _isAttacked = checkIfStillAttacked;
+      IsAttacked = false;
    }
 
    private IEnumerator SafeOnEnable() {
@@ -294,31 +308,56 @@ public class PlayerStateMachine : MonoBehaviour {
    }
 
    public void ApplyAttackStats() {
-      for (int i = 0; i < RecievedAttack.Length; i++) {
-         if (RecievedAttack[i].StatsApplied || !RecievedAttack[i].Used) continue;
-            
+      foreach (AttackType i in _receivedAttacks.Values) {
+         if (i.Used) continue;
          if (KnockedDown) {
-            Vector2 appliedKnockback = RecievedAttack[i].KnockbackDirection;
-            if (RecievedAttack[i].AttackedFromRightSide) {
-               appliedKnockback = new Vector2(appliedKnockback.x * -4, appliedKnockback.y);
+            Vector2 appliedKnockback = i.KnockbackDirection;
+            if (i.AttackedFromRightSide) {
+               appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
             }
-            appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
+            // appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
             Rigidbody.velocity = Vector3.zero;
             // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
             Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
-            Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + this.transform.localScale.x);
-            if((appliedKnockback.x < 0 && this.transform.localScale.x < 0) 
-               || (appliedKnockback.x > 0 && this.transform.localScale.x > 0)){
-               this.FlipCharacter();
+            Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + transform.localScale.x);
+            if((appliedKnockback.x < 0 && transform.localScale.x < 0) 
+               || (appliedKnockback.x > 0 && transform.localScale.x > 0)){
+               FlipCharacter();
             }
-            
+         
          } else {
-            KnockdownMeter -= RecievedAttack[i].KnockdownPressure;
+            KnockdownMeter -= i.KnockdownPressure;
          }
-         CurrentHealth -= RecievedAttack[i].Damage;
+         CurrentHealth -= i.Damage;
+         i.Used = true;
          //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
-         RecievedAttack[i].StatsApplied = true;
       }
+      IsAttacked = false;
+      // for (int i = 0; i < _receivedAttacks.Length; i++) {
+      //    if (RecievedAttack[i].StatsApplied || !RecievedAttack[i].Used) continue;
+      //       
+      // if (KnockedDown) {
+      //    Vector2 appliedKnockback = RecievedAttack[i].KnockbackDirection;
+      //    if (RecievedAttack[i].AttackedFromRightSide) {
+      //       appliedKnockback = new Vector2(appliedKnockback.x * -4, appliedKnockback.y);
+      //    }
+      //    appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
+      //    Rigidbody.velocity = Vector3.zero;
+      //    // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
+      //    Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
+      //    Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + this.transform.localScale.x);
+      //    if((appliedKnockback.x < 0 && this.transform.localScale.x < 0) 
+      //       || (appliedKnockback.x > 0 && this.transform.localScale.x > 0)){
+      //       this.FlipCharacter();
+      //    }
+      //    
+      // } else {
+      //    KnockdownMeter -= RecievedAttack[i].KnockdownPressure;
+      // }
+      // CurrentHealth -= RecievedAttack[i].Damage;
+      // //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
+      // RecievedAttack[i].StatsApplied = true;
+      // }
    }
 
    /// <summary>
