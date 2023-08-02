@@ -21,7 +21,15 @@ using UnityEngine;
 /// </summary>
 public class EnemyStateMachine : MonoBehaviour {
     // Static Variables
-    private static int _enemiesFlanking;
+    public static int leftEnemies = 0;
+    public static int leftPursuingEnemies = 0;
+    public static int leftPursuingMax = 2;
+
+    public static int rightEnemies = 0;
+    public static int rightPursuingEnemies = 0;
+    public static int rightPursuingMax = 2;
+
+    // Static Variables Getter/Setter
 
     /// <summary>
     /// For identifying the type of enemy this enemy is representing
@@ -32,6 +40,15 @@ public class EnemyStateMachine : MonoBehaviour {
         Heavy,
         Medium,
         Light,
+    };
+
+    /// <summary>
+    /// For identifying which side this enemy is going to go towards
+    /// SCRIPTS: EnemyAttackingState, EnemyMovingState
+    /// </summary>
+    public enum FlankType {
+        Left,
+        Right,
     };
 
     //// Variables
@@ -46,9 +63,10 @@ public class EnemyStateMachine : MonoBehaviour {
     public int maxHealth = 100;             // Added by Abdul: Max health of the enemy
     public float activationDistance = 15;   // Added by Abdul: The distance between the player and enemy in order for the enemy to start chasing
     public float attackReliefTime = .15f;  // Added by Abdul: Time between attacks until attacking again in seconds.
-    public float attackDistance = 3;       // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking
+    public float attackDistance = 3.25f;       // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking
+    public float zAttackDistance = .9f;    // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking on the z plane
     public float movementSpeed = 5;        // Added by Abdul: The movement speed of the enemy
-    public float distanceGoal = 3.65f;      // Added by Abdul: Distance that the enemy will try to keep between it and the goal
+    public float distanceGoal = 2.65f;     // Added by Abdul: Distance that the enemy will try to keep between it and the goal
     // public float maxGoalOffset = .8f;     // Added by Abdul: The offset the enemy will go from left/right of the player
 
     // Attacks
@@ -162,6 +180,12 @@ public class EnemyStateMachine : MonoBehaviour {
     public SpriteEffects SpriteEffects { get => gameObject.GetComponent<SpriteEffects>(); }
     public bool FinishedInitialization { get => _finishedInitialization; }
 
+    // Added of 8/1/2023
+    public bool DontAttack { get; set; }
+    public bool CanPursue { get; set; }
+    public FlankType EnemyFlankType { get; set; }
+    public float EnemyFlankDistanceGoal{ get; set; } 
+
 
     // Functions
     
@@ -199,6 +223,30 @@ public class EnemyStateMachine : MonoBehaviour {
         _currentState = _states.Idle();
         _currentState.EnterState();
         _finishedInitialization = true;
+
+        // Determining Left/Right
+        if (Mathf.Abs(leftEnemies - rightEnemies) < 3) {
+            int dirNumber = UnityEngine.Random.Range(1, 3); // 1 for right, 2 for left
+            if (dirNumber == 1) {
+                EnemyFlankType = FlankType.Right;
+                rightEnemies++;
+            } else {
+                EnemyFlankType = FlankType.Left;
+                leftEnemies++;
+            }
+        } else {
+            if (leftEnemies > rightEnemies) {
+                EnemyFlankType = FlankType.Right;
+                rightEnemies++;
+            } else {
+                EnemyFlankType = FlankType.Left;
+                leftEnemies++;
+            }
+        }
+        // EnemyFlankType = FlankType.Right;
+        // rightEnemies++;
+
+        CanPursue = false;
     }
 
     void Update() {
@@ -207,6 +255,9 @@ public class EnemyStateMachine : MonoBehaviour {
         if (CurrentState != null) {
             _currentState.UpdateStates();
         }
+
+        // Debug.Log(CurrentState + " sub: " + CurrentState.CurrentSubState);
+        Debug.Log("IS GROUNDED?: " + IsGrounded);
     }
     
     public bool CheckIfGrounded()

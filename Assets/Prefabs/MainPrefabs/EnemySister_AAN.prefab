@@ -1257,7 +1257,7 @@ Transform:
   - {fileID: 6567936611830985798}
   - {fileID: 8827876403873971900}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6131943060730053032
 Rigidbody:
@@ -1304,9 +1304,10 @@ MonoBehaviour:
   maxHealth: 400
   activationDistance: 12
   attackReliefTime: 1
-  attackDistance: 3
-  movementSpeed: 2
-  distanceGoal: 3.65
+  attackDistance: 3.2
+  zAttackDistance: 0.9
+  movementSpeed: 5
+  distanceGoal: 2.6
   heavyAttackBounds: {fileID: 6305237836866135980}
   mediumAttackBounds: {fileID: 1389033172223256393}
   lightAttackBounds: {fileID: 4663574474443355849}

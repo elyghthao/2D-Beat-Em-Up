@@ -29,8 +29,11 @@ public class EnemyMovingState : EnemyBaseState {
       vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
 
       // Only will move towards goal when it is a certain distance away from it
-      if (distanceToGoal > Ctx.distanceGoal){
+      if (((distanceToGoal > Ctx.distanceGoal) || Ctx.DontAttack)){
          Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
+      } else {
+         Vector3 newVecGoal = new Vector3(0, 0, vecToGoal.z + Random.Range(-.7f, .7f));
+         Ctx.Rigidbody.AddForce(newVecGoal, ForceMode.Force);
       }
 
       // Old Eli's Code
@@ -44,7 +47,8 @@ public class EnemyMovingState : EnemyBaseState {
 
       // Make it so the right of enemy will always face the Transform goal when chasing
       Vector3 enemyScale = Ctx.transform.localScale;
-      if (vecToGoal.x > 0) {
+      Vector3 vecToPlayer = Ctx.MovingGoal.position - Ctx.gameObject.transform.position;
+      if (vecToPlayer.x > 0) {
          // Ctx.transform.localEulerAngles = new Vector3(0, 0, 0);
          Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
       } else {
@@ -79,7 +83,11 @@ public class EnemyMovingState : EnemyBaseState {
       if (CurrentPlayerMachine == null) {
          SwitchState(Factory.Idle());
       } else {
-         float dist = Vector3.Distance(Ctx.gameObject.transform.position, CurrentPlayerMachine.gameObject.transform.position);
+         Vector3 vecToGoal = Ctx.gameObject.transform.position - Ctx.MovingGoal.position;
+         if (Ctx.DontAttack) { return; } // If the enemy does not want to attack, he wont.
+         if (Mathf.Abs(vecToGoal.z) > Ctx.zAttackDistance) { return; } // Enemy is too far on the z axis, so do not attack yet
+
+         float dist = Vector3.Distance(Ctx.gameObject.transform.position, Ctx.MovingGoal.position);
          if (dist > Ctx.activationDistance) { // too far, go back to idle
             SwitchState(Factory.Idle());
          } else if (dist <= Ctx.attackDistance) {
@@ -95,12 +103,20 @@ public class EnemyMovingState : EnemyBaseState {
 
    public override void InitializeSubState() {
       // If a heavy enemy, they will only ever chase
-      if (Ctx.enemyType == EnemyStateMachine.EnemyType.Heavy) {
-         SetSubState(Factory.Chase());
-      } else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Medium) {
-         SetSubState(Factory.Chase());
-      }else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Light) {
-         SetSubState(Factory.Chase());
+      // if (Ctx.enemyType == EnemyStateMachine.EnemyType.Heavy) {
+      //    SetSubState(Factory.Chase());
+      // } else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Medium) {
+      //    SetSubState(Factory.Chase());
+      // }else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Light) {
+      //    SetSubState(Factory.Chase());
+      // }
+
+      if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
+         Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+         SetSubState(Factory.RightFlankState());
+      } else {
+         Ctx.EnemyFlankDistanceGoal = 7;
+         SetSubState(Factory.LeftFlankState());
       }
 
       // Only state that should be set to the substate initially is the Stunned state

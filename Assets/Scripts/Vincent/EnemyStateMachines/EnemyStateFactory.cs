@@ -124,4 +124,22 @@ public class EnemyStateFactory {
    public EnemyBaseState Dead() {
       return new EnemyDeathState(_context, this);
    }
+
+   /// <summary>
+   /// Creates a new EnemyRightFlankState
+   /// By Abdul
+   /// </summary>
+   /// <returns> new EnemyRightFlankState</returns>
+   public EnemyBaseState RightFlankState() {
+      return new EnemyRightFlankState(_context, this);
+   }
+
+   /// <summary>
+   /// Creates a new EnemyLeftFlankState
+   /// By Abdul
+   /// </summary>
+   /// <returns> new EnemyRightFlankState</returns>
+   public EnemyBaseState LeftFlankState() {
+      return new EnemyLeftFlankState(_context, this);
+   }
 }
