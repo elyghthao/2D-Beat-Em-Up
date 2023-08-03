@@ -16,6 +16,7 @@ public class PlayerMoveState : PlayerBaseState
       // Applies movement to the player depending on the player input
       Ctx.Rigidbody.velocity = new Vector3(moveDir.x, 0, moveDir.y);
       Ctx.SpeedControl();
+      Ctx.StaminaRegenAllowed = true;
    }
 
    public override void UpdateState() {

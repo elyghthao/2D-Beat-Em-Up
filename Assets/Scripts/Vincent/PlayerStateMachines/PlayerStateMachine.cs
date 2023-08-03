@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum Attacks {
    LightAttack1,
@@ -89,8 +90,13 @@ public class PlayerStateMachine : MonoBehaviour {
    [Header("Combat Stats")]
 
    public int maxHealth = 100;
-   
-   public bool gotHealed = false;
+
+   public bool gotHealed;
+   [FormerlySerializedAs("maxStamina")] public float stamina;
+   [Tooltip("Time in seconds it takes for stamina to regenerate after performing an action")]
+   public float staminaRegenDelay;
+   [Tooltip("The amount of stamina regenerated per second")]
+   public float staminaRegenRate;
    
    [Tooltip("How much knockdown pressure this character can take before entering the knockdown state")]
    public int knockdownMax = 150;
@@ -195,6 +201,10 @@ public class PlayerStateMachine : MonoBehaviour {
 
    public SpriteEffects SpriteEffects { get; private set; }
 
+   public float Stamina { get; set; }
+   public bool StaminaRegenAllowed { get; set; }
+   public float StaminaRegenDelay { get; private set; }
+
    // Functions
 
    private void Awake() {
@@ -219,6 +229,8 @@ public class PlayerStateMachine : MonoBehaviour {
       Rigidbody.freezeRotation = true;
 
       CurrentHealth = maxHealth;
+      Stamina = stamina;
+      StaminaRegenDelay = staminaRegenDelay;
 
       // enter initial state. All assignments should go before here
       _states = new PlayerStateFactory(this);
@@ -235,6 +247,9 @@ public class PlayerStateMachine : MonoBehaviour {
          FollowupTimer -= Time.deltaTime;
          //Debug.Log("Followup Timer: " + FollowupTimer);
       }
+
+      if (StaminaRegenAllowed) RegenerateStamina();
+      else StaminaRegenDelay = staminaRegenDelay;
    }
 
    /// <summary>
@@ -436,5 +451,17 @@ public class PlayerStateMachine : MonoBehaviour {
    public void ResetAttackQueue() {
       QueuedAttack = null;
       CanQueueAttacks = false;
+   }
+
+   private void RegenerateStamina() {
+      StaminaRegenDelay -= Time.deltaTime;
+      if (StaminaRegenDelay <= 0) {
+         Stamina += staminaRegenRate * Time.deltaTime;
+         if (Stamina >= stamina) {
+            Stamina = stamina;
+            StaminaRegenDelay = staminaRegenDelay;
+            StaminaRegenAllowed = false;
+         }
+      }
    }
 }

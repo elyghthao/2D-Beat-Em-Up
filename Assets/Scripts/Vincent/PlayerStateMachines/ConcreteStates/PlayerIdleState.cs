@@ -13,6 +13,7 @@ public class PlayerIdleState : PlayerBaseState
 
    public override void EnterState() {
       Ctx.BaseMaterial.color = Color.green;
+      Ctx.StaminaRegenAllowed = true;
    }
 
    public override void UpdateState() {
