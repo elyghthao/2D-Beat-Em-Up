@@ -328,7 +328,8 @@ public class PlayerStateMachine : MonoBehaviour {
       var curPos = transform.position;
       // Debug.DrawRay(curPos, -Vector3.up * 0.3f, Color.red);
       if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.25f, curPos.z), -transform.up * 0.3f, out hit, .2f))
-         return true;
+         if(hit.collider.CompareTag("Ground"))
+                return true;
       return false;
    }
 
