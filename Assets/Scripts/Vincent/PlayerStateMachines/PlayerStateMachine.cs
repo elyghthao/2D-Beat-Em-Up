@@ -350,7 +350,6 @@ public class PlayerStateMachine : MonoBehaviour {
                || (appliedKnockback.x > 0 && transform.localScale.x > 0)){
                FlipCharacter();
             }
-         
          } else {
             KnockdownMeter -= i.KnockdownPressure;
             // if(KnockdownMeter <= 0) KnockdownMeter = knockdownMax;

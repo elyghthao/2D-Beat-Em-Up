@@ -100,9 +100,16 @@ Shader "Unlit/ShockwavePostEffect"
             float _UpperFeather;
             float _BottomFeather;
             float _RippleIntensity;
+            float3 _WorldPosition;
+
+            float2 ConvertToViewportPosition(float3 p)
+            {
+                return float2(1,1);
+            }
             
             fixed4 frag (v2f i) : SV_Target
             {
+                
                 float2 newUV = i.uv * 2 - 1;
                 float timer = frac(_Time.y);
                 float len = length(newUV);
