@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public enum Attacks {
    LightAttack1,
@@ -204,7 +205,7 @@ public class PlayerStateMachine : MonoBehaviour {
    public float Stamina { get; set; }
    public bool StaminaRegenAllowed { get; set; }
    public float StaminaRegenDelay { get; private set; }
-
+   public bool IsDead {get; private set;}
    // Functions
 
    private void Awake() {
@@ -239,8 +240,17 @@ public class PlayerStateMachine : MonoBehaviour {
       FinishedInitialization = true;
    }
 
+   private void Start(){
+      KnockdownMeter = knockdownMax;
+      IsDead = false;
+   }
+
    // Update is called once per frame
    private void Update() {
+      // Debug.Log("knockdown meter: " + KnockdownMeter);
+      if(KnockdownMeter < knockdownMax) {//knockdown meter can regen
+            KnockdownMeter += (3*Time.deltaTime);
+      }
       CurrentState.UpdateStates();
       IsGrounded = CheckIfGrounded();
       if (FollowupTimer > 0) {
@@ -273,7 +283,7 @@ public class PlayerStateMachine : MonoBehaviour {
    private void OnTriggerEnter(Collider other) {
       // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
       // be first before anything else
-      //ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+      ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
       AttackBoundsManager otherAttackManager;
       if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
          if (_receivedAttacks.ContainsKey(other.gameObject)) return;
@@ -317,12 +327,13 @@ public class PlayerStateMachine : MonoBehaviour {
       RaycastHit hit;
       var curPos = transform.position;
       // Debug.DrawRay(curPos, -Vector3.up * 0.3f, Color.red);
-      if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.25f, curPos.z), -transform.up * 0.3f, out hit, 1f))
+      if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.25f, curPos.z), -transform.up * 0.3f, out hit, .2f))
          return true;
       return false;
    }
 
    public void ApplyAttackStats() {
+      // Debug.Log(InputSys.IsBlockHeld);
       foreach (AttackType i in _receivedAttacks.Values) {
          if (i.Used) continue;
          if (KnockedDown) {
@@ -334,7 +345,7 @@ public class PlayerStateMachine : MonoBehaviour {
             Rigidbody.velocity = Vector3.zero;
             // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
             Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
-            Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + transform.localScale.x);
+            // Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + transform.localScale.x);
             if((appliedKnockback.x < 0 && transform.localScale.x < 0) 
                || (appliedKnockback.x > 0 && transform.localScale.x > 0)){
                FlipCharacter();
@@ -342,10 +353,12 @@ public class PlayerStateMachine : MonoBehaviour {
          
          } else {
             KnockdownMeter -= i.KnockdownPressure;
+            // if(KnockdownMeter <= 0) KnockdownMeter = knockdownMax;
          }
          CurrentHealth -= i.Damage;
          i.Used = true;
          //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
+         
       }
       IsAttacked = false;
       // for (int i = 0; i < _receivedAttacks.Length; i++) {
@@ -464,4 +477,16 @@ public class PlayerStateMachine : MonoBehaviour {
          }
       }
    }
+   public void SetDead() {
+      Scene current_scene = SceneManager.GetActiveScene();
+      SceneManager.LoadScene(current_scene.name);
+    }
+
+
+   public IEnumerator DeathTimeDelay(float waitTime){
+        yield return new WaitForSeconds(waitTime);
+        IsDead = true;
+        yield return new WaitForSeconds(0.5f);
+        this.SetDead();
+    }
 }

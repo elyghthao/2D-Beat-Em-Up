@@ -11,8 +11,9 @@ public class PlayerDeathState : PlayerBaseState
    }
 
    public override void EnterState() {
-      Scene current_scene = SceneManager.GetActiveScene();
-      SceneManager.LoadScene(current_scene.name);
+      // Scene current_scene = SceneManager.GetActiveScene();
+      // SceneManager.LoadScene(current_scene.name);
+      Ctx.StartCoroutine(Ctx.DeathTimeDelay(2));
    }
 
    public override void UpdateState() {

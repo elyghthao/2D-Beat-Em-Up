@@ -187,6 +187,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public bool CanPursue { get; set; }
     public FlankType EnemyFlankType { get; set; }
     public float EnemyFlankDistanceGoal{ get; set; } 
+    public bool inPosition = false; //used for animation controller
 
 
     // Functions
@@ -259,7 +260,7 @@ public class EnemyStateMachine : MonoBehaviour {
         }
 
         // Debug.Log(CurrentState + " sub: " + CurrentState.CurrentSubState);
-        Debug.Log("IS GROUNDED?: " + IsGrounded);
+        // Debug.Log("IS GROUNDED?: " + IsGrounded);
     }
     
     public bool CheckIfGrounded()
@@ -267,7 +268,7 @@ public class EnemyStateMachine : MonoBehaviour {
         RaycastHit hit;
         Vector3 curPos = transform.position;
         Debug.DrawRay(curPos, -Vector3.up * 0.5f, Color.red);
-        if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.1f, curPos.z), -transform.up * 0.3f, out hit, 1f)) {
+        if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.1f, curPos.z), -transform.up * .5f, out hit, .1f)) {
             if(hit.collider.CompareTag("Ground"))
                 return true;
         }
@@ -328,7 +329,7 @@ public class EnemyStateMachine : MonoBehaviour {
                 Rigidbody.velocity = Vector3.zero;
                 // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
                 Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
-                Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + transform.localScale.x);
+                // Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + transform.localScale.x);
             } else {
                 KnockdownMeter -= i.KnockdownPressure;
             }
@@ -357,5 +358,9 @@ public class EnemyStateMachine : MonoBehaviour {
             Vector3 limitedVelocity = flatVelocity.normalized * movementSpeed;
             _rigidbody.velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z);
         }
+    }
+    public IEnumerator DeathTimeDelay(float waitTime){
+        yield return new WaitForSeconds(waitTime);
+        this.SetDead();
     }
 }
