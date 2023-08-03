@@ -85,7 +85,8 @@ public class Pause_and_Game_Over : MonoBehaviour
         }
         
         // If the player's health reaches 0 and the game is not over, then the game is over.
-        if (player.GetComponent<PlayerStateMachine>().CurrentHealth <= 0 && game_over == false)
+        // if (player.GetComponent<PlayerStateMachine>().CurrentHealth <= 0 && game_over == false)
+        if (player.GetComponent<PlayerStateMachine>().IsDead && game_over == false)
         {
             GameOver();   
         }

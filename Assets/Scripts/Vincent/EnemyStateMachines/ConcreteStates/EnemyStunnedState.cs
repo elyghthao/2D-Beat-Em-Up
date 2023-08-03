@@ -11,7 +11,7 @@ public class EnemyStunnedState : EnemyBaseState {
    }
 
    public override void EnterState() {
-      //Debug.Log("ENEMY SUB: ENTERED STUNNED");
+      // Debug.Log("ENEMY SUB: ENTERED STUNNED");
       // Sets material color Orange
       if (!Ctx.KnockedDown) {
          Ctx.BaseMaterial.color = new Color(255, 165, 0);
@@ -34,6 +34,7 @@ public class EnemyStunnedState : EnemyBaseState {
 
    public override void CheckSwitchStates() {
       // If we've been attacked, check to see if we should be knocked down or not.
+      // Debug.Log("isgrounded: " + Ctx.IsGrounded + "     knockeddown: " + Ctx.KnockedDown + "     wentAirborne: " + _wentAirborne);
       if (Ctx.IsGrounded && Ctx.KnockedDown && _wentAirborne) {
          SwitchState(Factory.Recovery());
          return;
@@ -45,6 +46,8 @@ public class EnemyStunnedState : EnemyBaseState {
             SwitchState(Factory.KnockedDown());
          }
       }
+
+      
       // Otherwise, stay in stunned until our root state switches us to a different state
    }
 
