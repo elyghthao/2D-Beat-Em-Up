@@ -22,7 +22,9 @@ public class PlayerLAttackState : PlayerBaseState {
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.lightAttackBounds.SetActive(true);
       Ctx.FollowupTimer = Ctx.attackFollowupThreshold;
-      Ctx.MostRecentAttack = this.ToString();
+      Ctx.MostRecentAttack = ToString();
+      Ctx.StaminaRegenAllowed = false;
+      Ctx.Stamina -= Ctx.LightBounds.staminaDrain;
    }
 
    public override void UpdateState() {
@@ -32,7 +34,8 @@ public class PlayerLAttackState : PlayerBaseState {
       _currentFrameState = Ctx.FrameState(Ctx.LightBounds, _currentFrame, Ctx.lightStartupFrames, Ctx.lightActiveFrames,
          Ctx.lightRecoveryFrames);
       //Debug.Log("CurrentFrameState for LightAttack: " + _currentFrameState);
-      if (Ctx.InputSys.IsLightAttackPressed && _currentFrameState >= 2 && !Ctx.InputSys.IsActionHeld) {
+      if (Ctx.InputSys.IsLightAttackPressed && _currentFrameState >= 2 && !Ctx.InputSys.IsActionHeld
+          && Ctx.Stamina >= Ctx.LightFirstFollowupBounds.staminaDrain) {
          Ctx.QueuedAttack = Factory.LightFirstFollowupAttack();
          //Debug.Log("LightAttack 1 Queued");
       }

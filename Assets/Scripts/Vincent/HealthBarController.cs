@@ -8,7 +8,7 @@ public class HealthBarController : MonoBehaviour {
    public Color rightColor;
    public EnemyStateMachine enemyState;
    public PlayerStateMachine playerState;
-   [FormerlySerializedAs("cornerRound")] public float boarderRound;
+   public float boarderRound;
    public float healthBarRound;
    public float currentHealth = 100;
    public float maxHealth = 150;
@@ -21,10 +21,10 @@ public class HealthBarController : MonoBehaviour {
    // Cached property references
    private static readonly int LeftColor = Shader.PropertyToID("_LeftColor");
    private static readonly int RightColor = Shader.PropertyToID("_RightColor");
-   private static readonly int MaxHealth = Shader.PropertyToID("_MaxHealth");
-   private static readonly int CurrentHealth = Shader.PropertyToID("_CurrentHealth");
+   private static readonly int MaxValue = Shader.PropertyToID("_MaxValue");
+   private static readonly int CurrentValue = Shader.PropertyToID("_CurrentValue");
    private static readonly int BoarderRound = Shader.PropertyToID("_BoarderRound");
-   private static readonly int HealthBarRound = Shader.PropertyToID("_HealthBarRound");
+   private static readonly int BarRound = Shader.PropertyToID("_BarRound");
 
    // Start is called before the first frame update
    private void Start() {
@@ -84,10 +84,10 @@ public class HealthBarController : MonoBehaviour {
 
       _healthMaterial.SetColor(LeftColor, leftColor);
       _healthMaterial.SetColor(RightColor, rightColor);
-      _healthMaterial.SetFloat(MaxHealth, maxHealth);
-      _healthMaterial.SetFloat(CurrentHealth, currentHealth);
+      _healthMaterial.SetFloat(MaxValue, maxHealth);
+      _healthMaterial.SetFloat(CurrentValue, currentHealth);
       _healthMaterial.SetFloat(BoarderRound, boarderRound);
-      _healthMaterial.SetFloat(HealthBarRound, healthBarRound);
+      _healthMaterial.SetFloat(BarRound, healthBarRound);
    }
 
    private void PlayerUpdate() {

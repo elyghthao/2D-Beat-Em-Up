@@ -1,13 +1,13 @@
-Shader "Unlit/HealthBarShader"
+Shader "Unlit/GUI_BarShader"
 {
     Properties
     {
         _LeftColor ("Left Color", Color) = (1,1,1,1)
         _RightColor ("Right Color", Color) = (1,1,1,1)
-        _MaxHealth ("Max Health", float) = 1.0
-        _CurrentHealth("Current Health", float) = 1.0
+        _MaxValue ("Max Value", float) = 1.0
+        _CurrentValue("Current Value", float) = 1.0
         _BoarderRound("Boarder Round", float) = 0.02
-        _HealthBarRound("HealthBar Round", float) = 0.02
+        _BarRound("Bar Round", float) = 0.02
     }
     SubShader
     {
@@ -35,10 +35,10 @@ Shader "Unlit/HealthBarShader"
             };
             float4 _LeftColor;
             float4 _RightColor;
-            float _MaxHealth;
-            float _CurrentHealth;
+            float _MaxValue;
+            float _CurrentValue;
             float _BoarderRound;
-            float _HealthBarRound;
+            float _BarRound;
 
             v2f vert (appdata v)
             {
@@ -70,17 +70,17 @@ Shader "Unlit/HealthBarShader"
                     );
                 boarderSdf = ceil(boarderSdf);
                 clip(0.5 - boarderSdf);
-                float2 hBarLeftPoint = float2(0.05, 0.5);
-                float2 hBarRightPoint = float2(0.95, 0.5);
-                float3 hBarSdf = float3(
-                    sdRoundedSegment(p, hBarLeftPoint, hBarRightPoint, _HealthBarRound).xxx
+                float2 barLeftPoint = float2(0.05, 0.5);
+                float2 barRightPoint = float2(0.95, 0.5);
+                float3 barSdf = float3(
+                    sdRoundedSegment(p, barLeftPoint, barRightPoint, _BarRound).xxx
                     );
-                hBarSdf = ceil(hBarSdf);
-                float3 result = 1 - (boarderSdf + hBarSdf);
-                float normalizedHealth = (_CurrentHealth + 3.2)/(_MaxHealth + 6.4);
-                float healthPool = step(normalizedHealth, i.uv.x);
-                float3 colResult = ((1 - healthPool * 1) * _LeftColor.rgb);
-                colResult += healthPool * _RightColor;
+                barSdf = ceil(barSdf);
+                float3 result = 1 - (boarderSdf + barSdf);
+                float normalizedValue = (_CurrentValue + 3.2)/(_MaxValue + 6.4);
+                float valuePool = step(normalizedValue, i.uv.x);
+                float3 colResult = ((1 - valuePool * 1) * _LeftColor.rgb);
+                colResult += valuePool * _RightColor;
                 result = min(result, colResult);
                 return fixed4(result, 1);
             }
