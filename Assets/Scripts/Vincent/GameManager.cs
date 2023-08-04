@@ -127,14 +127,14 @@ public class GameManager : MonoBehaviour {
          healthBarController.playerState = _playerRef;
          healthBarController.offset = new Vector3(0, 5, 0);
          healthBarController.sizeOffset = new Vector3(1f, 1f, 1f);
-         healthBarController.leftColor = Color.green;
+         healthBarController.leftColor = Color.red;
 
          GameObject currentStaminaBar = Instantiate(staminaBarPrefab);
          var staminaBarController = currentStaminaBar.GetComponent<StaminaBarController>();
          staminaBarController.playerState = _playerRef;
          staminaBarController.offset = new Vector3(0, 5.25f, 0);
          staminaBarController.sizeOffset = new Vector3(1f, 1f, 1f);
-         staminaBarController.leftColor = Color.blue;
+         staminaBarController.leftColor = Color.green;
       } catch (Exception e){ Debug.Log("Player couldn't be added to GameManager:\n" + e);}
    }
 
