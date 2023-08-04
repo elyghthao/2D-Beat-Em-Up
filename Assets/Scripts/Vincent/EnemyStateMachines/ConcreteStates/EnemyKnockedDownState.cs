@@ -24,6 +24,10 @@ public class EnemyKnockedDownState : EnemyBaseState {
       CheckSwitchStates();
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       // Debug.Log("ENEMY SUB: EXITED KNOCKDOWN");
       Ctx.KnockdownMeter = Ctx.knockdownMax;

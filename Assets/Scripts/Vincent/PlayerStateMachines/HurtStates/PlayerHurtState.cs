@@ -27,6 +27,10 @@ public class PlayerHurtState : PlayerBaseState
       }
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       // Debug.Log("ROOT: EXITED HURT");
       Ctx.KnockedDown = false;

@@ -20,6 +20,10 @@ public class PlayerMoveState : PlayerBaseState
    }
 
    public override void UpdateState() {
+      
+   }
+
+   public override void FixedUpdateState() {
       Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
       // Applies movement to the player depending on the player input
       // Debug.Log(moveDir);

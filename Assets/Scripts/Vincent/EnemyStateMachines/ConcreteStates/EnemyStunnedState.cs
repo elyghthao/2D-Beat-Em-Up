@@ -28,6 +28,10 @@ public class EnemyStunnedState : EnemyBaseState {
       }
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       //Debug.Log("ENEMY SUB: EXITED STUNNED");
    }

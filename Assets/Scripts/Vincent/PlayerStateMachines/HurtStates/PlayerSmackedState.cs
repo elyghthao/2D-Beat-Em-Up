@@ -25,6 +25,10 @@ public class PlayerSmackedState : PlayerBaseState
         }
     }
 
+    public override void FixedUpdateState() {
+        
+    }
+
     public override void ExitState() {
         // Debug.Log("SUB: EXITED SMACKED");
     }

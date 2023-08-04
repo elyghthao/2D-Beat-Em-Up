@@ -12,6 +12,10 @@ public class EnemyRecoveryState : EnemyBaseState {
       // Waiting for superstate to change states
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       // Debug.Log("ENEMY EXITING SUBSTATE: RECOVERY");
    }

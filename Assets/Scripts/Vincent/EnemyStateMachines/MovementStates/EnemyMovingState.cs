@@ -17,6 +17,10 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void UpdateState() {
+      
+   }
+
+   public override void FixedUpdateState() {
       // Chasing goal Transform and offsets
       Vector3 goalPos = Ctx.MovingGoal.position; // NOTE: The y for the MovingGoalOffset is really the z
       goalPos.x += Ctx.MovingGoalOffset.x;

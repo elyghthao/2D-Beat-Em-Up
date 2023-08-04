@@ -22,6 +22,10 @@ public class PlayerKnockedDownState : PlayerBaseState
         CheckSwitchStates();
     }
 
+    public override void FixedUpdateState() {
+        
+    }
+
     public override void ExitState() {
         // Debug.Log("SUB: EXITED KNOCKDOWN");
         Ctx.KnockdownMeter = Ctx.knockdownMax;
