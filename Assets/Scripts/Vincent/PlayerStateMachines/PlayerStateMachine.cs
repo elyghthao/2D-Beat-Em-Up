@@ -261,6 +261,7 @@ public class PlayerStateMachine : MonoBehaviour {
       }
 
       // Debug.Log(CurrentState + " sub: " + CurrentState.CurrentSubState);
+      // Debug.Log("Attacking? - " + IsLightAttackPressed);
 
       if (StaminaRegenAllowed) RegenerateStamina();
       else StaminaRegenDelay = staminaRegenDelay;
