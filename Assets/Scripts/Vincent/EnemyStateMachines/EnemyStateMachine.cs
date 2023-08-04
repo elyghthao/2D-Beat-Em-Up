@@ -286,7 +286,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
         // be first before anything else
-        ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+        //ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         AttackBoundsManager otherAttackManager;
         if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
             if (_receivedAttacks.ContainsKey(other.gameObject)) return;
