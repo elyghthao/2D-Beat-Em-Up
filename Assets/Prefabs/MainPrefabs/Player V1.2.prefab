@@ -20332,8 +20332,8 @@ MonoBehaviour:
   maxHealth: 400
   gotHealed: 0
   stamina: 200
-  staminaRegenDelay: 0.75
-  staminaRegenRate: 25
+  staminaRegenDelay: 0.25
+  staminaRegenRate: 35
   knockdownMax: 150
   attackFollowupThreshold: 0.75
   movementSpeed: 6.5

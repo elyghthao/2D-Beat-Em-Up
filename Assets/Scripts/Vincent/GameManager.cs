@@ -85,6 +85,8 @@ public class GameManager : MonoBehaviour {
          return;
       }
 
+      Application.targetFrameRate = 60;
+
       Instance = this;
       _inputSystem = GetComponent<InputSystem>();
       AddPlayer();
