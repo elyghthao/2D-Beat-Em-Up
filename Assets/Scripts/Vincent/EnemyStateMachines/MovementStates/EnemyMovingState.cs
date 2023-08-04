@@ -17,7 +17,7 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void UpdateState() {
-      
+      CheckSwitchStates();
    }
 
    public override void FixedUpdateState() {
@@ -71,8 +71,6 @@ public class EnemyMovingState : EnemyBaseState {
          // Debug.Log("Degenerating: " + Ctx.KnockdownMeter);
          Ctx.KnockdownMeter = Ctx.knockdownMax;
       }
-      
-      CheckSwitchStates();
    }
 
    public override void ExitState() {
