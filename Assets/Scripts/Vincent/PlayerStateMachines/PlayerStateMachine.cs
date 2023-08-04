@@ -482,7 +482,9 @@ public class PlayerStateMachine : MonoBehaviour {
       if (StaminaRegenDelay <= 0) {
          Stamina += staminaRegenRate * Time.deltaTime;
          if (Stamina >= stamina) {
-            Stamina = stamina;
+            if (Stamina < 1000) { // Won't reset stamina if we're in cheat mode for stamina
+               Stamina = stamina;
+            }
             StaminaRegenDelay = staminaRegenDelay;
             StaminaRegenAllowed = false;
          }
