@@ -20,7 +20,9 @@ public class PlayerL2AttackState : PlayerBaseState
       //Debug.Log("SUB: ENTERED LIGHT 2");
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.lightSecondFollowupAttackBounds.SetActive(true);
-      Ctx.MostRecentAttack = this.ToString();
+      Ctx.MostRecentAttack = ToString();
+      Ctx.StaminaRegenAllowed = false;
+      Ctx.Stamina -= Ctx.LightSecondFollowupBounds.staminaDrain;
    }
 
    public override void UpdateState() {

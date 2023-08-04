@@ -42,11 +42,11 @@ public class PlayerAttackState : PlayerBaseState
    public override void InitializeSubState() {
       if (Ctx.QueuedAttack != null) {
          SetSubState(Ctx.QueuedAttack);
-      } else if (Ctx.IsLightAttackPressed) {
+      } else if (Ctx.IsLightAttackPressed && Ctx.Stamina >= Ctx.LightBounds.staminaDrain) {
          SetSubState(Factory.LightAttack());
-      } else if (Ctx.IsMediumAttackPressed) {
+      } else if (Ctx.IsMediumAttackPressed && Ctx.Stamina >= Ctx.MediumBounds.staminaDrain) {
          SetSubState(Factory.MediumAttack());
-      } else if (Ctx.IsPowerupPressed) {
+      } else if (Ctx.IsPowerupPressed && Ctx.Stamina >= Ctx.HeavyBounds.staminaDrain) {
          if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Slam)) {
             SetSubState(Factory.HeavyAttack());
          } else if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Dash)) {

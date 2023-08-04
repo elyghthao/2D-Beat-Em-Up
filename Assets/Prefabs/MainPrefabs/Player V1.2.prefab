@@ -5025,7 +5025,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505895817240270876}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.92, y: 1.5475, z: -0.09}
+  m_LocalPosition: {x: 0.92, y: 1.5475, z: 0}
   m_LocalScale: {x: 0.74208343, y: 0.89490324, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5102,7 +5102,7 @@ BoxCollider:
   m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.73566675}
-  m_Center: {x: 0, y: 0, z: 0.12339121}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3555634027209526826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5115,6 +5115,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedAttack: 0
+  knockback: {x: 10, y: 500}
+  pressure: 40
+  damage: 5
+  staminaDrain: 10
 --- !u!82 &5020132420625414097
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15170,7 +15175,7 @@ BoxCollider:
   m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1.5938323}
-  m_Center: {x: 0, y: 0, z: 0.11485681}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &803232741873068419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15183,6 +15188,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedAttack: 4
+  knockback: {x: 800, y: 100}
+  pressure: 80
+  damage: 50
+  staminaDrain: 20
 --- !u!65 &3303134764496639748
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15203,7 +15213,7 @@ BoxCollider:
   m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.2520262, y: 0.68798757, z: 1.5978928}
-  m_Center: {x: -0.5243136, y: 0.7193558, z: 0.11008835}
+  m_Center: {x: -0.5243136, y: 0.7193558, z: 0}
 --- !u!82 &968933021107906635
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20279,7 +20289,7 @@ Transform:
   - {fileID: 255484835501428074}
   - {fileID: 6998403500305107150}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6455313215113512474
 MonoBehaviour:
@@ -20294,8 +20304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 140674419555158845}
-  maxHealth: 400
-  gotHealed: 0
   heavyAttackBounds: {fileID: 5247690065994906466}
   mediumAttackBounds: {fileID: 7825572174776549748}
   mediumFirstFollowupAttackBounds: {fileID: 2272030184571502402}
@@ -20321,6 +20329,11 @@ MonoBehaviour:
   light2StartupFrames: 17
   light2ActiveFrames: 19
   light2RecoveryFrames: 33
+  maxHealth: 400
+  gotHealed: 0
+  stamina: 100
+  staminaRegenDelay: 1
+  staminaRegenRate: 25
   knockdownMax: 100
   attackFollowupThreshold: 0.75
   movementSpeed: 6.5
@@ -25471,7 +25484,7 @@ BoxCollider:
   m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 2.1630955}
-  m_Center: {x: 0, y: 0, z: 0.19872642}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7669803558686549630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25484,6 +25497,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedAttack: 5
+  knockback: {x: 800, y: 800}
+  pressure: 300
+  damage: 5
+  staminaDrain: 70
 --- !u!82 &1916134075735392104
 AudioSource:
   m_ObjectHideFlags: 0
@@ -30437,7 +30455,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5483468236248993634}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0372, y: 1.6582, z: -0.09}
+  m_LocalPosition: {x: 1.0372, y: 1.6582, z: 0}
   m_LocalScale: {x: 0.8604059, y: 0.6040198, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30514,7 +30532,7 @@ BoxCollider:
   m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.73566675}
-  m_Center: {x: 0, y: 0, z: 0.12339121}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7116268282529373138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30527,6 +30545,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedAttack: 1
+  knockback: {x: 50, y: 250}
+  pressure: 60
+  damage: 15
+  staminaDrain: 10
 --- !u!82 &2853785168238711029
 AudioSource:
   m_ObjectHideFlags: 0
@@ -30792,7 +30815,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7798247080663870650}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2173, y: 1.5421, z: -0.09}
+  m_LocalPosition: {x: 1.2173, y: 1.5421, z: 0}
   m_LocalScale: {x: 1.3061292, y: 0.3918773, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30869,7 +30892,7 @@ BoxCollider:
   m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.73566675}
-  m_Center: {x: 0, y: 0, z: 0.12339121}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4394591555273769835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30882,6 +30905,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedAttack: 2
+  knockback: {x: 150, y: 500}
+  pressure: 100
+  damage: 30
+  staminaDrain: 15
 --- !u!82 &1129612686255095003
 AudioSource:
   m_ObjectHideFlags: 0
@@ -31084,7 +31112,7 @@ BoxCollider:
   m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1.7836685}
-  m_Center: {x: 0, y: 0, z: 0.10171127}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &318406865955578819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31097,6 +31125,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedAttack: 3
+  knockback: {x: 50, y: 500}
+  pressure: 70
+  damage: 40
+  staminaDrain: 30
 --- !u!82 &5701444862839759376
 AudioSource:
   m_ObjectHideFlags: 0
