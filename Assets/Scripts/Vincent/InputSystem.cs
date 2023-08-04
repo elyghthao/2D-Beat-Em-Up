@@ -134,11 +134,11 @@ public class InputSystem : MonoBehaviour {
       IsLightAttackPressed = context.ReadValueAsButton();
 
       // ADDED BY ABDUL: To remedy 
-      if (IsLightAttackPressed) {
-         IsMediumAttackPressed = false;
-         IsHeavyAttackPressed = false;
-         IsBlockPressed = false;
-      }
+      // if (IsLightAttackPressed) {
+      //    IsMediumAttackPressed = false;
+      //    IsHeavyAttackPressed = false;
+      //    IsBlockPressed = false;
+      // }
    }
 
    /// <summary>
@@ -157,11 +157,11 @@ public class InputSystem : MonoBehaviour {
       IsMediumAttackPressed = context.ReadValueAsButton();
 
       // ADDED BY ABDUL: To remedy 
-      if (IsMediumAttackPressed) {
-         IsHeavyAttackPressed = false;
-         IsLightAttackPressed = false;
-         IsBlockPressed = false;
-      }
+      // if (IsMediumAttackPressed) {
+      //    IsHeavyAttackPressed = false;
+      //    IsLightAttackPressed = false;
+      //    IsBlockPressed = false;
+      // }
    }
 
    /// <summary>
@@ -180,11 +180,11 @@ public class InputSystem : MonoBehaviour {
       IsHeavyAttackPressed = context.ReadValueAsButton();
 
       // ADDED BY ABDUL: To remedy 
-      if (IsHeavyAttackPressed) {
-         IsMediumAttackPressed = false;
-         IsLightAttackPressed = false;
-         IsBlockPressed = false;
-      }
+      // if (IsHeavyAttackPressed) {
+      //    IsMediumAttackPressed = false;
+      //    IsLightAttackPressed = false;
+      //    IsBlockPressed = false;
+      // }
    }
 
    /// <summary>
@@ -203,11 +203,11 @@ public class InputSystem : MonoBehaviour {
       IsBlockPressed = context.ReadValueAsButton();
 
       // ADDED BY ABDUL: To remedy 
-      if (IsBlockPressed) {
-         IsHeavyAttackPressed = false;
-         IsLightAttackPressed = false;
-         IsMediumAttackPressed = false;
-      }
+      // if (IsBlockPressed) {
+      //    IsHeavyAttackPressed = false;
+      //    IsLightAttackPressed = false;
+      //    IsMediumAttackPressed = false;
+      // }
    }
 
    /// <summary>

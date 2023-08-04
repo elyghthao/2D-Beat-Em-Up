@@ -26,6 +26,10 @@ public class EnemyIdleState : EnemyBaseState {
       CheckSwitchStates();
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       // Debug.Log("ENEMY ROOT: EXITED IDLE");
    }
@@ -34,6 +38,7 @@ public class EnemyIdleState : EnemyBaseState {
       // Only other root state implemented right now is the hurt state
       if (Ctx.IsAttacked) {
          SwitchState(Factory.Hurt());
+         return;
       }
       
       // If player and if the player is within the activation distance, move towards the player

@@ -47,6 +47,10 @@ public class EnemyMAttackState : EnemyBaseState {
       }
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       // Debug.Log("SUB: EXITED MEDIUM");
       Ctx.mediumAttackBounds.SetActive(false);

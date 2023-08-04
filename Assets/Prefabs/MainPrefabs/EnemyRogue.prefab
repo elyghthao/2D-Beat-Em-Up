@@ -1198,7 +1198,7 @@ Transform:
   - {fileID: 2528329325691635645}
   - {fileID: 5226870047658841954}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &186909477855911442
 Rigidbody:
@@ -1245,10 +1245,10 @@ MonoBehaviour:
   maxHealth: 250
   activationDistance: 12
   attackReliefTime: 0.5
-  attackDistance: 3
+  attackDistance: 3.2
   zAttackDistance: 0.9
-  movementSpeed: 2.4
-  distanceGoal: 3.65
+  movementSpeed: 5.5
+  distanceGoal: 2.6
   heavyAttackBounds: {fileID: 1272650948903839902}
   mediumAttackBounds: {fileID: 7216001987956938960}
   lightAttackBounds: {fileID: 696328274990151439}
@@ -1266,6 +1266,7 @@ MonoBehaviour:
   lightActiveFrames: {x: 8, y: 9}
   lightRecoveryFrames: {x: 10, y: 23}
   _currentPlayerMachine: {fileID: 0}
+  inPosition: 0
 --- !u!114 &7055535822989626395
 MonoBehaviour:
   m_ObjectHideFlags: 0

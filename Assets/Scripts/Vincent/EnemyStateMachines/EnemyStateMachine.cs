@@ -262,7 +262,15 @@ public class EnemyStateMachine : MonoBehaviour {
         // Debug.Log(CurrentState + " sub: " + CurrentState.CurrentSubState);
         // Debug.Log("IS GROUNDED?: " + IsGrounded);
     }
-    
+
+    private void FixedUpdate() {
+        _isGrounded = CheckIfGrounded();
+        if (_currentPlayerMachine == null) return;
+        if (CurrentState != null) {
+            _currentState.FixedUpdateStates();
+        }
+    }
+
     public bool CheckIfGrounded()
     {
         RaycastHit hit;
@@ -278,7 +286,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
         // be first before anything else
-        ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+        //ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         AttackBoundsManager otherAttackManager;
         if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
             if (_receivedAttacks.ContainsKey(other.gameObject)) return;
@@ -290,28 +298,28 @@ public class EnemyStateMachine : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit(Collider other) {
-        // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
-        // be first before anything else
-        ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
-        //bool checkIfStillAttacked = false;
-        if (_receivedAttacks.ContainsKey(other.gameObject)) {
-            _receivedAttacks.Remove(other.gameObject);
-        }
-        // for (int i = 0; i < _recievedAttack.Length; i++) {
-        //     if (other.CompareTag(_recievedAttack[i].Tag)) {
-        //         _recievedAttack[i].Used = false;
-        //         _recievedAttack[i].AttackedFromRightSide = false;
-        //         _recievedAttack[i].StatsApplied = false;
-        //     }
-        //     if (_recievedAttack[i].Used) {
-        //         checkIfStillAttacked = true;
-        //     }
-        // }
-    
-        // _isAttacked = checkIfStillAttacked;
-        _isAttacked = false;
-    }
+    // private void OnTriggerExit(Collider other) {
+    //     // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
+    //     // be first before anything else
+    //     ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
+    //     //bool checkIfStillAttacked = false;
+    //     if (_receivedAttacks.ContainsKey(other.gameObject)) {
+    //         _receivedAttacks.Remove(other.gameObject);
+    //     }
+    //     // for (int i = 0; i < _recievedAttack.Length; i++) {
+    //     //     if (other.CompareTag(_recievedAttack[i].Tag)) {
+    //     //         _recievedAttack[i].Used = false;
+    //     //         _recievedAttack[i].AttackedFromRightSide = false;
+    //     //         _recievedAttack[i].StatsApplied = false;
+    //     //     }
+    //     //     if (_recievedAttack[i].Used) {
+    //     //         checkIfStillAttacked = true;
+    //     //     }
+    //     // }
+    //
+    //     // _isAttacked = checkIfStillAttacked;
+    //     //_isAttacked = false;
+    // }
 
     private void OnDestroy() {
         GameManager.Instance.EnemyReferences.Remove(this);
@@ -319,7 +327,13 @@ public class EnemyStateMachine : MonoBehaviour {
 
     public void ApplyAttackStats() {
         foreach (AttackType i in _receivedAttacks.Values) {
-            if (i.Used) continue;
+            if (_knockdownMeter > 0) {
+                KnockdownMeter -= i.KnockdownPressure;
+            }
+
+            if (_knockdownMeter < 0) {
+                _knockedDown = true;
+            }
             if (KnockedDown) {
                 Vector2 appliedKnockback = i.KnockbackDirection;
                 if (i.AttackedFromRightSide) {
@@ -330,14 +344,11 @@ public class EnemyStateMachine : MonoBehaviour {
                 // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
                 Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
                 // Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + transform.localScale.x);
-            } else {
-                KnockdownMeter -= i.KnockdownPressure;
             }
             CurrentHealth -= i.Damage;
-            i.Used = true;
             //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
         }
-        
+        _receivedAttacks.Clear();
         _isAttacked = false;
     }
 

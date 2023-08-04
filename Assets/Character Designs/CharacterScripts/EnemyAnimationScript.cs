@@ -90,6 +90,8 @@ public class EnemyAnimationScript : MonoBehaviour
 
         }else if(stateScript.CurrentState.ToString() == "EnemyIdleState" && !isAttacking){//IDLE STATE
             anim.Play("Idle");
+        }else if (stateScript.CurrentState.ToString() == "EnemyDeathState"){
+            anim.Play("Death");
         }
 
 

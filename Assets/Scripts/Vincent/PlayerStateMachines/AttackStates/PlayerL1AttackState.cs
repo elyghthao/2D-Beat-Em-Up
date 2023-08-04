@@ -41,6 +41,10 @@ public class PlayerL1AttackState : PlayerBaseState {
         }
     }
 
+    public override void FixedUpdateState() {
+        
+    }
+
     public override void ExitState() {
         //Debug.Log("SUB: EXITED LIGHT 1");
         Ctx.lightFirstFollowupAttackBounds.SetActive(false);

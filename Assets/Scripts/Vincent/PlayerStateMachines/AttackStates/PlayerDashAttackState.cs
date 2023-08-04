@@ -46,6 +46,10 @@ public class PlayerDashAttackState : PlayerBaseState {
       }
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       // Debug.Log("SUB: EXITED HEAVY");
       Ctx.heavyAttackBounds.SetActive(false);

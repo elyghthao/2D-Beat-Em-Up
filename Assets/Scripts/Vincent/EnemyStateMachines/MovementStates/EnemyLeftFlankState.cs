@@ -28,6 +28,10 @@ public class EnemyLeftFlankState : EnemyBaseState
    }
 
    public override void UpdateState() {
+      
+   }
+
+   public override void FixedUpdateState() {
       Ctx.MovingGoal = Ctx.CurrentPlayerMachine.transform;
 
       Vector3 vecToGoal = Ctx.gameObject.transform.position - Ctx.MovingGoal.position; // Player Position Offset
@@ -57,7 +61,7 @@ public class EnemyLeftFlankState : EnemyBaseState
          } else {
             Ctx.MovingGoalOffset = new Vector2(Ctx.EnemyFlankDistanceGoal * -1, -5);
          }
-        _madeToFlankGoal = true;
+         _madeToFlankGoal = true;
       }
 
       CheckSwitchStates();

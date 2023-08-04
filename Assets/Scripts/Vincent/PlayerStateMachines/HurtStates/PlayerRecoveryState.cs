@@ -17,6 +17,10 @@ public class PlayerRecoveryState : PlayerBaseState
    public override void UpdateState() {
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
    }
 

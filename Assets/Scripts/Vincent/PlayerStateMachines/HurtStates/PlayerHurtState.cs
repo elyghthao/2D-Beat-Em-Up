@@ -27,6 +27,10 @@ public class PlayerHurtState : PlayerBaseState
       }
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       // Debug.Log("ROOT: EXITED HURT");
       Ctx.KnockedDown = false;
@@ -35,6 +39,10 @@ public class PlayerHurtState : PlayerBaseState
    public override void CheckSwitchStates() {
       if (Ctx.CurrentHealth <= 0 && Ctx.IsGrounded) {
          SwitchState(Factory.Dead());
+         return;
+      }
+      if (Ctx.IsActionPressed || Ctx.IsBlockHeld) {
+         SwitchState(Factory.Attack());
          return;
       }
       SwitchState(Factory.Idle());

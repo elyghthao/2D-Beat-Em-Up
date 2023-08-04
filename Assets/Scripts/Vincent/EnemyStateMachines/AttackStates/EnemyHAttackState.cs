@@ -46,6 +46,10 @@ public class EnemyHAttackState : EnemyBaseState {
       }
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       // Debug.Log("ENEMY ROOT: EXITED HEAVY");
       Ctx.heavyAttackBounds.SetActive(false);

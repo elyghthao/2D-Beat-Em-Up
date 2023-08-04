@@ -17,6 +17,11 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void UpdateState() {
+      Ctx.MovingGoal = Ctx.CurrentPlayerMachine.transform;
+      CheckSwitchStates();
+   }
+
+   public override void FixedUpdateState() {
       // Chasing goal Transform and offsets
       Vector3 goalPos = Ctx.MovingGoal.position; // NOTE: The y for the MovingGoalOffset is really the z
       goalPos.x += Ctx.MovingGoalOffset.x;
@@ -67,8 +72,6 @@ public class EnemyMovingState : EnemyBaseState {
          // Debug.Log("Degenerating: " + Ctx.KnockdownMeter);
          Ctx.KnockdownMeter = Ctx.knockdownMax;
       }
-      
-      CheckSwitchStates();
    }
 
    public override void ExitState() {
@@ -80,6 +83,7 @@ public class EnemyMovingState : EnemyBaseState {
       // Checking to see if the enemy got hurt
       if (Ctx.IsAttacked) {
          SwitchState(Factory.Hurt());
+         return;
       }
 
       // Checking first if there is no player or the player is too far

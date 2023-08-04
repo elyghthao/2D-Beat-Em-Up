@@ -11,7 +11,7 @@ public class EnemyHurtState : EnemyBaseState {
    }
 
    public override void EnterState() {
-      // Debug.Log("ENEMY ROOT: ENTERED HURT");
+      Debug.Log("ENEMY ROOT: ENTERED HURT");
    }
 
    public override void UpdateState() {
@@ -26,8 +26,11 @@ public class EnemyHurtState : EnemyBaseState {
       }
    }
 
+   public override void FixedUpdateState() {
+   }
+
    public override void ExitState() {
-      // Debug.Log("ENEMY ROOT: EXITED HURT");
+      Debug.Log("ENEMY ROOT: EXITED HURT");
       Ctx.KnockedDown = false;
    }
 
