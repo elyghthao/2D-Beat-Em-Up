@@ -20,7 +20,7 @@ public class PlayerMoveState : PlayerBaseState
    }
 
    public override void UpdateState() {
-      
+      CheckSwitchStates();
    }
 
    public override void FixedUpdateState() {
@@ -30,7 +30,7 @@ public class PlayerMoveState : PlayerBaseState
       Ctx.GetComponent<Rigidbody>().velocity = new Vector3(moveDir.x, 0, moveDir.y);
       Ctx.SpeedControl();
       // Debug.Log(Ctx);
-      CheckSwitchStates();
+      
    }
 
    public override void ExitState() { 
