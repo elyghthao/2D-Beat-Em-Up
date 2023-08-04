@@ -20331,7 +20331,7 @@ MonoBehaviour:
   light2RecoveryFrames: 33
   maxHealth: 400
   gotHealed: 0
-  stamina: 100
+  stamina: 200
   staminaRegenDelay: 0.75
   staminaRegenRate: 25
   knockdownMax: 150
