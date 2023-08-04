@@ -286,7 +286,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
         // be first before anything else
-        ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+        //ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         AttackBoundsManager otherAttackManager;
         if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
             if (_receivedAttacks.ContainsKey(other.gameObject)) return;
@@ -298,28 +298,28 @@ public class EnemyStateMachine : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit(Collider other) {
-        // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
-        // be first before anything else
-        ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
-        //bool checkIfStillAttacked = false;
-        if (_receivedAttacks.ContainsKey(other.gameObject)) {
-            _receivedAttacks.Remove(other.gameObject);
-        }
-        // for (int i = 0; i < _recievedAttack.Length; i++) {
-        //     if (other.CompareTag(_recievedAttack[i].Tag)) {
-        //         _recievedAttack[i].Used = false;
-        //         _recievedAttack[i].AttackedFromRightSide = false;
-        //         _recievedAttack[i].StatsApplied = false;
-        //     }
-        //     if (_recievedAttack[i].Used) {
-        //         checkIfStillAttacked = true;
-        //     }
-        // }
-    
-        // _isAttacked = checkIfStillAttacked;
-        //_isAttacked = false;
-    }
+    // private void OnTriggerExit(Collider other) {
+    //     // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
+    //     // be first before anything else
+    //     ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
+    //     //bool checkIfStillAttacked = false;
+    //     if (_receivedAttacks.ContainsKey(other.gameObject)) {
+    //         _receivedAttacks.Remove(other.gameObject);
+    //     }
+    //     // for (int i = 0; i < _recievedAttack.Length; i++) {
+    //     //     if (other.CompareTag(_recievedAttack[i].Tag)) {
+    //     //         _recievedAttack[i].Used = false;
+    //     //         _recievedAttack[i].AttackedFromRightSide = false;
+    //     //         _recievedAttack[i].StatsApplied = false;
+    //     //     }
+    //     //     if (_recievedAttack[i].Used) {
+    //     //         checkIfStillAttacked = true;
+    //     //     }
+    //     // }
+    //
+    //     // _isAttacked = checkIfStillAttacked;
+    //     //_isAttacked = false;
+    // }
 
     private void OnDestroy() {
         GameManager.Instance.EnemyReferences.Remove(this);
@@ -345,7 +345,7 @@ public class EnemyStateMachine : MonoBehaviour {
             i.Used = true;
             //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
         }
-        
+        _receivedAttacks.Clear();
         _isAttacked = false;
     }
 

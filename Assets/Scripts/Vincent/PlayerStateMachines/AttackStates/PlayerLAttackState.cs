@@ -37,7 +37,7 @@ public class PlayerLAttackState : PlayerBaseState {
       if (Ctx.InputSys.IsLightAttackPressed && _currentFrameState >= 2 && !Ctx.InputSys.IsActionHeld
           && Ctx.Stamina >= Ctx.LightFirstFollowupBounds.staminaDrain) {
          Ctx.QueuedAttack = Factory.LightFirstFollowupAttack();
-         //Debug.Log("LightAttack 1 Queued");
+         Debug.Log("LightAttack 1 Queued");
       }
       if (_currentFrameState == 3) {
          CanSwitch = true;
