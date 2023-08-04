@@ -258,7 +258,7 @@ public class PlayerStateMachine : MonoBehaviour {
          //Debug.Log("Followup Timer: " + FollowupTimer);
       }
 
-      Debug.Log(CurrentState + " sub: " + CurrentState.CurrentSubState);
+      // Debug.Log(CurrentState + " sub: " + CurrentState.CurrentSubState);
 
       if (StaminaRegenAllowed) RegenerateStamina();
       else StaminaRegenDelay = staminaRegenDelay;
@@ -396,11 +396,12 @@ public class PlayerStateMachine : MonoBehaviour {
    public void SpeedControl() {
       var playerVelocity = Rigidbody.velocity;
       var flatVelocity = new Vector3(playerVelocity.x, 0f, playerVelocity.z);
-
+      Debug.Log("current player velocity: " + playerVelocity);
       // limit velocity if needed
       if (flatVelocity.magnitude > movementSpeed) {
          var limitedVelocity = flatVelocity.normalized * movementSpeed;
-         GetComponent<Rigidbody>().velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z);
+         Debug.Log("new player velocity: " + limitedVelocity);
+         GetComponent<Rigidbody>().velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z*2);
       }
    }
 
