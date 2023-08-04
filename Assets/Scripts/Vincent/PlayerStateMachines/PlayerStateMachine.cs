@@ -396,11 +396,11 @@ public class PlayerStateMachine : MonoBehaviour {
    public void SpeedControl() {
       var playerVelocity = Rigidbody.velocity;
       var flatVelocity = new Vector3(playerVelocity.x, 0f, playerVelocity.z);
-      Debug.Log("current player velocity: " + playerVelocity);
+      // Debug.Log("current player velocity: " + playerVelocity);
       // limit velocity if needed
       if (flatVelocity.magnitude > movementSpeed) {
          var limitedVelocity = flatVelocity.normalized * movementSpeed;
-         Debug.Log("new player velocity: " + limitedVelocity);
+         // Debug.Log("new player velocity: " + limitedVelocity);
          GetComponent<Rigidbody>().velocity = new Vector3(limitedVelocity.x, 0f, limitedVelocity.z*2);
       }
    }
