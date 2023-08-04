@@ -318,7 +318,7 @@ public class EnemyStateMachine : MonoBehaviour {
         // }
     
         // _isAttacked = checkIfStillAttacked;
-        _isAttacked = false;
+        //_isAttacked = false;
     }
 
     private void OnDestroy() {

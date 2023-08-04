@@ -9,7 +9,7 @@ public class EnemySmackedState : EnemyBaseState
    }
 
    public override void EnterState() {
-      //Debug.Log("ENEMY SUB: ENTERED SMACKED");
+      Debug.Log("ENEMY SUB: ENTERED SMACKED");
       if (!Ctx.KnockedDown) {
          Ctx.BaseMaterial.color = new Color(255, 68, 0, 255);
       }
@@ -31,7 +31,7 @@ public class EnemySmackedState : EnemyBaseState
    }
 
    public override void ExitState() {
-     // Debug.Log("ENEMY SUB: EXITED SMACKED");
+     Debug.Log("ENEMY SUB: EXITED SMACKED");
    }
 
    public override void CheckSwitchStates() {

@@ -38,6 +38,7 @@ public class EnemyIdleState : EnemyBaseState {
       // Only other root state implemented right now is the hurt state
       if (Ctx.IsAttacked) {
          SwitchState(Factory.Hurt());
+         return;
       }
       
       // If player and if the player is within the activation distance, move towards the player
