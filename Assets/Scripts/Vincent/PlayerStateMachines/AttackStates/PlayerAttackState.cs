@@ -21,6 +21,10 @@ public class PlayerAttackState : PlayerBaseState
       }
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       //Debug.Log("ROOT: EXITED ATTACK");
       // Checks that all bounds are deactivated, as a failsafe so no bounds are left on when leaving the attack state

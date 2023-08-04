@@ -46,6 +46,10 @@ public class EnemyLAttackState : EnemyBaseState {
       }
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       //Debug.Log("SUB: EXITED LIGHT");
       Ctx.lightAttackBounds.SetActive(false);

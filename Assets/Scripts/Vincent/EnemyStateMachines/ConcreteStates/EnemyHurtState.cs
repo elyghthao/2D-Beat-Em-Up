@@ -26,6 +26,9 @@ public class EnemyHurtState : EnemyBaseState {
       }
    }
 
+   public override void FixedUpdateState() {
+   }
+
    public override void ExitState() {
       // Debug.Log("ENEMY ROOT: EXITED HURT");
       Ctx.KnockedDown = false;

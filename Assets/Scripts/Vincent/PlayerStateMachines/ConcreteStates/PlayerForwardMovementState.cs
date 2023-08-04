@@ -21,6 +21,10 @@ public class PlayerForwardMovementState : PlayerBaseState
       CheckSwitchStates();
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       // Debug.Log("SUB: EXITED FORWARD");
       Ctx.BaseMaterial.color = Color.white;

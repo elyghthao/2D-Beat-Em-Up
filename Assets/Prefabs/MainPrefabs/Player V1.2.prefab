@@ -5118,8 +5118,8 @@ MonoBehaviour:
   selectedAttack: 0
   knockback: {x: 10, y: 500}
   pressure: 40
-  damage: 5
-  staminaDrain: 10
+  damage: 15
+  staminaDrain: 5
 --- !u!82 &5020132420625414097
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15191,8 +15191,8 @@ MonoBehaviour:
   selectedAttack: 4
   knockback: {x: 800, y: 100}
   pressure: 80
-  damage: 50
-  staminaDrain: 20
+  damage: 40
+  staminaDrain: 15
 --- !u!65 &3303134764496639748
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20332,7 +20332,7 @@ MonoBehaviour:
   maxHealth: 400
   gotHealed: 0
   stamina: 100
-  staminaRegenDelay: 1
+  staminaRegenDelay: 0.75
   staminaRegenRate: 25
   knockdownMax: 150
   attackFollowupThreshold: 0.75
@@ -25500,8 +25500,8 @@ MonoBehaviour:
   selectedAttack: 5
   knockback: {x: 800, y: 800}
   pressure: 300
-  damage: 5
-  staminaDrain: 70
+  damage: 50
+  staminaDrain: 40
 --- !u!82 &1916134075735392104
 AudioSource:
   m_ObjectHideFlags: 0
@@ -30548,8 +30548,8 @@ MonoBehaviour:
   selectedAttack: 1
   knockback: {x: 50, y: 250}
   pressure: 60
-  damage: 15
-  staminaDrain: 10
+  damage: 20
+  staminaDrain: 5
 --- !u!82 &2853785168238711029
 AudioSource:
   m_ObjectHideFlags: 0
@@ -30909,7 +30909,7 @@ MonoBehaviour:
   knockback: {x: 150, y: 500}
   pressure: 100
   damage: 30
-  staminaDrain: 15
+  staminaDrain: 5
 --- !u!82 &1129612686255095003
 AudioSource:
   m_ObjectHideFlags: 0
@@ -31128,8 +31128,8 @@ MonoBehaviour:
   selectedAttack: 3
   knockback: {x: 50, y: 500}
   pressure: 70
-  damage: 40
-  staminaDrain: 30
+  damage: 25
+  staminaDrain: 15
 --- !u!82 &5701444862839759376
 AudioSource:
   m_ObjectHideFlags: 0

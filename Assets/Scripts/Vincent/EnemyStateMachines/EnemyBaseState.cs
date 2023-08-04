@@ -67,6 +67,11 @@ public abstract class EnemyBaseState
     public abstract void UpdateState();
 
     /// <summary>
+    /// Fixed update
+    /// </summary>
+    public abstract void FixedUpdateState();
+
+    /// <summary>
     /// On state exit
     /// </summary>
     public abstract void ExitState();
@@ -101,6 +106,17 @@ public abstract class EnemyBaseState
             _currentSubState.UpdateStates();
         }
         UpdateState();
+    }
+
+    /// <summary>
+    /// Fixed Update state helper function. Calls the current states FixedUpdateState() and checks to see if any substates also need
+    /// their FixedUpdateState() called
+    /// </summary>
+    public void FixedUpdateStates() {
+        if (_currentSubState != null) {
+            _currentSubState.FixedUpdateStates();
+        }
+        FixedUpdateState();
     }
 
     /// <summary>

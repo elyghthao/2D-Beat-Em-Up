@@ -38,6 +38,10 @@ public class PlayerL2AttackState : PlayerBaseState
       }
    }
 
+   public override void FixedUpdateState() {
+      
+   }
+
    public override void ExitState() {
       //Debug.Log("SUB: EXITED LIGHT 2");
       Ctx.lightSecondFollowupAttackBounds.SetActive(false);

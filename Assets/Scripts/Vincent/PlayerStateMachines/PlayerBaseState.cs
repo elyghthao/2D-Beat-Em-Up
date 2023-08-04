@@ -61,6 +61,11 @@ public abstract class PlayerBaseState {
     public abstract void UpdateState();
 
     /// <summary>
+    /// Fixed Update for States
+    /// </summary>
+    public abstract void FixedUpdateState();
+
+    /// <summary>
     /// On state exit
     /// </summary>
     public abstract void ExitState();
@@ -95,6 +100,17 @@ public abstract class PlayerBaseState {
             _currentSubState.UpdateStates();
         }
         UpdateState();
+    }
+    
+    /// <summary>
+    /// FixedUpdate state helper function. Calls the current states FixedUpdateState() and checks to see if any substates also need
+    /// their FixedUpdateState() called
+    /// </summary>
+    public void FixedUpdateStates() {
+        if (_currentSubState != null) {
+            _currentSubState.FixedUpdateStates();
+        }
+        FixedUpdateState();
     }
 
     /// <summary>

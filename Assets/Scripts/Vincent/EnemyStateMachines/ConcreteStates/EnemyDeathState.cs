@@ -17,6 +17,9 @@ public class EnemyDeathState : EnemyBaseState {
       // Debug.Log("enemy is dead");
    }
 
+   public override void FixedUpdateState() {
+   }
+
    public override void ExitState() { }
 
    public override void CheckSwitchStates() { }

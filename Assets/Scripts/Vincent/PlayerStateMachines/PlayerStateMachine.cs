@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public enum Attacks {
    LightAttack1,
@@ -251,8 +253,8 @@ public class PlayerStateMachine : MonoBehaviour {
       if(KnockdownMeter < knockdownMax) {//knockdown meter can regen
             KnockdownMeter += (3*Time.deltaTime);
       }
-      CurrentState.UpdateStates();
       IsGrounded = CheckIfGrounded();
+      CurrentState.UpdateStates();
       if (FollowupTimer > 0) {
          FollowupTimer -= Time.deltaTime;
          //Debug.Log("Followup Timer: " + FollowupTimer);
@@ -262,6 +264,11 @@ public class PlayerStateMachine : MonoBehaviour {
 
       if (StaminaRegenAllowed) RegenerateStamina();
       else StaminaRegenDelay = staminaRegenDelay;
+   }
+
+   private void FixedUpdate() {
+      IsGrounded = CheckIfGrounded();
+      CurrentState.FixedUpdateStates();
    }
 
    /// <summary>

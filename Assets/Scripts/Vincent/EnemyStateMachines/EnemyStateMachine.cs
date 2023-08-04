@@ -262,7 +262,15 @@ public class EnemyStateMachine : MonoBehaviour {
         // Debug.Log(CurrentState + " sub: " + CurrentState.CurrentSubState);
         // Debug.Log("IS GROUNDED?: " + IsGrounded);
     }
-    
+
+    private void FixedUpdate() {
+        _isGrounded = CheckIfGrounded();
+        if (_currentPlayerMachine == null) return;
+        if (CurrentState != null) {
+            _currentState.FixedUpdateStates();
+        }
+    }
+
     public bool CheckIfGrounded()
     {
         RaycastHit hit;

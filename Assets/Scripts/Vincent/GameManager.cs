@@ -66,6 +66,12 @@ public class GameManager : MonoBehaviour {
        if (Input.GetKey(KeyCode.Alpha0)) {
           _playerRef.CurrentHealth = 10000000;
        }
+       if (Input.GetKey(KeyCode.Alpha6)) {
+          _playerRef.Stamina = 1000000000;
+       }
+       if (Input.GetKey(KeyCode.Alpha7)) {
+          _playerRef.Stamina = _playerRef.stamina;
+       }
     }
    public InputSystem InputSystem {
       get => _inputSystem;
