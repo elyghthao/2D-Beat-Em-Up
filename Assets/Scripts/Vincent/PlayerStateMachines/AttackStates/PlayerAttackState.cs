@@ -42,6 +42,8 @@ public class PlayerAttackState : PlayerBaseState
    public override void InitializeSubState() {
       if (Ctx.QueuedAttack != null) {
          SetSubState(Ctx.QueuedAttack);
+      } else if (Ctx.IsBlockPressed) {
+         SetSubState(Factory.Block());
       } else if (Ctx.IsLightAttackPressed && Ctx.Stamina >= Ctx.LightBounds.staminaDrain) {
          SetSubState(Factory.LightAttack());
       } else if (Ctx.IsMediumAttackPressed && Ctx.Stamina >= Ctx.MediumBounds.staminaDrain) {
@@ -52,8 +54,6 @@ public class PlayerAttackState : PlayerBaseState
          } else if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Dash)) {
             SetSubState(Factory.DashAttack());
          }
-      } else if (Ctx.IsBlockPressed) {
-         SetSubState(Factory.Block());
-      }
+      } 
    }
 }

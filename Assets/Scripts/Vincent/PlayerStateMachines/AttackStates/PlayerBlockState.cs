@@ -31,17 +31,19 @@ public class PlayerBlockState : PlayerBaseState {
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.IsLightAttackPressed) {
-         SwitchState(Factory.LightAttack());
-      } else if (Ctx.IsMediumAttackPressed) {
-         SwitchState(Factory.MediumAttack());
-      } else if (Ctx.IsPowerupPressed) {
-         if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Slam)) {
-            SetSubState(Factory.HeavyAttack());
-         } else if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Dash)) {
-            SetSubState(Factory.DashAttack());
-         }
-      }
+      SwitchState(Factory.Idle(), true); // TEMP FIX for action not ending because the action is being held down
+      
+      // if (Ctx.IsLightAttackPressed) {
+      //    SwitchState(Factory.LightAttack());
+      // } else if (Ctx.IsMediumAttackPressed) {
+      //    SwitchState(Factory.MediumAttack());
+      // } else if (Ctx.IsPowerupPressed) {
+      //    if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Slam)) {
+      //       SetSubState(Factory.HeavyAttack());
+      //    } else if (Ctx.PowerupSystem.IsEquipped(PowerupSystem.Powerup.Dash)) {
+      //       SetSubState(Factory.DashAttack());
+      //    }
+      // }
    }
 
    public override void InitializeSubState() {

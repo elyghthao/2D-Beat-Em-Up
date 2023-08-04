@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/Abdul/FightMechanics 3.unity.meta
 guid: c1d4976ddbbf0674395b109a79398d17
+========
+guid: 070af5520b27be74399782b1958cc85e
+folderAsset: yes
+>>>>>>>> main:Assets/Scripts/Vincent/Editor.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

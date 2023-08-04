@@ -127,6 +127,29 @@ public abstract class PlayerBaseState {
     }
 
     /// <summary>
+    /// Added by Abdul to make it so sub states can switch to base states.
+    /// </summary>
+    /// <param name="newState" name="switchingFromSub"></param>
+    protected void SwitchState(PlayerBaseState newState, bool switchingFromSub) {
+        if (!switchingFromSub) {
+            SwitchState(newState);
+            return;
+        }
+
+        // Switching from a base state to a root state !!!
+        if (_isRootState) {
+            // Its just a root state to root state so regular switch
+            SwitchState(newState);
+            return;
+        } else {
+            // Switching from sub state to base state
+            ExitStates();
+            newState.EnterStates();
+            _ctx.CurrentState = newState;
+        }
+    }
+
+    /// <summary>
     /// Sets the superstate of the current substate. This is more so a helper function, and you typically wouldn't call
     /// this manually
     /// </summary>
