@@ -34,7 +34,6 @@ public class EnemyAnimationScript : MonoBehaviour
         if (!_ready) return;
         try {
             // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
-            // Debug.Log(stateScript.CurrentState.ToString());
             // Debug.Log(stateScript.CurrentState.ToString() + ": " + stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.currentHealth);
         }catch (Exception){
@@ -59,7 +58,7 @@ public class EnemyAnimationScript : MonoBehaviour
 
 
         if(stateScript.CurrentState.ToString() == "EnemyMovingState" && !isAttacking){//MOVING STATE
-            if(stateScript.inPosition) {
+            if(Vector3.Distance(this.gameObject.transform.position, currentPlayer.transform.position) <= 3) {
                 anim.Play("FightStance");
             }else {
                 anim.Play("Walk");

@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.SceneManagement;
 
 public enum Attacks {
    LightAttack1,
@@ -20,6 +17,9 @@ public enum Attacks {
 public class PlayerStateMachine : MonoBehaviour {
    // Inspector Arguments
    [Header("Body Elements")] public GameObject body;
+
+   public int maxHealth = 100;
+   public bool gotHealed = false;
 
    [Header("Attack Boundaries")] public GameObject heavyAttackBounds;
 
@@ -88,19 +88,7 @@ public class PlayerStateMachine : MonoBehaviour {
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int light2RecoveryFrames = 23;
 
-   [Header("Combat Stats")]
-
-   public int maxHealth = 100;
-
-   public bool gotHealed;
-   [FormerlySerializedAs("maxStamina")] public float stamina;
-   [Tooltip("Time in seconds it takes for stamina to regenerate after performing an action")]
-   public float staminaRegenDelay;
-   [Tooltip("The amount of stamina regenerated per second")]
-   public float staminaRegenRate;
-   
-   [Tooltip("How much knockdown pressure this character can take before entering the knockdown state")]
-   public int knockdownMax = 150;
+   [Header("Combat Stats")] public int knockdownMax = 150;
 
    [Tooltip("How much time in seconds is given to initiate a followup attack")]
    public float attackFollowupThreshold = 0.75f;
@@ -188,8 +176,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
    public int CurrentHealth { get; set; }
 
-   //public AttackType[] RecievedAttack { get; set; } = new AttackType[6];
-   private Dictionary<GameObject, AttackType> _receivedAttacks = new Dictionary<GameObject, AttackType>();
+   public AttackType[] RecievedAttack { get; set; } = new AttackType[6];
    public PowerupSystem PowerupSystem => GameManager.Instance.PowerupSystem;
    public PlayerBaseState QueuedAttack { get; set; }
    public float FollowupTimer { get; set; }
@@ -202,20 +189,16 @@ public class PlayerStateMachine : MonoBehaviour {
 
    public SpriteEffects SpriteEffects { get; private set; }
 
-   public float Stamina { get; set; }
-   public bool StaminaRegenAllowed { get; set; }
-   public float StaminaRegenDelay { get; private set; }
-   public bool IsDead {get; private set;}
    // Functions
 
    private void Awake() {
       InputSys = GameManager.Instance.gameObject.GetComponent<InputSystem>();
-      // RecievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
-      // RecievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(50, 250), 60, 15);
-      // RecievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(150, 500), 100, 30);
-      // RecievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(50, 500), 70, 40);
-      // RecievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
-      // RecievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(400, 800), 150, 50);
+      RecievedAttack[(int)Attacks.LightAttack1] = new AttackType("FirstLightAttack", new Vector2(10, 500), 40, 5);
+      RecievedAttack[(int)Attacks.LightAttack2] = new AttackType("SecondLightAttack", new Vector2(50, 250), 60, 15);
+      RecievedAttack[(int)Attacks.LightAttack3] = new AttackType("ThirdLightAttack", new Vector2(150, 500), 100, 30);
+      RecievedAttack[(int)Attacks.MediumAttack1] = new AttackType("FirstMediumAttack", new Vector2(50, 500), 70, 40);
+      RecievedAttack[(int)Attacks.MediumAttack2] = new AttackType("SecondMediumAttack", new Vector2(800, 100), 80, 50);
+      RecievedAttack[(int)Attacks.Slam] = new AttackType("SlamAttack", new Vector2(400, 800), 150, 50);
 
       BaseMaterial = body.GetComponent<Renderer>().material;
       HeavyBounds = heavyAttackBounds.GetComponent<AttackBoundsManager>();
@@ -230,8 +213,6 @@ public class PlayerStateMachine : MonoBehaviour {
       Rigidbody.freezeRotation = true;
 
       CurrentHealth = maxHealth;
-      Stamina = stamina;
-      StaminaRegenDelay = staminaRegenDelay;
 
       // enter initial state. All assignments should go before here
       _states = new PlayerStateFactory(this);
@@ -240,26 +221,14 @@ public class PlayerStateMachine : MonoBehaviour {
       FinishedInitialization = true;
    }
 
-   private void Start(){
-      KnockdownMeter = knockdownMax;
-      IsDead = false;
-   }
-
    // Update is called once per frame
    private void Update() {
-      // Debug.Log("knockdown meter: " + KnockdownMeter);
-      if(KnockdownMeter < knockdownMax) {//knockdown meter can regen
-            KnockdownMeter += (3*Time.deltaTime);
-      }
       CurrentState.UpdateStates();
       IsGrounded = CheckIfGrounded();
       if (FollowupTimer > 0) {
          FollowupTimer -= Time.deltaTime;
          //Debug.Log("Followup Timer: " + FollowupTimer);
       }
-
-      if (StaminaRegenAllowed) RegenerateStamina();
-      else StaminaRegenDelay = staminaRegenDelay;
    }
 
    /// <summary>
@@ -284,38 +253,30 @@ public class PlayerStateMachine : MonoBehaviour {
       // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
       // be first before anything else
       ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
-      AttackBoundsManager otherAttackManager;
-      if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
-         if (_receivedAttacks.ContainsKey(other.gameObject)) return;
-         AttackType receivedAttack = new AttackType(otherAttackManager.knockback, otherAttackManager.pressure,
-            otherAttackManager.damage);
-         if (other.transform.parent.position.x > transform.position.x) receivedAttack.AttackedFromRightSide = true;
-         _receivedAttacks[other.gameObject] = receivedAttack;
-         IsAttacked = true;
-      }
+      for (var i = 0; i < RecievedAttack.Length; i++)
+         if (other.CompareTag(RecievedAttack[i].Tag)) {
+            RecievedAttack[i].Used = true;
+            if (other.transform.position.x > transform.position.x) RecievedAttack[i].AttackedFromRightSide = true;
+            IsAttacked = true;
+         }
    }
 
    private void OnTriggerExit(Collider other) {
       // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
       // be first before anything else
       ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
-      //bool checkIfStillAttacked = false;
-      if (_receivedAttacks.ContainsKey(other.gameObject)) {
-         _receivedAttacks.Remove(other.gameObject);
+      var checkIfStillAttacked = false;
+      for (var i = 0; i < RecievedAttack.Length; i++) {
+         if (other.CompareTag(RecievedAttack[i].Tag)) {
+            RecievedAttack[i].Used = false;
+            RecievedAttack[i].AttackedFromRightSide = false;
+            RecievedAttack[i].StatsApplied = false;
+         }
+
+         if (RecievedAttack[i].Used) checkIfStillAttacked = true;
       }
-      // for (int i = 0; i < _recievedAttack.Length; i++) {
-      //     if (other.CompareTag(_recievedAttack[i].Tag)) {
-      //         _recievedAttack[i].Used = false;
-      //         _recievedAttack[i].AttackedFromRightSide = false;
-      //         _recievedAttack[i].StatsApplied = false;
-      //     }
-      //     if (_recievedAttack[i].Used) {
-      //         checkIfStillAttacked = true;
-      //     }
-      // }
-    
-      // _isAttacked = checkIfStillAttacked;
-      IsAttacked = false;
+
+      IsAttacked = checkIfStillAttacked;
    }
 
    private IEnumerator SafeOnEnable() {
@@ -327,65 +288,37 @@ public class PlayerStateMachine : MonoBehaviour {
       RaycastHit hit;
       var curPos = transform.position;
       // Debug.DrawRay(curPos, -Vector3.up * 0.3f, Color.red);
-      if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.25f, curPos.z), -transform.up * 0.3f, out hit, .2f))
-         if(hit.collider.CompareTag("Ground"))
-                return true;
+      if (Physics.Raycast(new Vector3(curPos.x, curPos.y + 0.25f, curPos.z), -transform.up * 0.3f, out hit, 1f))
+         return true;
       return false;
    }
 
    public void ApplyAttackStats() {
-      // Debug.Log(InputSys.IsBlockHeld);
-      foreach (AttackType i in _receivedAttacks.Values) {
-         if (i.Used) continue;
+      for (int i = 0; i < RecievedAttack.Length; i++) {
+         if (RecievedAttack[i].StatsApplied || !RecievedAttack[i].Used) continue;
+            
          if (KnockedDown) {
-            Vector2 appliedKnockback = i.KnockbackDirection;
-            if (i.AttackedFromRightSide) {
-               appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
+            Vector2 appliedKnockback = RecievedAttack[i].KnockbackDirection;
+            if (RecievedAttack[i].AttackedFromRightSide) {
+               appliedKnockback = new Vector2(appliedKnockback.x * -4, appliedKnockback.y);
             }
-            // appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
+            appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
             Rigidbody.velocity = Vector3.zero;
             // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
             Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
-            // Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + transform.localScale.x);
-            if((appliedKnockback.x < 0 && transform.localScale.x < 0) 
-               || (appliedKnockback.x > 0 && transform.localScale.x > 0)){
-               FlipCharacter();
+            Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + this.transform.localScale.x);
+            if((appliedKnockback.x < 0 && this.transform.localScale.x < 0) 
+               || (appliedKnockback.x > 0 && this.transform.localScale.x > 0)){
+               this.FlipCharacter();
             }
+            
          } else {
-            KnockdownMeter -= i.KnockdownPressure;
-            // if(KnockdownMeter <= 0) KnockdownMeter = knockdownMax;
+            KnockdownMeter -= RecievedAttack[i].KnockdownPressure;
          }
-         CurrentHealth -= i.Damage;
-         i.Used = true;
+         CurrentHealth -= RecievedAttack[i].Damage;
          //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
-         
+         RecievedAttack[i].StatsApplied = true;
       }
-      IsAttacked = false;
-      // for (int i = 0; i < _receivedAttacks.Length; i++) {
-      //    if (RecievedAttack[i].StatsApplied || !RecievedAttack[i].Used) continue;
-      //       
-      // if (KnockedDown) {
-      //    Vector2 appliedKnockback = RecievedAttack[i].KnockbackDirection;
-      //    if (RecievedAttack[i].AttackedFromRightSide) {
-      //       appliedKnockback = new Vector2(appliedKnockback.x * -4, appliedKnockback.y);
-      //    }
-      //    appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
-      //    Rigidbody.velocity = Vector3.zero;
-      //    // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
-      //    Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
-      //    Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + this.transform.localScale.x);
-      //    if((appliedKnockback.x < 0 && this.transform.localScale.x < 0) 
-      //       || (appliedKnockback.x > 0 && this.transform.localScale.x > 0)){
-      //       this.FlipCharacter();
-      //    }
-      //    
-      // } else {
-      //    KnockdownMeter -= RecievedAttack[i].KnockdownPressure;
-      // }
-      // CurrentHealth -= RecievedAttack[i].Damage;
-      // //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
-      // RecievedAttack[i].StatsApplied = true;
-      // }
    }
 
    /// <summary>
@@ -465,28 +398,4 @@ public class PlayerStateMachine : MonoBehaviour {
       QueuedAttack = null;
       CanQueueAttacks = false;
    }
-
-   private void RegenerateStamina() {
-      StaminaRegenDelay -= Time.deltaTime;
-      if (StaminaRegenDelay <= 0) {
-         Stamina += staminaRegenRate * Time.deltaTime;
-         if (Stamina >= stamina) {
-            Stamina = stamina;
-            StaminaRegenDelay = staminaRegenDelay;
-            StaminaRegenAllowed = false;
-         }
-      }
-   }
-   public void SetDead() {
-      Scene current_scene = SceneManager.GetActiveScene();
-      SceneManager.LoadScene(current_scene.name);
-    }
-
-
-   public IEnumerator DeathTimeDelay(float waitTime){
-        yield return new WaitForSeconds(waitTime);
-        IsDead = true;
-        yield return new WaitForSeconds(0.5f);
-        this.SetDead();
-    }
 }

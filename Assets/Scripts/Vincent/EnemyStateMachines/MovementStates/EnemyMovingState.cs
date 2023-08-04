@@ -28,13 +28,10 @@ public class EnemyMovingState : EnemyBaseState {
       float distanceToGoal = Vector3.Distance(Ctx.gameObject.transform.position, goalPos);
       vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
 
-      
       // Only will move towards goal when it is a certain distance away from it
       if (((distanceToGoal > Ctx.distanceGoal) || Ctx.DontAttack)){
-         Ctx.inPosition = false; //inPosition bool used for animation controller script -elygh
          Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
       } else {
-         Ctx.inPosition = true;
          Vector3 newVecGoal = new Vector3(0, 0, vecToGoal.z + Random.Range(-.7f, .7f));
          Ctx.Rigidbody.AddForce(newVecGoal, ForceMode.Force);
       }

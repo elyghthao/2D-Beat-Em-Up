@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour {
    public PowerupSystem PowerupSystem { get; set; }
    
    public GameObject healthBarPrefab;
-   public GameObject staminaBarPrefab;
    private bool FirstLoad = true;
 
    public AudioListener audio;
@@ -44,15 +43,15 @@ public class GameManager : MonoBehaviour {
        }
 
        if (Input.GetKey(KeyCode.Alpha2)) {
-          SceneManager.LoadScene("Scenes/MainScenes/Level_1");
+          SceneManager.LoadScene("Scenes/MainScenes/Level_0");
           return;
        }
        if (Input.GetKey(KeyCode.Alpha3)) {
-          SceneManager.LoadScene("Scenes/MainScenes/Level_2");
+          SceneManager.LoadScene("Scenes/MainScenes/Level_1");
           return;
        }
        if (Input.GetKey(KeyCode.Alpha4)) {
-          SceneManager.LoadScene("Scenes/MainScenes/Level_3");
+          SceneManager.LoadScene("Scenes/MainScenes/Level_2");
           return;
        }
        if (Input.GetKey(KeyCode.Alpha5)) {
@@ -112,7 +111,7 @@ public class GameManager : MonoBehaviour {
          var healthBarController = currentHealthBar.GetComponent<HealthBarController>();
          healthBarController.enemyState = newEnemy;
          healthBarController.offset = new Vector3(0, 5, 0);
-         healthBarController.sizeOffset = new Vector3(1f, 1f, 1f);
+         healthBarController.sizeOffset = new Vector3(1.5f, 1.5f, 1f);
       }
    }
 
@@ -122,20 +121,14 @@ public class GameManager : MonoBehaviour {
          _playerRef.InputSys = _inputSystem;
          
          // Instantiate healthbar for player
-         GameObject currentHealthBar = Instantiate(healthBarPrefab);
+         var currentHealthBar = Instantiate(healthBarPrefab);
          var healthBarController = currentHealthBar.GetComponent<HealthBarController>();
          healthBarController.playerState = _playerRef;
          healthBarController.offset = new Vector3(0, 5, 0);
-         healthBarController.sizeOffset = new Vector3(1f, 1f, 1f);
+         healthBarController.sizeOffset = new Vector3(1.5f, 1.5f, 1f);
          healthBarController.leftColor = Color.green;
-
-         GameObject currentStaminaBar = Instantiate(staminaBarPrefab);
-         var staminaBarController = currentStaminaBar.GetComponent<StaminaBarController>();
-         staminaBarController.playerState = _playerRef;
-         staminaBarController.offset = new Vector3(0, 5.25f, 0);
-         staminaBarController.sizeOffset = new Vector3(1f, 1f, 1f);
-         staminaBarController.leftColor = Color.blue;
-      } catch (Exception e){ Debug.Log("Player couldn't be added to GameManager:\n" + e);}
+      } catch (Exception){}
+      
    }
 
    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {

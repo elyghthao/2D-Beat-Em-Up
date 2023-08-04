@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4761225493869430105
 MonoBehaviour:
@@ -47,10 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarPrefab: {fileID: 1283117529937839412, guid: f5fab63dfa1922d46854d4819863ddae, type: 3}
-  staminaBarPrefab: {fileID: 4383158150630511152, guid: 5d9d40de93e4c0541a2cb10137ca2267, type: 3}
-  audio: {fileID: 0}
-  audioSlider: {fileID: 0}
-  volume: 0.1
   _playerRef: {fileID: 0}
   _enemyReferences: []
   _inputSystem: {fileID: 0}

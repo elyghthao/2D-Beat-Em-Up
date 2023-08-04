@@ -22,9 +22,7 @@ public class PlayerM1AttackState : PlayerBaseState
       // Sets the time per frame
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.mediumFirstFollowupAttackBounds.SetActive(true);
-      Ctx.MostRecentAttack = ToString();
-      Ctx.StaminaRegenAllowed = false;
-      Ctx.Stamina -= Ctx.MediumBounds.staminaDrain;
+      Ctx.MostRecentAttack = this.ToString();
    }
 
    public override void UpdateState() {

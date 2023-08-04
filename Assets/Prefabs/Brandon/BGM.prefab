@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &8597422947894127199
 AudioSource:
@@ -45,7 +45,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.177
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -141,6 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d098b4c28b8daed4c82ea3b65b71b46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgm_sound: {fileID: 8300000, guid: fa4661b12452ab444853824163669b0a, type: 3}
+  bgm_sound: {fileID: 0}
   pause_sound: {fileID: 8300000, guid: 953821217d5929c4ebb0f85118a77b76, type: 3}
   game_over_sound: {fileID: 8300000, guid: 3c176a0f9cc78024cbf7ea563d8a508f, type: 3}

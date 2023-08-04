@@ -12,7 +12,6 @@ public class PlayerHurtState : PlayerBaseState
 
    public override void EnterState() {
       // Debug.Log("ROOT: ENTERED HURT");
-      Ctx.StaminaRegenAllowed = false;
    }
 
    public override void UpdateState() {

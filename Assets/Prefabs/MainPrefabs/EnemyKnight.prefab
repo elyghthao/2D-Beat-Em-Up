@@ -643,11 +643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedAttack: 0
-  knockback: {x: 10, y: 500}
-  pressure: 40
-  damage: 5
-  staminaDrain: 0
 --- !u!1 &3165560253259394023
 GameObject:
   m_ObjectHideFlags: 0
@@ -5941,11 +5936,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedAttack: 0
-  knockback: {x: 50, y: 500}
-  pressure: 70
-  damage: 40
-  staminaDrain: 0
 --- !u!1 &4918985376813494681
 GameObject:
   m_ObjectHideFlags: 0
@@ -5985,7 +5975,7 @@ Transform:
   - {fileID: 4587880694808618140}
   - {fileID: 8891047094362343215}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &9156497077837927515
 Rigidbody:
@@ -6033,7 +6023,6 @@ MonoBehaviour:
   activationDistance: 12
   attackReliefTime: 1
   attackDistance: 3
-  zAttackDistance: 0.9
   movementSpeed: 1.9
   distanceGoal: 3.65
   heavyAttackBounds: {fileID: 6638405829207540676}
@@ -6053,6 +6042,7 @@ MonoBehaviour:
   lightActiveFrames: {x: 8, y: 9}
   lightRecoveryFrames: {x: 10, y: 23}
   _currentPlayerMachine: {fileID: 0}
+  _knockedDown: 0
 --- !u!114 &5326526767108593139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6072,7 +6062,6 @@ MonoBehaviour:
   slamAttack: {fileID: 0}
   isAttacking: 0
   hitParticle: {fileID: 1767613172925613758}
-  body: {fileID: 0}
 --- !u!1 &5031669023924802589
 GameObject:
   m_ObjectHideFlags: 0
@@ -11179,11 +11168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641a7967ad6ce04eafdb3288f1f6d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedAttack: 0
-  knockback: {x: 800, y: 800}
-  pressure: 300
-  damage: 5
-  staminaDrain: 0
 --- !u!1 &6724996139007287750
 GameObject:
   m_ObjectHideFlags: 0

@@ -45,7 +45,6 @@ public class PlayerAnimationScript : MonoBehaviour
         try {
             // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.CurrentState.ToString());
-            // Debug.Log(stateScript.CurrentState.ToString() + ": " + stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.currentHealth);
         }catch (Exception){
         }
@@ -110,8 +109,6 @@ public class PlayerAnimationScript : MonoBehaviour
             // rand = 1;
             isHit = false;
             anim.Play("Idle");
-        }else if (stateScript.CurrentState.ToString() == "PlayerDeathState"){
-            anim.Play("Death");
         }
         
 

@@ -23,9 +23,7 @@ public class PlayerMAttackState : PlayerBaseState {
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.mediumAttackBounds.SetActive(true);
       Ctx.FollowupTimer = Ctx.attackFollowupThreshold;
-      Ctx.MostRecentAttack = ToString();
-      Ctx.StaminaRegenAllowed = false;
-      Ctx.Stamina -= Ctx.MediumFirstFollowupBounds.staminaDrain;
+      Ctx.MostRecentAttack = this.ToString();
    }
 
    public override void UpdateState() {
@@ -35,8 +33,7 @@ public class PlayerMAttackState : PlayerBaseState {
       _currentFrameState = Ctx.FrameState(Ctx.MediumBounds, _currentFrame, Ctx.mediumStartupFrames,
          Ctx.mediumActiveFrames, Ctx.mediumRecoveryFrames);
       //Debug.Log("CurrentFrameState for MediumAttack: " + _currentFrameState);
-      if (Ctx.InputSys.IsMediumAttackPressed && _currentFrameState >= 2 && !Ctx.InputSys.IsActionHeld
-          && Ctx.Stamina >= Ctx.MediumFirstFollowupBounds.staminaDrain) {
+      if (Ctx.InputSys.IsMediumAttackPressed && _currentFrameState >= 2 && !Ctx.InputSys.IsActionHeld) {
          Ctx.QueuedAttack = Factory.MediumFirstFollowupAttack();
          //Debug.Log("MediumAttack 1 Queued");
       }
