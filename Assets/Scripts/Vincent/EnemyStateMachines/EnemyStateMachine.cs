@@ -286,7 +286,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
         // be first before anything else
-        //ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+        ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         AttackBoundsManager otherAttackManager;
         if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
             if (_receivedAttacks.ContainsKey(other.gameObject)) return;
@@ -326,11 +326,11 @@ public class EnemyStateMachine : MonoBehaviour {
     }
 
     public void ApplyAttackStats() {
-        foreach (KeyValuePair<GameObject, AttackType> i in _receivedAttacks) {
-            if (i.Value.Used) continue;
+        foreach (AttackType i in _receivedAttacks.Values) {
+            if (i.Used) continue;
             if (KnockedDown) {
-                Vector2 appliedKnockback = i.Value.KnockbackDirection;
-                if (i.Value.AttackedFromRightSide) {
+                Vector2 appliedKnockback = i.KnockbackDirection;
+                if (i.AttackedFromRightSide) {
                     appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
                 }
                 // appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
@@ -339,14 +339,13 @@ public class EnemyStateMachine : MonoBehaviour {
                 Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
                 // Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + transform.localScale.x);
             } else {
-                KnockdownMeter -= i.Value.KnockdownPressure;
+                KnockdownMeter -= i.KnockdownPressure;
             }
-            CurrentHealth -= i.Value.Damage;
-            i.Value.Used = true;
-            _receivedAttacks.Remove(i.Key);
+            CurrentHealth -= i.Damage;
+            i.Used = true;
             //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
         }
-        
+        _receivedAttacks.Clear();
         _isAttacked = false;
     }
 
