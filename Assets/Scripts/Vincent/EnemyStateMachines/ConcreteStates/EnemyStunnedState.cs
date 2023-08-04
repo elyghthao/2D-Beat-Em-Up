@@ -34,7 +34,7 @@ public class EnemyStunnedState : EnemyBaseState {
 
    public override void CheckSwitchStates() {
       // If we've been attacked, check to see if we should be knocked down or not.
-      Debug.Log("isgrounded: " + Ctx.IsGrounded + "     knockeddown: " + Ctx.KnockedDown + "     wentAirborne: " + _wentAirborne);
+      // Debug.Log("isgrounded: " + Ctx.IsGrounded + "     knockeddown: " + Ctx.KnockedDown + "     wentAirborne: " + _wentAirborne);
       if (Ctx.IsGrounded && Ctx.KnockedDown && _wentAirborne) {
          SwitchState(Factory.Recovery());
          return;
