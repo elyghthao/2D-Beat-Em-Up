@@ -61,15 +61,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BarRound: 0.02
+    - _BoarderRound: 0.02
     - _BumpScale: 1
-    - _CurrentHealth: 195
+    - _CurrentValue: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _Distort: 0.19
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MaxHealth: 250
+    - _MaxValue: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -82,6 +85,6 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _LeftColor: {r: 1, g: 0.0141509175, b: 0.0141509175, a: 1}
-    - _RightColor: {r: 0, g: 0, b: 0, a: 1}
+    - _LeftColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RightColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
