@@ -22,6 +22,8 @@ public class PlayerHAttackState : PlayerBaseState {
       _timePerFrame = (Ctx.framesPerSecond / 60f)/60f;
       Ctx.heavyAttackBounds.SetActive(true);
       Ctx.MostRecentAttack = this.ToString();
+      Ctx.StaminaRegenAllowed = false;
+      Ctx.Stamina -= Ctx.HeavyBounds.staminaDrain;
    }
 
    public override void UpdateState() {

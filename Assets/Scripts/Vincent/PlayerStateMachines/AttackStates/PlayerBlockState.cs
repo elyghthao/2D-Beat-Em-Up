@@ -13,7 +13,8 @@ public class PlayerBlockState : PlayerBaseState {
    public override void EnterState() {
       // Debug.Log("SUB: ENTERED BLOCK");
       Ctx.BaseMaterial.color = Color.black;
-      Ctx.MostRecentAttack = this.ToString();
+      Ctx.MostRecentAttack = ToString();
+      Ctx.StaminaRegenAllowed = true;
    }
     
    public override void UpdateState() {
