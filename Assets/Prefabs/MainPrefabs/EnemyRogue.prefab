@@ -1245,10 +1245,10 @@ MonoBehaviour:
   maxHealth: 250
   activationDistance: 12
   attackReliefTime: 0.5
-  attackDistance: 3
+  attackDistance: 3.2
   zAttackDistance: 0.9
   movementSpeed: 5.5
-  distanceGoal: 3.65
+  distanceGoal: 2.6
   heavyAttackBounds: {fileID: 1272650948903839902}
   mediumAttackBounds: {fileID: 7216001987956938960}
   lightAttackBounds: {fileID: 696328274990151439}
