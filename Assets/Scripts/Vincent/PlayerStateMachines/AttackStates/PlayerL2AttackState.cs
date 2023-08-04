@@ -48,7 +48,7 @@ public class PlayerL2AttackState : PlayerBaseState
          SwitchState(Ctx.QueuedAttack);
          Ctx.ResetAttackQueue();
       } else {
-         SwitchState(Factory.Idle());
+         SwitchState(Factory.Idle(), true); // TEMP FIX for action not ending because the action is being held down
       }
    }
 

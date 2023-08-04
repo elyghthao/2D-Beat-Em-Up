@@ -258,6 +258,8 @@ public class PlayerStateMachine : MonoBehaviour {
          //Debug.Log("Followup Timer: " + FollowupTimer);
       }
 
+      Debug.Log(CurrentState + " sub: " + CurrentState.CurrentSubState);
+
       if (StaminaRegenAllowed) RegenerateStamina();
       else StaminaRegenDelay = staminaRegenDelay;
    }

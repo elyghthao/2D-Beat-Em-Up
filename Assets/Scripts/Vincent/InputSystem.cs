@@ -132,6 +132,13 @@ public class InputSystem : MonoBehaviour {
    /// <param name="context">Reference to our movement system</param>
    private void OnLightAttackPerformed(InputAction.CallbackContext context) {
       IsLightAttackPressed = context.ReadValueAsButton();
+
+      // ADDED BY ABDUL: To remedy 
+      if (IsLightAttackPressed) {
+         IsMediumAttackPressed = false;
+         IsHeavyAttackPressed = false;
+         IsBlockPressed = false;
+      }
    }
 
    /// <summary>
@@ -148,6 +155,13 @@ public class InputSystem : MonoBehaviour {
    /// <param name="context">Reference to our movement system</param>
    private void OnMediumAttackPerformed(InputAction.CallbackContext context) {
       IsMediumAttackPressed = context.ReadValueAsButton();
+
+      // ADDED BY ABDUL: To remedy 
+      if (IsMediumAttackPressed) {
+         IsHeavyAttackPressed = false;
+         IsLightAttackPressed = false;
+         IsBlockPressed = false;
+      }
    }
 
    /// <summary>
@@ -164,6 +178,13 @@ public class InputSystem : MonoBehaviour {
    /// <param name="context">Reference to our movement system</param>
    private void OnHeavyAttackPerformed(InputAction.CallbackContext context) {
       IsHeavyAttackPressed = context.ReadValueAsButton();
+
+      // ADDED BY ABDUL: To remedy 
+      if (IsHeavyAttackPressed) {
+         IsMediumAttackPressed = false;
+         IsLightAttackPressed = false;
+         IsBlockPressed = false;
+      }
    }
 
    /// <summary>
@@ -180,6 +201,13 @@ public class InputSystem : MonoBehaviour {
    /// <param name="context">Reference to our movement system</param>
    private void OnBlockPerformed(InputAction.CallbackContext context) {
       IsBlockPressed = context.ReadValueAsButton();
+
+      // ADDED BY ABDUL: To remedy 
+      if (IsBlockPressed) {
+         IsHeavyAttackPressed = false;
+         IsLightAttackPressed = false;
+         IsMediumAttackPressed = false;
+      }
    }
 
    /// <summary>
