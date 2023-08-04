@@ -293,9 +293,12 @@ public class PlayerStateMachine : MonoBehaviour {
    private void OnTriggerEnter(Collider other) {
       // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
       // be first before anything else
-      ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+      //ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
       AttackBoundsManager otherAttackManager;
       if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
+         if (CurrentState.CurrentSubState != null && 
+             (CurrentState.CurrentSubState.ToString() == "PlayerBlockState" ||
+             CurrentState.CurrentSubState.ToString() == "PlayerRecoveryState")) return;
          if (_receivedAttacks.ContainsKey(other.gameObject)) return;
          AttackType receivedAttack = new AttackType(otherAttackManager.knockback, otherAttackManager.pressure,
             otherAttackManager.damage);
@@ -305,28 +308,28 @@ public class PlayerStateMachine : MonoBehaviour {
       }
    }
 
-   private void OnTriggerExit(Collider other) {
-      // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
-      // be first before anything else
-      ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
-      //bool checkIfStillAttacked = false;
-      if (_receivedAttacks.ContainsKey(other.gameObject)) {
-         _receivedAttacks.Remove(other.gameObject);
-      }
-      // for (int i = 0; i < _recievedAttack.Length; i++) {
-      //     if (other.CompareTag(_recievedAttack[i].Tag)) {
-      //         _recievedAttack[i].Used = false;
-      //         _recievedAttack[i].AttackedFromRightSide = false;
-      //         _recievedAttack[i].StatsApplied = false;
-      //     }
-      //     if (_recievedAttack[i].Used) {
-      //         checkIfStillAttacked = true;
-      //     }
-      // }
-    
-      // _isAttacked = checkIfStillAttacked;
-      IsAttacked = false;
-   }
+   // private void OnTriggerExit(Collider other) {
+   //    // Important function for ensuring that the triggerExit works even if the other trigger is disabled. This must
+   //    // be first before anything else
+   //    ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
+   //    //bool checkIfStillAttacked = false;
+   //    if (_receivedAttacks.ContainsKey(other.gameObject)) {
+   //       _receivedAttacks.Remove(other.gameObject);
+   //    }
+   //    // for (int i = 0; i < _recievedAttack.Length; i++) {
+   //    //     if (other.CompareTag(_recievedAttack[i].Tag)) {
+   //    //         _recievedAttack[i].Used = false;
+   //    //         _recievedAttack[i].AttackedFromRightSide = false;
+   //    //         _recievedAttack[i].StatsApplied = false;
+   //    //     }
+   //    //     if (_recievedAttack[i].Used) {
+   //    //         checkIfStillAttacked = true;
+   //    //     }
+   //    // }
+   //  
+   //    // _isAttacked = checkIfStillAttacked;
+   //    IsAttacked = false;
+   // }
 
    private IEnumerator SafeOnEnable() {
       while (InputSys == null || InputSys.EmptyPlayerInput) yield return null;
@@ -346,7 +349,12 @@ public class PlayerStateMachine : MonoBehaviour {
    public void ApplyAttackStats() {
       // Debug.Log(InputSys.IsBlockHeld);
       foreach (AttackType i in _receivedAttacks.Values) {
-         if (i.Used) continue;
+         if (KnockdownMeter > 0) {
+            KnockdownMeter -= i.KnockdownPressure;
+         }
+         if (KnockdownMeter < 0) {
+            KnockedDown = true;
+         }
          if (KnockedDown) {
             Vector2 appliedKnockback = i.KnockbackDirection;
             if (i.AttackedFromRightSide) {
@@ -366,10 +374,10 @@ public class PlayerStateMachine : MonoBehaviour {
             // if(KnockdownMeter <= 0) KnockdownMeter = knockdownMax;
          }
          CurrentHealth -= i.Damage;
-         i.Used = true;
          //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
          
       }
+      _receivedAttacks.Clear();
       IsAttacked = false;
       // for (int i = 0; i < _receivedAttacks.Length; i++) {
       //    if (RecievedAttack[i].StatsApplied || !RecievedAttack[i].Used) continue;

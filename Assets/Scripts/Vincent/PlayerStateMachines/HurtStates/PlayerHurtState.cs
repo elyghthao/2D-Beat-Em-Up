@@ -41,6 +41,10 @@ public class PlayerHurtState : PlayerBaseState
          SwitchState(Factory.Dead());
          return;
       }
+      if (Ctx.IsActionPressed || Ctx.IsBlockHeld) {
+         SwitchState(Factory.Attack());
+         return;
+      }
       SwitchState(Factory.Idle());
    }
 

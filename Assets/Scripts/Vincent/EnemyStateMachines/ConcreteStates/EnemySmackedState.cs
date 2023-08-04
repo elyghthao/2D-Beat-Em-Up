@@ -35,6 +35,10 @@ public class EnemySmackedState : EnemyBaseState
    }
 
    public override void CheckSwitchStates() {
+      if (Ctx.KnockdownMeter <= 0) {
+         SwitchState(Factory.KnockedDown());
+         return;
+      }
       SwitchState(Factory.Stunned());
    }
 
