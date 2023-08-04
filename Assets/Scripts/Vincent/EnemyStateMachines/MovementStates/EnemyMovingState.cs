@@ -17,6 +17,7 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void UpdateState() {
+      Ctx.MovingGoal = Ctx.CurrentPlayerMachine.transform;
       CheckSwitchStates();
    }
 
