@@ -5118,7 +5118,7 @@ MonoBehaviour:
   selectedAttack: 0
   knockback: {x: 10, y: 500}
   pressure: 40
-  damage: 15
+  damage: 25
   staminaDrain: 5
 --- !u!82 &5020132420625414097
 AudioSource:
@@ -25500,8 +25500,8 @@ MonoBehaviour:
   selectedAttack: 5
   knockback: {x: 800, y: 800}
   pressure: 300
-  damage: 50
-  staminaDrain: 40
+  damage: 70
+  staminaDrain: 80
 --- !u!82 &1916134075735392104
 AudioSource:
   m_ObjectHideFlags: 0
@@ -30548,7 +30548,7 @@ MonoBehaviour:
   selectedAttack: 1
   knockback: {x: 50, y: 250}
   pressure: 60
-  damage: 20
+  damage: 25
   staminaDrain: 5
 --- !u!82 &2853785168238711029
 AudioSource:
@@ -31128,7 +31128,7 @@ MonoBehaviour:
   selectedAttack: 3
   knockback: {x: 50, y: 500}
   pressure: 70
-  damage: 25
+  damage: 35
   staminaDrain: 15
 --- !u!82 &5701444862839759376
 AudioSource:
