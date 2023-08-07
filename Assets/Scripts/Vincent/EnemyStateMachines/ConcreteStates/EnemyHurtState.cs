@@ -21,7 +21,7 @@ public class EnemyHurtState : EnemyBaseState {
          Ctx.StunTimer -= Time.deltaTime;
       }
 
-      if (Ctx.StunTimer <= 0) {
+      if (Ctx.StunTimer <= 0 && CurrentSubState.ToString() != "EnemyDeathState") {
          CheckSwitchStates();
       }
    }
@@ -35,13 +35,7 @@ public class EnemyHurtState : EnemyBaseState {
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.CurrentHealth <= 0 && Ctx.IsGrounded) {
-         SwitchState(Factory.Dead());
-      } else {
-         // Only possible alternative currently is to be returned to the Idle State
-         SwitchState(Factory.Idle());
-         // Could add more states here when there are more root states implemented
-      }
+      SwitchState(Factory.Idle());
    }
 
    public override void InitializeSubState() {

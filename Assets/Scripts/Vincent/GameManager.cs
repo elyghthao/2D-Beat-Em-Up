@@ -5,7 +5,6 @@ using System;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-   
    public static GameManager Instance { get; private set; }
    public PowerupSystem PowerupSystem { get; set; }
    

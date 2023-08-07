@@ -39,6 +39,10 @@ public class EnemyStunnedState : EnemyBaseState {
    public override void CheckSwitchStates() {
       // If we've been attacked, check to see if we should be knocked down or not.
       // Debug.Log("isgrounded: " + Ctx.IsGrounded + "     knockeddown: " + Ctx.KnockedDown + "     wentAirborne: " + _wentAirborne);
+      if (Ctx.IsGrounded && Ctx.CurrentHealth <= 0) {
+         SwitchState(Factory.Dead());
+         return;
+      }
       if (Ctx.IsGrounded && Ctx.KnockedDown && _wentAirborne) {
          SwitchState(Factory.Recovery());
          return;
@@ -50,8 +54,6 @@ public class EnemyStunnedState : EnemyBaseState {
             SwitchState(Factory.KnockedDown());
          }
       }
-
-      
       // Otherwise, stay in stunned until our root state switches us to a different state
    }
 
