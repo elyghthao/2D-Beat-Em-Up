@@ -22,6 +22,8 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void FixedUpdateState() {
+      return;
+
       // Chasing goal Transform and offsets
       Vector3 goalPos = Ctx.MovingGoal.position; // NOTE: The y for the MovingGoalOffset is really the z
       goalPos.x += Ctx.MovingGoalOffset.x;
@@ -118,13 +120,15 @@ public class EnemyMovingState : EnemyBaseState {
       //    SetSubState(Factory.Chase());
       // }
 
-      if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
-         Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
-         SetSubState(Factory.RightFlankState());
-      } else {
-         Ctx.EnemyFlankDistanceGoal = 7;
-         SetSubState(Factory.LeftFlankState());
-      }
+      SetSubState(Factory.Chase());
+
+      // if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
+      //    Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+      //    SetSubState(Factory.RightFlankState());
+      // } else {
+      //    Ctx.EnemyFlankDistanceGoal = 7;
+      //    SetSubState(Factory.LeftFlankState());
+      // }
 
       // Only state that should be set to the substate initially is the Stunned state
       // SetSubState(Factory.Stunned());

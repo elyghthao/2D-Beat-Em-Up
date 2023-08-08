@@ -20,18 +20,20 @@ public class EnemyChaseState : EnemyBaseState
 
    public override void UpdateState() {
       agent.updateRotation = false;
-      agent.updateRotation = false;
-      agent.updateUpAxis = false;
+      // agent.updatePosition = false;
+      // agent.updateUpAxis = false;
+
+      Ctx.MovingGoal = Ctx.CurrentPlayerMachine.transform;
       
       agent.SetDestination(Ctx.CurrentPlayerMachine.transform.position);
 
-      Vector3 goalPos = agent.steeringTarget;
-      Vector3 vecToGoal = goalPos - Ctx.gameObject.transform.position;
-      vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
+      // Vector3 goalPos = agent.steeringTarget;
+      // Vector3 vecToGoal = goalPos - Ctx.gameObject.transform.position;
+      // vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
         
-      Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
+      // Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
 
-      Ctx.SpeedControl();
+      // Ctx.SpeedControl();
 
       Vector3 enemyScale = Ctx.transform.localScale;
       Vector3 vecToPlayer = Ctx.MovingGoal.position - Ctx.gameObject.transform.position;
