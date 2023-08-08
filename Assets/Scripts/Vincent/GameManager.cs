@@ -6,8 +6,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
    public static GameManager Instance { get; private set; }
+   public static GameObject SmackedPrefabInstance { get; private set; }
    public PowerupSystem PowerupSystem { get; set; }
-   
+
+   public GameObject smackedVFXPrefab;
    public GameObject healthBarPrefab;
    public GameObject staminaBarPrefab;
    private bool FirstLoad = true;
@@ -83,6 +85,8 @@ public class GameManager : MonoBehaviour {
          Destroy(gameObject);
          return;
       }
+
+      SmackedPrefabInstance = smackedVFXPrefab;
 
       Application.targetFrameRate = 60;
 

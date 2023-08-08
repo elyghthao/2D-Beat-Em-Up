@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerSmackedState : PlayerBaseState
@@ -17,6 +19,10 @@ public class PlayerSmackedState : PlayerBaseState
         if (Ctx.StunTimer < 0.5f) {
             Ctx.StunTimer = 0.5f;
         }
+
+        GameObject smackedInstance = Instantiate(GameManager.SmackedPrefabInstance);
+        smackedInstance.transform.position = Ctx.transform.position;
+
     }
 
     public override void UpdateState() {

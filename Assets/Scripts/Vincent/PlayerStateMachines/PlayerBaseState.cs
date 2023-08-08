@@ -4,7 +4,7 @@ using UnityEngine;
 /// Base abstract state for all player states to derive from. Contains the necessary abstract functions for that define
 /// and give functionality to player states
 /// </summary>
-public abstract class PlayerBaseState {
+public abstract class PlayerBaseState : MonoBehaviour{
 
     private bool _isRootState = false;
     private bool _canSwitch = true;
