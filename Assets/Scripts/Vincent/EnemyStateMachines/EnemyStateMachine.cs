@@ -189,6 +189,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public float EnemyFlankDistanceGoal{ get; set; } 
     public bool inPosition = false; //used for animation controller
 
+    // Added 8/7/2023
+    public Vector3 realMovingGoal {get; set; }
+
 
     // Functions
     
