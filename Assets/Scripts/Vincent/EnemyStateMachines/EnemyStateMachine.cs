@@ -327,7 +327,13 @@ public class EnemyStateMachine : MonoBehaviour {
 
     public void ApplyAttackStats() {
         foreach (AttackType i in _receivedAttacks.Values) {
-            if (i.Used) continue;
+            if (_knockdownMeter > 0) {
+                KnockdownMeter -= i.KnockdownPressure;
+            }
+
+            if (_knockdownMeter < 0) {
+                _knockedDown = true;
+            }
             if (KnockedDown) {
                 Vector2 appliedKnockback = i.KnockbackDirection;
                 if (i.AttackedFromRightSide) {
@@ -338,11 +344,8 @@ public class EnemyStateMachine : MonoBehaviour {
                 // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
                 Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
                 // Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + transform.localScale.x);
-            } else {
-                KnockdownMeter -= i.KnockdownPressure;
             }
             CurrentHealth -= i.Damage;
-            i.Used = true;
             //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
         }
         _receivedAttacks.Clear();

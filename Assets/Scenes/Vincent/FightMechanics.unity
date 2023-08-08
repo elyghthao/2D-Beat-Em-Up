@@ -2037,6 +2037,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyKnight
       objectReference: {fileID: 0}
+    - target: {fileID: 4918985376813494681, guid: 3086f6f4bc45c064c82c84814860ad16, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6439710343388414821, guid: 3086f6f4bc45c064c82c84814860ad16, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -2362,6 +2366,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyRogue
       objectReference: {fileID: 0}
+    - target: {fileID: 4527150428063327851, guid: 03bdca17c22ecae4cbc7a949d544b68c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5846583888517228480, guid: 03bdca17c22ecae4cbc7a949d544b68c, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -2427,6 +2435,10 @@ PrefabInstance:
     - target: {fileID: 4918985376813494681, guid: 3086f6f4bc45c064c82c84814860ad16, type: 3}
       propertyPath: m_Name
       value: EnemyKnight (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4918985376813494681, guid: 3086f6f4bc45c064c82c84814860ad16, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6439710343388414821, guid: 3086f6f4bc45c064c82c84814860ad16, type: 3}
       propertyPath: m_RootOrder
