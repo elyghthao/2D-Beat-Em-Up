@@ -11,13 +11,20 @@ public class CapsuleAITest : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        body.isKinematic = true;
+        agent.enabled = true;
+
         agent.SetDestination(player.position);
 
         Vector3 goalPos = agent.steeringTarget;
         Vector3 vecToGoal = goalPos - transform.position;
         vecToGoal = vecToGoal.normalized * speed * 10f;
+
+        agent.enabled = false;
+        body.isKinematic = false;
         
         body.AddForce(vecToGoal, ForceMode.Force);
+        SpeedControl();
     }
 
     public void SpeedControl() {
