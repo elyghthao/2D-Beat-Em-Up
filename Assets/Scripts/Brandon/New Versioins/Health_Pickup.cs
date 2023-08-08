@@ -31,7 +31,7 @@ public class Health_Pickup : MonoBehaviour
 
             GameObject player = GameObject.Find("Player");
             PlayerStateMachine player_machine = player.GetComponent<PlayerStateMachine>();
-            player_machine.HealCharacter(35);
+            player_machine.HealCharacter(75);
 
             Destroy(gameObject, 1);
         }
