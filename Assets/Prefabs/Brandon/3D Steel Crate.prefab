@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1737290f94e81f44e8e3885fb35ca89b, type: 2}
+  - {fileID: 2100000, guid: b62aff0f54d1b97419c62e0328b412c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,8 +105,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 9.651654, z: 1}
+  m_Center: {x: 0, y: 4.3258247, z: 0}
 --- !u!82 &3897566352486907601
 AudioSource:
   m_ObjectHideFlags: 0
@@ -218,5 +218,5 @@ MonoBehaviour:
   health_appear_guarantee: 0
   health_pack: {fileID: 6757572692431102657, guid: 9b276697f4d8b034c91fe37e4692a31e, type: 3}
   crate_break_sound: {fileID: 8300000, guid: f408462386d92e043a8704323d4d6351, type: 3}
-  crate_cracked_1: {fileID: 2100000, guid: cf2f0d49c715a66488b1f1e926439b58, type: 2}
-  crate_cracked_2: {fileID: 2100000, guid: 43e2d803cbe33a741ac213c12669e323, type: 2}
+  crate_cracked_1: {fileID: 2100000, guid: ab31c5c768df51844ac45c67aaac1c46, type: 2}
+  crate_cracked_2: {fileID: 2100000, guid: 10bf3c6173b87b7488320bb93fda6b7c, type: 2}
