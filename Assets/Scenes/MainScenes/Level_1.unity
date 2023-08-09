@@ -7187,6 +7187,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: _GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4761225493869430105, guid: cf74653b0c1278449901e7b1153c4e39, type: 3}
+      propertyPath: cameraShakeStrength
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8858849111289878972, guid: cf74653b0c1278449901e7b1153c4e39, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -8619,6 +8623,18 @@ PrefabInstance:
     - target: {fileID: 3904518991961103097, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
       propertyPath: orthographic size
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904518991961103097, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.1509434
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904518991961103097, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.00071199884
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904518991961103097, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.002186624
       objectReference: {fileID: 0}
     - target: {fileID: 6833959132200347265, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
       propertyPath: player

@@ -6,19 +6,32 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
    public static GameManager Instance { get; private set; }
+   public static GameObject SmackedPrefabInstance { get; private set; }
+   private static Camera _camera;
+   public static Camera Camera {
+      get {
+         if (_camera == null) _camera = Camera.main;
+         return _camera;
+      }
+   }
    public PowerupSystem PowerupSystem { get; set; }
-   
+
+   [Header("References")]
+   public GameObject smackedVFXPrefab;
    public GameObject healthBarPrefab;
    public GameObject staminaBarPrefab;
-   private bool FirstLoad = true;
-
    public AudioListener audio;
    public GameObject audioSlider;
+
+   [Header("Variables")]
    public float volume = 0.1f;
+   public float cameraShakeStrength;
 
    [SerializeField] private PlayerStateMachine _playerRef;
    [SerializeField] private List<EnemyStateMachine> _enemyReferences;
    [SerializeField] private InputSystem _inputSystem;
+   
+   private bool FirstLoad = true;
 
    public PlayerStateMachine PlayerRef {
       get => _playerRef;
@@ -83,6 +96,8 @@ public class GameManager : MonoBehaviour {
          Destroy(gameObject);
          return;
       }
+
+      SmackedPrefabInstance = smackedVFXPrefab;
 
       Application.targetFrameRate = 60;
 

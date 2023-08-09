@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4761225493869430105
 MonoBehaviour:
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89df26d7b7fe0ac4491d362445ceedec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smackedVFXPrefab: {fileID: 7271715939315637481, guid: aa4afa4ca98e6504498c8425801deda8, type: 3}
   healthBarPrefab: {fileID: 1283117529937839412, guid: f5fab63dfa1922d46854d4819863ddae, type: 3}
   staminaBarPrefab: {fileID: 4383158150630511152, guid: 5d9d40de93e4c0541a2cb10137ca2267, type: 3}
   audio: {fileID: 0}
