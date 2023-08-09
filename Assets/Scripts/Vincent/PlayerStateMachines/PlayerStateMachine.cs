@@ -300,8 +300,10 @@ public class PlayerStateMachine : MonoBehaviour {
              (CurrentState.CurrentSubState.ToString() == "PlayerBlockState" ||
              CurrentState.CurrentSubState.ToString() == "PlayerRecoveryState")) return;
          if (_receivedAttacks.ContainsKey(other.gameObject)) return;
-         AttackType receivedAttack = new AttackType(otherAttackManager.knockback, otherAttackManager.pressure,
-            otherAttackManager.damage);
+         
+         AttackType receivedAttack = new AttackType(otherAttackManager.selectedAttack.ToString(), 
+            otherAttackManager.knockback, otherAttackManager.pressure, otherAttackManager.damage);
+         
          if (other.transform.parent.position.x > transform.position.x) receivedAttack.AttackedFromRightSide = true;
          _receivedAttacks[other.gameObject] = receivedAttack;
          IsAttacked = true;
@@ -346,7 +348,8 @@ public class PlayerStateMachine : MonoBehaviour {
       return false;
    }
 
-   public void ApplyAttackStats() {
+   public List<string> ApplyAttackStats() {
+      List<string> recievedAttackNames = new List<string>();
       // Debug.Log(InputSys.IsBlockHeld);
       foreach (AttackType i in _receivedAttacks.Values) {
          if (KnockdownMeter > 0) {
@@ -371,39 +374,13 @@ public class PlayerStateMachine : MonoBehaviour {
             }
          } else {
             KnockdownMeter -= i.KnockdownPressure;
-            // if(KnockdownMeter <= 0) KnockdownMeter = knockdownMax;
          }
          CurrentHealth -= i.Damage;
-         //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
-         
+         recievedAttackNames.Add(i.Name);
       }
       _receivedAttacks.Clear();
       IsAttacked = false;
-      // for (int i = 0; i < _receivedAttacks.Length; i++) {
-      //    if (RecievedAttack[i].StatsApplied || !RecievedAttack[i].Used) continue;
-      //       
-      // if (KnockedDown) {
-      //    Vector2 appliedKnockback = RecievedAttack[i].KnockbackDirection;
-      //    if (RecievedAttack[i].AttackedFromRightSide) {
-      //       appliedKnockback = new Vector2(appliedKnockback.x * -4, appliedKnockback.y);
-      //    }
-      //    appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
-      //    Rigidbody.velocity = Vector3.zero;
-      //    // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
-      //    Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
-      //    Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + this.transform.localScale.x);
-      //    if((appliedKnockback.x < 0 && this.transform.localScale.x < 0) 
-      //       || (appliedKnockback.x > 0 && this.transform.localScale.x > 0)){
-      //       this.FlipCharacter();
-      //    }
-      //    
-      // } else {
-      //    KnockdownMeter -= RecievedAttack[i].KnockdownPressure;
-      // }
-      // CurrentHealth -= RecievedAttack[i].Damage;
-      // //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
-      // RecievedAttack[i].StatsApplied = true;
-      // }
+      return recievedAttackNames;
    }
 
    /// <summary>
@@ -509,5 +486,9 @@ public class PlayerStateMachine : MonoBehaviour {
         IsDead = true;
         yield return new WaitForSeconds(0.5f);
         this.SetDead();
-    }
+   }
+
+   public GameObject InstantiatePrefab(GameObject obj) {
+      return Instantiate(obj);
+   }
 }

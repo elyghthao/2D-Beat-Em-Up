@@ -290,8 +290,10 @@ public class EnemyStateMachine : MonoBehaviour {
         AttackBoundsManager otherAttackManager;
         if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
             if (_receivedAttacks.ContainsKey(other.gameObject)) return;
-            AttackType receivedAttack = new AttackType(otherAttackManager.knockback, otherAttackManager.pressure,
-                otherAttackManager.damage);
+            
+            AttackType receivedAttack = new AttackType(otherAttackManager.selectedAttack.ToString(),
+                otherAttackManager.knockback, otherAttackManager.pressure, otherAttackManager.damage);
+            
             if (other.transform.parent.position.x > transform.position.x) receivedAttack.AttackedFromRightSide = true;
             _receivedAttacks[other.gameObject] = receivedAttack;
             _isAttacked = true;
@@ -325,12 +327,12 @@ public class EnemyStateMachine : MonoBehaviour {
         GameManager.Instance.EnemyReferences.Remove(this);
     }
 
-    public void ApplyAttackStats() {
+    public List<string> ApplyAttackStats() {
+        List<string> recievedAttackNames = new List<string>();
         foreach (AttackType i in _receivedAttacks.Values) {
             if (_knockdownMeter > 0) {
                 KnockdownMeter -= i.KnockdownPressure;
             }
-
             if (_knockdownMeter < 0) {
                 _knockedDown = true;
             }
@@ -347,9 +349,11 @@ public class EnemyStateMachine : MonoBehaviour {
             }
             CurrentHealth -= i.Damage;
             //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
+            recievedAttackNames.Add(i.Name);
         }
         _receivedAttacks.Clear();
         _isAttacked = false;
+        return recievedAttackNames;
     }
 
     public void SetDead() {
@@ -373,5 +377,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public IEnumerator DeathTimeDelay(float waitTime){
         yield return new WaitForSeconds(waitTime);
         this.SetDead();
+    }
+    
+    public GameObject InstantiatePrefab(GameObject obj) {
+        return Instantiate(obj);
     }
 }
