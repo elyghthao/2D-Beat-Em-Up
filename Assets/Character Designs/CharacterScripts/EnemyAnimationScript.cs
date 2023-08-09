@@ -16,6 +16,7 @@ public class EnemyAnimationScript : MonoBehaviour
     private bool _ready;
     private GameObject currentPlayer;
     public GameObject body;
+    public int animNum = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -43,15 +44,27 @@ public class EnemyAnimationScript : MonoBehaviour
 
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
-            if(lightAttack.activeSelf){
-                anim.Play("LightAttack");
-            }else if(mediumAttack.activeSelf){
-                anim.Play("MediumAttack");
-            }else if(slamAttack.activeSelf){
-                anim.Play("SlamAttack");
+            if (animNum == 0){
+                if(lightAttack.activeSelf){
+                    anim.Play("LightAttack");
+                }else if(mediumAttack.activeSelf){
+                    anim.Play("MediumAttack");
+                }else if(slamAttack.activeSelf){
+                    anim.Play("SlamAttack");
+                }
+            }else if(animNum == 1){
+                if(lightAttack.activeSelf){
+                    anim.Play("LightAttack1");
+                }else if(mediumAttack.activeSelf){
+                    anim.Play("MediumAttack1");
+                }else if(slamAttack.activeSelf){
+                    anim.Play("SlamAttack1");
+                }
             }
-            }else if (isAttacking) {
-                isAttacking = false;
+            
+        }else {
+            isAttacking = false;
+            animNum = UnityEngine.Random.Range(0,2);
         }
 
 
@@ -66,8 +79,14 @@ public class EnemyAnimationScript : MonoBehaviour
             }
         }else if(stateScript.CurrentState.ToString() == "EnemyHurtState" ){//HURT STATE
 
-
-                if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemyRecoveryState") {
+                Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+                if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemyDeathState"){
+                    if(stateScript.KnockedDown){
+                        anim.Play("DeathFromDown");
+                    }else {
+                        anim.Play("Death");
+                    }
+                }else if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemyRecoveryState") {
                     anim.Play("Recover");
                 }else if (stateScript.KnockedDown){
                     if(stateScript.CurrentState.CurrentSubState.ToString() == "EnemyKnockedDownState") {//this makes the particle effect
@@ -76,22 +95,11 @@ public class EnemyAnimationScript : MonoBehaviour
                     anim.Play("KnockedDown");
 
                 }else if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemySmackedState") {
-                    // anim.Play("Idle");
-                    // anim.Play("Hurt");
                     anim.Play("Hurt", -1, 0f);
                     
-                }else {//add more code to account repeatedly getting hit
-                    //Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
-                    // anim.Play("Idle");
                 }
-
-
-
-
         }else if(stateScript.CurrentState.ToString() == "EnemyIdleState" && !isAttacking){//IDLE STATE
             anim.Play("Idle");
-        }else if (stateScript.CurrentState.ToString() == "EnemyDeathState"){
-            anim.Play("Death");
         }
 
 

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 /// <summary>
@@ -47,6 +48,7 @@ public class PlayerHAttackState : PlayerBaseState {
          }
          Ctx.HeavyBounds.SetMatColor(Color.red);
          Ctx.HeavyBounds.SetColliderActive(true);
+         GameManager.Camera.DOShakePosition(0.5f, GameManager.Instance.cameraShakeStrength);
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames) {
          Ctx.HeavyBounds.SetMatColor(Color.blue);
          Ctx.HeavyBounds.SetColliderActive(false);

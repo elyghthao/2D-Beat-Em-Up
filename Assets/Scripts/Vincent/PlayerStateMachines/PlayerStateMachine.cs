@@ -21,19 +21,21 @@ public enum Attacks {
 /// </summary>
 public class PlayerStateMachine : MonoBehaviour {
    // Inspector Arguments
-   [Header("Body Elements")] public GameObject body;
-
-   [Header("Attack Boundaries")] public GameObject heavyAttackBounds;
-
-   public GameObject mediumAttackBounds;
+   [Header("References")]
+   public GameObject body;
+   [Header("---")]
    public GameObject mediumFirstFollowupAttackBounds;
-   public GameObject lightAttackBounds;
    public GameObject lightFirstFollowupAttackBounds;
    public GameObject lightSecondFollowupAttackBounds;
-
-   [Header("FrameData")] public int framesPerSecond;
-
-   [Header("HeavyAttack")] [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+   [Header("---")]
+   public GameObject lightAttackBounds;
+   public GameObject mediumAttackBounds;
+   public GameObject heavyAttackBounds;
+   
+   [Header("Variables")]
+   public int framesPerSecond;
+   [Header("---")]
+   [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public float heavyStartupFrames = 10;
 
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
@@ -42,7 +44,8 @@ public class PlayerStateMachine : MonoBehaviour {
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public float heavyRecoveryFrames = 44;
 
-   [Header("MediumAttack")] [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
+   [Header("---")]
+   [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int mediumStartupFrames = 9;
 
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
@@ -50,8 +53,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int mediumRecoveryFrames = 32;
-
-   [Header("MediumFirstFollowupAttack")]
+   [Header("---")]
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int medium1StartupFrames = 9;
 
@@ -70,7 +72,7 @@ public class PlayerStateMachine : MonoBehaviour {
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int lightRecoveryFrames = 23;
 
-   [Header("LightFirstFollowupAttack")]
+   [Header("---")]
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int light1StartupFrames = 7;
 
@@ -80,7 +82,7 @@ public class PlayerStateMachine : MonoBehaviour {
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int light1RecoveryFrames = 23;
 
-   [Header("LightsecondFollowupAttack")]
+   [Header("---")]
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int light2StartupFrames = 7;
 
@@ -89,15 +91,16 @@ public class PlayerStateMachine : MonoBehaviour {
 
    [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
    public int light2RecoveryFrames = 23;
-
-   [Header("Combat Stats")]
+   
+   [Header("---")]
 
    public int maxHealth = 100;
-
    public bool gotHealed;
-   [FormerlySerializedAs("maxStamina")] public float stamina;
+   public float stamina;
+   
    [Tooltip("Time in seconds it takes for stamina to regenerate after performing an action")]
    public float staminaRegenDelay;
+   
    [Tooltip("The amount of stamina regenerated per second")]
    public float staminaRegenRate;
    
@@ -106,8 +109,9 @@ public class PlayerStateMachine : MonoBehaviour {
 
    [Tooltip("How much time in seconds is given to initiate a followup attack")]
    public float attackFollowupThreshold = 0.75f;
-
-   [Header("Movement")] public float movementSpeed;
+   public float movementSpeed;
+   [Tooltip("How long, in seconds, the player stays invulnerable after recovery")]
+   public float invulnerabilityTime = 0.1f;
 
    // Reference variables
    private PlayerStateFactory _states;
@@ -208,6 +212,9 @@ public class PlayerStateMachine : MonoBehaviour {
    public bool StaminaRegenAllowed { get; set; }
    public float StaminaRegenDelay { get; private set; }
    public bool IsDead {get; private set;}
+   public bool SpendInvulnerabilityTime { get; set; }
+   
+   private float invuln;
    // Functions
 
    private void Awake() {
@@ -234,6 +241,7 @@ public class PlayerStateMachine : MonoBehaviour {
       CurrentHealth = maxHealth;
       Stamina = stamina;
       StaminaRegenDelay = staminaRegenDelay;
+      invuln = invulnerabilityTime;
 
       // enter initial state. All assignments should go before here
       _states = new PlayerStateFactory(this);
@@ -262,6 +270,12 @@ public class PlayerStateMachine : MonoBehaviour {
 
       // Debug.Log(CurrentState + " sub: " + CurrentState.CurrentSubState);
       // Debug.Log("Attacking? - " + IsLightAttackPressed);
+      if (SpendInvulnerabilityTime && invuln >= invulnerabilityTime) {
+         invuln -= Time.deltaTime;
+      } else if (SpendInvulnerabilityTime && invuln <= 0) {
+         SpendInvulnerabilityTime = false;
+         invuln = invulnerabilityTime;
+      }
 
       if (StaminaRegenAllowed) RegenerateStamina();
       else StaminaRegenDelay = staminaRegenDelay;
@@ -300,8 +314,10 @@ public class PlayerStateMachine : MonoBehaviour {
              (CurrentState.CurrentSubState.ToString() == "PlayerBlockState" ||
              CurrentState.CurrentSubState.ToString() == "PlayerRecoveryState")) return;
          if (_receivedAttacks.ContainsKey(other.gameObject)) return;
-         AttackType receivedAttack = new AttackType(otherAttackManager.knockback, otherAttackManager.pressure,
-            otherAttackManager.damage);
+         
+         AttackType receivedAttack = new AttackType(otherAttackManager.selectedAttack.ToString(), 
+            otherAttackManager.knockback, otherAttackManager.pressure, otherAttackManager.damage);
+         
          if (other.transform.parent.position.x > transform.position.x) receivedAttack.AttackedFromRightSide = true;
          _receivedAttacks[other.gameObject] = receivedAttack;
          IsAttacked = true;
@@ -346,7 +362,8 @@ public class PlayerStateMachine : MonoBehaviour {
       return false;
    }
 
-   public void ApplyAttackStats() {
+   public List<string> ApplyAttackStats() {
+      List<string> recievedAttackNames = new List<string>();
       // Debug.Log(InputSys.IsBlockHeld);
       foreach (AttackType i in _receivedAttacks.Values) {
          if (KnockdownMeter > 0) {
@@ -371,39 +388,13 @@ public class PlayerStateMachine : MonoBehaviour {
             }
          } else {
             KnockdownMeter -= i.KnockdownPressure;
-            // if(KnockdownMeter <= 0) KnockdownMeter = knockdownMax;
          }
          CurrentHealth -= i.Damage;
-         //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
-         
+         recievedAttackNames.Add(i.Name);
       }
       _receivedAttacks.Clear();
       IsAttacked = false;
-      // for (int i = 0; i < _receivedAttacks.Length; i++) {
-      //    if (RecievedAttack[i].StatsApplied || !RecievedAttack[i].Used) continue;
-      //       
-      // if (KnockedDown) {
-      //    Vector2 appliedKnockback = RecievedAttack[i].KnockbackDirection;
-      //    if (RecievedAttack[i].AttackedFromRightSide) {
-      //       appliedKnockback = new Vector2(appliedKnockback.x * -4, appliedKnockback.y);
-      //    }
-      //    appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
-      //    Rigidbody.velocity = Vector3.zero;
-      //    // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
-      //    Rigidbody.AddForce(new Vector3(appliedKnockback.x, appliedKnockback.y, 0));
-      //    Debug.Log("applied knockback: " + appliedKnockback.x + "     player x scale:" + this.transform.localScale.x);
-      //    if((appliedKnockback.x < 0 && this.transform.localScale.x < 0) 
-      //       || (appliedKnockback.x > 0 && this.transform.localScale.x > 0)){
-      //       this.FlipCharacter();
-      //    }
-      //    
-      // } else {
-      //    KnockdownMeter -= RecievedAttack[i].KnockdownPressure;
-      // }
-      // CurrentHealth -= RecievedAttack[i].Damage;
-      // //Debug.Log("DAMAGE TO ENEMY: " + _recievedAttack[i].Damage + " HEALTH: " + currentHealth);
-      // RecievedAttack[i].StatsApplied = true;
-      // }
+      return recievedAttackNames;
    }
 
    /// <summary>
@@ -509,5 +500,9 @@ public class PlayerStateMachine : MonoBehaviour {
         IsDead = true;
         yield return new WaitForSeconds(0.5f);
         this.SetDead();
-    }
+   }
+
+   public GameObject InstantiatePrefab(GameObject obj) {
+      return Instantiate(obj);
+   }
 }

@@ -22,6 +22,7 @@ public class PlayerRecoveryState : PlayerBaseState
    }
 
    public override void ExitState() {
+      Ctx.SpendInvulnerabilityTime = true;
    }
 
    public override void CheckSwitchStates() {

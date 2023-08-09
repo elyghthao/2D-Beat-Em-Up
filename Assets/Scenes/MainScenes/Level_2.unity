@@ -11075,7 +11075,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Level 2: Dark Sewer'
+  m_text: 'Level 2: Tussle Tunnel'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
   m_sharedMaterial: {fileID: 2330881663515301021, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
@@ -11511,6 +11511,22 @@ PrefabInstance:
     - target: {fileID: 3904518991961103097, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
       propertyPath: orthographic size
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904518991961103097, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904518991961103097, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.1792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904518991961103097, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.003338832
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904518991961103097, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6833959132200347265, guid: 33b23ef8e0a51ff4da597e9f552bf2be, type: 3}
       propertyPath: player

@@ -47,6 +47,7 @@ public class PlayerAnimationScript : MonoBehaviour
             // Debug.Log(stateScript.CurrentState.ToString());
             // Debug.Log(stateScript.CurrentState.ToString() + ": " + stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.currentHealth);
+            // Debug.Log(stateScript.KnockdownMeter);
         }catch (Exception){
         }
 

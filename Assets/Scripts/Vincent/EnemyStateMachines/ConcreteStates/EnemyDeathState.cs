@@ -9,7 +9,7 @@ public class EnemyDeathState : EnemyBaseState {
    public EnemyDeathState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) : base(currentContext, enemyStateFactory) { }
 
    public override void EnterState() {
-      Debug.Log("ENEMY ROOT: ENTERED DEATH STATE");
+      // Debug.Log("ENEMY ROOT: ENTERED DEATH STATE");
       Ctx.StartCoroutine(Ctx.DeathTimeDelay(1f));
    }
 
@@ -21,7 +21,7 @@ public class EnemyDeathState : EnemyBaseState {
    }
 
    public override void ExitState() {
-      Debug.Log("ENEMY ROOT: EXITED DEATH STATE");
+      // Debug.Log("ENEMY ROOT: EXITED DEATH STATE");
    }
 
    public override void CheckSwitchStates() { }

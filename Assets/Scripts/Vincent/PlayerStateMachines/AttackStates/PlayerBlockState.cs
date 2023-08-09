@@ -15,6 +15,7 @@ public class PlayerBlockState : PlayerBaseState {
       Ctx.BaseMaterial.color = Color.black;
       Ctx.MostRecentAttack = ToString();
       Ctx.StaminaRegenAllowed = true;
+      Ctx.KnockdownMeter = Ctx.knockdownMax;//this is experimental, added to reduce fustration of being knockedback -elygh
    }
     
    public override void UpdateState() {
