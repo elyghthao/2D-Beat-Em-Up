@@ -1266,6 +1266,7 @@ MonoBehaviour:
   lightActiveFrames: {x: 8, y: 9}
   lightRecoveryFrames: {x: 10, y: 23}
   _currentPlayerMachine: {fileID: 0}
+  _knockedDown: 0
   inPosition: 0
 --- !u!114 &7055535822989626395
 MonoBehaviour:
