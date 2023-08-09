@@ -212,8 +212,9 @@ public class PlayerStateMachine : MonoBehaviour {
    public bool StaminaRegenAllowed { get; set; }
    public float StaminaRegenDelay { get; private set; }
    public bool IsDead {get; private set;}
+   public int ConsecutiveSmackedCount { get; set; }
    public bool SpendInvulnerabilityTime { get; set; }
-   
+
    private float invuln;
    // Functions
 
@@ -275,6 +276,10 @@ public class PlayerStateMachine : MonoBehaviour {
       } else if (SpendInvulnerabilityTime && invuln <= 0) {
          SpendInvulnerabilityTime = false;
          invuln = invulnerabilityTime;
+      }
+
+      if (IsGrounded && ConsecutiveSmackedCount > 0) {
+         ConsecutiveSmackedCount = 0;
       }
 
       if (StaminaRegenAllowed) RegenerateStamina();
