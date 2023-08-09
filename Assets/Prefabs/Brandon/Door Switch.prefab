@@ -119,7 +119,7 @@ Transform:
   - {fileID: 3545477681054156080}
   - {fileID: 7591879282004977092}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &541091356416810100
 Rigidbody:
@@ -277,8 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d837e5e4eb6aa2b4fba1e189f9f152b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button_mesh: {fileID: 6874108537646458597}
-  button_on_sprite: {fileID: 2100000, guid: 91d2a7241f3a3b4419b93d87b34acea4, type: 2}
+  switch_mesh: {fileID: 6874108537646458597}
+  switch_on_sprite: {fileID: 2100000, guid: 91d2a7241f3a3b4419b93d87b34acea4, type: 2}
   door: {fileID: 0}
 --- !u!1 &6107510814982740457
 GameObject:
