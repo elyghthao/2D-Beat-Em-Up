@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Color_Switch_Press : MonoBehaviour
 {
-    private AudioSource switch_press_sound; // The sound clip for when the color switch is pressed.
+    private AudioSource switch_pressed_sound; // The sound clip for when the color switch is pressed.
     private BoxCollider switch_collider; // The color switch's box collider.
     public MeshRenderer switch_frame_mesh; // The color switch's frame's mesh renderer.
     public MeshRenderer switch_center_mesh; // The color switch's center mesh renderer.
@@ -19,7 +19,7 @@ public class Color_Switch_Press : MonoBehaviour
     {
         // On start, the color switch's audio source and box collider
         // components are given to the associated variables for access.
-        switch_press_sound = GetComponent<AudioSource>();
+        switch_pressed_sound = GetComponent<AudioSource>();
         switch_collider = GetComponent<BoxCollider>();
 
         // The shared material of the center sprite of all the color switches in the scene starts out
@@ -80,7 +80,7 @@ public class Color_Switch_Press : MonoBehaviour
             shared_switch_center_material.color = switch_blue_color;
         }
 
-        // Regardless of the state of the color switch, the switch press sound effect plays.
-        switch_press_sound.Play();
+        // Regardless of the state of the color switch, the switch pressed sound effect plays.
+        switch_pressed_sound.Play();
     }
 }
