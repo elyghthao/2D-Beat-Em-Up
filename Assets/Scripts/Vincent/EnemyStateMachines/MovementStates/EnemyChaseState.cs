@@ -7,43 +7,58 @@ using UnityEngine.AI;
 /// </summary>
 public class EnemyChaseState : EnemyBaseState
 {
+   private GameObject fakeAI;
    private NavMeshAgent agent;
 
    public EnemyChaseState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) : base(currentContext, enemyStateFactory) {
    
    }
 
+   private void CreateFakeAI() {
+        GameObject newObj = new GameObject("Fake_AI");
+        newObj.AddComponent<NavMeshAgent>();
+        newObj.layer = LayerMask.NameToLayer("Enemy");
+        newObj.transform.position = Ctx.gameObject.transform.position;
+
+        agent = newObj.GetComponent<NavMeshAgent>();
+        agent.speed = 1;
+
+        fakeAI = newObj;
+    }
+
    public override void EnterState() {
-      agent = Ctx.Enemy.GetComponent<NavMeshAgent>();
+      CreateFakeAI();
       // Debug.Log("ENEMY SUB: ENTERED CHASE");
    }
 
    public override void UpdateState() {
-      agent.updateRotation = false;
-      // agent.updatePosition = false;
-      // agent.updateUpAxis = false;
-
-      Ctx.MovingGoal = Ctx.CurrentPlayerMachine.transform;
-      
       agent.SetDestination(Ctx.CurrentPlayerMachine.transform.position);
+      Ctx.MovingGoalOffset = new Vector2(0,0);
 
-      // Vector3 goalPos = agent.steeringTarget;
-      // Vector3 vecToGoal = goalPos - Ctx.gameObject.transform.position;
+      // Vector3 goalPos = agent.steeringTarget; // agent.steeringTarget;
+
+      Vector3 goalPos = agent.steeringTarget; // NOTE: The y for the MovingGoalOffset is really the z
+      Ctx.realMovingGoal = goalPos;
+
+      // goalPos.x += Ctx.MovingGoalOffset.x;
+      // goalPos.y = Ctx.gameObject.transform.position.y;
+      // goalPos.z += Ctx.MovingGoalOffset.y;
+
+      // Vector3 vecToGoal = goalPos - Ctx.CurrentPlayerMachine.transform.position;
       // vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
         
       // Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
-
       // Ctx.SpeedControl();
 
-      Vector3 enemyScale = Ctx.transform.localScale;
-      Vector3 vecToPlayer = Ctx.MovingGoal.position - Ctx.gameObject.transform.position;
-      if (vecToPlayer.x > 0) {
-         // Ctx.transform.localEulerAngles = new Vector3(0, 0, 0);
-         Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
-      } else {
-         // Ctx.transform.localEulerAngles = new Vector3(0, -180, 0);
-         Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
-      }
+      // Vector3 enemyScale = Ctx.transform.localScale;
+      // Vector3 vecToPlayer = Ctx.CurrentPlayerMachine.transform.position - Ctx.gameObject.transform.position;
+      // if (vecToPlayer.x > 0) {
+      //    // Ctx.transform.localEulerAngles = new Vector3(0, 0, 0);
+      //    Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
+      // } else {
+      //    // Ctx.transform.localEulerAngles = new Vector3(0, -180, 0);
+      //    Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
+      // }
    }
 
    public override void FixedUpdateState() {
