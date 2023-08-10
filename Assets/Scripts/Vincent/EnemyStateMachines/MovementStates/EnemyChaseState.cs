@@ -46,7 +46,10 @@ public class EnemyChaseState : EnemyBaseState
    }
 
    public override void UpdateState() {
-      agent.SetDestination(Ctx.CurrentPlayerMachine.transform.position);
+      Vector3 goalPos = Ctx.CurrentPlayerMachine.transform.position;
+      goalPos.x += 2;
+
+      agent.SetDestination(goalPos);
       Ctx.MovingGoalOffset = new Vector2(0,0);
 
       Vector3 newPos = Ctx.AgentObject.transform.position;
