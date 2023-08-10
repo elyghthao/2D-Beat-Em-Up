@@ -79,6 +79,10 @@ public class EnemyStateFactory {
       return new EnemyAttackingState(_context, this);
    }
 
+    public EnemyBaseState Block() {
+      return new EnemyBlockState(_context, this);
+   }
+
    /// <summary>
    /// Creates a new EnmeyHAttackState
    /// By Abdul
@@ -141,5 +145,8 @@ public class EnemyStateFactory {
    /// <returns> new EnemyRightFlankState</returns>
    public EnemyBaseState LeftFlankState() {
       return new EnemyLeftFlankState(_context, this);
+   }
+   public EnemyBaseState EnemyGuardState(){
+      return new EnemyGuardState(_context,this);
    }
 }

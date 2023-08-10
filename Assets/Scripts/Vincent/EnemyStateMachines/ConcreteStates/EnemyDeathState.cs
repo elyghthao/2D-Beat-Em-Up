@@ -10,7 +10,7 @@ public class EnemyDeathState : EnemyBaseState {
 
    public override void EnterState() {
       // Debug.Log("ENEMY ROOT: ENTERED DEATH STATE");
-      Ctx.StartCoroutine(Ctx.DeathTimeDelay(1f));
+      Ctx.StartCoroutine(Ctx.DeathTimeDelay(2f));
    }
 
    public override void UpdateState() { 

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Color_Switch_Press : MonoBehaviour
 {
-    private AudioSource switch_press_sound; // The sound clip for when the color switch is pressed.
+    private AudioSource switch_pressed_sound; // The sound clip for when the color switch is pressed.
     private BoxCollider switch_collider; // The color switch's box collider.
     public MeshRenderer switch_frame_mesh; // The color switch's frame's mesh renderer.
     public MeshRenderer switch_center_mesh; // The color switch's center mesh renderer.
@@ -13,13 +13,15 @@ public class Color_Switch_Press : MonoBehaviour
     private Color switch_blue_color = new Color(0.0f, 0.58f, 1.0f, 1.0f); // The color for the switch's blue state.
     private Color switch_orange_color = new Color(1.0f, 0.42f, 0.0f, 1.0f); // The color for the switch's orange state.
     private bool player_is_touching; // Whether the player is currently colliding with the color switch.
+    private float trigger_timer; // The amount of time remaining until the player can no longer activate the switch.
+    public float trigger_timer_max; // The maximum time at which the trigger timer starts at.
 
     // Start is called before the first frame update
     void Start()
     {
         // On start, the color switch's audio source and box collider
         // components are given to the associated variables for access.
-        switch_press_sound = GetComponent<AudioSource>();
+        switch_pressed_sound = GetComponent<AudioSource>();
         switch_collider = GetComponent<BoxCollider>();
 
         // The shared material of the center sprite of all the color switches in the scene starts out
@@ -27,18 +29,31 @@ public class Color_Switch_Press : MonoBehaviour
         shared_switch_center_material = switch_center_mesh.GetComponent<MeshRenderer>().sharedMaterial;
         shared_switch_center_material.color = switch_blue_color;
         player_is_touching = false;
+
+        // The trigger timer starts at a maximum of half a second.
+        trigger_timer_max = 0.5f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // If the trigger time reaches 0, then player_is_touching reverts to false
+        // and the player can no longer activate the color switch.
+        if (trigger_timer <= 0)
+        {
+            player_is_touching = false;
+        }
+
         // If the player is touching the color switch...
         if (player_is_touching == true)
         {
-            // ...and they press the "E" key...
+            // ...then the trigger timer starts decreasing...
+            trigger_timer -= Time.deltaTime;
+
+            // ...and if the player presses the "E" key,
+            // then the color switch is activated.
             if (Input.GetKeyDown(KeyCode.E))
             {
-                // ...then the color switch is activated.
                 ActivateSwitch();
             }
         }
@@ -47,20 +62,36 @@ public class Color_Switch_Press : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // If the color switch comes into contact with the player's collider,
-        // then player_is_touching is set to true.
+        // then player_is_touching is set to true, and the trigger timer is
+        // set back to its maximum.
         if (other.gameObject.transform.parent.gameObject.CompareTag("Player"))
         {
             player_is_touching = true;
+            trigger_timer = trigger_timer_max;
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        // If the color switch comes into contact with the player's collider,
+        // then player_is_touching is set to true, and the trigger timer is
+        // set back to its maximum.
+        if (other.gameObject.transform.parent.gameObject.CompareTag("Player"))
+        {
+            player_is_touching = true;
+            trigger_timer = trigger_timer_max;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
         // If the color switch leaves contact with the player's collider,
-        // then player_is_touching is set to false.
+        // then player_is_touching is set to false, and the trigger timer is
+        // reduced to zero.
         if (other.gameObject.transform.parent.gameObject.CompareTag("Player"))
         {
             player_is_touching = false;
+            trigger_timer = 0.0f;
         }
     }
 
@@ -80,7 +111,7 @@ public class Color_Switch_Press : MonoBehaviour
             shared_switch_center_material.color = switch_blue_color;
         }
 
-        // Regardless of the state of the color switch, the switch press sound effect plays.
-        switch_press_sound.Play();
+        // Regardless of the state of the color switch, the switch pressed sound effect plays.
+        switch_pressed_sound.Play();
     }
 }

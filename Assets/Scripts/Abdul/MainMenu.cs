@@ -15,11 +15,15 @@ public class MainMenu : MonoBehaviour
     
     // When the play button is pressed, go to scene 1 (level 0)
     public void playPressed() {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Level_1");
     }
 
     // When the quit button is pressed, quit the game
     public void quitPressed() {
         Application.Quit();
+    }
+
+    public void creditsPressed() {
+        SceneManager.LoadScene("Credits");
     }
 }
