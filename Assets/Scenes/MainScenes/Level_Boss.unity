@@ -696,7 +696,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Final Level
+  m_text: 'Final Level: Mirror Match'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
   m_sharedMaterial: {fileID: 2330881663515301021, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
@@ -1154,7 +1154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4686692758054048837, guid: e9779507f60078f4c9e7a13b1412d1fc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6455313215113512474, guid: e9779507f60078f4c9e7a13b1412d1fc, type: 3}
       propertyPath: maxHealth
@@ -5563,6 +5563,7 @@ GameObject:
   - component: {fileID: 1702976069}
   - component: {fileID: 1702976068}
   - component: {fileID: 1702976067}
+  - component: {fileID: 1702976071}
   m_Layer: 10
   m_Name: Quad
   m_TagString: Ground
@@ -5678,6 +5679,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702976065}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1702976071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702976065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb78b4ea6dba037449fce7fc5ab31c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parallaxEffect: 0.1
 --- !u!1001 &1780684799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6935,7 +6949,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.70959646, g: 0.6494749, b: 0.990566, a: 1}
   m_Origin: {x: -22, y: -2, z: 0}
   m_Size: {x: 109, y: 4, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
