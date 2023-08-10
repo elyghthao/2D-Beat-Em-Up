@@ -42,6 +42,7 @@ public class EnemyStateMachine : MonoBehaviour {
         Heavy,
         Medium,
         Light,
+        Boss,
     };
 
     /// <summary>
@@ -195,6 +196,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public Vector3 realMovingGoal { get; set; }
     public GameObject AgentObject { get; set; }
     public bool hasAgent{ get; set; }
+    public bool isBlocking { get; set; }
 
     // Functions
     
@@ -257,6 +259,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
         CanPursue = false;
         hasAgent = false;
+        isBlocking = false;
     }
 
     void Update() {
