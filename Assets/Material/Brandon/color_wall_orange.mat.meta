@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Material/Brandon/color_wall_orange.mat.meta
 guid: adb0f4df3475b654e88944e3723cea25
+========
+guid: dd6ca375b31b9d841958cbe8405192ec
+>>>>>>>> main:Assets/Material/Brandon/locked_door.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 2100000
