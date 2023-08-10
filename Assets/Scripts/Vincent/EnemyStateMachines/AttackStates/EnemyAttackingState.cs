@@ -86,10 +86,10 @@ public class EnemyAttackingState : EnemyBaseState {
 
             int attackNumber = Random.Range(1, 101); 
             // Debug.Log("attackNumber: " + attackNumber);
-            if (attackNumber <= 40) {//40%
+            if (attackNumber <= 50) {//50%
                SetSubState(Factory.LightAttack());
                // Debug.Log("light attack");
-            } else if (attackNumber <= 80) {//40%
+            } else if (attackNumber <= 80) {//30%
                SetSubState(Factory.MediumAttack());
                // Debug.Log("medium attack");
             }else if (attackNumber <= 90) { //10%

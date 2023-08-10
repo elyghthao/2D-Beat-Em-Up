@@ -22,10 +22,12 @@ public class FinalBossAnimationScript : MonoBehaviour
     public bool lastLight = false;
     public bool lastMed = false;
     public SpriteEffects spriteEffects;
+    public AudioSource hurtSound;
 
     // Start is called before the first frame update
     void Start()
     {
+        hurtSound = this.gameObject.GetComponent<AudioSource>();
         stateScript = this.gameObject.GetComponent<EnemyStateMachine>();
         StartCoroutine(checkStateReady());
         lightAttack = stateScript.lightAttackBounds;
@@ -127,13 +129,14 @@ public class FinalBossAnimationScript : MonoBehaviour
                     anim.Play("Recover");
                 }else if (stateScript.KnockedDown){
                     if(stateScript.CurrentState.CurrentSubState.ToString() == "EnemyKnockedDownState") {//this makes the particle effect
+                        // hurtSound.PlayOneShot(hurtSound.clip);
                         hitParticle.Play();
                     }
                     anim.Play("KnockedDown");
 
                 }else if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemySmackedState") {
                     anim.Play("Hurt", -1, 0f);
-                    
+                    // hurtSound.PlayOneShot(hurtSound.clip);
                 }
         }else if(stateScript.CurrentState.ToString() == "EnemyIdleState" && !isAttacking){//IDLE STATE
             anim.Play("Idle");
