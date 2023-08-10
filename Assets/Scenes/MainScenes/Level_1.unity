@@ -1793,7 +1793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb78b4ea6dba037449fce7fc5ab31c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxEffect: 0.19
+  parallaxEffect: 0.2
 --- !u!65 &324073283
 BoxCollider:
   m_ObjectHideFlags: 0
