@@ -8,8 +8,8 @@ using TMPro;
 
 public class Pause_and_Game_Over : MonoBehaviour
 {
-    public  bool game_paused; // Tracks whether the game is currently paused.
-    public  bool game_over; // Tracks whether the game is currently in a game over state.
+    public bool game_paused; // Tracks whether the game is currently paused.
+    public bool game_over; // Tracks whether the game is currently in a game over state.
     private GameObject bgm_object; // The object playing the current level's background music.
     private GameObject player; // The player character.
     private GameManager game_manager; // The game manager object, used to access the enemy scripts.
@@ -18,8 +18,8 @@ public class Pause_and_Game_Over : MonoBehaviour
     private GameObject pause_controls_text; // The pause controls description text that appears when the game is paused.
     private GameObject gameplay_controls_text; // The gameplay controls description text that appears when paused.
     private Scene current_scene; // The currently loaded scene.
-    private List<EnemyStateMachine> enemy_state_machine_scripts;
-    private GameObject volumeSlider;
+    private List<EnemyStateMachine> enemy_state_machine_scripts; // The list of all of the enemy state machine scripts.
+    private GameObject volumeSlider; // The slider object for changing the game volume.
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class Pause_and_Game_Over : MonoBehaviour
         player = GameObject.Find("Player");
         game_manager = GameObject.FindWithTag("GameController").GetComponent<GameManager>(); 
 
-        // The black screen and pause screen text objects are stored.
+        // The black screen, pause screen text objects, and volume slider are stored.
         black_screen = gameObject.transform.GetChild(0).gameObject;
         pause_text = gameObject.transform.GetChild(1).gameObject;
         pause_controls_text = gameObject.transform.GetChild(2).gameObject;
@@ -47,11 +47,9 @@ public class Pause_and_Game_Over : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // If the "Enter" key is pressed, and the game is not over...
         if (Input.GetKeyDown(KeyCode.Return) && game_over == false)
         {
-            
             // ...then the game pauses if it is not currently paused,
             // and resumes if it is currently paused.
             if (game_paused == false)
@@ -84,8 +82,7 @@ public class Pause_and_Game_Over : MonoBehaviour
             }
         }
         
-        // If the player's health reaches 0 and the game is not over, then the game is over.
-        // if (player.GetComponent<PlayerStateMachine>().CurrentHealth <= 0 && game_over == false)
+        // If the player dies and the game is not over, then the game enters a game over state.
         if (player.GetComponent<PlayerStateMachine>().IsDead && game_over == false)
         {
             GameOver();   
@@ -114,7 +111,7 @@ public class Pause_and_Game_Over : MonoBehaviour
         // The gameplay controls description text is activated.
         gameplay_controls_text.SetActive(true);
 
-        //volume slider
+        // The volume slider is activated.
         volumeSlider.SetActive(true);
 
         // The game freezes movement by setting the timescale to 0, and disabling
@@ -133,7 +130,7 @@ public class Pause_and_Game_Over : MonoBehaviour
 
     void ResumeGame()
     {
-        // The game exits a paused state.
+        // The game exits the paused state.
         game_paused = false;
 
         // The background music object starts playing the level's background music,
@@ -153,7 +150,7 @@ public class Pause_and_Game_Over : MonoBehaviour
         // The gameplay controls description text is deactivated.
         gameplay_controls_text.SetActive(false);
 
-        //volume slider
+        // The volume slider is deactivated.
         volumeSlider.SetActive(false);
 
         // The game resumes movement by setting the timescale to 1, and re-enabling
@@ -190,7 +187,7 @@ public class Pause_and_Game_Over : MonoBehaviour
             "\"R\": Restart the level\n" + "\"Y\": Quit to the title screen\n";
 
         // The gameplay controls description text is deactivated.
-        // It shouldn't be seen during the game over screen
+        // It shouldn't be seen during the game over screen.
         gameplay_controls_text.SetActive(false);
 
         // The game freezes movement by setting the timescale to 0, and disabling

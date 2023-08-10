@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Material/Brandon/locked_door.mat.meta
+guid: dd6ca375b31b9d841958cbe8405192ec
+========
+guid: 90fc66d967ba4cf47bfc7cb6bc1562b0
+>>>>>>>> main:Assets/Material/Brandon/wall.mat.meta
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

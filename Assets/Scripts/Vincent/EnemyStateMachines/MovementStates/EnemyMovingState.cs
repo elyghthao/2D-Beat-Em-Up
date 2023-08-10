@@ -117,8 +117,10 @@ public class EnemyMovingState : EnemyBaseState {
       // }else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Light) {
       //    SetSubState(Factory.Chase());
       // }
-
-      if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
+      if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Boss) {
+         Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+         SetSubState(Factory.EnemyGuardState());
+      }else if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
          Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
          SetSubState(Factory.RightFlankState());
       } else {
