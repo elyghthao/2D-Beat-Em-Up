@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Default substate of EnemyHurtState. When nothing is happening to the enemy other than recovering from having been
@@ -7,7 +9,6 @@ using UnityEngine.AI;
 /// </summary>
 public class EnemyChaseState : EnemyBaseState
 {
-   private GameObject fakeAI;
    private NavMeshAgent agent;
 
    public EnemyChaseState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) : base(currentContext, enemyStateFactory) {
@@ -18,47 +19,40 @@ public class EnemyChaseState : EnemyBaseState
         GameObject newObj = new GameObject("Fake_AI");
         newObj.AddComponent<NavMeshAgent>();
         newObj.layer = LayerMask.NameToLayer("Enemy");
-        newObj.transform.position = Ctx.gameObject.transform.position;
 
         agent = newObj.GetComponent<NavMeshAgent>();
-        agent.speed = 1;
+        agent.speed = Ctx.movementSpeed;
+        agent.angularSpeed = 90000;
+        agent.acceleration = 90000;
 
-        fakeAI = newObj;
-    }
+        agent.radius = 0.7f;
+        agent.height = 3.85f;
+
+        Ctx.AgentObject = newObj;
+        Ctx.hasAgent = true;
+
+        Vector3 newPos = Ctx.gameObject.transform.position;
+        newPos.y += 3;
+
+        newObj.transform.position = newPos;
+   }
 
    public override void EnterState() {
-      CreateFakeAI();
-      // Debug.Log("ENEMY SUB: ENTERED CHASE");
+      if (!Ctx.AgentObject) {
+         CreateFakeAI();
+      }
+      Ctx.AgentObject.transform.position = Ctx.gameObject.transform.position;
+      agent = Ctx.AgentObject.GetComponent<NavMeshAgent>();
    }
 
    public override void UpdateState() {
       agent.SetDestination(Ctx.CurrentPlayerMachine.transform.position);
       Ctx.MovingGoalOffset = new Vector2(0,0);
 
-      // Vector3 goalPos = agent.steeringTarget; // agent.steeringTarget;
+      Vector3 newPos = Ctx.AgentObject.transform.position;
+      newPos.y = Ctx.gameObject.transform.position.y;
 
-      Vector3 goalPos = agent.steeringTarget; // NOTE: The y for the MovingGoalOffset is really the z
-      Ctx.realMovingGoal = goalPos;
-
-      // goalPos.x += Ctx.MovingGoalOffset.x;
-      // goalPos.y = Ctx.gameObject.transform.position.y;
-      // goalPos.z += Ctx.MovingGoalOffset.y;
-
-      // Vector3 vecToGoal = goalPos - Ctx.CurrentPlayerMachine.transform.position;
-      // vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
-        
-      // Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
-      // Ctx.SpeedControl();
-
-      // Vector3 enemyScale = Ctx.transform.localScale;
-      // Vector3 vecToPlayer = Ctx.CurrentPlayerMachine.transform.position - Ctx.gameObject.transform.position;
-      // if (vecToPlayer.x > 0) {
-      //    // Ctx.transform.localEulerAngles = new Vector3(0, 0, 0);
-      //    Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
-      // } else {
-      //    // Ctx.transform.localEulerAngles = new Vector3(0, -180, 0);
-      //    Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
-      // }
+      Ctx.gameObject.transform.position = newPos;
    }
 
    public override void FixedUpdateState() {
@@ -67,67 +61,25 @@ public class EnemyChaseState : EnemyBaseState
 
    public override void ExitState() {
       // Debug.Log("ENEMY SUB: EXITED CHASE");
-   }
-
-   public override void CheckSwitchStates() {
-
-   }
-
-   public override void InitializeSubState() {
-      throw new System.NotImplementedException();
-   }
-}
-
-/*
-
-OLD SCRIPT BELOW
-
-using UnityEngine;
-
-/// <summary>
-/// Default substate of EnemyHurtState. When nothing is happening to the enemy other than recovering from having been
-/// hit
-/// </summary>
-public class EnemyChaseState : EnemyBaseState
-{
-   public EnemyChaseState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) : base(currentContext, enemyStateFactory) {
-   
-   }
-
-   public override void EnterState() {
-      // Debug.Log("ENEMY SUB: ENTERED CHASE");
-   }
-
-   public override void UpdateState() {
-      //needs functionality to alter the speed of enemy, right now its proportional to distance
-      Vector3 directionToPlayer = CurrentPlayerMachine.gameObject.transform.position - Ctx.gameObject.transform.position;
-      directionToPlayer = directionToPlayer.normalized * 10; //this value affects speed
-      Ctx.Rigidbody.AddForce(directionToPlayer, ForceMode.Force);
-      // Debug.Log(directionToPlayer.x);
-
-
-      //make it so the right of enemy will always face player when chasing
-      Vector3 enemyScale = Ctx.transform.localScale;
-      if(directionToPlayer.x > 0) {
-         Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x),enemyScale.y,enemyScale.z);
-      }else {
-         Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x),enemyScale.y,enemyScale.z);
+      if (Ctx.hasAgent) {
+         Ctx.hasAgent = false;
       }
-
-      CheckSwitchStates();
-   }
-
-   public override void ExitState() {
-      // Debug.Log("ENEMY SUB: EXITED CHASE");
    }
 
    public override void CheckSwitchStates() {
-
+      // Determines when to start going to the left or right
+      if (!Ctx.UseChaseAI()) {
+         if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
+            Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+            SwitchState(Factory.RightFlankState());
+         } else {
+            Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+            SwitchState(Factory.LeftFlankState());
+         }
+      } 
    }
 
    public override void InitializeSubState() {
       throw new System.NotImplementedException();
    }
 }
-
-*/

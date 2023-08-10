@@ -72,7 +72,9 @@ public class EnemyLeftFlankState : EnemyBaseState
    }
 
    public override void CheckSwitchStates() {
-
+      if (Ctx.UseChaseAI()) {
+         SwitchState(Factory.Chase());
+      }
    }
 
    public override void InitializeSubState() {

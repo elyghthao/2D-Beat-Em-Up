@@ -22,38 +22,32 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void FixedUpdateState() {
-      // return;
+      if (Ctx.MovingGoal == null) { Ctx.MovingGoal = Ctx.CurrentPlayerMachine.transform; }
 
-      // Chasing goal Transform and offsets
-      Vector3 goalPos = Ctx.realMovingGoal; // NOTE: The y for the MovingGoalOffset is really the z
-      goalPos.x += Ctx.MovingGoalOffset.x;
-      goalPos.y = Ctx.gameObject.transform.position.y;
-      goalPos.z += Ctx.MovingGoalOffset.y;
+      if (!Ctx.hasAgent && false) {
+         // Chasing goal Transform and offsets
+         Vector3 goalPos = Ctx.MovingGoal.position; // NOTE: The y for the MovingGoalOffset is really the z
+         goalPos.x += Ctx.MovingGoalOffset.x;
+         goalPos.y = Ctx.gameObject.transform.position.y;
+         goalPos.z += Ctx.MovingGoalOffset.y;
 
-      // Chasing the goal with the offset
-      Vector3 vecToGoal = goalPos - Ctx.gameObject.transform.position;
-      float distanceToGoal = Vector3.Distance(Ctx.gameObject.transform.position, goalPos);
-      vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
-
-      
-      // Only will move towards goal when it is a certain distance away from it
-      if (((distanceToGoal > Ctx.distanceGoal) || Ctx.DontAttack)){
-         Ctx.inPosition = false; //inPosition bool used for animation controller script -elygh
-         Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
-      } else {
-         Ctx.inPosition = true;
-         Vector3 newVecGoal = new Vector3(0, 0, vecToGoal.z + Random.Range(-.7f, .7f));
-         Ctx.Rigidbody.AddForce(newVecGoal, ForceMode.Force);
+         // Chasing the goal with the offset
+         Vector3 vecToGoal = goalPos - Ctx.gameObject.transform.position;
+         float distanceToGoal = Vector3.Distance(Ctx.gameObject.transform.position, goalPos);
+         vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
+         
+         // Only will move towards goal when it is a certain distance away from it
+         if (((distanceToGoal > Ctx.distanceGoal) || Ctx.DontAttack)){
+            Ctx.inPosition = false; //inPosition bool used for animation controller script -elygh
+            Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
+         } else {
+            Ctx.inPosition = true;
+            Vector3 newVecGoal = new Vector3(0, 0, vecToGoal.z + Random.Range(-.7f, .7f));
+            Ctx.Rigidbody.AddForce(newVecGoal, ForceMode.Force);
+         }
+         
+         Ctx.SpeedControl(); // Calling state machine to smooth out movement
       }
-
-      // Old Eli's Code
-      // Debug.Log("Postion:" + Ctx.CurrentPlayerMachine.gameObject.transform.position);
-      // if (Vector3.Distance(Ctx.gameObject.transform.position, Ctx.CurrentPlayerMachine.gameObject.transform.position) > 3.5){
-      //    Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
-      // } else {
-      // }
-      
-      Ctx.SpeedControl(); // Calling state machine to smooth out movement
 
       // Make it so the right of enemy will always face the Transform goal when chasing
       Vector3 enemyScale = Ctx.transform.localScale;
@@ -120,15 +114,15 @@ public class EnemyMovingState : EnemyBaseState {
       //    SetSubState(Factory.Chase());
       // }
 
-      SetSubState(Factory.Chase());
+      // SetSubState(Factory.Chase());
 
-      // if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
-      //    Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
-      //    SetSubState(Factory.RightFlankState());
-      // } else {
-      //    Ctx.EnemyFlankDistanceGoal = 7;
-      //    SetSubState(Factory.LeftFlankState());
-      // }
+      if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
+         Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+         SetSubState(Factory.RightFlankState());
+      } else {
+         Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+         SetSubState(Factory.LeftFlankState());
+      }
 
       // Only state that should be set to the substate initially is the Stunned state
       // SetSubState(Factory.Stunned());

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Attack Type struct for identifying when we've been hit by a specific attack
@@ -68,6 +69,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public float zAttackDistance = .9f;    // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking on the z plane
     public float movementSpeed = 5;        // Added by Abdul: The movement speed of the enemy
     public float distanceGoal = 2.65f;     // Added by Abdul: Distance that the enemy will try to keep between it and the goal
+    public float stopChaseDistance = 3.1f;     // Added by Abdul: Distance that the enemy will stop using AI to chase the player
     // public float maxGoalOffset = .8f;     // Added by Abdul: The offset the enemy will go from left/right of the player
 
     // Attacks
@@ -189,9 +191,10 @@ public class EnemyStateMachine : MonoBehaviour {
     public float EnemyFlankDistanceGoal{ get; set; } 
     public bool inPosition = false; //used for animation controller
 
-    // Added 8/7/2023
-    public Vector3 realMovingGoal {get; set; }
-
+    // Added 8/7/2023 and 8/9/2023
+    public Vector3 realMovingGoal { get; set; }
+    public GameObject AgentObject { get; set; }
+    public bool hasAgent{ get; set; }
 
     // Functions
     
@@ -231,28 +234,29 @@ public class EnemyStateMachine : MonoBehaviour {
         _finishedInitialization = true;
 
         // Determining Left/Right
-        if (Mathf.Abs(leftEnemies - rightEnemies) < 3) {
-            int dirNumber = UnityEngine.Random.Range(1, 3); // 1 for right, 2 for left
-            if (dirNumber == 1) {
-                EnemyFlankType = FlankType.Right;
-                rightEnemies++;
-            } else {
-                EnemyFlankType = FlankType.Left;
-                leftEnemies++;
-            }
-        } else {
-            if (leftEnemies > rightEnemies) {
-                EnemyFlankType = FlankType.Right;
-                rightEnemies++;
-            } else {
-                EnemyFlankType = FlankType.Left;
-                leftEnemies++;
-            }
-        }
-        // EnemyFlankType = FlankType.Right;
-        // rightEnemies++;
+        // if (Mathf.Abs(leftEnemies - rightEnemies) < 3) {
+        //     int dirNumber = UnityEngine.Random.Range(1, 3); // 1 for right, 2 for left
+        //     if (dirNumber == 1) {
+        //         EnemyFlankType = FlankType.Right;
+        //         rightEnemies++;
+        //     } else {
+        //         EnemyFlankType = FlankType.Left;
+        //         leftEnemies++;
+        //     }
+        // } else {
+        //     if (leftEnemies > rightEnemies) {
+        //         EnemyFlankType = FlankType.Right;
+        //         rightEnemies++;
+        //     } else {
+        //         EnemyFlankType = FlankType.Left;
+        //         leftEnemies++;
+        //     }
+        // }
+        EnemyFlankType = FlankType.Right;
+        rightEnemies++;
 
         CanPursue = false;
+        hasAgent = false;
     }
 
     void Update() {
@@ -384,5 +388,11 @@ public class EnemyStateMachine : MonoBehaviour {
     
     public GameObject InstantiatePrefab(GameObject obj) {
         return Instantiate(obj);
+    }
+
+    // Helper method to determine when to use the Chase AI or flanking behavior
+    public bool UseChaseAI() {
+        float distanceToPlr = Vector3.Distance(gameObject.transform.position, CurrentPlayerMachine.transform.position);
+        return distanceToPlr > stopChaseDistance;
     }
 }
