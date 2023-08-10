@@ -192,8 +192,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public FlankType EnemyFlankType { get; set; }
     public float EnemyFlankDistanceGoal{ get; set; } 
     public bool inPosition = false; //used for animation controller
-    public Vector3 guardPosition;
+    // public Vector3 guardPosition;
     public bool isBlocking = false;
+    public GameObject healthpackPrefab;
 
 
     // Functions
@@ -258,7 +259,7 @@ public class EnemyStateMachine : MonoBehaviour {
         // rightEnemies++;
 
         CanPursue = false;
-        guardPosition = transform.position;
+        // guardPosition = transform.position;
     }
 
     void Update() {
@@ -376,6 +377,13 @@ public class EnemyStateMachine : MonoBehaviour {
     public void SetDead() {
         GameManager.Instance.EnemyReferences.Remove(this);
         _enemy.SetActive(false);
+
+        int randomNumber = UnityEngine.Random.Range(1, 4);//33%
+        if(randomNumber == 1){
+            Vector3 new_position = transform.position;
+            new_position = new Vector3(new_position.x, 0.6f, new_position.z);
+            Instantiate(healthpackPrefab, new_position, Quaternion.identity);
+        }
     }
 
     /// <summary>

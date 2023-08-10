@@ -51,6 +51,8 @@ public class FinalBossAnimationScript : MonoBehaviour
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
             if(stateScript.isBlocking){
+                lastLight = false;
+                lastMed = false;
                 anim.Play("Block");
             }else if(lightAttack.activeSelf){
                 lastLight = true;

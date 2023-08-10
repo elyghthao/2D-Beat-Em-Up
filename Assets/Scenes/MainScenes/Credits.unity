@@ -2159,6 +2159,12 @@ MonoBehaviour:
       m_Calls: []
   m_text: '================================================
 
+    = Character Design/Art
+    =
+
+    = Animation  =
+
+
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
@@ -3843,14 +3849,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '================================================
-
-    - DotTween by Demigiant
-
-    -
-    Travis Game Assets
-
-'
+  m_text: "================================================\n- DotTween by Demigiant\n-
+    Travis Game Assets\n- Background Artist: Ansimuz\n- Character Design Artist:
+    Jewel Thao\n- \n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
   m_sharedMaterial: {fileID: 2330881663515301021, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
