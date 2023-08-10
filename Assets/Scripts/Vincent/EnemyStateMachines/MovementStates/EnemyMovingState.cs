@@ -124,6 +124,17 @@ public class EnemyMovingState : EnemyBaseState {
          SetSubState(Factory.LeftFlankState());
       }
 
+      // if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Boss) {
+      //    Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+      //    SetSubState(Factory.EnemyGuardState());
+      // }else if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
+      //    Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+      //    SetSubState(Factory.RightFlankState());
+      // } else {
+      //    Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+      //    SetSubState(Factory.LeftFlankState());
+      // }
+
       // Only state that should be set to the substate initially is the Stunned state
       // SetSubState(Factory.Stunned());
    }
