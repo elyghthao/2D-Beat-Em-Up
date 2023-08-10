@@ -10,15 +10,15 @@ EditorBuildSettings:
     guid: 863bccc5ef713364bb9305f12a23fbc6
   - enabled: 1
     path: Assets/Scenes/MainScenes/Level_1.unity
-    guid: 55cc15bc527f61a4e9972cedf7b6bb8a
+    guid: bc6a5661e4c49b44d950b581c3f85da2
   - enabled: 1
     path: Assets/Scenes/MainScenes/Level_2.unity
-    guid: e7317956a7835654e8246d2ffba4d559
+    guid: 55cc15bc527f61a4e9972cedf7b6bb8a
   - enabled: 1
     path: Assets/Scenes/MainScenes/Level_3.unity
     guid: 2af02253ae39a964298a2f29c9ae07c7
   - enabled: 1
-    path: Assets/Scenes/MainScenes/You_Win_Screen.unity
+    path: Assets/Scenes/MainScenes/Win_Screen.unity
     guid: f20356aa992bca14dbd5979161779d82
   - enabled: 1
     path: Assets/Scenes/MainScenes/Credits.unity
