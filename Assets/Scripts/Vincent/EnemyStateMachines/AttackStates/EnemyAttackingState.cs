@@ -33,7 +33,7 @@ public class EnemyAttackingState : EnemyBaseState {
 
    public override void CheckSwitchStates() {
       // Checking to see if the enemy got hurt
-      if (Ctx.IsAttacked) {
+      if (Ctx.IsAttacked && !Ctx.isBlocking) {
          SwitchState(Factory.Hurt());
       }
 
@@ -70,6 +70,24 @@ public class EnemyAttackingState : EnemyBaseState {
       }  else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Light) {
          int attackNumber = Random.Range(1, 3); // 1 for light, 2 for medium
          SetSubState(Factory.LightAttack());
+      }  else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Boss) {
+
+            int attackNumber = Random.Range(1, 101); 
+            // Debug.Log("attackNumber: " + attackNumber);
+            if (attackNumber <= 40) {//40%
+               SetSubState(Factory.LightAttack());
+               // Debug.Log("light attack");
+            } else if (attackNumber <= 80) {//40%
+               SetSubState(Factory.MediumAttack());
+               // Debug.Log("medium attack");
+            }else if (attackNumber <= 90) { //10%
+               SetSubState(Factory.Block());
+               // Debug.Log("block");
+            }else if (attackNumber <= 100) { //10%
+               SetSubState(Factory.HeavyAttack());
+               // Debug.Log("heavy attack");
+            }
+            
       } 
    }
 }
