@@ -393,7 +393,10 @@ public class EnemyStateMachine : MonoBehaviour {
     }
     public IEnumerator DeathTimeDelay(float waitTime){
         yield return new WaitForSeconds(waitTime);
-        this.SetDead();
+        if(enemyType != EnemyType.Boss){
+            this.SetDead();
+        }
+        
     }
     
     public GameObject InstantiatePrefab(GameObject obj) {
