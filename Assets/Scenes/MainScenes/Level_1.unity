@@ -1547,7 +1547,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Level 1: Tutorial Alley'
+  m_text: 'Level 1: Skirmish Street'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
   m_sharedMaterial: {fileID: 2330881663515301021, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}

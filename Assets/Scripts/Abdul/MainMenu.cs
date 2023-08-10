@@ -22,4 +22,8 @@ public class MainMenu : MonoBehaviour
     public void quitPressed() {
         Application.Quit();
     }
+
+    public void creditsPressed() {
+        SceneManager.LoadScene("Credits");
+    }
 }
