@@ -72,6 +72,14 @@ public class EnemyAttackingState : EnemyBaseState {
          SetSubState(Factory.LightAttack());
       }  else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Boss) {
 
+
+            // SetSubState(Factory.LightAttack());
+            // SetSubState(Factory.MediumAttack());
+            // SetSubState(Factory.HeavyAttack());
+            // SetSubState(Factory.Block());
+
+
+
             int attackNumber = Random.Range(1, 101); 
             // Debug.Log("attackNumber: " + attackNumber);
             if (attackNumber <= 40) {//40%
