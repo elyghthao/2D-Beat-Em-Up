@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AttackBoundsManager : MonoBehaviour {
@@ -7,13 +8,15 @@ public class AttackBoundsManager : MonoBehaviour {
    public float pressure = 0;
    public int damage = 0;
    public float staminaDrain;
-
+   
+   private AudioSource _audio;
    private BoxCollider _collider;
    private Material _material;
 
    private void Awake() {
       _collider = GetComponent<BoxCollider>();
       _material = GetComponent<Renderer>().material;
+      TryGetComponent<AudioSource>(out _audio);
    }
 
    public void SetMatColor(Color color) {
@@ -22,6 +25,14 @@ public class AttackBoundsManager : MonoBehaviour {
 
    public Color GetMatColor() {
       return _material.color;
+   }
+
+   public void StartAudio() {
+      if(_audio != null) _audio.enabled = true;
+   }
+
+   private void OnDisable() {
+      if(_audio != null) _audio.enabled = false;
    }
 
    public void SetColliderActive(bool active) {

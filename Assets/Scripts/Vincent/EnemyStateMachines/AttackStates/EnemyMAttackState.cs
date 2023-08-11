@@ -33,12 +33,18 @@ public class EnemyMAttackState : EnemyBaseState {
       // Blue is recovery frames: No damage given in this phase
       if (_currentFrame <= Ctx.mediumStartupFrames.y) {
          Ctx.MediumBoundsMat.color = Color.green;
+         if (Ctx.IsAttacked) {
+            CheckSwitchStates();
+         }
       } else if (_currentFrame <= Ctx.mediumActiveFrames.y) {
          Ctx.MediumBoundsMat.color = Color.red;
          Ctx.MediumBounds.SetColliderActive(true);
       } else if (_currentFrame <= Ctx.mediumRecoveryFrames.y) {
          Ctx.MediumBoundsMat.color = Color.blue;
          Ctx.MediumBounds.SetColliderActive(false);
+         if (Ctx.IsAttacked) {
+            CheckSwitchStates();
+         }
       } else {
          CanSwitch = true;
       }
@@ -58,7 +64,11 @@ public class EnemyMAttackState : EnemyBaseState {
 
    public override void CheckSwitchStates() {
       Ctx.Attacking = false;
-      SwitchState(Factory.Idle());
+      if (Ctx.IsAttacked) {
+         SwitchState(Factory.Hurt(), true);
+         return;
+      }
+      SwitchState(Factory.Idle(), true);
    }
 
    public override void InitializeSubState() {

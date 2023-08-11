@@ -35,7 +35,13 @@ public class PlayerL1AttackState : PlayerBaseState {
             Ctx.QueuedAttack = Factory.LightSecondFollowupAttack();
             //Debug.Log("LightAttack 2 Queued");
         }
-        if (_currentFrameState == 3) {
+        if (_currentFrameState == 0 || _currentFrameState == 2) {
+            if (Ctx.IsAttacked) {
+                CheckSwitchStates();
+            }
+        } else if (_currentFrameState == 1) {
+            Ctx.LightFirstFollowupBounds.StartAudio();
+        } else if (_currentFrameState == 3) {
             CanSwitch = true;
             CheckSwitchStates();
         }
@@ -51,6 +57,11 @@ public class PlayerL1AttackState : PlayerBaseState {
     }
 
     public override void CheckSwitchStates() {
+        if (Ctx.IsAttacked) {
+            SwitchState(Factory.Hurt(), true);
+            Ctx.QueuedAttack = null;
+            return;
+        }
         if (Ctx.QueuedAttack != null) {
             SwitchState(Ctx.QueuedAttack);
             Ctx.ResetAttackQueue();

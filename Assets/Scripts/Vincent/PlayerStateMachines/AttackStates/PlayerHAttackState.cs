@@ -37,6 +37,9 @@ public class PlayerHAttackState : PlayerBaseState {
       // Blue is recovery frames: No damage given in this phase
       if (_currentFrame <= Ctx.heavyStartupFrames) {
          Ctx.HeavyBounds.SetMatColor(Color.green);
+         if (Ctx.IsAttacked) {
+            CheckSwitchStates();
+         }
       } else if (_currentFrame <= Ctx.heavyActiveFrames) {
          Ctx.HeavyBounds.SetMatColor(Color.red);
          Ctx.HeavyBounds.SetColliderActive(true);
@@ -46,12 +49,16 @@ public class PlayerHAttackState : PlayerBaseState {
             Ctx.SpriteEffects.doEffect("Slam", Ctx.CharacterFlipped);
             _didEffect = true;
          }
+         Ctx.HeavyBounds.StartAudio();
          Ctx.HeavyBounds.SetMatColor(Color.red);
          Ctx.HeavyBounds.SetColliderActive(true);
          GameManager.Camera.DOShakePosition(0.5f, GameManager.Instance.cameraShakeStrength);
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames) {
          Ctx.HeavyBounds.SetMatColor(Color.blue);
          Ctx.HeavyBounds.SetColliderActive(false);
+         if (Ctx.IsAttacked) {
+            CheckSwitchStates();
+         }
       } else {
          CanSwitch = true;
       }
@@ -70,14 +77,17 @@ public class PlayerHAttackState : PlayerBaseState {
    }
 
    public override void CheckSwitchStates() {
-      if (Ctx.IsLightAttackPressed) {
-         SwitchState(Factory.LightAttack());
-      } else if (Ctx.IsMediumAttackPressed) {
-         SwitchState(Factory.MediumAttack());
-      } else {
-         // Debug.Log("HEAVY ATTACK - SWITCHING TO IDLE");
-         SwitchState(Factory.Idle(), true); // TEMP FIX for action not ending because the action is being held down
+      if (Ctx.IsAttacked) {
+         SwitchState(Factory.Hurt(), true);
+         Ctx.QueuedAttack = null;
+         return;
       }
+      if (Ctx.QueuedAttack != null) {
+         SwitchState(Ctx.QueuedAttack);
+         Ctx.ResetAttackQueue();
+         return;
+      }
+      SwitchState(Factory.Idle(), true); // TEMP FIX for action not ending because the action is being held down
    }
 
    public override void InitializeSubState() {

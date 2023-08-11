@@ -141,7 +141,7 @@ public abstract class PlayerBaseState /*: MonoBehaviour*/ {
             _currentSuperState.SetSubState(newState);
         }
     }
-
+    
     /// <summary>
     /// Added by Abdul to make it so sub states can switch to base states.
     /// </summary>
@@ -157,12 +157,11 @@ public abstract class PlayerBaseState /*: MonoBehaviour*/ {
             // Its just a root state to root state so regular switch
             SwitchState(newState);
             return;
-        } else {
-            // Switching from sub state to base state
-            ExitStates();
-            newState.EnterStates();
-            _ctx.CurrentState = newState;
         }
+        // Switching from sub state to base state
+        ExitStates();
+        newState.EnterStates();
+        _ctx.CurrentState = newState;
     }
 
     /// <summary>
