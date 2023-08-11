@@ -13,6 +13,13 @@ public class Door_Switch_Press : MonoBehaviour
     public Material switch_on_sprite; // The sprite for the door switch's "on" state.
     public GameObject door; // The locked door that the door switch is linked to.
     private Color door_trans = new Color(1.0f, 1.0f, 1.0f, 0.4f);
+    public Color pulse_color;
+    public GameObject pulse_object;
+    private Material pulse_material;
+    
+    // Cached strings
+    private static readonly int Color = Shader.PropertyToID("_Color");
+   
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +29,8 @@ public class Door_Switch_Press : MonoBehaviour
         // and switch_is_pressed and player_is_touching are set to false.
         switch_pressed_sound = GetComponent<AudioSource>();
         switch_collider = GetComponent<BoxCollider>();
+        pulse_material = pulse_object.GetComponent<Renderer>().material;
+        pulse_material.SetColor(Color, pulse_color);
 
         switch_is_pressed = false;
         player_is_touching = false;
@@ -31,8 +40,13 @@ public class Door_Switch_Press : MonoBehaviour
     void Update()
     {
         // If the player is touching the door switch...
-        if (player_is_touching == true)
+        if (player_is_touching)
         {
+            if (!pulse_object.activeSelf) 
+            {
+                pulse_object.SetActive(true);
+            }
+
             // ...and they press the "E" key while the door switch has not
             // already been pressed...
             if (Input.GetKeyDown(KeyCode.E) && switch_is_pressed == false)
@@ -40,6 +54,10 @@ public class Door_Switch_Press : MonoBehaviour
                 // ...then the door switch is activated.
                 ActivateSwitch();
             }
+        }
+        else if (pulse_object.activeSelf)
+        {
+            pulse_object.SetActive(false);
         }
     }
 

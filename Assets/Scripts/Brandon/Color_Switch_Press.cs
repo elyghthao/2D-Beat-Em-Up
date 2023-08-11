@@ -15,6 +15,13 @@ public class Color_Switch_Press : MonoBehaviour
     private bool player_is_touching; // Whether the player is currently colliding with the color switch.
     private float trigger_timer; // The amount of time remaining until the player can no longer activate the switch.
     public float trigger_timer_max; // The maximum time at which the trigger timer starts at.
+    public GameObject pulse_object;
+    private Material pulse_material;
+    private float time = 0;
+    
+    // Cached strings
+    private static readonly int Color = Shader.PropertyToID("_Color");
+    private static readonly int Timer = Shader.PropertyToID("_Timer");
 
     // Start is called before the first frame update
     void Start()
@@ -29,14 +36,16 @@ public class Color_Switch_Press : MonoBehaviour
         shared_switch_center_material = switch_center_mesh.GetComponent<MeshRenderer>().sharedMaterial;
         shared_switch_center_material.color = switch_blue_color;
         player_is_touching = false;
+        pulse_material = pulse_object.GetComponent<Renderer>().material;
+        pulse_material.SetColor(Color, switch_blue_color);
+        pulse_material.SetFloat(Timer, 0);
 
         // The trigger timer starts at a maximum of half a second.
         trigger_timer_max = 0.5f;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         // If the trigger time reaches 0, then player_is_touching reverts to false
         // and the player can no longer activate the color switch.
         if (trigger_timer <= 0)
@@ -45,8 +54,14 @@ public class Color_Switch_Press : MonoBehaviour
         }
 
         // If the player is touching the color switch...
-        if (player_is_touching == true)
+        if (player_is_touching)
         {
+            if (!pulse_object.activeSelf) 
+            {
+                pulse_object.SetActive(true);
+            }
+            time += Time.deltaTime;
+            pulse_material.SetFloat(Timer, time);
             // ...then the trigger timer starts decreasing...
             trigger_timer -= Time.deltaTime;
 
@@ -57,6 +72,12 @@ public class Color_Switch_Press : MonoBehaviour
                 ActivateSwitch();
             }
         }
+        else if (pulse_object.activeSelf)
+        {
+            pulse_object.SetActive(false);
+            time = 0;
+        }
+        pulse_material.SetFloat(Timer, time);
     }
 
     void OnTriggerEnter(Collider other)
@@ -103,14 +124,17 @@ public class Color_Switch_Press : MonoBehaviour
             // ...then the center sprites of all of the color switches in the scene
             // are changed to the "orange" state color.
             shared_switch_center_material.color = switch_orange_color;
+            pulse_material.SetColor(Color, switch_orange_color);
         }
         else if (shared_switch_center_material.color == switch_orange_color)
         {
             // If the switch is currently orange, then the center sprites of all
             // of the color switches in the scene are changed to the "blue" state color.
             shared_switch_center_material.color = switch_blue_color;
+            pulse_material.SetColor(Color, switch_blue_color);
         }
 
+        time = 0;
         // Regardless of the state of the color switch, the switch pressed sound effect plays.
         switch_pressed_sound.Play();
     }
