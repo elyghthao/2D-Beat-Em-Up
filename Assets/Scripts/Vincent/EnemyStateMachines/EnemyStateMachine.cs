@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Attack Type struct for identifying when we've been hit by a specific attack
@@ -403,6 +404,8 @@ public class EnemyStateMachine : MonoBehaviour {
         yield return new WaitForSeconds(waitTime);
         if(enemyType != EnemyType.Boss){
             this.SetDead();
+        }else {
+            SceneManager.LoadScene("Win_Screen");
         }
         
     }
