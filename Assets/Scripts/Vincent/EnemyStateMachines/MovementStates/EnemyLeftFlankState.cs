@@ -72,7 +72,7 @@ public class EnemyLeftFlankState : EnemyBaseState
    }
 
    public override void CheckSwitchStates() {
-
+      
    }
 
    public override void InitializeSubState() {

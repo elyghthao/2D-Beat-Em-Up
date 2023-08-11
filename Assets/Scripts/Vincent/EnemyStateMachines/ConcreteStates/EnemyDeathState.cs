@@ -10,6 +10,7 @@ public class EnemyDeathState : EnemyBaseState {
 
    public override void EnterState() {
       // Debug.Log("ENEMY ROOT: ENTERED DEATH STATE");
+      if (Ctx.AgentObject) { MonoBehaviour.Destroy(Ctx.AgentObject); }
       Ctx.StartCoroutine(Ctx.DeathTimeDelay(2f));
    }
 

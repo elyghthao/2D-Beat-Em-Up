@@ -1,5 +1,6 @@
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Root state for when the enemy is hurt
@@ -17,53 +18,71 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void UpdateState() {
-      Ctx.MovingGoal = Ctx.CurrentPlayerMachine.transform;
+      if (Ctx.MovingGoal == null) { Ctx.MovingGoal = Ctx.CurrentPlayerMachine.transform; }
+
+      // Information
+      Vector3 dirFaceVec = Ctx.MovingGoal.position - Ctx.gameObject.transform.position; 
+      Vector3 goalOffset = new Vector3(dirFaceVec.x, dirFaceVec.y, dirFaceVec.z);
+      Rigidbody PlayerRigidBody = Ctx.CurrentPlayerMachine.Rigidbody;
+      float distanceToGoal = Vector3.Distance(Ctx.gameObject.transform.position, Ctx.MovingGoal.position);
+
+      // AI navigation
+      if (Ctx.HasAgent) {
+         // Changing direction based off of the direction the agent is moving
+         Ctx.RealAgent = Ctx.AgentObject.GetComponent<NavMeshAgent>();;
+         dirFaceVec = Ctx.RealAgent.velocity;
+
+         // Getting the goal position
+         Vector3 goalPos = Ctx.MovingGoal.position; // NOTE: The y for the MovingGoalOffset is really the z
+         goalPos.x += Ctx.MovingGoalOffset.x;
+         goalPos.y = Ctx.gameObject.transform.position.y;
+         goalPos.z += Ctx.MovingGoalOffset.y;
+
+         // Checking to see if the enemy is within distanceGoal
+         distanceToGoal = Vector3.Distance(Ctx.gameObject.transform.position, goalPos);
+         if ((distanceToGoal <= Ctx.distanceGoal) && (dirFaceVec.magnitude <= 3.5f)) {
+            Ctx.inPosition = true;
+         } else {
+            Ctx.inPosition = false;
+         }
+
+         // Moving agent to that goal position
+         Ctx.RealAgent.SetDestination(goalPos);
+
+         // Moving enemy to the agent
+         Vector3 newPos = Ctx.AgentObject.transform.position;
+         newPos.y = Ctx.gameObject.transform.position.y;
+         Ctx.gameObject.transform.position = newPos;
+      } 
+
+      // Checking where the enemy is compared to the player for smarter directional behavior
+      bool flip = false;
+      if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Left) {
+         if ((goalOffset.x >= 1) && (Mathf.Abs(goalOffset.z) < 2.3f) && (goalOffset.x < 8.3f)) {
+            flip = false;
+         } else {
+            flip = !(dirFaceVec.x >= -.35f);
+         }
+      } else {
+         if ((goalOffset.x <= -1) && (Mathf.Abs(goalOffset.z) < 2.3f) && (goalOffset.x > -8.3f)) {
+            flip = true;
+         } else {
+            flip = !(dirFaceVec.x >= .35f);
+         }
+      }
+
+      // Flipping if needed
+      Vector3 enemyScale = Ctx.transform.localScale;
+      if (!flip) {
+         Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
+      } else {
+         Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
+      }
+
       CheckSwitchStates();
    }
 
    public override void FixedUpdateState() {
-      // Chasing goal Transform and offsets
-      Vector3 goalPos = Ctx.MovingGoal.position; // NOTE: The y for the MovingGoalOffset is really the z
-      goalPos.x += Ctx.MovingGoalOffset.x;
-      goalPos.y = Ctx.gameObject.transform.position.y;
-      goalPos.z += Ctx.MovingGoalOffset.y;
-
-      // Chasing the goal with the offset
-      Vector3 vecToGoal = goalPos - Ctx.gameObject.transform.position;
-      float distanceToGoal = Vector3.Distance(Ctx.gameObject.transform.position, goalPos);
-      vecToGoal = vecToGoal.normalized * Ctx.movementSpeed * 10f;
-
-      
-      // Only will move towards goal when it is a certain distance away from it
-      if (((distanceToGoal > Ctx.distanceGoal) || Ctx.DontAttack)){
-         Ctx.inPosition = false; //inPosition bool used for animation controller script -elygh
-         Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
-      } else {
-         Ctx.inPosition = true;
-         Vector3 newVecGoal = new Vector3(0, 0, vecToGoal.z + Random.Range(-.7f, .7f));
-         Ctx.Rigidbody.AddForce(newVecGoal, ForceMode.Force);
-      }
-
-      // Old Eli's Code
-      // Debug.Log("Postion:" + Ctx.CurrentPlayerMachine.gameObject.transform.position);
-      // if (Vector3.Distance(Ctx.gameObject.transform.position, Ctx.CurrentPlayerMachine.gameObject.transform.position) > 3.5){
-      //    Ctx.Rigidbody.AddForce(vecToGoal, ForceMode.Force);
-      // } else {
-      // }
-      
-      Ctx.SpeedControl(); // Calling state machine to smooth out movement
-
-      // Make it so the right of enemy will always face the Transform goal when chasing
-      Vector3 enemyScale = Ctx.transform.localScale;
-      Vector3 vecToPlayer = Ctx.MovingGoal.position - Ctx.gameObject.transform.position;
-      if (vecToPlayer.x > 0) {
-         // Ctx.transform.localEulerAngles = new Vector3(0, 0, 0);
-         Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
-      } else {
-         // Ctx.transform.localEulerAngles = new Vector3(0, -180, 0);
-         Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
-      }
-
       // Update KnowckdownMeter
       if (Ctx.KnockdownMeter < Ctx.knockdownMax) {
          // Debug.Log("Regenerating: " + Ctx.KnockdownMeter);
@@ -109,24 +128,18 @@ public class EnemyMovingState : EnemyBaseState {
    }
 
    public override void InitializeSubState() {
-      // If a heavy enemy, they will only ever chase
-      // if (Ctx.enemyType == EnemyStateMachine.EnemyType.Heavy) {
-      //    SetSubState(Factory.Chase());
-      // } else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Medium) {
-      //    SetSubState(Factory.Chase());
-      // }else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Light) {
-      //    SetSubState(Factory.Chase());
+      SetSubState(Factory.Chase());
+
+      // if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Boss) {
+      //    Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+      //    SetSubState(Factory.EnemyGuardState());
+      // }else if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
+      //    Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+      //    SetSubState(Factory.RightFlankState());
+      // } else {
+      //    Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
+      //    SetSubState(Factory.LeftFlankState());
       // }
-      if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Boss) {
-         Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
-         SetSubState(Factory.EnemyGuardState());
-      }else if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
-         Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
-         SetSubState(Factory.RightFlankState());
-      } else {
-         Ctx.EnemyFlankDistanceGoal = 7;
-         SetSubState(Factory.LeftFlankState());
-      }
 
       // Only state that should be set to the substate initially is the Stunned state
       // SetSubState(Factory.Stunned());
@@ -134,24 +147,10 @@ public class EnemyMovingState : EnemyBaseState {
 }
 
 
-/*
-TEST CODE FOR UPDATE
-
-Vector2 movementDir = new Vector2(1, 0);
-      Vector3 directionToPlayer = Ctx.CurrentPlayerMachine.gameObject.transform.position - Ctx.gameObject.transform.position;
-      if (directionToPlayer.x < 0) {
-         movementDir = new Vector2(-1, 0);
-      }
-      Vector2 moveDir = movementDir * (Ctx.movementSpeed * 10f);
-      // Applies movement to the player depending on the player input
-      Ctx.Rigidbody.AddForce(new Vector3(moveDir.x, 0, moveDir.y), ForceMode.Force);
-      Ctx.SpeedControl();
-
-      // make it so the right of enemy will always face player when chasing
-      Vector3 enemyScale = Ctx.transform.localScale;
-      if(directionToPlayer.x > 0) {
-         Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x),enemyScale.y,enemyScale.z);
-      }else {
-         Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x),enemyScale.y,enemyScale.z);
-      }
-*/
+// Enemy faces direction based off of the positivity of the x value and sidedness
+      // Vector3 enemyScale = Ctx.transform.localScale;
+      // if (dirFaceVec.x >= (.35f * sidedness)) {
+      //    Ctx.transform.localScale = new Vector3(Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
+      // } else if (dirFaceVec.x <= (.35f * sidedness * -1)) {
+      //    Ctx.transform.localScale = new Vector3(-Mathf.Abs(enemyScale.x), enemyScale.y, enemyScale.z);
+      // }
