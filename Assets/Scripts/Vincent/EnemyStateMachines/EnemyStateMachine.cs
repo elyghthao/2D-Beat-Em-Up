@@ -203,6 +203,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject AgentObject { get; set; }
     public NavMeshAgent RealAgent { get; set; }
     public bool HasAgent{ get; set; }
+    public bool ForceIdleAnim{ get; set; }
     public float MaxZGoalOffset { get => maxZGoalOffset; }
 
 
@@ -267,6 +268,7 @@ public class EnemyStateMachine : MonoBehaviour {
         // rightEnemies++;
 
         CanPursue = false;
+        ForceIdleAnim = false;
         // guardPosition = transform.position;
     }
 
@@ -392,6 +394,14 @@ public class EnemyStateMachine : MonoBehaviour {
             new_position = new Vector3(new_position.x, 0.6f, new_position.z);
             Instantiate(healthpackPrefab, new_position, Quaternion.identity);
         }
+    }
+
+    public bool CheckPath() {
+        if (!HasAgent) { return true; }
+
+        NavMeshPath navPath = new NavMeshPath();
+        bool success = RealAgent.CalculatePath(CurrentPlayerMachine.transform.position, navPath);
+        return !((!success) || (navPath.status != NavMeshPathStatus.PathComplete));
     }
 
     /// <summary>

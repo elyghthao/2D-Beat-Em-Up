@@ -28,8 +28,9 @@ public class EnemyMovingState : EnemyBaseState {
 
       // AI navigation
       if (Ctx.HasAgent) {
+
          // Changing direction based off of the direction the agent is moving
-         Ctx.RealAgent = Ctx.AgentObject.GetComponent<NavMeshAgent>();;
+         Ctx.RealAgent = Ctx.AgentObject.GetComponent<NavMeshAgent>();
          dirFaceVec = Ctx.RealAgent.velocity;
 
          // Getting the goal position
@@ -48,6 +49,15 @@ public class EnemyMovingState : EnemyBaseState {
 
          // Moving agent to that goal position
          Ctx.RealAgent.SetDestination(goalPos);
+
+         // Checking to see if we have a valid path
+         Ctx.ForceIdleAnim = !Ctx.CheckPath();
+         Ctx.RealAgent.updatePosition = !Ctx.ForceIdleAnim;
+         if (Ctx.ForceIdleAnim) {
+            Vector3 fixPos = Ctx.gameObject.transform.position;
+            fixPos.y += 3.5f;
+            Ctx.RealAgent.Warp(fixPos);
+         }
 
          // Moving enemy to the agent
          Vector3 newPos = Ctx.AgentObject.transform.position;

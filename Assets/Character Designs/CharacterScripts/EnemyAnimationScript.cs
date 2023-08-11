@@ -41,6 +41,10 @@ public class EnemyAnimationScript : MonoBehaviour
         }catch (Exception){
         }
 
+        if (stateScript.ForceIdleAnim) {
+            anim.Play("Idle");
+            return;
+        }
 
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
@@ -101,8 +105,6 @@ public class EnemyAnimationScript : MonoBehaviour
         }else if(stateScript.CurrentState.ToString() == "EnemyIdleState" && !isAttacking){//IDLE STATE
             anim.Play("Idle");
         }
-
-
 
     }
 
