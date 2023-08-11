@@ -43,6 +43,7 @@ public class EnemyChaseState : EnemyBaseState
       }
       Ctx.AgentObject.transform.position = Ctx.gameObject.transform.position;
       agent = Ctx.AgentObject.GetComponent<NavMeshAgent>();
+      Ctx.RealAgent = agent;
       Ctx.HasAgent = true;
    }
 

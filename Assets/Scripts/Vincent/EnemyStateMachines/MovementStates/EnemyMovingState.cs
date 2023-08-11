@@ -1,5 +1,6 @@
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Root state for when the enemy is hurt
@@ -28,6 +29,7 @@ public class EnemyMovingState : EnemyBaseState {
       // AI navigation
       if (Ctx.HasAgent) {
          // Changing direction based off of the direction the agent is moving
+         Ctx.RealAgent = Ctx.AgentObject.GetComponent<NavMeshAgent>();;
          dirFaceVec = Ctx.RealAgent.velocity;
 
          // Getting the goal position
