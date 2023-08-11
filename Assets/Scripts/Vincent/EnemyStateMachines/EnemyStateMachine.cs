@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 /// <summary>
 /// Attack Type struct for identifying when we've been hit by a specific attack
@@ -71,7 +72,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public float zAttackDistance = .9f;    // Added by Abdul: The distance between the player and enemy in order for the enemy to start attacking on the z plane
     public float movementSpeed = 5;        // Added by Abdul: The movement speed of the enemy
     public float distanceGoal = 2.65f;     // Added by Abdul: Distance that the enemy will try to keep between it and the goal
-    // public float maxGoalOffset = .8f;     // Added by Abdul: The offset the enemy will go from left/right of the player
+    public float maxZGoalOffset = .7f;     // Added by Abdul: The offset the enemy will go from the z
 
     // Attacks
     [Header("Attack Boundaries")]
@@ -196,6 +197,13 @@ public class EnemyStateMachine : MonoBehaviour {
     // public Vector3 guardPosition;
     public bool isBlocking = false;
     public GameObject healthpackPrefab;
+
+    // Added 8/7/2023 and 8/9/2023 and 8/10/2023
+    public Vector3 realMovingGoal { get; set; }
+    public GameObject AgentObject { get; set; }
+    public NavMeshAgent RealAgent { get; set; }
+    public bool HasAgent{ get; set; }
+    public float MaxZGoalOffset { get => maxZGoalOffset; }
 
 
     // Functions
@@ -412,5 +420,10 @@ public class EnemyStateMachine : MonoBehaviour {
     
     public GameObject InstantiatePrefab(GameObject obj) {
         return Instantiate(obj);
+    }
+
+    public void ClearRecievedAttacks() {
+        _receivedAttacks.Clear();
+        _isAttacked = false;
     }
 }

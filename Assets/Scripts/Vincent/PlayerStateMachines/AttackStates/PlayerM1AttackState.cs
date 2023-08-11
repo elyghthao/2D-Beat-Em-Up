@@ -33,7 +33,13 @@ public class PlayerM1AttackState : PlayerBaseState
 
       _currentFrameState = Ctx.FrameState(Ctx.MediumFirstFollowupBounds, _currentFrame, Ctx.medium1StartupFrames,
          Ctx.medium1ActiveFrames, Ctx.medium1RecoveryFrames);
-      if (_currentFrameState == 3) {
+      if (_currentFrameState == 0 || _currentFrameState == 2) {
+         if (Ctx.IsAttacked) {
+            CheckSwitchStates();
+         }
+      } else if (_currentFrameState == 1) {
+         Ctx.MediumFirstFollowupBounds.StartAudio();
+      } else if (_currentFrameState == 3) {
          CanSwitch = true;
          CheckSwitchStates();
       }
@@ -49,6 +55,11 @@ public class PlayerM1AttackState : PlayerBaseState
    }
 
    public override void CheckSwitchStates() {
+      if (Ctx.IsAttacked) {
+         SwitchState(Factory.Hurt(), true);
+         Ctx.QueuedAttack = null;
+         return;
+      }
       if (Ctx.QueuedAttack != null) {
          SwitchState(Ctx.QueuedAttack);
          Ctx.ResetAttackQueue();

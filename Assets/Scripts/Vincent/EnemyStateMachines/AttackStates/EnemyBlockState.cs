@@ -59,7 +59,7 @@ public class EnemyBlockState : EnemyBaseState {
 
    public override void CheckSwitchStates() {
       Ctx.Attacking = false;
-      SwitchState(Factory.Idle());
+      SwitchState(Factory.Idle(), true);
    }
 
    public override void InitializeSubState() {
