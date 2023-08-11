@@ -71,7 +71,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public float movementSpeed = 5;        // Added by Abdul: The movement speed of the enemy
     public float distanceGoal = 2.65f;     // Added by Abdul: Distance that the enemy will try to keep between it and the goal
     public float stopChaseDistance = 3.1f;     // Added by Abdul: Distance that the enemy will stop using AI to chase the player
-    // public float maxGoalOffset = .8f;     // Added by Abdul: The offset the enemy will go from left/right of the player
+    public float maxZGoalOffset = .7f;     // Added by Abdul: The offset the enemy will go from the z
 
     // Attacks
     [Header("Attack Boundaries")]
@@ -192,14 +192,15 @@ public class EnemyStateMachine : MonoBehaviour {
     public float EnemyFlankDistanceGoal{ get; set; } 
     public bool inPosition = false; //used for animation controller
 
-    // Added 8/7/2023 and 8/9/2023
+    // Added 8/7/2023 and 8/9/2023 and 8/10/2023
     public Vector3 realMovingGoal { get; set; }
     public GameObject AgentObject { get; set; }
-    public bool hasAgent{ get; set; }
+    public NavMeshAgent RealAgent { get; set; }
+    public bool HasAgent{ get; set; }
     public bool isBlocking { get; set; }
+    public float MaxZGoalOffset { get => maxZGoalOffset; }
 
     // Functions
-    
     public void Initialize() {
         _currentPlayerMachine = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
         
@@ -236,29 +237,29 @@ public class EnemyStateMachine : MonoBehaviour {
         _finishedInitialization = true;
 
         // Determining Left/Right
-        // if (Mathf.Abs(leftEnemies - rightEnemies) < 3) {
-        //     int dirNumber = UnityEngine.Random.Range(1, 3); // 1 for right, 2 for left
-        //     if (dirNumber == 1) {
-        //         EnemyFlankType = FlankType.Right;
-        //         rightEnemies++;
-        //     } else {
-        //         EnemyFlankType = FlankType.Left;
-        //         leftEnemies++;
-        //     }
-        // } else {
-        //     if (leftEnemies > rightEnemies) {
-        //         EnemyFlankType = FlankType.Right;
-        //         rightEnemies++;
-        //     } else {
-        //         EnemyFlankType = FlankType.Left;
-        //         leftEnemies++;
-        //     }
-        // }
-        EnemyFlankType = FlankType.Right;
-        rightEnemies++;
+        if (Mathf.Abs(leftEnemies - rightEnemies) < 3) {
+            int dirNumber = UnityEngine.Random.Range(1, 3); // 1 for right, 2 for left
+            if (dirNumber == 1) {
+                EnemyFlankType = FlankType.Right;
+                rightEnemies++;
+            } else {
+                EnemyFlankType = FlankType.Left;
+                leftEnemies++;
+            }
+        } else {
+            if (leftEnemies > rightEnemies) {
+                EnemyFlankType = FlankType.Right;
+                rightEnemies++;
+            } else {
+                EnemyFlankType = FlankType.Left;
+                leftEnemies++;
+            }
+        }
+        // EnemyFlankType = FlankType.Left;
+        // rightEnemies++;
 
         CanPursue = false;
-        hasAgent = false;
+        HasAgent = false;
         isBlocking = false;
     }
 

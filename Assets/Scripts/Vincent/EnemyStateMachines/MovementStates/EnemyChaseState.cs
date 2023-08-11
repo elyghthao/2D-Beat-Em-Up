@@ -29,7 +29,7 @@ public class EnemyChaseState : EnemyBaseState
         agent.height = 3.85f;
 
         Ctx.AgentObject = newObj;
-        Ctx.hasAgent = true;
+        Ctx.RealAgent = agent;
 
         Vector3 newPos = Ctx.gameObject.transform.position;
         newPos.y += 3;
@@ -43,19 +43,28 @@ public class EnemyChaseState : EnemyBaseState
       }
       Ctx.AgentObject.transform.position = Ctx.gameObject.transform.position;
       agent = Ctx.AgentObject.GetComponent<NavMeshAgent>();
+      Ctx.HasAgent = true;
    }
 
    public override void UpdateState() {
-      Vector3 goalPos = Ctx.CurrentPlayerMachine.transform.position;
-      goalPos.x += 2;
+      float newGoalDist = Ctx.attackDistance - .4f;
 
-      agent.SetDestination(goalPos);
-      Ctx.MovingGoalOffset = new Vector2(0,0);
+      if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Left) {
+         Ctx.MovingGoalOffset = new Vector2(newGoalDist * -1, 0);
+      } else {
+         Ctx.MovingGoalOffset = new Vector2(newGoalDist, 0);
+      }
 
-      Vector3 newPos = Ctx.AgentObject.transform.position;
-      newPos.y = Ctx.gameObject.transform.position.y;
+      // Vector3 goalPos = Ctx.CurrentPlayerMachine.transform.position;
+      // goalPos.x += 2;
 
-      Ctx.gameObject.transform.position = newPos;
+      // agent.SetDestination(goalPos);
+      // Ctx.MovingGoalOffset = new Vector2(0,0);
+
+      // Vector3 newPos = Ctx.AgentObject.transform.position;
+      // newPos.y = Ctx.gameObject.transform.position.y;
+
+      // Ctx.gameObject.transform.position = newPos;
    }
 
    public override void FixedUpdateState() {
@@ -64,9 +73,7 @@ public class EnemyChaseState : EnemyBaseState
 
    public override void ExitState() {
       // Debug.Log("ENEMY SUB: EXITED CHASE");
-      if (Ctx.hasAgent) {
-         Ctx.hasAgent = false;
-      }
+      Ctx.HasAgent = false;
    }
 
    public override void CheckSwitchStates() {

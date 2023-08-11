@@ -29,7 +29,7 @@ public class EnemyRightFlankState : EnemyBaseState
         agent.height = 3.85f;
 
         Ctx.AgentObject = newObj;
-        Ctx.hasAgent = true;
+        Ctx.HasAgent = true;
 
         Vector3 newPos = Ctx.gameObject.transform.position;
         newPos.y += 3;
@@ -118,9 +118,7 @@ public class EnemyRightFlankState : EnemyBaseState
 
    public override void ExitState() {
       // Debug.Log("ENEMY SUB: EXITED CHASE");
-      if (Ctx.hasAgent) {
-         Ctx.hasAgent = false;
-      }
+      Ctx.HasAgent = false;
    }
 
    public override void CheckSwitchStates() {
