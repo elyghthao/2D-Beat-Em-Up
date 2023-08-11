@@ -43,9 +43,9 @@ public class EnemyBlockState : EnemyBaseState {
       // }
 
       // Debug.Log("is blocking");
-      if (_currentFrame >= Ctx.blockFrames) {
-         CheckSwitchStates();
-      }
+      // if (_currentFrame >= Ctx.blockFrames) {
+      //    CheckSwitchStates();
+      // }
    }
 
    public override void FixedUpdateState() {

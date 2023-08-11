@@ -611,7 +611,7 @@ PrefabInstance:
     - target: {fileID: 3740807863142444882, guid: ef85a8957e2dedc43af114b2eb31c852, type: 3}
       propertyPath: bgm_sound
       value: 
-      objectReference: {fileID: 8300000, guid: c93c7ea0691a8cc4eb50c74695700108, type: 3}
+      objectReference: {fileID: 8300000, guid: 59fd96cbe382f3a4186c1b5fd3080044, type: 3}
     - target: {fileID: 4894852170559869186, guid: ef85a8957e2dedc43af114b2eb31c852, type: 3}
       propertyPath: m_RootOrder
       value: 4

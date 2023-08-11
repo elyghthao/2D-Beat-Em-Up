@@ -52,7 +52,6 @@ public class EnemyStateMachine : MonoBehaviour {
     public enum FlankType {
         Left,
         Right,
-        Boss
     };
 
     //// Variables
@@ -110,8 +109,6 @@ public class EnemyStateMachine : MonoBehaviour {
     public Vector2 lightActiveFrames = new Vector2(8, 9);
     [Tooltip("Must be between 0 and mediumFrameCount + 1, cannot overlap with other frames")]
     public Vector2 lightRecoveryFrames = new Vector2(10, 23);
-
-    public int blockFrames = 40;
 
     // Reference Variables
     private Rigidbody _rigidbody;
@@ -241,9 +238,7 @@ public class EnemyStateMachine : MonoBehaviour {
         _finishedInitialization = true;
 
         // Determining Left/Right
-        if(enemyType == EnemyType.Boss) {
-            EnemyFlankType = FlankType.Boss;
-        }else if (Mathf.Abs(leftEnemies - rightEnemies) < 3) {
+        if (Mathf.Abs(leftEnemies - rightEnemies) < 3) {
             int dirNumber = UnityEngine.Random.Range(1, 3); // 1 for right, 2 for left
             if (dirNumber == 1) {
                 EnemyFlankType = FlankType.Right;
@@ -267,7 +262,6 @@ public class EnemyStateMachine : MonoBehaviour {
         CanPursue = false;
         HasAgent = false;
         isBlocking = false;
-        guardPosition = transform.position;
     }
 
     void Update() {
@@ -306,7 +300,7 @@ public class EnemyStateMachine : MonoBehaviour {
         // be first before anything else
         //ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         AttackBoundsManager otherAttackManager;
-        if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager) && !isBlocking) {
+        if (other.TryGetComponent<AttackBoundsManager>(out otherAttackManager)) {
             if (_receivedAttacks.ContainsKey(other.gameObject)) return;
             
             AttackType receivedAttack = new AttackType(otherAttackManager.selectedAttack.ToString(),
@@ -347,14 +341,6 @@ public class EnemyStateMachine : MonoBehaviour {
 
     public List<string> ApplyAttackStats() {
         List<string> recievedAttackNames = new List<string>();
-
-
-        if(isBlocking){//when blocking ignore all damage
-            _receivedAttacks.Clear();
-            _isAttacked = false;
-            return recievedAttackNames;
-        }
-
         foreach (AttackType i in _receivedAttacks.Values) {
             if (_knockdownMeter > 0) {
                 KnockdownMeter -= i.KnockdownPressure;
@@ -402,10 +388,7 @@ public class EnemyStateMachine : MonoBehaviour {
     }
     public IEnumerator DeathTimeDelay(float waitTime){
         yield return new WaitForSeconds(waitTime);
-        if(enemyType != EnemyType.Boss){
-            this.SetDead();
-        }
-        
+        this.SetDead();
     }
     
     public GameObject InstantiatePrefab(GameObject obj) {

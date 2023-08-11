@@ -20306,12 +20306,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 140674419555158845}
+  heavyAttackBounds: {fileID: 5247690065994906466}
+  mediumAttackBounds: {fileID: 7825572174776549748}
   mediumFirstFollowupAttackBounds: {fileID: 2272030184571502402}
+  lightAttackBounds: {fileID: 505895817240270876}
   lightFirstFollowupAttackBounds: {fileID: 5483468236248993634}
   lightSecondFollowupAttackBounds: {fileID: 7798247080663870650}
-  lightAttackBounds: {fileID: 505895817240270876}
-  mediumAttackBounds: {fileID: 7825572174776549748}
-  heavyAttackBounds: {fileID: 5247690065994906466}
   framesPerSecond: 30
   heavyStartupFrames: 30
   heavyActiveFrames: 35
@@ -20337,9 +20337,8 @@ MonoBehaviour:
   staminaRegenDelay: 0.3
   staminaRegenRate: 35
   knockdownMax: 150
-  attackFollowupThreshold: 0.35
+  attackFollowupThreshold: 0.75
   movementSpeed: 6.5
-  invulnerabilityTime: 0.1
 --- !u!54 &1776082032416857755
 Rigidbody:
   m_ObjectHideFlags: 0

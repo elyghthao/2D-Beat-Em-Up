@@ -140,24 +140,6 @@ public class EnemyMovingState : EnemyBaseState {
       //    Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
       //    SetSubState(Factory.LeftFlankState());
       // }
-      // If a heavy enemy, they will only ever chase
-      // if (Ctx.enemyType == EnemyStateMachine.EnemyType.Heavy) {
-      //    SetSubState(Factory.Chase());
-      // } else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Medium) {
-      //    SetSubState(Factory.Chase());
-      // }else if (Ctx.enemyType == EnemyStateMachine.EnemyType.Light) {
-      //    SetSubState(Factory.Chase());
-      // }
-      if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Boss) {
-         Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
-         SetSubState(Factory.EnemyGuardState());
-      }else if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Right) {
-         Ctx.EnemyFlankDistanceGoal = Random.Range(7.3f, 11.7f);
-         SetSubState(Factory.RightFlankState());
-      } else {
-         Ctx.EnemyFlankDistanceGoal = 7;
-         SetSubState(Factory.LeftFlankState());
-      }
 
       // Only state that should be set to the substate initially is the Stunned state
       // SetSubState(Factory.Stunned());
