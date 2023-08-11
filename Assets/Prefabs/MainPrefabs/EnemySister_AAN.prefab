@@ -1334,8 +1334,12 @@ MonoBehaviour:
   lightStartupFrames: {x: 1, y: 7}
   lightActiveFrames: {x: 8, y: 9}
   lightRecoveryFrames: {x: 10, y: 23}
+  blockFrames: 40
   _currentPlayerMachine: {fileID: 0}
+  _knockedDown: 0
   inPosition: 0
+  isBlocking: 0
+  healthpackPrefab: {fileID: 6757572692431102657, guid: 9b276697f4d8b034c91fe37e4692a31e, type: 3}
 --- !u!114 &8931059919346083695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1356,6 +1360,7 @@ MonoBehaviour:
   isAttacking: 0
   hitParticle: {fileID: 1133997138435117242}
   body: {fileID: 0}
+  animNum: 0
 --- !u!1 &6290014353430050823
 GameObject:
   m_ObjectHideFlags: 0
