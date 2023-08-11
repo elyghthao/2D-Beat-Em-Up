@@ -43,8 +43,6 @@ public class PlayerLAttackState : PlayerBaseState {
          if (Ctx.IsAttacked) {
             CheckSwitchStates();
          }
-      } else if (_currentFrameState == 1) {
-         Ctx.LightBounds.StartAudio();
       } else if (_currentFrameState == 3) {
          CanSwitch = true;
          CheckSwitchStates();

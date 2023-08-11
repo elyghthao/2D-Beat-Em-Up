@@ -49,7 +49,6 @@ public class PlayerHAttackState : PlayerBaseState {
             Ctx.SpriteEffects.doEffect("Slam", Ctx.CharacterFlipped);
             _didEffect = true;
          }
-         Ctx.HeavyBounds.StartAudio();
          Ctx.HeavyBounds.SetMatColor(Color.red);
          Ctx.HeavyBounds.SetColliderActive(true);
          GameManager.Camera.DOShakePosition(0.5f, GameManager.Instance.cameraShakeStrength);

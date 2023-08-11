@@ -39,8 +39,6 @@ public class PlayerL1AttackState : PlayerBaseState {
             if (Ctx.IsAttacked) {
                 CheckSwitchStates();
             }
-        } else if (_currentFrameState == 1) {
-            Ctx.LightFirstFollowupBounds.StartAudio();
         } else if (_currentFrameState == 3) {
             CanSwitch = true;
             CheckSwitchStates();

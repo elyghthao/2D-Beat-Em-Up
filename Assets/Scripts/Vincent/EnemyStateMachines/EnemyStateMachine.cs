@@ -402,7 +402,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public IEnumerator DeathTimeDelay(float waitTime){
         yield return new WaitForSeconds(waitTime);
         if(enemyType != EnemyType.Boss){
-            this.SetDead();
+            SetDead();
         }
         
     }

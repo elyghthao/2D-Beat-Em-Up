@@ -44,8 +44,6 @@ public class PlayerMAttackState : PlayerBaseState {
          if (Ctx.IsAttacked) {
             CheckSwitchStates();
          }
-      } else if (_currentFrameState == 1) {
-         Ctx.MediumBounds.StartAudio();
       } else if (_currentFrameState == 3) {
          CanSwitch = true;
          CheckSwitchStates();
