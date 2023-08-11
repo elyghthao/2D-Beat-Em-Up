@@ -12,6 +12,7 @@ public class Door_Switch_Press : MonoBehaviour
     private bool player_is_touching; // Whether the player is currently colliding with the door switch.
     public Material switch_on_sprite; // The sprite for the door switch's "on" state.
     public GameObject door; // The locked door that the door switch is linked to.
+    private Color door_trans = new Color(1.0f, 1.0f, 1.0f, 0.4f);
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +75,8 @@ public class Door_Switch_Press : MonoBehaviour
         // If a door is linked to the button, then the door is destroyed.
         if (door != null)
         {
-            Destroy(door);
+            door.GetComponent<MeshRenderer>().material.color = door_trans;
+            door.GetComponent<BoxCollider>().enabled = false;
         }
     }
 }
