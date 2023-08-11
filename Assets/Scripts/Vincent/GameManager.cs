@@ -57,6 +57,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Cheats() {
+      if(Input.GetKey(KeyCode.LeftShift)){
+
+      
        if (Input.GetKey(KeyCode.Alpha1)) {
           SceneManager.LoadScene("Scenes/MainScenes/Main_Menu");
           return;
@@ -75,13 +78,13 @@ public class GameManager : MonoBehaviour {
           return;
        }
        if (Input.GetKey(KeyCode.Alpha5)) {
-          SceneManager.LoadScene("Scenes/MainScenes/Win_Screen");
+          SceneManager.LoadScene("Scenes/MainScenes/Level_Boss");
           return;
        }
        if (Input.GetKey(KeyCode.Equals)) {
           _playerRef.CurrentHealth = _playerRef.maxHealth;
           return;
-       }
+      }
        if (Input.GetKey(KeyCode.Alpha0)) {
           _playerRef.CurrentHealth = 10000000;
        }
@@ -91,6 +94,7 @@ public class GameManager : MonoBehaviour {
        if (Input.GetKey(KeyCode.Alpha7)) {
           _playerRef.Stamina = _playerRef.stamina;
        }
+      }
     }
    public InputSystem InputSystem {
       get => _inputSystem;
