@@ -5026,7 +5026,7 @@ Transform:
   m_GameObject: {fileID: 505895817240270876}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.92, y: 1.5475, z: 0}
-  m_LocalScale: {x: 0.74208343, y: 0.89490324, z: 2.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 902928031901404641}
@@ -5102,7 +5102,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.73566675}
+  m_Size: {x: 0.7420834, y: 0.8949032, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3555634027209526826
 MonoBehaviour:
@@ -15099,8 +15099,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2272030184571502402}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9445, y: 1.4014, z: -0.09}
-  m_LocalScale: {x: 0.9457895, y: 1.1178253, z: 2.5}
+  m_LocalPosition: {x: 0.9445, y: 1.4014, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 188996321588887472}
@@ -15176,7 +15176,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.5938323}
+  m_Size: {x: 0.9457895, y: 1.117825, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &803232741873068419
 MonoBehaviour:
@@ -15194,7 +15194,7 @@ MonoBehaviour:
   knockback: {x: 800, y: 100}
   pressure: 80
   damage: 40
-  staminaDrain: 35
+  staminaDrain: 20
 --- !u!65 &3303134764496639748
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20260,6 +20260,7 @@ GameObject:
   - component: {fileID: 1776082032416857755}
   - component: {fileID: 8805817542326784441}
   - component: {fileID: 1276181464140615533}
+  - component: {fileID: 4727911481420184168}
   m_Layer: 3
   m_Name: Player V1.2
   m_TagString: Player
@@ -20335,7 +20336,7 @@ MonoBehaviour:
   gotHealed: 0
   stamina: 200
   staminaRegenDelay: 0.3
-  staminaRegenRate: 35
+  staminaRegenRate: 30
   knockdownMax: 150
   attackFollowupThreshold: 0.35
   movementSpeed: 6.5
@@ -20416,6 +20417,102 @@ MonoBehaviour:
     effect: {fileID: 4364891795262570313}
     length: 0.6
     attach: 0
+--- !u!82 &4727911481420184168
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686692758054048837}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 60937e28bfc7f124f8590258a2f595fb, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.7
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4926498947966276787
 GameObject:
   m_ObjectHideFlags: 0
@@ -25411,8 +25508,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5247690065994906466}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5238, y: 0.2257, z: -0.42}
-  m_LocalScale: {x: 4.1515427, y: 0.45365742, z: 2.5}
+  m_LocalPosition: {x: 0.5238, y: 0.2257, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 755605098320812584}
@@ -25487,7 +25584,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 2.1630955}
+  m_Size: {x: 4.151543, y: 0.4536574, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7669803558686549630
 MonoBehaviour:
@@ -30460,7 +30557,7 @@ Transform:
   m_GameObject: {fileID: 5483468236248993634}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.0372, y: 1.6582, z: 0}
-  m_LocalScale: {x: 0.8604059, y: 0.6040198, z: 2.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8831150788920971980}
@@ -30536,7 +30633,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.73566675}
+  m_Size: {x: 0.8604059, y: 0.6040198, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7116268282529373138
 MonoBehaviour:
@@ -30821,7 +30918,7 @@ Transform:
   m_GameObject: {fileID: 7798247080663870650}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.2173, y: 1.5421, z: 0}
-  m_LocalScale: {x: 1.3061292, y: 0.3918773, z: 2.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6847472372501630145}
@@ -30897,7 +30994,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.73566675}
+  m_Size: {x: 1.306129, y: 0.3918773, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4394591555273769835
 MonoBehaviour:
@@ -31041,8 +31138,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7825572174776549748}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.1638, y: 0.8399, z: -0.09}
-  m_LocalScale: {x: 1.9475819, y: 1.1667026, z: 2.5}
+  m_LocalPosition: {x: 1.1638, y: 0.8399, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5403090533679376333}
@@ -31118,7 +31215,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.7836685}
+  m_Size: {x: 1.947582, y: 1.166703, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &318406865955578819
 MonoBehaviour:
@@ -31136,7 +31233,7 @@ MonoBehaviour:
   knockback: {x: 50, y: 500}
   pressure: 70
   damage: 35
-  staminaDrain: 25
+  staminaDrain: 15
 --- !u!82 &5701444862839759376
 AudioSource:
   m_ObjectHideFlags: 0
