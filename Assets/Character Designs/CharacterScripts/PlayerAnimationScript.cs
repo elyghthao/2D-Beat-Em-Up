@@ -21,11 +21,13 @@ public class PlayerAnimationScript : MonoBehaviour
     private bool isAttacking;
     public ParticleSystem knockedOutParticle;
     public ParticleSystem healthGainParticle;
+    public AudioSource hurtSound;
 
 
     
     void Start()
     {
+        hurtSound = this.gameObject.GetComponent<AudioSource>();
         stateScript = this.gameObject.GetComponent<PlayerStateMachine>();
         StartCoroutine(checkStateReady());
         lightAttack = stateScript.lightAttackBounds;
@@ -95,13 +97,16 @@ public class PlayerAnimationScript : MonoBehaviour
             if (stateScript.CurrentState.CurrentSubState.ToString() == "PlayerRecoveryState") {
                 anim.Play("Recover");
             }else if (stateScript.KnockedDown){
+                
                 if(stateScript.CurrentState.CurrentSubState.ToString() == "PlayerKnockedDownState") {//this makes the particle effect
+                    hurtSound.PlayOneShot(hurtSound.clip);
                     knockedOutParticle.Play();
                 }
                 anim.Play("KnockedDown");
 
             }else if (stateScript.CurrentState.CurrentSubState.ToString() == "PlayerSmackedState") {
                 // anim.Play("Idle");
+                hurtSound.PlayOneShot(hurtSound.clip);
                 anim.Play("Hurt", -1, 0f);
             }else {//add more code to account repeatedly getting hit
                 //Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());

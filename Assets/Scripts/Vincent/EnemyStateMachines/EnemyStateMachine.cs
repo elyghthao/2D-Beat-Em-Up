@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 
 /// <summary>
@@ -193,8 +194,16 @@ public class EnemyStateMachine : MonoBehaviour {
     public FlankType EnemyFlankType { get; set; }
     public float EnemyFlankDistanceGoal{ get; set; } 
     public bool inPosition = false; //used for animation controller
-    public Vector3 guardPosition;
+    // public Vector3 guardPosition;
     public bool isBlocking = false;
+    public GameObject healthpackPrefab;
+
+    // Added 8/7/2023 and 8/9/2023 and 8/10/2023
+    public Vector3 realMovingGoal { get; set; }
+    public GameObject AgentObject { get; set; }
+    public NavMeshAgent RealAgent { get; set; }
+    public bool HasAgent{ get; set; }
+    public float MaxZGoalOffset { get => maxZGoalOffset; }
 
     // Added 8/7/2023 and 8/9/2023 and 8/10/2023
     public Vector3 realMovingGoal { get; set; }
@@ -266,7 +275,7 @@ public class EnemyStateMachine : MonoBehaviour {
         // rightEnemies++;
 
         CanPursue = false;
-        guardPosition = transform.position;
+        // guardPosition = transform.position;
     }
 
     void Update() {
@@ -384,6 +393,13 @@ public class EnemyStateMachine : MonoBehaviour {
     public void SetDead() {
         GameManager.Instance.EnemyReferences.Remove(this);
         _enemy.SetActive(false);
+
+        int randomNumber = UnityEngine.Random.Range(1, 4);//33%
+        if(randomNumber == 1){
+            Vector3 new_position = transform.position;
+            new_position = new Vector3(new_position.x, 0.6f, new_position.z);
+            Instantiate(healthpackPrefab, new_position, Quaternion.identity);
+        }
     }
 
     /// <summary>
@@ -403,6 +419,8 @@ public class EnemyStateMachine : MonoBehaviour {
         yield return new WaitForSeconds(waitTime);
         if(enemyType != EnemyType.Boss){
             this.SetDead();
+        }else {
+            SceneManager.LoadScene("Win_Screen");
         }
         
     }

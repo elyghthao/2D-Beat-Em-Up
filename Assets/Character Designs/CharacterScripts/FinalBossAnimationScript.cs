@@ -16,14 +16,18 @@ public class FinalBossAnimationScript : MonoBehaviour
     private bool _ready;
     private GameObject currentPlayer;
     public GameObject body;
-    public int animNum = 0;
     public int lightAttackNum = 0;
     public int mediumAttackNum = 0;
     public int heavyAttackNum = 0;
+    public bool lastLight = false;
+    public bool lastMed = false;
+    public SpriteEffects spriteEffects;
+    public AudioSource hurtSound;
 
     // Start is called before the first frame update
     void Start()
     {
+        hurtSound = this.gameObject.GetComponent<AudioSource>();
         stateScript = this.gameObject.GetComponent<EnemyStateMachine>();
         StartCoroutine(checkStateReady());
         lightAttack = stateScript.lightAttackBounds;
@@ -31,6 +35,7 @@ public class FinalBossAnimationScript : MonoBehaviour
         slamAttack = stateScript.heavyAttackBounds;
         isAttacking = false;
         currentPlayer = GameObject.FindWithTag("Player");
+        spriteEffects = this.gameObject.GetComponent<SpriteEffects>();
     }
 
     // Update is called once per frame
@@ -38,7 +43,7 @@ public class FinalBossAnimationScript : MonoBehaviour
         if (!_ready) return;
         try {
             // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
-            // Debug.Log(stateScript.CurrentState.ToString());
+            Debug.Log(stateScript.CurrentState.ToString());
             // Debug.Log(stateScript.CurrentState.ToString() + ": " + stateScript.CurrentState.CurrentSubState.ToString());
             // Debug.Log(stateScript.currentHealth);
         }catch (Exception){
@@ -48,40 +53,55 @@ public class FinalBossAnimationScript : MonoBehaviour
         if(stateScript.CurrentState.ToString() == "EnemyAttackingState") {
             isAttacking = true;
             if(stateScript.isBlocking){
+                lastLight = false;
+                lastMed = false;
                 anim.Play("Block");
             }else if(lightAttack.activeSelf){
+                lastLight = true;
+                lastMed = false;
 
+                if(lightAttackNum == 0){
+                    anim.Play("LightAttack");
+                }else if(lightAttackNum == 1){
+                    anim.Play("LightAttack1");
+                }else if(lightAttackNum == 2){
+                    anim.Play("LightAttack2");
+                }
+
+                // lightAttackNum = (lightAttackNum + 1) % 3 ;
+                
             }else if(mediumAttack.activeSelf){
-
+                lastLight = false;
+                lastMed = true;
+                if(mediumAttackNum == 0){
+                    anim.Play("MediumAttack");
+                }else if (mediumAttackNum == 1){
+                    anim.Play("MediumAttack1");
+                }
+                
             }else if(slamAttack.activeSelf){
-
+                spriteEffects.doEffect("Slam");
+                spriteEffects.doEffect("Direction");
+                spriteEffects.doEffect("Direction2");
+                anim.Play("SlamAttack");
             }
 
 
 
 
 
-            // if (animNum == 0){
-            //     if(lightAttack.activeSelf){
-            //         anim.Play("LightAttack");
-            //     }else if(mediumAttack.activeSelf){
-            //         anim.Play("MediumAttack");
-            //     }else if(slamAttack.activeSelf){
-            //         anim.Play("SlamAttack");
-            //     }
-            // }else if(animNum == 1){
-            //     if(lightAttack.activeSelf){
-            //         anim.Play("LightAttack1");
-            //     }else if(mediumAttack.activeSelf){
-            //         anim.Play("MediumAttack1");
-            //     }else if(slamAttack.activeSelf){
-            //         anim.Play("SlamAttack1");
-            //     }
-            // }
+            
             
         }else {
             isAttacking = false;
-            animNum = UnityEngine.Random.Range(0,2);
+            if (lastLight){
+                lightAttackNum = (lightAttackNum + 1) % 3 ;
+                lastLight = false;
+            }
+            if(lastMed){
+                mediumAttackNum = (mediumAttackNum + 1) % 2 ;
+                lastMed = false;
+            }
         }
 
 
@@ -89,13 +109,15 @@ public class FinalBossAnimationScript : MonoBehaviour
 
 
         if(stateScript.CurrentState.ToString() == "EnemyMovingState" && !isAttacking){//MOVING STATE
+            
             if(stateScript.inPosition) {
                 anim.Play("FightStance");
             }else {
                 anim.Play("Walk");
             }
+            
         }else if(stateScript.CurrentState.ToString() == "EnemyHurtState" ){//HURT STATE
-
+                resetAnimNum();
                 Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
                 if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemyDeathState"){
                     if(stateScript.KnockedDown){
@@ -107,13 +129,14 @@ public class FinalBossAnimationScript : MonoBehaviour
                     anim.Play("Recover");
                 }else if (stateScript.KnockedDown){
                     if(stateScript.CurrentState.CurrentSubState.ToString() == "EnemyKnockedDownState") {//this makes the particle effect
+                        // hurtSound.PlayOneShot(hurtSound.clip);
                         hitParticle.Play();
                     }
                     anim.Play("KnockedDown");
 
                 }else if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemySmackedState") {
                     anim.Play("Hurt", -1, 0f);
-                    
+                    // hurtSound.PlayOneShot(hurtSound.clip);
                 }
         }else if(stateScript.CurrentState.ToString() == "EnemyIdleState" && !isAttacking){//IDLE STATE
             anim.Play("Idle");
@@ -129,5 +152,10 @@ public class FinalBossAnimationScript : MonoBehaviour
             yield return null;
         }
         _ready = true;
+    }
+
+    private void resetAnimNum(){
+        lightAttackNum = 0;
+        mediumAttackNum = 0;
     }
 }

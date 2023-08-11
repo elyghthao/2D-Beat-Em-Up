@@ -79,7 +79,7 @@ public class EnemyAnimationScript : MonoBehaviour
             }
         }else if(stateScript.CurrentState.ToString() == "EnemyHurtState" ){//HURT STATE
 
-                Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
+                // Debug.Log(stateScript.CurrentState.CurrentSubState.ToString());
                 if (stateScript.CurrentState.CurrentSubState.ToString() == "EnemyDeathState"){
                     if(stateScript.KnockedDown){
                         anim.Play("DeathFromDown");
