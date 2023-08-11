@@ -7,8 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Assets/Material/Brandon/wall.mat
   m_Name: wall
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+========
+  m_Name: SquarePulseMat
+  m_Shader: {fileID: 4800000, guid: ff25451eeadb8a74c8e5de1d02338248, type: 3}
+>>>>>>>> main:Assets/Material/Vincent/Materials/SquarePulseMat.mat
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -44,7 +49,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
+<<<<<<<< HEAD:Assets/Material/Brandon/wall.mat
         m_Texture: {fileID: 2800000, guid: 145f7255f8640234f9661a15b1e669ec, type: 3}
+========
+        m_Texture: {fileID: 0}
+>>>>>>>> main:Assets/Material/Vincent/Materials/SquarePulseMat.mat
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -72,12 +81,15 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _PulseFadeSize: 0
+    - _PulseSize: 1.2
+    - _PulseWidth: 0.05
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0.46672806, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

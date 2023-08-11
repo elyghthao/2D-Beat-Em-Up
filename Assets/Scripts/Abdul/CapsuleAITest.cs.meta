@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Abdul/CapsuleAITest.cs.meta
 guid: 3c486166d726cbf4aa90d74e3f457826
+========
+guid: 2a857c82e5479b04a96d1e27ca0210bc
+>>>>>>>> main:Assets/Scripts/Vincent/CreditsController.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

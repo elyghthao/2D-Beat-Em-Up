@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Vincent/CreditsController.cs.meta
 guid: 2a857c82e5479b04a96d1e27ca0210bc
+========
+guid: 5892de1cc2f2c504c9227824eff1a17f
+>>>>>>>> main:Assets/Scripts/Vincent/DisableMenuMusic.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
