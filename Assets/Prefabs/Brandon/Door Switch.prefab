@@ -120,7 +120,7 @@ Transform:
   - {fileID: 7591879282004977092}
   - {fileID: 3115597508003117219}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &541091356416810100
 Rigidbody:
@@ -281,7 +281,7 @@ MonoBehaviour:
   switch_mesh: {fileID: 6874108537646458597}
   switch_on_sprite: {fileID: 2100000, guid: 91d2a7241f3a3b4419b93d87b34acea4, type: 2}
   door: {fileID: 0}
-  pulse_color: {r: 0.25, g: 0.5539111, b: 1, a: 1}
+  pulse_color: {r: 1, g: 0.31332898, b: 0.25098038, a: 1}
   pulse_object: {fileID: 8275353027915709780}
 --- !u!1 &6107510814982740457
 GameObject:
