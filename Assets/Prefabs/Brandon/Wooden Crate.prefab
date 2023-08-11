@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 944772249418679693}
   - component: {fileID: 6590146273931796824}
   - component: {fileID: 4713789462124808241}
+  - component: {fileID: 1809650752283185229}
   m_Layer: 0
   m_Name: Wooden Crate
   m_TagString: Untagged
@@ -217,3 +218,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health_appear_guarantee: 0
   health_pack: {fileID: 6757572692431102657, guid: 9b276697f4d8b034c91fe37e4692a31e, type: 3}
+--- !u!208 &1809650752283185229
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6652410819308603314}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 5.97, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Color_Wall_Orange_Solidity : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Color_Wall_Orange_Solidity : MonoBehaviour
     private Material shared_orange_wall_material; // The material shared between all of the orange walls in the scene.
     private Color orange_visible = new Color(1.0f, 0.42f, 0.0f, 1.0f); // The color for the orange wall's visible state.
     private Color orange_trans = new Color(1.0f, 0.42f, 0.0f, 0.4f); // The color for the orange wall's transparent state.
+    private NavMeshObstacle navMeshObs; // For the nav mesh
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +34,9 @@ public class Color_Wall_Orange_Solidity : MonoBehaviour
         shared_orange_wall_material = orange_wall_mesh.sharedMaterial;
         shared_orange_wall_material.color = orange_trans;
         orange_wall_collider.enabled = false;
+
+        // For nav mesh
+        navMeshObs = gameObject.GetComponent<NavMeshObstacle>();
     }
 
     // Update is called once per frame
@@ -44,11 +49,13 @@ public class Color_Wall_Orange_Solidity : MonoBehaviour
         {
             shared_orange_wall_material.color = orange_visible;
             orange_wall_collider.enabled = true;
+            navMeshObs.enabled = true;
         }
         else
         {
             shared_orange_wall_material.color = orange_trans;
             orange_wall_collider.enabled = false;
+            navMeshObs.enabled = false;
         } 
     }
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4719473473509468803}
   - component: {fileID: 3897566352486907601}
   - component: {fileID: 8123464505438016677}
+  - component: {fileID: 7271185131832557070}
   m_Layer: 0
   m_Name: Steel Crate
   m_TagString: Untagged
@@ -220,3 +221,19 @@ MonoBehaviour:
   crate_break_sound: {fileID: 8300000, guid: f408462386d92e043a8704323d4d6351, type: 3}
   crate_cracked_1: {fileID: 2100000, guid: ab31c5c768df51844ac45c67aaac1c46, type: 2}
   crate_cracked_2: {fileID: 2100000, guid: 10bf3c6173b87b7488320bb93fda6b7c, type: 2}
+--- !u!208 &7271185131832557070
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4596640779370505796}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 6.28, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class Door_Switch_Press : MonoBehaviour
@@ -13,6 +14,7 @@ public class Door_Switch_Press : MonoBehaviour
     public Material switch_on_sprite; // The sprite for the door switch's "on" state.
     public GameObject door; // The locked door that the door switch is linked to.
     private Color door_trans = new Color(1.0f, 1.0f, 1.0f, 0.4f);
+    private NavMeshObstacle navMeshObs; // For the nav mesh
     public Color pulse_color;
     public GameObject pulse_object;
     private Material pulse_material;
@@ -31,6 +33,7 @@ public class Door_Switch_Press : MonoBehaviour
         // and switch_is_pressed and player_is_touching are set to false.
         switch_pressed_sound = GetComponent<AudioSource>();
         switch_collider = GetComponent<BoxCollider>();
+        navMeshObs = door.GetComponent<NavMeshObstacle>();
         pulse_material = pulse_object.GetComponent<Renderer>().material;
         pulse_material.SetColor(Color, pulse_color);
         pulse_material.SetFloat(Timer, pulse_time);
@@ -102,6 +105,7 @@ public class Door_Switch_Press : MonoBehaviour
         {
             door.GetComponent<MeshRenderer>().material.color = door_trans;
             door.GetComponent<BoxCollider>().enabled = false;
+            navMeshObs.enabled = false;
         }
     }
 }

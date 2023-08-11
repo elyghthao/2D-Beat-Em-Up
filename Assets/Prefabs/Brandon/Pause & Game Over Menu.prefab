@@ -226,7 +226,7 @@ RectTransform:
   - {fileID: 5800605727684014676}
   - {fileID: 5364211044071541773}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -871,8 +871,8 @@ MonoBehaviour:
 
     "Y": Quit to the title screen
 
-    "Enter":
-    Resume the game'
+    "Enter"
+    or "Escape": Resume the game'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
   m_sharedMaterial: {fileID: 2330881663515301021, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}

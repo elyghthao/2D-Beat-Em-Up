@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9052841144339706674}
   - component: {fileID: 7177408833971203176}
   - component: {fileID: 5718585608546296963}
+  - component: {fileID: 4436807183626368434}
   m_Layer: 0
   m_Name: Blue Wall
   m_TagString: Untagged
@@ -119,3 +120,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switch_object: {fileID: 5370483788315555610, guid: 4dbaadd94e6a1614fa31693e58481f74, type: 3}
+--- !u!208 &4436807183626368434
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365400355045783362}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 3.76, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
