@@ -205,16 +205,8 @@ public class EnemyStateMachine : MonoBehaviour {
     public bool HasAgent{ get; set; }
     public float MaxZGoalOffset { get => maxZGoalOffset; }
 
-    // Added 8/7/2023 and 8/9/2023 and 8/10/2023
-    public Vector3 realMovingGoal { get; set; }
-    public GameObject AgentObject { get; set; }
-    public NavMeshAgent RealAgent { get; set; }
-    public bool HasAgent{ get; set; }
-    public float MaxZGoalOffset { get => maxZGoalOffset; }
 
-
-    // Functions
-    
+    // Functions    
     public void Initialize() {
         _currentPlayerMachine = GameObject.FindWithTag("Player").GetComponent<PlayerStateMachine>();
         
