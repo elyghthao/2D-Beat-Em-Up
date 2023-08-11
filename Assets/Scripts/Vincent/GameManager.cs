@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour {
    
    private bool FirstLoad = true;
 
+   public bool spawnAtCheckPoint = false;
+
    public PlayerStateMachine PlayerRef {
       get => _playerRef;
       set => _playerRef = value;
@@ -46,6 +48,11 @@ public class GameManager : MonoBehaviour {
           volume = audioSlider.GetComponent<Slider>().value;
           AudioListener.volume = audioSlider.GetComponent<Slider>().value;
        }
+
+       if(SceneManager.GetActiveScene().name.ToString() != "Level_Boss"){
+            // Debug.Log("move to new spawn point");
+            spawnAtCheckPoint = false;
+         }
        Cheats();
     }
 
@@ -167,8 +174,17 @@ public class GameManager : MonoBehaviour {
             return;
          }
 
+         
+
+
          Instance = this;
          AddPlayer();
+
+         if(spawnAtCheckPoint && SceneManager.GetActiveScene().name.ToString() == "Level_Boss"){
+            // Debug.Log("move to new spawn point");
+            _playerRef.gameObject.transform.position = new Vector3(18.8f,0f,-35.29f);
+         }
+
          if (_playerRef == null)
             Debug.LogWarning("Player was not assigned, might be in a scene without a player prefab...");
          else

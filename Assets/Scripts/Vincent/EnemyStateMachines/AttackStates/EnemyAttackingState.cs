@@ -79,26 +79,26 @@ public class EnemyAttackingState : EnemyBaseState {
 
             // SetSubState(Factory.LightAttack());
             // SetSubState(Factory.MediumAttack());
-            // SetSubState(Factory.HeavyAttack());
+            SetSubState(Factory.HeavyAttack());
             // SetSubState(Factory.Block());
 
 
 
-            int attackNumber = Random.Range(1, 101); 
-            // Debug.Log("attackNumber: " + attackNumber);
-            if (attackNumber <= 50) {//50%
-               SetSubState(Factory.LightAttack());
-               // Debug.Log("light attack");
-            } else if (attackNumber <= 80) {//30%
-               SetSubState(Factory.MediumAttack());
-               // Debug.Log("medium attack");
-            }else if (attackNumber <= 90) { //10%
-               SetSubState(Factory.Block());
-               // Debug.Log("block");
-            }else if (attackNumber <= 100) { //10%
-               SetSubState(Factory.HeavyAttack());
-               // Debug.Log("heavy attack");
-            }
+            // int attackNumber = Random.Range(1, 101); 
+            // // Debug.Log("attackNumber: " + attackNumber);
+            // if (attackNumber <= 50) {//50%
+            //    SetSubState(Factory.LightAttack());
+            //    // Debug.Log("light attack");
+            // } else if (attackNumber <= 80) {//30%
+            //    SetSubState(Factory.MediumAttack());
+            //    // Debug.Log("medium attack");
+            // }else if (attackNumber <= 90) { //10%
+            //    SetSubState(Factory.Block());
+            //    // Debug.Log("block");
+            // }else if (attackNumber <= 100) { //10%
+            //    SetSubState(Factory.HeavyAttack());
+            //    // Debug.Log("heavy attack");
+            // }
             
       } 
    }
