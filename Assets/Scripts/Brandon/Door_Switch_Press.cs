@@ -45,7 +45,7 @@ public class Door_Switch_Press : MonoBehaviour
         // If the player is touching the door switch...
         if (player_is_touching)
         {
-            if (!pulse_object.activeSelf) 
+            if (!pulse_object.activeSelf && switch_is_pressed == false) 
             {
                 pulse_object.SetActive(true);
             }
@@ -95,6 +95,7 @@ public class Door_Switch_Press : MonoBehaviour
         switch_is_pressed = true;
         switch_mesh.material = switch_on_sprite;
         pulse_time = 0;
+        pulse_object.SetActive(false);
 
         // If a door is linked to the button, then the door is destroyed.
         if (door != null)
