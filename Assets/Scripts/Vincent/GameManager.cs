@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour {
           return;
        }
        if (Input.GetKey(KeyCode.Alpha5)) {
-          SceneManager.LoadScene("Scenes/MainScenes/You_Win_Screen");
+          SceneManager.LoadScene("Scenes/MainScenes/Win_Screen");
           return;
        }
        if (Input.GetKey(KeyCode.Equals)) {
