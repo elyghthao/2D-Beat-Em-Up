@@ -56,7 +56,7 @@ public class EnemyMovingState : EnemyBaseState {
       } 
 
       // Checking where the enemy is compared to the player for smarter directional behavior
-      bool flip = false;
+      // bool flip = false;
       // if (Ctx.EnemyFlankType == EnemyStateMachine.FlankType.Left) {
       //    if ((goalOffset.x >= 1) && (Mathf.Abs(goalOffset.z) < 2.3f) && (goalOffset.x < 8.3f)) {
       //       flip = false;
@@ -72,7 +72,7 @@ public class EnemyMovingState : EnemyBaseState {
       // }
       
       Vector3 vecToPlayer = Ctx.MovingGoal.position - Ctx.gameObject.transform.position;
-      flip = !(vecToPlayer.x > 0);
+      bool flip = !(vecToPlayer.x > 0);
 
       // Flipping if needed
       Vector3 enemyScale = Ctx.transform.localScale;
