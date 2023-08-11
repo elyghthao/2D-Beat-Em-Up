@@ -16,10 +16,12 @@ public class Door_Switch_Press : MonoBehaviour
     public Color pulse_color;
     public GameObject pulse_object;
     private Material pulse_material;
+    private float pulse_time = 0;
     
     // Cached strings
     private static readonly int Color = Shader.PropertyToID("_Color");
-   
+    private static readonly int Timer = Shader.PropertyToID("_Timer");
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,7 @@ public class Door_Switch_Press : MonoBehaviour
         switch_collider = GetComponent<BoxCollider>();
         pulse_material = pulse_object.GetComponent<Renderer>().material;
         pulse_material.SetColor(Color, pulse_color);
+        pulse_material.SetFloat(Timer, pulse_time);
 
         switch_is_pressed = false;
         player_is_touching = false;
@@ -46,7 +49,7 @@ public class Door_Switch_Press : MonoBehaviour
             {
                 pulse_object.SetActive(true);
             }
-
+            pulse_time += Time.deltaTime;
             // ...and they press the "E" key while the door switch has not
             // already been pressed...
             if (Input.GetKeyDown(KeyCode.E) && switch_is_pressed == false)
@@ -58,7 +61,9 @@ public class Door_Switch_Press : MonoBehaviour
         else if (pulse_object.activeSelf)
         {
             pulse_object.SetActive(false);
+            pulse_time = 0;
         }
+        pulse_material.SetFloat(Timer, pulse_time);
     }
 
     void OnTriggerEnter(Collider other)
@@ -89,6 +94,7 @@ public class Door_Switch_Press : MonoBehaviour
         switch_pressed_sound.Play();
         switch_is_pressed = true;
         switch_mesh.material = switch_on_sprite;
+        pulse_time = 0;
 
         // If a door is linked to the button, then the door is destroyed.
         if (door != null)

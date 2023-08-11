@@ -13,11 +13,11 @@ public class Color_Switch_Press : MonoBehaviour
     private Color switch_blue_color = new Color(0.0f, 0.58f, 1.0f, 1.0f); // The color for the switch's blue state.
     private Color switch_orange_color = new Color(1.0f, 0.42f, 0.0f, 1.0f); // The color for the switch's orange state.
     private bool player_is_touching; // Whether the player is currently colliding with the color switch.
-    private float trigger_timer; // The amount of time remaining until the player can no longer activate the switch.
-    public float trigger_timer_max; // The maximum time at which the trigger timer starts at.
+    private float trigger_timer; // The amount of pulse_time remaining until the player can no longer activate the switch.
+    public float trigger_timer_max; // The maximum pulse_time at which the trigger timer starts at.
     public GameObject pulse_object;
     private Material pulse_material;
-    private float time = 0;
+    private float pulse_time = 0;
     
     // Cached strings
     private static readonly int Color = Shader.PropertyToID("_Color");
@@ -46,7 +46,7 @@ public class Color_Switch_Press : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        // If the trigger time reaches 0, then player_is_touching reverts to false
+        // If the trigger pulse_time reaches 0, then player_is_touching reverts to false
         // and the player can no longer activate the color switch.
         if (trigger_timer <= 0)
         {
@@ -60,8 +60,7 @@ public class Color_Switch_Press : MonoBehaviour
             {
                 pulse_object.SetActive(true);
             }
-            time += Time.deltaTime;
-            pulse_material.SetFloat(Timer, time);
+            pulse_time += Time.deltaTime;
             // ...then the trigger timer starts decreasing...
             trigger_timer -= Time.deltaTime;
 
@@ -75,9 +74,9 @@ public class Color_Switch_Press : MonoBehaviour
         else if (pulse_object.activeSelf)
         {
             pulse_object.SetActive(false);
-            time = 0;
+            pulse_time = 0;
         }
-        pulse_material.SetFloat(Timer, time);
+        pulse_material.SetFloat(Timer, pulse_time);
     }
 
     void OnTriggerEnter(Collider other)
@@ -134,7 +133,7 @@ public class Color_Switch_Press : MonoBehaviour
             pulse_material.SetColor(Color, switch_blue_color);
         }
 
-        time = 0;
+        pulse_time = 0;
         // Regardless of the state of the color switch, the switch pressed sound effect plays.
         switch_pressed_sound.Play();
     }
