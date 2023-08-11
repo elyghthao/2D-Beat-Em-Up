@@ -214,8 +214,9 @@ public class PlayerStateMachine : MonoBehaviour {
    public bool IsDead {get; private set;}
    public int ConsecutiveSmackedCount { get; set; }
    public bool SpendInvulnerabilityTime { get; set; }
-
    private float invuln;
+
+   private int ConsecutiveSmacks { get; set; }
    // Functions
 
    private void Awake() {
@@ -264,6 +265,9 @@ public class PlayerStateMachine : MonoBehaviour {
       }
       IsGrounded = CheckIfGrounded();
       CurrentState.UpdateStates();
+      if (IsGrounded && ConsecutiveSmacks > 0) {
+         ConsecutiveSmacks = 0;
+      }
       if (FollowupTimer > 0) {
          FollowupTimer -= Time.deltaTime;
          //Debug.Log("Followup Timer: " + FollowupTimer);
@@ -382,6 +386,8 @@ public class PlayerStateMachine : MonoBehaviour {
             if (i.AttackedFromRightSide) {
                appliedKnockback = new Vector2(appliedKnockback.x * -1, appliedKnockback.y);
             }
+
+            appliedKnockback = new Vector2(appliedKnockback.x * ConsecutiveSmacks, appliedKnockback.y);
             // appliedKnockback = new Vector2(appliedKnockback.x * 8, appliedKnockback.y);//elygh added this to increase knockback
             Rigidbody.velocity = Vector3.zero;
             // Debug.Log("Knockback Applied: " + appliedKnockback + " from " + i);
@@ -396,6 +402,7 @@ public class PlayerStateMachine : MonoBehaviour {
          }
          CurrentHealth -= i.Damage;
          recievedAttackNames.Add(i.Name);
+         ConsecutiveSmacks++;
       }
       _receivedAttacks.Clear();
       IsAttacked = false;
@@ -509,5 +516,10 @@ public class PlayerStateMachine : MonoBehaviour {
 
    public GameObject InstantiatePrefab(GameObject obj) {
       return Instantiate(obj);
+   }
+   
+   public void ClearRecievedAttacks() {
+      _receivedAttacks.Clear();
+      IsAttacked = false;
    }
 }

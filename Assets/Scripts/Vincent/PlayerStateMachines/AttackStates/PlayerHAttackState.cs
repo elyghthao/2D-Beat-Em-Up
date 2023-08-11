@@ -37,9 +37,6 @@ public class PlayerHAttackState : PlayerBaseState {
       // Blue is recovery frames: No damage given in this phase
       if (_currentFrame <= Ctx.heavyStartupFrames) {
          Ctx.HeavyBounds.SetMatColor(Color.green);
-         if (Ctx.IsAttacked) {
-            CheckSwitchStates();
-         }
       } else if (_currentFrame <= Ctx.heavyActiveFrames) {
          Ctx.HeavyBounds.SetMatColor(Color.red);
          Ctx.HeavyBounds.SetColliderActive(true);
@@ -52,6 +49,7 @@ public class PlayerHAttackState : PlayerBaseState {
          Ctx.HeavyBounds.SetMatColor(Color.red);
          Ctx.HeavyBounds.SetColliderActive(true);
          GameManager.Camera.DOShakePosition(0.5f, GameManager.Instance.cameraShakeStrength);
+         Ctx.ClearRecievedAttacks();
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames) {
          Ctx.HeavyBounds.SetMatColor(Color.blue);
          Ctx.HeavyBounds.SetColliderActive(false);
