@@ -18,6 +18,7 @@ public class EnemyRecoveryState : EnemyBaseState {
 
    public override void ExitState() {
       // Debug.Log("ENEMY EXITING SUBSTATE: RECOVERY");
+      Ctx.ClearRecievedAttacks();
    }
 
    public override void CheckSwitchStates() {

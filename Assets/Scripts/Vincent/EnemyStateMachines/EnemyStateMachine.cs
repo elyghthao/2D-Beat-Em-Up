@@ -410,4 +410,9 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject InstantiatePrefab(GameObject obj) {
         return Instantiate(obj);
     }
+
+    public void ClearRecievedAttacks() {
+        _receivedAttacks.Clear();
+        _isAttacked = false;
+    }
 }

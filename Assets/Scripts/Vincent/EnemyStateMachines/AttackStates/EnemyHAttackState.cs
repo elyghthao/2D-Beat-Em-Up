@@ -32,12 +32,18 @@ public class EnemyHAttackState : EnemyBaseState {
       // Blue is recovery frames: No damage given in this phase
       if (_currentFrame <= Ctx.heavyStartupFrames.y) {
          Ctx.HeavyBoundsMat.color = Color.green;
+         if (Ctx.IsAttacked) {
+            CheckSwitchStates();
+         }
       } else if (_currentFrame <= Ctx.heavyActiveFrames.y) {
          Ctx.HeavyBoundsMat.color = Color.red;
          Ctx.HeavyBounds.SetColliderActive(true);
       } else if (_currentFrame <= Ctx.heavyRecoveryFrames.y) {
          Ctx.HeavyBoundsMat.color = Color.blue;
          Ctx.HeavyBounds.SetColliderActive(false);
+         if (Ctx.IsAttacked) {
+            CheckSwitchStates();
+         }
       } else {
          CanSwitch = true;
       }
@@ -57,7 +63,11 @@ public class EnemyHAttackState : EnemyBaseState {
 
    public override void CheckSwitchStates() {
       Ctx.Attacking = false;
-      SwitchState(Factory.Idle());
+      if (Ctx.IsAttacked) {
+         SwitchState(Factory.Hurt(), true);
+         return;
+      }
+      SwitchState(Factory.Idle(), true);
    }
 
    public override void InitializeSubState() {
