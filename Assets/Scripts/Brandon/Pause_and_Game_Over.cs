@@ -48,7 +48,8 @@ public class Pause_and_Game_Over : MonoBehaviour
     void Update()
     {
         // If the "Enter" key is pressed, and the game is not over...
-        if (Input.GetKeyDown(KeyCode.Return) && game_over == false)
+        if ((Input.GetKeyDown(KeyCode.Return) || (Input.GetKeyDown(KeyCode.Escape))) 
+        && game_over == false)
         {
             // ...then the game pauses if it is not currently paused,
             // and resumes if it is currently paused.
@@ -106,7 +107,7 @@ public class Pause_and_Game_Over : MonoBehaviour
         // The pause controls description text is activated and changed accordingly.
         pause_controls_text.SetActive(true);
         pause_controls_text.GetComponent<TMP_Text>().text =
-            "\"R\": Restart the level\n" + "\"Y\": Quit to the title screen\n" + "\"Enter\": Resume the game";
+            "\"R\": Restart the level\n" + "\"Y\": Quit to the title screen\n" + "\"Enter\" or \"Escape\": Resume the game";
 
         // The gameplay controls description text is activated.
         gameplay_controls_text.SetActive(true);

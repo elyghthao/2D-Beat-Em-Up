@@ -18,23 +18,31 @@ public class EnemyChaseState : EnemyBaseState
    private void CreateFakeAI() {
         GameObject newObj = new GameObject("Fake_AI");
         newObj.AddComponent<NavMeshAgent>();
+      //   newObj.AddComponent<Rigidbody>();
+      //   newObj.AddComponent<CapsuleCollider>();
         newObj.layer = LayerMask.NameToLayer("Enemy");
 
         agent = newObj.GetComponent<NavMeshAgent>();
         agent.speed = Ctx.movementSpeed;
         agent.angularSpeed = 90000;
         agent.acceleration = 90000;
-
         agent.radius = 0.7f;
         agent.height = 3.85f;
+
+      //   Rigidbody body = newObj.GetComponent<Rigidbody>();
+      //   body.interpolation = RigidbodyInterpolation.Interpolate;
+      //   body.collisionDetectionMode = CollisionDetectionMode.Continuous;
+      //   body.isKinematic = true;
+
+      //   CapsuleCollider collid = newObj.GetComponent<CapsuleCollider>();
+      //   collid.radius = 0.7f;
+      //   collid.height = 3.85f;
+      //   collid.center = new Vector3(0, 2.05f, 0);
 
         Ctx.AgentObject = newObj;
         Ctx.RealAgent = agent;
 
-        Vector3 newPos = Ctx.gameObject.transform.position;
-        newPos.y += 3;
-
-        newObj.transform.position = newPos;
+      //   newObj.transform.position = newPos;
    }
 
    public override void EnterState() {
@@ -44,6 +52,11 @@ public class EnemyChaseState : EnemyBaseState
       Ctx.AgentObject.transform.position = Ctx.gameObject.transform.position;
       agent = Ctx.AgentObject.GetComponent<NavMeshAgent>();
       Ctx.RealAgent = agent;
+
+      Vector3 newPos = Ctx.gameObject.transform.position;
+      newPos.y += 3.5f;
+      agent.Warp(newPos);
+
       Ctx.HasAgent = true;
    }
 

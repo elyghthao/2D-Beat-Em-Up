@@ -669,6 +669,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8597422947894127199, guid: ef85a8957e2dedc43af114b2eb31c852, type: 3}
+      propertyPath: m_Volume
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -780,12 +784,12 @@ MonoBehaviour:
 
     - Level Object Graphics
 
-    - Background Music Finding
+    - Audio & Music Implementation
 
     -
     Pause & Game Over Screens
 
-    - Game Win Screen'
+    - User Interface Designs'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
   m_sharedMaterial: {fileID: 2330881663515301021, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
@@ -2516,9 +2520,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '================================================
-
-'
+  m_text: "================================================\n- Player & Enemy State
+    Machines\n- Character Design \n- VFX \n- Animations & Character Rigging\n- Frontend
+    Systems\n- Character & Map Art"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
   m_sharedMaterial: {fileID: 2330881663515301021, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
@@ -4065,7 +4069,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ================================================
+  m_text: '================================================
+
+    - Player & Enemy
+    State Machines
+
+    - Enemy AI & Combat System
+
+    - VFX & Sound Effects
+
+    -
+    Camera System
+
+    - Backend and Frontend Systems
+
+    - Navigation System'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
   m_sharedMaterial: {fileID: 2330881663515301021, guid: 451f1ffcb82ec4e479590fde28373982, type: 2}
@@ -4700,8 +4718,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 223962863}
   - {fileID: 1091176140}
+  - {fileID: 223962863}
   m_Father: {fileID: 601169409}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

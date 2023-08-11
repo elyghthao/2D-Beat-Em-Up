@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Color_Wall_Blue_Solidity : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Color_Wall_Blue_Solidity : MonoBehaviour
     private Material shared_blue_wall_material; // The material shared between all of the blue walls in the scene.
     private Color blue_visible = new Color(0.0f, 0.58f, 1.0f, 1.0f); // The color for the blue wall's visible state.
     private Color blue_trans = new Color(0.0f, 0.58f, 1.0f, 0.4f); // The color for the blue wall's transparent state.
+    private NavMeshObstacle navMeshObs; // For the nav mesh
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +33,10 @@ public class Color_Wall_Blue_Solidity : MonoBehaviour
         // starts out blue and visible, and the blue wall's collider starts enabled.
         shared_blue_wall_material = blue_wall_mesh.sharedMaterial;
         shared_blue_wall_material.color = blue_visible;
-        blue_wall_collider.enabled = true;  
+        blue_wall_collider.enabled = true;
+
+        // For nav mesh
+        navMeshObs = gameObject.GetComponent<NavMeshObstacle>();
     }
 
     // Update is called once per frame
@@ -44,11 +49,13 @@ public class Color_Wall_Blue_Solidity : MonoBehaviour
         {
             shared_blue_wall_material.color = blue_visible;
             blue_wall_collider.enabled = true;
+            navMeshObs.enabled = true;
         }
         else
         {
             shared_blue_wall_material.color = blue_trans;
             blue_wall_collider.enabled = false;
+            navMeshObs.enabled = false;
         } 
     }
 }
