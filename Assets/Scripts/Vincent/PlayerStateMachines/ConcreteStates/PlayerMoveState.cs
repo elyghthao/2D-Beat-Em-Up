@@ -13,6 +13,15 @@ public class PlayerMoveState : PlayerBaseState
    public override void EnterState() {
       // Debug.Log("ROOT: ENTERED MOVEMENT");
       Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
+
+      // !!! EDITED BY BRANDON ============================================================= !!!
+      GameObject mainCamera = GameObject.Find("Main Camera");
+      if (mainCamera.GetComponent<Mirror_Mode>().flipHorizontal == true)
+      {
+         moveDir.x *= -1;
+      }
+      // !!! =============================================================================== !!!
+
       // Applies movement to the player depending on the player input
       Ctx.Rigidbody.velocity = new Vector3(moveDir.x, 0, moveDir.y);
       Ctx.SpeedControl();
@@ -25,6 +34,15 @@ public class PlayerMoveState : PlayerBaseState
 
    public override void FixedUpdateState() {
       Vector2 moveDir = Ctx.CurrentMovementInput * (Ctx.movementSpeed * 10f);
+
+      // !!! EDITED BY BRANDON ============================================================= !!!
+      GameObject mainCamera = GameObject.Find("Main Camera");
+      if (mainCamera.GetComponent<Mirror_Mode>().flipHorizontal == true)
+      {
+         moveDir.x *= -1;
+      }
+      // !!! =============================================================================== !!!
+
       // Applies movement to the player depending on the player input
       // Debug.Log(moveDir);
       Ctx.GetComponent<Rigidbody>().velocity = new Vector3(moveDir.x, 0, moveDir.y);
@@ -57,10 +75,39 @@ public class PlayerMoveState : PlayerBaseState
    }
 
    public override void InitializeSubState() {
+
+      // !!! EDITED BY BRANDON ============================================================= !!!
+      GameObject mainCamera = GameObject.Find("Main Camera");
+
+      if (mainCamera.GetComponent<Mirror_Mode>().flipHorizontal == false)
+      {
+         if (Ctx.CurrentMovementInput.x < 0)
+         {
+            SetSubState(Factory.Backward());
+         }
+         else if (Ctx.CurrentMovementInput.x > 0 || Ctx.CurrentMovementInput.y != 0)
+         {
+            SetSubState(Factory.Forward());
+         }
+      }
+      else
+      {
+         if (Ctx.CurrentMovementInput.x < 0)
+         {
+            SetSubState(Factory.Forward());
+         }
+         else if (Ctx.CurrentMovementInput.x > 0 || Ctx.CurrentMovementInput.y != 0)
+         {
+            SetSubState(Factory.Backward());
+         }
+      }
+      // !!! =============================================================================== !!!
+
+      /*
       if (Ctx.CurrentMovementInput.x < 0) {
          SetSubState(Factory.Backward());
       } else if (Ctx.CurrentMovementInput.x > 0 || Ctx.CurrentMovementInput.y != 0) {
          SetSubState(Factory.Forward());
-      }
+      }*/
    }
 }

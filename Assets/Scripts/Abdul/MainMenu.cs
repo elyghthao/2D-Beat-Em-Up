@@ -26,4 +26,14 @@ public class MainMenu : MonoBehaviour
     public void creditsPressed() {
         SceneManager.LoadScene("Credits");
     }
+
+    // !!! EDITED BY BRANDON ============================================================= !!!
+    public void cheatsPressed() {
+        SceneManager.LoadScene("Cheats_Screen");
+    }
+
+    public void winPressed() {
+        SceneManager.LoadScene("Win_Screen");
+    }
+    // !!! =============================================================================== !!!
 }

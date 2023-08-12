@@ -11,10 +11,30 @@ public class PlayerBackwardMovementState : PlayerBaseState
    public override void EnterState() {
       // Debug.Log("SUB: ENTERED BACKWARD");
       // Flips the character to be facing left of the camera
+
+      // !!! EDITED BY BRANDON ============================================================= !!!
+      GameObject mainCamera = GameObject.Find("Main Camera");
+
+      if (mainCamera.GetComponent<Mirror_Mode>().flipHorizontal == false)
+      {
+         if (!Ctx.CharacterFlipped)
+         {
+            Ctx.FlipCharacter();
+         }
+      }
+      else
+      {
+         if (Ctx.CharacterFlipped)
+         {
+            Ctx.FlipCharacter();
+         }
+      }
+      // !!! =============================================================================== !!!
+
+      /*
       if (!Ctx.CharacterFlipped) {
          Ctx.FlipCharacter();
-      }
-      
+      }*/
       Ctx.BaseMaterial.color = Color.blue;
    }
 
