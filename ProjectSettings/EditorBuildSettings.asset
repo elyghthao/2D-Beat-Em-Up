@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScenes/Credits.unity
     guid: 8934e6636af65a04385dd4e4d9fecee2
+  - enabled: 1
+    path: Assets/Scenes/MainScenes/Cheats_Screen.unity
+    guid: 307434a9ee1f49f42b710825b2a83137
   m_configObjects: {}

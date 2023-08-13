@@ -56,46 +56,84 @@ public class GameManager : MonoBehaviour {
        Cheats();
     }
 
-    public void Cheats() {
-      if(Input.GetKey(KeyCode.LeftShift)){
+   public void Cheats()
+   {
+      // !!! EDITED BY BRANDON ============================================================= !!!
+      if(Input.GetKey(KeyCode.LeftShift))
+      {
+         // LEVEL SELECTION CHEATS //
+         if (Input.GetKey(KeyCode.Alpha1))
+         {
+            SceneManager.LoadScene("Scenes/MainScenes/Main_Menu");
+            return;
+         }
+         if (Input.GetKey(KeyCode.Alpha2))
+         {
+            SceneManager.LoadScene("Scenes/MainScenes/Level_1");
+            return;
+         }
+         if (Input.GetKey(KeyCode.Alpha3))
+         {
+            SceneManager.LoadScene("Scenes/MainScenes/Level_2");
+            return;
+         }
+         if (Input.GetKey(KeyCode.Alpha4))
+         {
+            SceneManager.LoadScene("Scenes/MainScenes/Level_3");
+            return;
+         }
+         if (Input.GetKey(KeyCode.Alpha5))
+         {
+            SceneManager.LoadScene("Scenes/MainScenes/Level_Boss");
+            return;
+         }
 
-      
-       if (Input.GetKey(KeyCode.Alpha1)) {
-          SceneManager.LoadScene("Scenes/MainScenes/Main_Menu");
-          return;
-       }
+         // PLAYER STATS CHEATS
+         if (Input.GetKey(KeyCode.Alpha6))
+         {
+            if (GameObject.Find("Player") != null)
+            {
+               _playerRef.CurrentHealth = _playerRef.maxHealth;
+               return;
+            }
+         }
+         if (Input.GetKey(KeyCode.Alpha7))
+         {
+            if (GameObject.Find("Player") != null)
+            {
+               _playerRef.CurrentHealth = 10000000;
+               return;
+            }
+         }
+         if (Input.GetKey(KeyCode.Alpha8))
+         {
+            if (GameObject.Find("Player") != null)
+            {
+               _playerRef.Stamina = _playerRef.stamina;
+               return;
+            }
+         }
+         if (Input.GetKey(KeyCode.Alpha9))
+         {
+            if (GameObject.Find("Player") != null)
+            {
+               _playerRef.Stamina = 1000000000;
+               return;
+            }
+         }
 
-       if (Input.GetKey(KeyCode.Alpha2)) {
-          SceneManager.LoadScene("Scenes/MainScenes/Level_1");
-          return;
-       }
-       if (Input.GetKey(KeyCode.Alpha3)) {
-          SceneManager.LoadScene("Scenes/MainScenes/Level_2");
-          return;
-       }
-       if (Input.GetKey(KeyCode.Alpha4)) {
-          SceneManager.LoadScene("Scenes/MainScenes/Level_3");
-          return;
-       }
-       if (Input.GetKey(KeyCode.Alpha5)) {
-          SceneManager.LoadScene("Scenes/MainScenes/Level_Boss");
-          return;
-       }
-       if (Input.GetKey(KeyCode.Equals)) {
-          _playerRef.CurrentHealth = _playerRef.maxHealth;
-          return;
+         // MIRROR MODE CHEAT //
+         if (Input.GetKey(KeyCode.Alpha0))
+         {
+            if (GameObject.Find("Player") != null)
+            {
+               GameObject mainCamera = GameObject.Find("Main Camera");
+               mainCamera.GetComponent<Mirror_Mode>().flipHorizontal = true;
+            }
+         }
       }
-       if (Input.GetKey(KeyCode.Alpha0)) {
-          _playerRef.CurrentHealth = 10000000;
-       }
-       if (Input.GetKey(KeyCode.Alpha6)) {
-          _playerRef.Stamina = 1000000000;
-       }
-       if (Input.GetKey(KeyCode.Alpha7)) {
-          _playerRef.Stamina = _playerRef.stamina;
-       }
-      }
-    }
+      // !!! =============================================================================== !!!
+   }
    public InputSystem InputSystem {
       get => _inputSystem;
       set => _inputSystem = value;
