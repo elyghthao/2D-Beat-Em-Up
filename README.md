@@ -3,7 +3,8 @@
 University of Washington Bothell  
 Summer 2023 Capstone Project  
 
-Incomplete Game Build (WebGL): https://elyghthao.github.io/Mechanized-Fury/ 
+Incomplete Game Build (WebGL): https://elyghthao.github.io/Mechanized-Fury/
+
 Full Game Build (Download): https://vibble.itch.io/mechapunk-fury
 
 
