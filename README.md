@@ -17,3 +17,10 @@ Full Game Build (Windows Download): https://vibble.itch.io/mechapunk-fury
 ### Project Advisors  
 * Kelvin Sung
 * Janet McDaniel
+
+
+
+<img src="./GithubPhotos/1.svg">
+<img src="./GithubPhotos/2.svg">
+<img src="./GithubPhotos/3.svg">
+<img src="./GithubPhotos/4.svg">
